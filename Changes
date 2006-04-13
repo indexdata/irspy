@@ -1,0 +1,10 @@
+$Id: Changes,v 1.1 2006-04-13 14:53:17 mike Exp $
+
+Revision history for Perl extension Net::Z3950::IRSpy.
+
+0.02  [IN PROGRESS]
+
+0.01  Wed Apr  5 15:53:47 2006
+	- original version; created by h2xs 1.23 with options
+		-X --name=Net::Z3950::IRSpy --compat-version=5.8.0 --omit-constant --skip-exporter --skip-ppport
+

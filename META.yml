@@ -1,0 +1,12 @@
+# $Id: META.yml,v 1.1 2006-04-13 14:53:17 mike Exp $
+
+# http://module-build.sourceforge.net/META-spec.html
+#XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
+name:         Net-Z3950-IRSpy
+version:      0.01
+version_from: lib/Net/Z3950/IRSpy.pm
+installdirs:  site
+requires:
+
+distribution_type: module
+generated_by: ExtUtils::MakeMaker version 6.17

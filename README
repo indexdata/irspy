@@ -1,0 +1,34 @@
+$Id: README,v 1.1 2006-04-13 14:53:17 mike Exp $
+
+Net-Z3950-IRSpy
+===============
+
+This module exists to implement the IRspy program, which discovers,
+analyses and monitors IR servers implementing the Z39.50 and SRU/W
+protocols.  It is a successor to the ZSpy program.
+
+INSTALLATION
+
+To install this module type the following:
+
+   perl Makefile.PL
+   make
+   make test
+   make install
+
+DEPENDENCIES
+
+This module requires these other modules and libraries, in addition to
+those specified in Makefile.PL:
+
+  Zebra, release 1.4.0 or later: see http://indexdata.com/zebra/
+
+COPYRIGHT AND LICENCE
+
+Copyright (C) 2006 by Index Data ApS.
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.8.7 or,
+at your option, any later version of Perl 5 you may have available.
+
+
