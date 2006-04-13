@@ -1,0 +1,59 @@
+$Id: README,v 1.1 2006-04-13 14:53:18 mike Exp $
+
+What's what in this directory:
+
+README -- This file
+
+yazserver.xml -- The primary configuration file that controls how
+	Zebra runs (as a YAZ GFS application) in order to serve the
+	ZeeRex database.  This specifies where to find this database's
+	own ZeeRex record (zeerex.xml), the configuration for
+	translating CQL queries into Z39.50 Type-1 (pqf.properties),
+	and the Zebra-specific configuration (zebra.cfg).
+
+zeerex.xml -- The static ZeeRex record for this database of ZeeRex
+	records.  It describes what a ZeeRex database looks like, and
+	how it behaves.  (Life would be better if Zebra could at least
+	partially work this out for itself, but for now we have to go
+	the long way round.)
+
+zeerex-2.0.xsd -- The XML Schema describing ZeeRex records, as
+	downloaded from the official ZeeRex site at:
+		http://explain.z3950.org/dtd/zeerex-2.0.xsd
+	This can be used to validate both our own static ZeeRex record
+	and the records created by IRSpy.	
+
+pqf.properties -- The specification for how CQL queries are translated
+	into 39.50 Type-1 queries.  This file is identical to the one
+	supplied in the YAZ distribution: we'd just use that if there
+	was a reliable way to discover where it is.
+
+zebra.cfg -- Zebra-specific configuration, including the location of
+	the register files, the location of the XSLT filter
+	configuration (filterconf.xml), etc.
+
+filterconf.xml -- Configuration of Zebra's XSLT filter, which uses
+	XSLT stylesheets to identify the indexable data in incoming
+	files and to transform records for presentation.
+
+zeerex2index.xsl -- The indexing stylesheet for ZeeRex records.
+
+zeerex2zeerex.xsl -- The "no-op" stylesheet for presenting ZeeRex
+	records.
+
+db -- A subdirectory containing the actual database: register files,
+	dictionaries and suchlike.
+
+--
+
+To create the database and start the server:
+
+xmllint --noout --schema zeerex-2.0.xsd zeerex.xml # Verify
+xsltproc zeerex2index.xsl zeerex.xml # Check what indexer will see
+zebraidx -c zebra.cfg init # Remove any existing database records
+zebraidx -c zebra.cfg update zeerex.xml # Our only record!
+zebraidx -c zebra.cfg commit
+zebrasrv -f yazserver.xml
+
+Then interrogate the database with SRU URLs such as:
+	http://localhost:1313/IR-Explain--1?version=1.1&operation=searchRetrieve&x-pquery=@attr%201=net:host%20localhost

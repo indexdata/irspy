@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: zeerex.xml,v 1.1 2006-04-13 14:53:17 mike Exp $ -->
+<explain xmlns="http://explain.z3950.org/dtd/2.0/">
+ <serverInfo protocol="SRW/SRU/Z39.50" version="1.1" method="GET/POST">
+  <host>localhost</host>
+  <port>1313</port>
+  <database>Default</database>
+ </serverInfo>
+ <databaseInfo>
+  <title lang="en" primary="true">IRSpy database of ZeeRex records</title>
+  <author>Mike Taylor, Index Data Aps, http://www.indexdata.com</author>
+  <contact>mike@indexdata.com</contact>
+ </databaseInfo>
+ <!-- ### Much, much more to be added -->
+</explain>

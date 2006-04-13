@@ -1,0 +1,187 @@
+From mike  Thu Apr  6 07:29:26 2006
+X-VM-v5-Data: ([nil nil nil nil t nil nil nil nil]
+	["36361" "Wednesday" "5" "April" "2006" "16:03:54" "-0400" "David Dorman" "dorman@indexdata.com" "<7.0.1.0.2.20060405160339.03da1e80@indexdata.com>" "530" "[Staff] Support for NISO Metasearch Initiative" "^X-Spam-Status:" nil nil "4" nil nil nil nil nil nil nil nil nil]
+	nil)
+Return-path: <staff-bounces@lists.indexdata.dk>
+X-Spam-Checker-Version: SpamAssassin 3.1.0 (2005-09-13) on bagel.indexdata.dk
+X-Spam-Level: 
+Envelope-to: mike@indexdata.com
+Delivery-date: Thu, 06 Apr 2006 08:09:00 +0200
+Received: from localhost.localdomain [127.0.0.1]
+	by localhost with POP3 (fetchmail-6.2.5)
+	for mike@localhost (single-drop); Thu, 06 Apr 2006 07:29:26 +0100 (BST)
+Received: from kebab.indexdata.dk ([83.133.64.60])
+	by bagel.indexdata.dk with esmtp (Exim 3.35 #1 (Debian))
+	id 1FRNfv-0006yp-00; Thu, 06 Apr 2006 08:08:59 +0200
+Received: from localhost ([127.0.0.1] helo=kebab.indexdata.dk)
+	by kebab.indexdata.dk with esmtp (Exim 4.50)
+	id 1FRNcT-0002Nn-5P; Thu, 06 Apr 2006 08:05:25 +0200
+Received: from user.indexdata.dk ([213.150.43.10] helo=bagel.indexdata.dk)
+	by kebab.indexdata.dk with esmtp (Exim 4.50) id 1FREGw-0007if-6b
+	for staff@lists.indexdata.dk; Wed, 05 Apr 2006 22:06:40 +0200
+Received: from mailman by bagel.indexdata.dk with local (Exim 3.35 #1 (Debian))
+	id 1FREKM-0007Hj-00
+	for <staff-filtered@indexdata.dk>; Wed, 05 Apr 2006 22:10:06 +0200
+Received: from post1.wesleyan.edu ([129.133.6.131])
+	by bagel.indexdata.dk with esmtp (Exim 3.35 #1 (Debian))
+	id 1FREKL-0007HA-00
+	for <staff@indexdata.com>; Wed, 05 Apr 2006 22:10:05 +0200
+Received: from DAVID.indexdata.com (69.177.235.51.adsl.snet.net
+	[69.177.235.51] (may be forged)) (authenticated bits=0)
+	by post1.wesleyan.edu (8.12.11/8.12.11) with ESMTP id k35K3wSC030632;
+	Wed, 5 Apr 2006 16:04:56 -0400
+Message-Id: <7.0.1.0.2.20060405160339.03da1e80@indexdata.com>
+Message-Id: <7.0.1.0.2.20060405150259.03dbfe48@indexdata.com>
+X-Mailer: QUALCOMM Windows Eudora Version 7.0.1.0
+Mime-Version: 1.0
+X-Wesleyan-MailScanner-Information: Please contact the ISP for more information
+X-Wesleyan-MailScanner: Found to be clean
+X-MailScanner-From: dorman@indexdata.com
+X-Mailman-Approved-At: Thu, 06 Apr 2006 08:05:23 +0200
+X-BeenThere: staff@lists.indexdata.dk
+X-Mailman-Version: 2.1.5
+Precedence: list
+List-Id: Index Data's PRIVATE staff discussion list <staff.lists.indexdata.dk>
+List-Unsubscribe: <http://lists.indexdata.dk/cgi-bin/mailman/listinfo/staff>, 
+	<mailto:staff-request@lists.indexdata.dk?subject=unsubscribe>
+List-Archive: <http://lists.indexdata.dk/cgi-bin/mailman/private/staff>
+List-Post: <mailto:staff@lists.indexdata.dk>
+List-Help: <mailto:staff-request@lists.indexdata.dk?subject=help>
+List-Subscribe: <http://lists.indexdata.dk/cgi-bin/mailman/listinfo/staff>,
+	<mailto:staff-request@lists.indexdata.dk?subject=subscribe>
+Errors-To: staff-bounces@lists.indexdata.dk
+X-SA-Exim-Connect-IP: 127.0.0.1
+X-SA-Exim-Mail-From: staff-bounces@lists.indexdata.dk
+X-SA-Exim-Scanned: No (on kebab.indexdata.dk); SAEximRunCond expanded to false
+X-Spam-Status: No, score=-2.4 required=5.0 tests=AWL,BAYES_00,
+	FORGED_RCVD_HELO autolearn=unavailable version=3.1.0
+From: David Dorman <dorman@indexdata.com>
+Sender: staff-bounces@lists.indexdata.dk
+To: "Index Data News List 3":;
+Subject: [Staff] Support for NISO Metasearch Initiative
+Date: Wed, 05 Apr 2006 16:03:54 -0400
+X-StripMime: Non-text section removed by stripmime
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+
+Hello to everyone on my Index Data news distribution list.  I hope 
+this note finds you all engaged and feeling well.  I am pleased to be 
+able to report, with the following announcement, that Index Data is 
+advancing the standardization of metasearching in a way that we are 
+confident will result in significant cost savings for the library community.
+
+David Dorman
+
+INDEX DATA DEVELOPMENT CONTRACT SUPPORTS NISO METASEARCH INITIATIVE
+
+April 5, 2006 - West Hartford, CT - Index Data, the premier developer 
+of Open Source information retrieval software for libraries and their 
+vendors, has just signed a contract with Helsinki University Library, 
+The National Library of Finland, to develop an information retrieval 
+target monitoring and analysis tool. This software, which is being 
+released under the name Keystone Target Manager, will be designed to 
+meet the specifications of the NISO draft standard Z39.92: 
+Information Retrieval Service Description, which is based on an 
+earlier community standard called ZeeRex.
+
+The Keystone Target Manager will perform the following services:
+    * Automatically monitor a collection of Z39.50/SRW/SRU targets, 
+maintaining statistics for availability over time.
+    * Provide configurable alerting services when targets become unavailable.
+    * Automatically gather information about the search capabilities 
+of targets that use standard search protocols, such as 
+Z39.50/SRW/SRU, for use in configuring IR clients of different types.
+    * Make the gathered information available in a software-readable 
+form, as a database of ZeeRex (ANSI/NISO Z39.92) records. (This will 
+enable sharing of this information via the Internet.)
+Juha Hakala, Director of Information Technology at Helsinki 
+University Library and Chair of the NISO Committee which developed 
+the NISO Z39.92 draft standard, points out that "up to now 
+information about Z39.50 or SRU/SRW targets has usually been 
+discovered and documented manually, which is a laborious and time 
+consuming process. Also, there has been no efficient means of 
+exchanging this data among metasearch applications such as portals. 
+While NISO Z39.92, solves the latter problem, the Keystone Target 
+Manager will simplify the process of creating accurate target 
+descriptions and keeping them up-to-date."
+
+"Given the expertise Index Data has in implementing Z39.50 and 
+SRU/SRW applications," Hakala continued, "I am confident that the 
+service descriptions generated by the Target Manager will be useful. 
+It will be interesting to see how quickly the IR portal vendors and 
+maintenance agencies such as libraries will adopt this target 
+management tool, and start sharing on a global scale the target 
+descriptions harvested with it."
+
+Pat Stevens, the Interim Executive Director of NISO, was delighted to 
+learn about this agreement: "NISO thanks Helsinki University and 
+Index Data for their collaborative work on this project," she stated. 
+"It comes at just the right time as organizations are now looking for 
+an effective way to implement Z39.92."
+
+The Keystone Target Manager will be a major step forward in 
+standardizing and reducing the costs of maintaining target gateways 
+for metasearch services. Content providers that support standardized 
+search interfaces, and federated search services that take advantage 
+of this soon-to-be-released Open Source/Open Access target management 
+service, will together be able to reduce the cost of providing 
+federated search services to libraries. If these lower costs are 
+passed on to libraries in the form of reduced gateway maintenance 
+fees, libraries will be able to shift costs from access mechanisms to 
+licensing content.
+
+About Index Data
+
+Index Data has been developing standards-based information retrieval 
+technology since 1994. Library software vendors as varied as Ex 
+Libris, Fretwell-Downing, Geac, ISACSOFT, Koha and Polaris use Index 
+Data's technology in the software they provide to libraries. And 
+libraries around the world, including the Library of Congress and 
+many other national libraries, use the company's technology and 
+services to meet demanding and sophisticated information retrieval 
+challenges. The company's metasearch service, Keystone Retriever, is 
+among the most advanced in the industry and is distributed under an 
+Open Source license.
+
+--------------------------------------------------
+LIST MANAGEMENT INFO
+
+All recipients of this newsletter have been individually and manually 
+added to the Index Data News Distribution List.  If you would like to 
+be deleted from this list, simply reply to this email with a remove 
+request and I will remove your name. If this email was forwarded to 
+you and you would like to receive these occasional mailings in the 
+future, let me know and I will add you to the list.
+--------------------------------------------------
+
+Yours for a More Open World,
+
+David
+
+
+David Dorman
+US Marketing Manager, Index Data
+52 Whitman Ave.
+West Hartford, Connecticut  06107
+dorman@indexdata.com
+860-389-1568 or toll free 866-489-1568
+fax: 860-561-5613
+
+INDEX DATA Means Business
+for Open Source and Open Standards
+- - - - - - - - - - - - - - -
+www.indexdata.com
+
+_______________________________________________
+Staff mailing list
+Staff@lists.indexdata.dk
+http://lists.indexdata.dk/cgi-bin/mailman/listinfo/staff
+
+
+--- StripMime Report -- processed MIME parts ---
+multipart/mixed
+  text/plain (text body -- kept)
+  application/msword
+  text/plain (text body -- kept)
+---
+
+

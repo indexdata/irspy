@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: yazserver.xml,v 1.1 2006-04-13 14:53:17 mike Exp $ -->
+<yazgfs>
+ <listen id="tcp1313">tcp:@:1313</listen>
+ <server id="alvis" listenref="tcp1313">
+  <directory>./</directory>
+  <config>zebra.cfg</config>
+  <cql2rpn>pqf.properties</cql2rpn>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="explain.xml">
+   <xi:fallback>
+    <explain xmlns="http://explain.z3950.org/dtd/2.0/">
+     <serverInfo>
+      <host>localhost</host>
+      <port>1313</port>
+      <database>IR-Explain---1</database>
+     </serverInfo>
+    </explain>
+   </xi:fallback>
+  </xi:include>
+ </server>
+</yazgfs>
