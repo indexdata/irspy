@@ -1,4 +1,4 @@
-# $Id: Net-Z3950-IRSpy.t,v 1.1 2006-04-13 14:53:17 mike Exp $
+# $Id: Net-Z3950-IRSpy.t,v 1.1.1.1 2006-04-13 14:53:17 mike Exp $
 
 # change 'tests => 1' to 'tests => last_test_to_print';
 use Test::More tests => 1;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id: yazserver.xml,v 1.1 2006-04-13 14:53:17 mike Exp $ -->
+<!-- $Id: yazserver.xml,v 1.1.1.1 2006-04-13 14:53:17 mike Exp $ -->
 <yazgfs>
  <listen id="tcp1313">tcp:@:1313</listen>
  <server id="alvis" listenref="tcp1313">
