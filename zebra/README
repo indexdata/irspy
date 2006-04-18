@@ -1,4 +1,4 @@
-$Id: README,v 1.1 2006-04-13 14:53:18 mike Exp $
+$Id: README,v 1.2 2006-04-18 23:50:33 mike Exp $
 
 What's what in this directory:
 
@@ -50,9 +50,9 @@ To create the database and start the server:
 
 xmllint --noout --schema zeerex-2.0.xsd zeerex.xml # Verify
 xsltproc zeerex2index.xsl zeerex.xml # Check what indexer will see
-zebraidx -c zebra.cfg init # Remove any existing database records
-zebraidx -c zebra.cfg update zeerex.xml # Our only record!
-zebraidx -c zebra.cfg commit
+zebraidx init # Remove any existing database records
+zebraidx update zeerex.xml # Our only record!
+zebraidx commit
 zebrasrv -f yazserver.xml
 
 Then interrogate the database with SRU URLs such as:
