@@ -1,4 +1,4 @@
-# $Id: Pod.pm,v 1.1 2006-05-05 22:17:02 mike Exp $
+# $Id: Pod.pm,v 1.2 2006-05-09 12:03:37 mike Exp $
 
 package ZOOM::Pod;
 
@@ -64,7 +64,6 @@ sub wait {
     my $this = shift();
     my $res = 0;
 
-    print "in wait\n";
     while ((my $i = ZOOM::event($this->{conn})) != 0) {
 	my $conn = $this->{conn}->[$i-1];
 	my $ev = $conn->last_event();
