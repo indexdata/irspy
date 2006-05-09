@@ -1,4 +1,4 @@
-# $Id: Pod.pm,v 1.2 2006-05-09 12:03:37 mike Exp $
+# $Id: Pod.pm,v 1.3 2006-05-09 16:31:05 mike Exp $
 
 package ZOOM::Pod;
 
@@ -9,35 +9,64 @@ use ZOOM;
 
 =head1 SYNOPSIS
 
- $conn1 = new ZOOM::Connection("bagel.indexdata.com/gils");
- $conn2 = new ZOOM::Connection("z3950.loc.gov:7090/Voyager");
- $pod = new ZOOM::Pod($conn1, $conn2);
- $pod->callback(ZOOM::Event::RECV_SEARCH, \&show_result);
- $pod->search_pqf("mineral");
- $pod->wait();
+ use ZOOM::Pod;
 
- sub show_result {
-     ($conn, $rs, $event) = @_;
-     print "$conn: found ", $rs->size(), " records\n";
+ $pod = new ZOOM::Pod("bagel.indexdata.com/gils",
+                      "bagel.indexdata.com/marc");
+ $pod->callback(ZOOM::Event::RECV_SEARCH, \&completed_search);
+ $pod->callback(ZOOM::Event::RECV_RECORD, \&got_record);
+ $pod->search_pqf("the");
+ $err = $pod->wait();
+ die "$pod->wait() failed with error $err" if $err;
+
+ sub completed_search {
+     ($conn, $rs) = @_;
+     print $conn->option("host"), ": found ", $rs->size(), " records\n";
+     $rs->record(0); # Queues a request for the record
+     return 0;
+ }
+
+ sub got_record {
+     ($conn, $rs) = @_;
+     $rec = $rs->record(0);
+     print $conn->option("host"), ": got $rec = '", $rec->render(), "'\n";
+     return 0;
  }
 
 =cut
+
+BEGIN {
+    # Just register the name
+    ZOOM::Log::mask_str("pod");
+}
 
 sub new {
     my $class = shift();
     my(@conn) = @_;
 
+    my @state; # Hashrefs with application state associated with connections
     foreach my $conn (@conn) {
 	if (!ref $conn) {
 	    $conn = new ZOOM::Connection($conn, 0, async => 1);
 	}
+	push @state, {};
     }
 
     return bless {
 	conn => \@conn,
+	state => \@state,
 	rs => [],
 	callback => {},
     }, $class;
+}
+
+sub option {
+    my $this = shift();
+    my($key, $value) = @_;
+
+    foreach my $conn (@{ $this->{conn} }) {
+	$conn->option($key, $value);
+    }
 }
 
 sub callback {
@@ -67,10 +96,11 @@ sub wait {
     while ((my $i = ZOOM::event($this->{conn})) != 0) {
 	my $conn = $this->{conn}->[$i-1];
 	my $ev = $conn->last_event();
-	print("connection ", $i-1, ": ", ZOOM::event_str($ev), "\n");
+	ZOOM::Log::log("pod", "connection ", $i-1, ": ", ZOOM::event_str($ev));
 	my $sub = $this->{callback}->{$ev};
 	if (defined $sub) {
-	    $res = &$sub($conn, $this->{rs}->[$i-1], $ev);
+	    $res = &$sub($conn, $this->{state}->[$i-1],
+			 $this->{rs}->[$i-1], $ev);
 	    last if $res != 0;
 	}
     }
