@@ -1,4 +1,4 @@
-# $Id: Pod.pm,v 1.3 2006-05-09 16:31:05 mike Exp $
+# $Id: Pod.pm,v 1.4 2006-05-10 15:51:10 mike Exp $
 
 package ZOOM::Pod;
 
@@ -6,6 +6,16 @@ use strict;
 use warnings;
 
 use ZOOM;
+
+BEGIN {
+    # Just register the name
+    ZOOM::Log::mask_str("pod");
+    ZOOM::Log::mask_str("pod_unhandled");
+}
+
+=head1 NAME
+
+ZOOM::Pod - Perl extension for handling pods of concurrent ZOOM connections
 
 =head1 SYNOPSIS
 
@@ -33,21 +43,26 @@ use ZOOM;
      return 0;
  }
 
-=cut
+=head1 DESCRIPTION
 
-BEGIN {
-    # Just register the name
-    ZOOM::Log::mask_str("pod");
-}
+I<###>
+
+=head1 METHODS
+
+=cut
 
 sub new {
     my $class = shift();
     my(@conn) = @_;
 
+    die "$class with no connections" if @conn == 0;
     my @state; # Hashrefs with application state associated with connections
     foreach my $conn (@conn) {
 	if (!ref $conn) {
 	    $conn = new ZOOM::Connection($conn, 0, async => 1);
+	    # The $conn object is always made, even if no there's no
+	    # server.  Such errors are caught later, by the _check()
+	    # call in wait(). 
 	}
 	push @state, {};
     }
@@ -96,17 +111,55 @@ sub wait {
     while ((my $i = ZOOM::event($this->{conn})) != 0) {
 	my $conn = $this->{conn}->[$i-1];
 	my $ev = $conn->last_event();
-	ZOOM::Log::log("pod", "connection ", $i-1, ": ", ZOOM::event_str($ev));
+	my $evstr = ZOOM::event_str($ev);
+	ZOOM::Log::log("pod", "connection ", $i-1, ": $evstr");
+
+	eval {
+	    $conn->_check();
+	}; if ($@) {
+	    my $sub = $this->{callback}->{exception};
+	    die $@ if !defined $sub;
+	    $res = &$sub($conn, $this->{state}->[$i-1],
+			 $this->{rs}->[$i-1], $@);
+	    last if $res != 0;
+	    next;
+	}
+
 	my $sub = $this->{callback}->{$ev};
 	if (defined $sub) {
 	    $res = &$sub($conn, $this->{state}->[$i-1],
 			 $this->{rs}->[$i-1], $ev);
 	    last if $res != 0;
+	} else {
+	    ZOOM::Log::log("pod_unhandled", "unhandled event $ev ($evstr)");
 	}
     }
 
     return $res;
 }
+
+
+=head1 SEE ALSO
+
+The underlying
+C<ZOOM>
+module (part of the
+C<Net::Z3950::ZOOM>
+distribution).
+
+=head1 AUTHOR
+
+Mike Taylor, E<lt>mike@indexdata.comE<gt>
+
+=head1 COPYRIGHT AND LICENCE
+
+Copyright (C) 2006 by Index Data.
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.8.4 or,
+at your option, any later version of Perl 5 you may have available.
+
+=cut
 
 
 1;
