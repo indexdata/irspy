@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-# $Id: test-pod.pl,v 1.3 2006-05-09 16:21:37 mike Exp $
+# $Id: test-pod.pl,v 1.4 2006-05-10 13:00:33 mike Exp $
 #
 # Run like this:
-#	ZOOM_RECORD_NO_FORCE_SYNC=1 YAZ_LOG=pod perl -I lib test-pod.pl
+#	YAZ_LOG=pod perl -I lib test-pod.pl
 # (at least until the default sync. behaviour of ZOOM-C changes.)
 
 use strict;
@@ -57,7 +57,7 @@ sub request_record {
     my($conn, $rs, $state) = @_;
 
     my $i = $state->{next_to_fetch}++;
-    my $rec = $rs->record($i);
+    my $rec = $rs->records($i, 1, 0);
     print($conn->option("host"), ": pre-fetch: record $i is ",
 	  render_record($rec), "\n");
 }
