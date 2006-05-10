@@ -1,4 +1,4 @@
-# $Id: Pod.pm,v 1.5 2006-05-10 16:01:04 mike Exp $
+# $Id: Pod.pm,v 1.6 2006-05-10 16:44:57 mike Exp $
 
 package ZOOM::Pod;
 
@@ -45,9 +45,40 @@ ZOOM::Pod - Perl extension for handling pods of concurrent ZOOM connections
 
 =head1 DESCRIPTION
 
-I<###>
+C<ZOOM:Pod> provides an API that simplifies asynchronous programming
+using ZOOM.  A pod is a collection of asynchronous connections that
+are run simultaneously to achieve broadcast searching and retrieval.
+When a pod is created, a set of connections (or target-strings to
+connect to) are specified.  Thereafter, they are treated as a unit,
+and methods for searching, option-setting, etc. that are invoked on
+the pod are delegated to each of its members.
+
+The key method on a pod is C<wait()>, which enters a loop accepting
+and dispatching events occurring on any of the connections in the pod.
+Unless interrupted,the loop runs until there are no more events left,
+i.e. no searches are outstanding and no requested records have still
+to be received.
+
+Event dispatching is done by means of callback functions, which can be
+registered for each event.  A registered callback is invoked whenever
+a corresponding event occurs.  A special callback can be nominated to
+handle errors.
 
 =head1 METHODS
+
+=head2 new()
+
+ $pod = new ZOOM::Pod($conn1, $conn2, $conn3);
+ $pod = new ZOOM::Pod("bagel.indexdata.com/gils",
+                      "bagel.indexdata.com/marc");
+
+
+Creates a new pod containing one or more connections.  Each connection
+may be specified either by an existing C<ZOOM::Connection> object,
+which I<must> be asynchronous; or by a ZOOM target string, in which
+case the pod module will make the connection object itself.
+
+Returns the new pod.
 
 =cut
 
@@ -75,14 +106,40 @@ sub new {
     }, $class;
 }
 
+=head2 option()
+
+ $oldElemSet = $pod->option("elementSetName");
+ $pod->option(elementSetName => "b");
+
+Sets a specified option in all the connections in a pod.  Returns the
+old value that the option had in first of the connections in the pod:
+be aware that this value was not necessarily shared by all the members
+of the pod ... but that is true often enough to be useful.
+
+=cut
+
 sub option {
     my $this = shift();
     my($key, $value) = @_;
 
+    my $old = $this->{conn}->[0]->option($key);
     foreach my $conn (@{ $this->{conn} }) {
 	$conn->option($key, $value);
     }
+
+    return $old;
 }
+
+=head2 callback()
+
+I<###>
+
+It is passed the connection that the event happened on, a state
+hash-reference associated with the connection, the connection's
+result-set and the event-type (so that a single function can handle
+events of multiple types, switching on the code where necessary).
+
+=cut
 
 sub callback {
     my $this = shift();
@@ -95,6 +152,17 @@ sub callback {
     return $old;
 }
 
+=head2 search_pqf()
+
+I<###>
+
+B<WARNING!>
+An important simplifying assumption is that each connection can only
+have one search active on it at a time - this allows the pod to
+maintain a one-to-one mapping between connections and result-sets.  
+
+=cut
+
 sub search_pqf {
     my $this = shift();
     my($pqf) = @_;
@@ -103,6 +171,12 @@ sub search_pqf {
 	$this->{rs}->[$i] = $this->{conn}->[$i]->search_pqf($pqf);
     }
 }
+
+=head2 wait()
+
+I<###>
+
+=cut
 
 sub wait {
     my $this = shift();
