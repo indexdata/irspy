@@ -1,21 +1,16 @@
 #!/usr/bin/perl -w
 
-# $Id: test-pod.pl,v 1.4 2006-05-10 13:00:33 mike Exp $
+# $Id: test-pod.pl,v 1.5 2006-05-10 13:33:13 mike Exp $
 #
 # Run like this:
-#	YAZ_LOG=pod perl -I lib test-pod.pl
-# (at least until the default sync. behaviour of ZOOM-C changes.)
+#	YAZ_LOG=pod perl -I lib test-pod.pl "bagel.indexdata.com/gils" "bagel.indexdata.com/marc"
 
 use strict;
 use warnings;
 
 use ZOOM::Pod;
 
-my $pod = new ZOOM::Pod("bagel.indexdata.com/gils",
-			"bagel.indexdata.com/marc",
-			#"z3950.loc.gov:7090/Voyager",
-			#"localhost:9999",
-			);
+my $pod = new ZOOM::Pod(@ARGV);
 $pod->option(elementSetName => "b");
 $pod->callback(ZOOM::Event::RECV_SEARCH, \&completed_search);
 $pod->callback(ZOOM::Event::RECV_RECORD, \&got_record);
@@ -28,7 +23,7 @@ sub completed_search {
     print $conn->option("host"), ": found ", $rs->size(), " records\n";
     $state->{next_to_fetch} = 0;
     $state->{next_to_show} = 0;
-    request_record($conn, $rs, $state);
+    request_records($conn, $rs, $state, 2);
     return 0;
 }
 
@@ -49,17 +44,19 @@ sub got_record {
     my $i = $state->{next_to_show}++;
     my $rec = $rs->record($i);
     print $conn->option("host"), ": record $i is ", render_record($rec), "\n";
-    request_record($conn, $rs, $state);
+    request_records($conn, $rs, $state, 3)
+	if $i == $state->{next_to_fetch}-1;
+
     return 0;
 }
 
-sub request_record {
-    my($conn, $rs, $state) = @_;
+sub request_records {
+    my($conn, $rs, $state, $count) = @_;
 
-    my $i = $state->{next_to_fetch}++;
-    my $rec = $rs->records($i, 1, 0);
-    print($conn->option("host"), ": pre-fetch: record $i is ",
-	  render_record($rec), "\n");
+    my $i = $state->{next_to_fetch};
+    ZOOM::Log::log("appl", "requesting $count records from $i");
+    $rs->records($i, $count, 0);
+    $state->{next_to_fetch} += $count;
 }
 
 sub render_record {
