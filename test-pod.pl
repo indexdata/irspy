@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: test-pod.pl,v 1.5 2006-05-10 13:33:13 mike Exp $
+# $Id: test-pod.pl,v 1.6 2006-05-10 13:38:31 mike Exp $
 #
 # Run like this:
 #	YAZ_LOG=pod perl -I lib test-pod.pl "bagel.indexdata.com/gils" "bagel.indexdata.com/marc"
@@ -9,6 +9,7 @@ use strict;
 use warnings;
 
 use ZOOM::Pod;
+ZOOM::Log::mask_str("appl");
 
 my $pod = new ZOOM::Pod(@ARGV);
 $pod->option(elementSetName => "b");
