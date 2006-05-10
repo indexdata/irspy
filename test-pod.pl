@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: test-pod.pl,v 1.6 2006-05-10 13:38:31 mike Exp $
+# $Id: test-pod.pl,v 1.7 2006-05-10 15:55:19 mike Exp $
 #
 # Run like this:
 #	YAZ_LOG=pod perl -I lib test-pod.pl "bagel.indexdata.com/gils" "bagel.indexdata.com/marc"
@@ -9,12 +9,18 @@ use strict;
 use warnings;
 
 use ZOOM::Pod;
-ZOOM::Log::mask_str("appl");
 
+if (@ARGV == 0) {
+    printf STDERR "Usage: $0 <target1> [<target2> ...]\n";
+    exit 1;
+}
+
+ZOOM::Log::mask_str("appl");
 my $pod = new ZOOM::Pod(@ARGV);
 $pod->option(elementSetName => "b");
 $pod->callback(ZOOM::Event::RECV_SEARCH, \&completed_search);
 $pod->callback(ZOOM::Event::RECV_RECORD, \&got_record);
+#$pod->callback(exception => \&exception_thrown);
 $pod->search_pqf("the");
 my $err = $pod->wait();
 die "$pod->wait() failed with error $err" if $err;
@@ -48,6 +54,12 @@ sub got_record {
     request_records($conn, $rs, $state, 3)
 	if $i == $state->{next_to_fetch}-1;
 
+    return 0;
+}
+
+sub exception_thrown {
+    my($conn, $state, $rs, $exception) = @_;
+    print "Uh-oh!  $exception\n";
     return 0;
 }
 
