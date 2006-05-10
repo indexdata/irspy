@@ -1,4 +1,4 @@
-# $Id: Pod.pm,v 1.4 2006-05-10 15:51:10 mike Exp $
+# $Id: Pod.pm,v 1.5 2006-05-10 16:01:04 mike Exp $
 
 package ZOOM::Pod;
 
@@ -30,14 +30,14 @@ ZOOM::Pod - Perl extension for handling pods of concurrent ZOOM connections
  die "$pod->wait() failed with error $err" if $err;
 
  sub completed_search {
-     ($conn, $rs) = @_;
+     ($conn, undef, $rs) = @_;
      print $conn->option("host"), ": found ", $rs->size(), " records\n";
-     $rs->record(0); # Queues a request for the record
+     $rs->records(0, 1, 0); # Queues a request for the record
      return 0;
  }
 
  sub got_record {
-     ($conn, $rs) = @_;
+     ($conn, undef, $rs) = @_;
      $rec = $rs->record(0);
      print $conn->option("host"), ": got $rec = '", $rec->render(), "'\n";
      return 0;
