@@ -1,4 +1,4 @@
-# $Id: Pod.pm,v 1.6 2006-05-10 16:44:57 mike Exp $
+# $Id: Pod.pm,v 1.7 2006-05-11 15:51:36 mike Exp $
 
 package ZOOM::Pod;
 
@@ -132,12 +132,60 @@ sub option {
 
 =head2 callback()
 
-I<###>
+ $pod->callback(ZOOM::Event::RECV_SEARCH, \&completed_search);
+ $pod->callback("exception", sub { print "never mind: $@\n"; return 0 } );
 
-It is passed the connection that the event happened on, a state
-hash-reference associated with the connection, the connection's
-result-set and the event-type (so that a single function can handle
-events of multiple types, switching on the code where necessary).
+Registers a callback to be invoked by the pod when an event happens.
+Callback functions are invoked by C<wait()> (q.v.).
+
+When registering a callback, the first argument is an event-code - one
+of those defined in the C<ZOOM::Event> enumeration - and the second is
+a function reference, or equivalently an inline code-fragment.  It is
+acceptable to nominate the same function as the callback for multiple
+events, by multiple invocations of C<callback()>.
+
+When an event occurs during the execution of C<wait()>, the relevant
+callback function is passed four arguments: the connection that the
+event happened on; a state hash-reference associated with the
+connection; the result-set associated with the connection; and the
+event-type (so that a single function that handles events of multiple
+types can switch on the code where necessary).  The callback function
+can handle the event as it wishes, finishing up by returning an
+integer.  If this is zero, then C<wait()> continues as normal; if it
+is anything else, then that value is immediately returned from
+C<wait()>.
+
+So a typical, simple, event-handler might look like this:
+
+ sub got_event {
+      ($conn, $state, $rs, $event) = @_;
+      print "event $event on connection ", $conn->option("host"), "\n";
+      print "Found ", $rs->size(), " records\n"
+	  if $event == ZOOM::Event::RECV_SEARCH;
+      return 0;
+ }
+
+In addition to the event-type callbacks discussed above, there is a
+special callback, C<"exception">, which is invoked if an exception
+occurs.  This will nearly always be a ZOOM error, but this can be
+tested using C<ref($@) eq "ZOOM::Exception">.  This callback is
+invoked with the same arguments as described above, except that
+instead of the event-type, the fourth argument is a copy of the
+exception, C<$@>.  Exception-handling callbacks may of course re-throw
+the exception using C<die $@>.
+
+So a simple error-handler might look like this:
+
+ sub got_error {
+      ($conn, $state, $rs, $exception) = @_;
+      if ($exception->isa("ZOOM::Exception")) {
+          print "Caught error $exception -- continuing";
+          return 0;
+      }
+      die $exception;
+ }
+
+I<### state>
 
 =cut
 
