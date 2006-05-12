@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id: yazserver.xml,v 1.1 2006-04-13 14:53:17 mike Exp $ -->
+<!-- $Id: yazserver.xml,v 1.2 2006-05-12 16:13:53 mike Exp $ -->
 <yazgfs>
  <listen id="tcp1313">tcp:@:1313</listen>
  <server id="alvis" listenref="tcp1313">
   <directory>./</directory>
   <config>zebra.cfg</config>
   <cql2rpn>pqf.properties</cql2rpn>
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="explain.xml">
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="zeerex.xml">
    <xi:fallback>
     <explain xmlns="http://explain.z3950.org/dtd/2.0/">
      <serverInfo>
