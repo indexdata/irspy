@@ -1,4 +1,4 @@
-# $Id: Pod.pm,v 1.7 2006-05-11 15:51:36 mike Exp $
+# $Id: Pod.pm,v 1.8 2006-05-12 11:37:48 mike Exp $
 
 package ZOOM::Pod;
 
@@ -185,7 +185,13 @@ So a simple error-handler might look like this:
       die $exception;
  }
 
-I<### state>
+The C<$state> argument is a reference to an initially empty hash,
+which the application can use as it sees fit, to store its own
+connection-relation information.  For example, an application might
+use C<$state->{last}> to keep a record of which was the last record is
+retrieved from the associated connection.  The pod module itself does
+not use the state hash at all, and applications are also welcome to
+ignore it if they do not need it.
 
 =cut
 
@@ -202,12 +208,23 @@ sub callback {
 
 =head2 search_pqf()
 
-I<###>
+ $pod->search_pqf("@attr 1=1003 wedel");
+
+Submits the specified query to each of the connections in a pod,
+delegating to the same-named method of the C<ZOOM::Connection> class
+and storing eacdh result in a result-set object associated with the
+connection that generated it.  Returns no value: success or failure
+must subsequently be detected by the events and exceptions generated
+by C<wait()>ing on the pod.
 
 B<WARNING!>
 An important simplifying assumption is that each connection can only
 have one search active on it at a time - this allows the pod to
-maintain a one-to-one mapping between connections and result-sets.  
+maintain the one-to-one mapping between connections and result-sets.
+Submitting a new search on a connection before the old one has
+complete will result in a total failure in the nature of causality,
+and the spontaneous existence-failure of the universe.  Do not do
+this.
 
 =cut
 
@@ -222,7 +239,23 @@ sub search_pqf {
 
 =head2 wait()
 
-I<###>
+ $err = $pod->wait();
+ die "$pod->wait() failed with error $err" if $err;
+
+Waits for events on the connections that make up the pod, usually
+continuing until there are no more events left and then returning
+zero.  Whenever an event occurs, a callback function is dispatched as
+described above in the documentation of the C<callback()> method; if
+that function returns a non-zero value, then C<wait()> terminates
+immediately, whether or not any events remain, and returns that value.
+
+If an error occurs on one of the connection in the pod, then it is
+normally thrown as a <ZOOM::Exception>.  If, however, there is a
+special C<"exception"> callback registered, then the exception object
+is passed to this instead.  As usual, the return value of the callback
+indicates whether C<wait()> should continue (return-value 0) or return
+immediately (any other value).  Exception-handling callbacks may of
+course re-throw the exception.
 
 =cut
 
@@ -260,6 +293,28 @@ sub wait {
     return $res;
 }
 
+
+=head1 LOGGING
+
+This module generates logging messages using C<ZOOM::Log::log()>,
+which in turn relies on the YAZ logging facilities.  It uses two
+logging levels:
+
+=over 4
+
+=item pod
+
+Logs all events.
+
+=item pod_unhandled
+
+Logs unhandled events, i.e. events of types for which no callback has
+been registered.
+
+=back
+
+These logging levels can be turned on by setting the C<YAZ_LOG>
+environment variable to C<pod,pod_unhandled>.
 
 =head1 SEE ALSO
 
