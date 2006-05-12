@@ -1,4 +1,4 @@
-# $Id: Pod.pm,v 1.9 2006-05-12 13:28:40 mike Exp $
+# $Id: Pod.pm,v 1.10 2006-05-12 13:31:00 mike Exp $
 
 package ZOOM::Pod;
 
@@ -267,7 +267,7 @@ sub wait {
 	my $conn = $this->{conn}->[$i-1];
 	my $ev = $conn->last_event();
 	my $evstr = ZOOM::event_str($ev);
-	ZOOM::Log::log("pod", "connection ", $i-1, ": $evstr");
+	ZOOM::Log::log("pod", "connection ", $i-1, ": event $ev ($evstr)");
 
 	eval {
 	    $conn->_check();
@@ -286,7 +286,7 @@ sub wait {
 			 $this->{rs}->[$i-1], $ev);
 	    last if $res != 0;
 	} else {
-	    ZOOM::Log::log("pod_unhandled", "unhandled event $ev ($evstr)");
+	    ZOOM::Log::log("pod_unhandled", "connection ", $i-1, ": unhandled event $ev ($evstr)");
 	}
     }
 
