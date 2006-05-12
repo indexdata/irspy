@@ -1,4 +1,4 @@
-$Id: README,v 1.5 2006-05-12 14:01:45 mike Exp $
+$Id: README,v 1.6 2006-05-12 16:11:45 mike Exp $
 
 What's what in this directory:
 
@@ -45,8 +45,11 @@ records -- A subdirectory containing ZeeRex records to be added to the
 	database.  These were harvested from Index Data's existing
 	target-test database using
 		scp -r bagel.indexdata.dk:/home/perhans/targettest/xml records
+	processed to add the missing namespace, and archived into a
+	single file records.tar.gz, which needs to be unpacked:
+		tar xfz records.tar.gz
 
-db -- A subdirectory containing the actual database: register files,
+DB -- A subdirectory containing the actual database: register files,
 	dictionaries and suchlike.
 
 --
