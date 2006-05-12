@@ -1,4 +1,4 @@
-$Id: README,v 1.6 2006-05-12 16:11:45 mike Exp $
+$Id: README,v 1.7 2006-05-12 16:26:53 mike Exp $
 
 What's what in this directory:
 
@@ -49,8 +49,11 @@ records -- A subdirectory containing ZeeRex records to be added to the
 	single file records.tar.gz, which needs to be unpacked:
 		tar xfz records.tar.gz
 
-DB -- A subdirectory containing the actual database: register files,
+db -- A subdirectory containing the actual database: register files,
 	dictionaries and suchlike.
+
+form.html -- a simple HTML search form that submits SRU queries to a
+	server running on local port 1313.
 
 --
 
