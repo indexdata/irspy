@@ -1,4 +1,4 @@
-$Id: README,v 1.4 2006-05-12 13:57:09 mike Exp $
+$Id: README,v 1.5 2006-05-12 14:01:45 mike Exp $
 
 What's what in this directory:
 
@@ -56,7 +56,8 @@ To create the database and start the server:
 xmllint --noout --schema zeerex-2.0.xsd zeerex.xml # Verify
 xsltproc zeerex2index.xsl zeerex.xml # Check what indexer will see
 zebraidx init # Remove any existing database records
-zebraidx update zeerex.xml # Our only record!
+zebraidx update zeerex.xml # The single record describe this DB, or:
+zebraidx update records # The many records harvested from Index Data
 zebraidx commit
 zebrasrv -f yazserver.xml
 
