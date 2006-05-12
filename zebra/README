@@ -1,4 +1,4 @@
-$Id: README,v 1.3 2006-05-11 10:23:03 mike Exp $
+$Id: README,v 1.4 2006-05-12 13:57:09 mike Exp $
 
 What's what in this directory:
 
@@ -40,6 +40,11 @@ zeerex2index.xsl -- The indexing stylesheet for ZeeRex records.
 
 zeerex2zeerex.xsl -- The "no-op" stylesheet for presenting ZeeRex
 	records.
+
+records -- A subdirectory containing ZeeRex records to be added to the
+	database.  These were harvested from Index Data's existing
+	target-test database using
+		scp -r bagel.indexdata.dk:/home/perhans/targettest/xml records
 
 db -- A subdirectory containing the actual database: register files,
 	dictionaries and suchlike.
