@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id: zeerex2index.xsl,v 1.2 2006-05-12 22:04:34 mike Exp $ -->
+<!-- $Id: zeerex2index.xsl,v 1.3 2006-05-17 16:15:32 mike Exp $ -->
 <!-- See the ZeeRex profile at http://srw.cheshire3.org/profiles/ZeeRex/ -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:z="http://indexdata.dk/zebra/xslt/1"
@@ -16,12 +16,20 @@
 		e:serverInfo/e:database)}"
 	    type="update">
 
+   <!-- ### define "cql:anywhere" -->
+
+   <z:index name="rec:authorityIndicator" type="0">
+    <xsl:value-of select="@authoritative"/>
+   </z:index>
+
    <z:index name="rec:id" type="0">
     <xsl:value-of select="concat(
 			  e:serverInfo/e:host, ':',
 			  e:serverInfo/e:port, '/',
 			  e:serverInfo/e:database)"/>
    </z:index>
+
+   <!-- serverInfo -->
    <z:index name="net:protocol" type="w">
     <xsl:value-of select="e:serverInfo/@protocol"/>
    </z:index>
@@ -37,32 +45,68 @@
    <z:index name="net:port" type="0">
     <xsl:value-of select="e:serverInfo/e:port"/>
    </z:index>
-   <z:index name="net:path" type="0">
+   <z:index name="net:path" type="w"><!-- "w" for case-insensitivity -->
     <xsl:value-of select="e:serverInfo/e:database"/>
    </z:index>
+   <z:index name="dc:date" type="d">
+    <xsl:value-of select="e:serverInfo/e:database/@lastUpdate"/>
+   </z:index>
+   <z:index name="zeerex:numberOfRecords" type="n">
+    <xsl:value-of select="e:serverInfo/e:database/@numRecs"/>
+   </z:index>
 
+   <!-- databaseInfo -->
    <z:index name="dc:title" type="w">
     <xsl:value-of select="e:databaseInfo/e:title"/>
+   </z:index>
+   <z:index name="dc:description" type="w">
+    <xsl:value-of select="e:databaseInfo/e:description"/>
    </z:index>
    <z:index name="dc:creator" type="w">
     <xsl:value-of select="e:databaseInfo/e:author"/>
    </z:index>
+   <z:index name="dc:language" type="w">
+    <xsl:value-of select="e:databaseInfo/e:langUsage"/>
+   </z:index>
 
-   <!-- ### index-name will be wrong -->
-   <z:index name="rec:date-modified" type="d">
+   <!-- metaInfo -->
+   <z:index name="rec:lastModificationDate" type="d">
     <!-- ### Can Zebra handle this ISO-format date? -->
     <xsl:value-of select="e:metaInfo/e:dateModified"/>
    </z:index>
 
-   <!-- ### indexes -->
+   <!-- ### indexInfo -->
 
-   <!-- ### index-name will be wrong -->
+   <!-- recordInfo -->
    <z:index name="zeerex:recordSyntax" type="0">
-    <xsl:value-of select="e:recordInfo/recordSyntax/@name"/>
+    <xsl:value-of select="e:recordInfo/e:recordSyntax/@identifier"/>
+    <!-- ### But @identifier is an OID for Z39.50 -->
    </z:index>
-   <!-- ### schemas -->
 
-   <!-- ### supportsInfo -->
+   <!-- schemaInfo -->
+   <z:index name="zeerex:schema" type="0">
+    <xsl:value-of select="e:schemaInfo/e:schema/@identifier"/>
+    <!-- ### Really?  Identifier? -->
+   </z:index>
+
+   <!-- supportsInfo -->
+   <xsl:for-each select="e:configInfo/e:supports[@type='relationModifier']">
+    <z:index name="zeerex:supports_relationModifier" type="0">
+     <xsl:value-of select="."/>
+    </z:index>
+   </xsl:for-each>
+   <xsl:for-each select="e:configInfo/e:supports[@type='booleanModifier']">
+    <z:index name="zeerex:supports_booleanModifier" type="0">
+     <xsl:value-of select="."/>
+    </z:index>
+   </xsl:for-each>
+   <xsl:for-each select="e:configInfo/e:supports[@type='maskingCharacter']">
+    <z:index name="zeerex:supports_maskingCharacter" type="0">
+     <xsl:value-of select="."/>
+    </z:index>
+   </xsl:for-each>
+   <!-- Many more could be added as required -->
+
   </z:record>
  </xsl:template>
 </xsl:stylesheet>
