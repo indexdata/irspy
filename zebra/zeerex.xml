@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id: zeerex.xml,v 1.1 2006-04-13 14:53:17 mike Exp $ -->
+<!-- $Id: zeerex.xml,v 1.2 2006-05-17 16:15:02 mike Exp $ -->
 <explain xmlns="http://explain.z3950.org/dtd/2.0/">
  <serverInfo protocol="SRW/SRU/Z39.50" version="1.1" method="GET/POST">
   <host>localhost</host>
@@ -11,5 +11,12 @@
   <author>Mike Taylor, Index Data Aps, http://www.indexdata.com</author>
   <contact>mike@indexdata.com</contact>
  </databaseInfo>
+ <configInfo>
+  <supports type="relationModifier">relevant</supports>
+  <supports type="relationModifier">fuzzy</supports>
+  <supports type="relationModifier">regexp</supports>
+  <supports type="maskingCharacter">*</supports>
+  <supports type="maskingCharacter">?</supports>
+ </configInfo>
  <!-- ### Much, much more to be added -->
 </explain>
