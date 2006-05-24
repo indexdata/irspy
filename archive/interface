@@ -1,0 +1,106 @@
+From mike  Mon May 22 16:44:51 2006
+X-VM-v5-Data: ([nil nil nil nil nil nil nil nil nil]
+	["7234" "Monday" "22" "May" "2006" "17:43:35" "+0200" "Per M. Hansen" "perhans@indexdata.dk" nil "158" "Re: Service description robot project status" "^X-Spam-Status:" nil nil "5" nil nil nil nil nil nil nil nil nil]
+	nil)
+Return-path: <perhans@indexdata.dk>
+X-Spam-Checker-Version: SpamAssassin 3.1.1 (2006-03-10) on bagel.indexdata.dk
+X-Spam-Level: 
+Envelope-to: mike@miketaylor.org.uk
+Delivery-date: Mon, 22 May 2006 17:43:46 +0200
+Received: from localhost.localdomain [127.0.0.1]
+	by localhost with POP3 (fetchmail-6.2.5)
+	for mike@localhost (single-drop); Mon, 22 May 2006 16:44:51 +0100 (BST)
+Received: from user.indexdata.dk ([213.150.43.10] helo=[127.0.0.1])
+	by bagel.indexdata.dk with esmtp (Exim 3.35 #1 (Debian))
+	id 1FiCZL-00043Z-00; Mon, 22 May 2006 17:43:45 +0200
+Message-ID: <4471DC27.6000703@indexdata.dk>
+User-Agent: Thunderbird 1.5.0.2 (Windows/20060308)
+MIME-Version: 1.0
+References: <445B42DD.3040901@indexdata.dk>	<17499.23342.465911.666143@localhost.localdomain>	<445EF042.7070806@indexdata.dk> <17503.1546.23498.852784@localhost.localdomain>
+In-Reply-To: <17503.1546.23498.852784@localhost.localdomain>
+X-Spam-Status: No, score=-2.5 required=5.0 tests=AWL,BAYES_00,HTML_MESSAGE 
+	autolearn=ham version=3.1.1
+From: "Per M. Hansen" <perhans@indexdata.dk>
+To: Mike Taylor <mike@miketaylor.org.uk>
+CC: Sebastian Hammer <quinn@indexdata.com>, 
+ Adam Dickmeiss <adam@indexdata.dk>
+Subject: Re: Service description robot project status
+Date: Mon, 22 May 2006 17:43:35 +0200
+X-StripMime: Non-text section removed by stripmime
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+
+
+
+Mike Taylor wrote:
+>>> What there is of it is in the "irspy" CVS module.  I made the
+>>> asynchronous-operations enhancements to ZOOM-Perl for it, created a
+>>> Perl project framework and worked on the ZeeRex database setup
+>>> (Zebra configuration) that underlies it.  At that stage, I got
+>>> diverted into Metaproxy documentation, Alvis work and various
+>>> marketing bits.  I expect to spend the rest of today following up
+>>> the NPG and M25 leads and finishing up the description of how
+>>> multi-database searching works in Metaproxy.  Then next week is all
+>>> for IRspy.
+>>>       
+>>   
+>> Ok, sounds good. I am looking forward to see the admin interface and
+>> be able to take it for a test spin.
+>>     
+>
+> Actually, what would be _really_ helpful would be if you could dummy
+> up some HTMl showing how you'd like the admin interface to work.  Then
+> I can work to that rather than flying blind and hoping you like the
+> result.
+>   
+I can make some HTML if you like but I don't think that I can make 
+something that you can't make even better. Any way let me start by 
+trying to describe the functionality I envisions, if this thing is gong 
+to take over ZSpy's role today.
+
+We need a fairly simple interface for non authenticated users to add new 
+servers to the repository, something like the current Z-Spy interface: 
+http://targettest.indexdata.com/newtarget.php, but nicer :-). In 
+addition to the fields on the current page, I would like the ability to 
+say what kind of organization is hosting the database eg. public 
+library, academic library, corporate library and other. If we really 
+want to make it fancy we should also add the ability to say what 
+subjects are strongly represented in this databases, like medicine, 
+engineering, theology, etc. but I am just afraid that there will be so 
+few servers where this info is available for that it will be a waist of 
+time to add this.
+
+When you have filled out the fields, where only the name, host name, 
+port and database name are mandatory fields, a series of checks should 
+happen before the server is added: First we should check if the server 
+is already registered under that host name/IP (make a DNS lookup) port 
+and database. If it is not, the second check should be a simple init and 
+connect test. If this test fails I think that we should tell the user 
+but it should still be possible to add the server.
+
+The administrator interface should give the ability to browse through 
+the servers in the repository, a simple list with all servers beginning 
+with a, b, c, ..., like the current Target directory interface, is fine 
+by me. Under each server you should be able to view all the data that 
+was entered and collected by the robot. You should also have the ability 
+to edit and delete the servers.
+
+I am not sure how many people ever view the current target statistics 
+http://targettest.indexdata.com/stat.php but personally I find it 
+extremely interesting, and I would love if we can reimplement that, but 
+maybe it doesn't have to be in the first version.
+
+How is that for a first shot at a requirements spec?
+
+
+-- 
+Per 
+
+
+
+--- StripMime Report -- processed MIME parts ---
+multipart/alternative
+  text/plain (text body -- kept)
+  text/html
+---
+
+
