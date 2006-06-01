@@ -1,16 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id: zeerex.xml,v 1.2 2006-05-17 16:15:02 mike Exp $ -->
+<!-- $Id: zeerex.xml,v 1.3 2006-06-01 10:07:38 mike Exp $ -->
 <explain xmlns="http://explain.z3950.org/dtd/2.0/">
+
  <serverInfo protocol="SRW/SRU/Z39.50" version="1.1" method="GET/POST">
   <host>localhost</host>
   <port>1313</port>
   <database>Default</database>
  </serverInfo>
+
  <databaseInfo>
   <title lang="en" primary="true">IRSpy database of ZeeRex records</title>
-  <author>Mike Taylor, Index Data Aps, http://www.indexdata.com</author>
-  <contact>mike@indexdata.com</contact>
+  <description lang="en" primary="true">
+   This is a database of enhanced ZeeRex records, maintained by IRSpy,
+   containing information about a selection of Z39.50 and SRU/SRW
+   databases that are periodically probed.  The ZeeRex records are
+   extended using the extension mechanism described at
+	http://explain.z3950.org/dtd/extensions.html
+   so that the results of the tests are included alongside the
+   protocol-level information that is the core of ZeeRex.
+  </description>
+  <author>Index Data Aps, http://www.indexdata.com/</author>
+  <contact>Mike Taylor, mike@indexdata.com</contact>
+  <history lang="en" primary="true">
+   The initial version of this database was populated using the set of
+   targets known in Index Data's Z39.50 Target Directory:
+	http://targettest.indexdata.com/
+   The records may have been substantially altered and extended since
+   then, and new records may have been added.
+  </history>
+  <implementation identifier="zebra" version="1.4">
+   <title lang="en" primary="true">
+    Index Data's Zebra information management system:
+	http://www.indexdata.dk/zebra
+   </title>
+  </implementation>
  </databaseInfo>
+
+ <indexInfo>
+  <set name="cql" identifier="info:srw/cql-context-set/1/cql-v1.1">
+   <title>CQL</title>
+  </set>
+  <set name="rec" identifier="info:srw/cql-context-set/2/rec-1.1">
+   <title>Record Metadata</title>
+  </set>
+  <set name="net" identifier="info:srw/cql-context-set/2/net-1.0">
+   <title>Network Metadata</title>
+  </set>
+  <set name="dc" identifier="info:srw/cql-context-set/1/dc-v1.1">
+   <title>Dublin Core</title>
+  </set>
+  <set name="zeerex" identifier="info:srw/cql-context-set/2/zeerex-1.1">
+   <title>ZeeRex</title>
+  </set>
+  <set name="bib1" identifier="1.2.840.10003.3.1">
+   <title>BIB-1</title>
+  </set>
+
+  <index search="true" scan="true" sort="false">
+   <title lang="en">Server choice</title>
+   <map><name set="cql">serverChoice</name></map>
+   <map><name set="cql">anywhere</name></map>
+   <map><attr type="1" set="bib1">cql:all</attr></map>
+  </index>
+ </indexInfo>
+
+ <!--
+ <recordInfo> is not allowed in the same record as <schemaInfo>,
+ because standard ZeeRex assumes that the record is describing
+ _either_ a Z39.50 database _or_ an SRW/SRU database, but not both.
+ We want to override that restriction, which ill entail making a new
+ schema.  Yuck.
+ -->
+
+ <schemaInfo>
+  <schema name="zeerex" retrieve="true" sort="false"
+	  identifier="http://explain.z3950.org/dtd/2.0/"
+	  location="http://explain.z3950.org/dtd/zeerex-2.0.xsd">
+   <title>ZeeRex 2.0</title>
+  </schema>
+  <schema name="index" retrieve="true" sort="false"
+	  identifier="http://indexdata.dk/zebra/xslt/1">
+   <title lang="en" primary="true">Zebra indexing recipe</title>
+  </schema>
+  <schema name="id" retrieve="true" sort="false"
+	  identifier="http://indexdata.dk/zebra/id/1">
+   <title lang="en" primary="true">Record identifier</title>
+  </schema>
+ </schemaInfo>
+
  <configInfo>
   <supports type="relationModifier">relevant</supports>
   <supports type="relationModifier">fuzzy</supports>
