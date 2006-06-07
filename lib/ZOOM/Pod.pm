@@ -1,4 +1,4 @@
-# $Id: Pod.pm,v 1.11 2006-06-06 16:27:56 mike Exp $
+# $Id: Pod.pm,v 1.12 2006-06-07 10:43:22 mike Exp $
 
 package ZOOM::Pod;
 
@@ -77,15 +77,18 @@ may be specified either by an existing C<ZOOM::Connection> object,
 which I<must> be asynchronous; or by a ZOOM target string, in which
 case the pod module will make the connection object itself.
 
-If the constructor's first argument is a number, then it is taken as a
-limit on the number of connections to handle at any one time.  In this
-case, the pod initially multiplexes between the first I<n>
-connections, and brings further connections into the active subset
-whenever already-active connections are closed.
-
 Returns the new pod.
 
 =cut
+
+# Functionality to be added:
+#
+#	If the constructor's first argument is a number, then it is
+#	taken as a limit on the number of connections to handle at any
+#	one time.  In this case, the pod initially multiplexes between
+#	the first I<n> connections, and brings further connections
+#	into the active subset whenever already-active connections are
+#	closed.
 
 sub new {
     my $class = shift();
