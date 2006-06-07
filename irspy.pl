@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: irspy.pl,v 1.3 2006-05-22 16:43:36 mike Exp $
+# $Id: irspy.pl,v 1.4 2006-06-07 17:04:52 mike Exp $
 #
 # Run like this:
 #	YAZ_LOG=irspy perl -I lib irspy.pl -t "bagel.indexdata.dk/gils z3950.loc.gov:7090/Voyager" localhost:1313/IR-Explain---1
@@ -30,7 +30,4 @@ if (!defined $targetList && !$opts{a}) {
 my $spy = new Net::Z3950::IRSpy($dbname);
 $spy->targets($targetList) if defined $targetList;
 $spy->initialise();
-my $query = $spy->query();
-my $n = $spy->hitcount();
-print "found $n records from query: $query\n";
 $spy->check();
