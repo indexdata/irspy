@@ -1,4 +1,4 @@
-$Id: README,v 1.8 2006-06-16 14:12:54 mike Exp $
+$Id: README,v 1.9 2006-06-16 14:16:51 mike Exp $
 
 What's what in this directory:
 
@@ -43,6 +43,10 @@ zeerex2zeerex.xsl -- The "no-op" stylesheet for presenting ZeeRex
 
 zeerex2id.xsl -- A trivial stylesheet that just yields the record
 	identifier (not as an XML document).
+
+profile -- Notes on the indexes in the ZeeRex profile, with
+	indications of whether they are yet supported by the Zebra
+	configuration in this directory.
 
 records -- A subdirectory containing ZeeRex records to be added to the
 	database.  These were harvested from Index Data's existing
