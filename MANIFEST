@@ -1,8 +1,26 @@
 Changes
-Makefile.PL
 MANIFEST
-README
-t/Net-Z3950-IRSpy.t
-lib/Net/Z3950/IRSpy.pm
-META.yml                                 Module meta-data (added by MakeMaker)
 MANIFEST.SKIP
+META.yml                                 Module meta-data (added by MakeMaker)
+Makefile.PL
+README
+irspy.pl
+lib/Net/Z3950/IRSpy.pm
+lib/Net/Z3950/IRSpy/Record.pm
+lib/ZOOM/Pod.pm
+t/Net-Z3950-IRSpy.t
+test-pod.pl
+zebra/Makefile
+zebra/README
+zebra/ezeerex2pqfproperties.pl
+zebra/filterconf.xml
+zebra/form.html
+zebra/pqf.properties
+zebra/profile
+zebra/yazserver.xml
+zebra/zebra.cfg
+zebra/zeerex-2.0.xsd
+zebra/zeerex.xml
+zebra/zeerex2id.xsl
+zebra/zeerex2index.xsl
+zebra/zeerex2zeerex.xsl
