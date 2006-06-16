@@ -1,3 +1,9 @@
+$Id: profile,v 1.2 2006-06-16 14:16:12 mike Exp $
+
+Notes on the indexes in the ZeeRex profile, with indications of
+whether they are yet supported by the Zebra configuration in this
+directory.
+
 Mandatory
 OK	dc:title	The human readable title for the database	databaseInfo/title
 OK	dc:description	A description of the database	databaseInfo/description
