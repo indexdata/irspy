@@ -1,4 +1,4 @@
-$Id: README,v 1.9 2006-06-16 14:16:51 mike Exp $
+$Id: README,v 1.10 2006-06-16 14:25:32 mike Exp $
 
 What's what in this directory:
 
@@ -27,6 +27,10 @@ pqf.properties -- The specification for how CQL queries are translated
 	into 39.50 Type-1 queries.  This file is identical to the one
 	supplied in the YAZ distribution: we'd just use that if there
 	was a reliable way to discover where it is.
+
+ezeerex2pqfproperties.pl -- An in-progress script to automatically
+	generate the pqf.properties file from an extended ZeeRex
+	record.  Not yet in use.
 
 zebra.cfg -- Zebra-specific configuration, including the location of
 	the register files, the location of the XSLT filter
