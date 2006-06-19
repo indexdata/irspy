@@ -1,6 +1,6 @@
 #! /usr/bin/perl -w
 
-# $Id: ezeerex2pqfproperties.pl,v 1.4 2006-06-19 16:41:03 mike Exp $
+# $Id: ezeerex2pqfproperties.pl,v 1.5 2006-06-19 16:45:18 mike Exp $
 #
 # Run like this:
 #	./ezeerex2pqfproperties.pl zeerex.xml
@@ -69,6 +69,9 @@ sub print_indexes {
 	foreach my $map ($xc->findnodes("z:map", $node)) {
 	    my $setname = $xc->findvalue('z:name/@set', $map);
 	    my $indexname = $xc->findvalue('z:name', $map);
+	    ### We need a way for the ZeeRex record to specify other
+	    #   attributes to be specified along with the access-point,
+	    #   e.g. @attr 4=3 for whole-field indexes.
 	    print "index.$setname.$indexname = $ptype=$pval\n"
 		if $indexname ne "";
 	}
