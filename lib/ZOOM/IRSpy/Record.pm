@@ -1,6 +1,6 @@
-# $Id: Record.pm,v 1.1 2006-06-20 12:28:26 mike Exp $
+# $Id: Record.pm,v 1.2 2006-06-20 12:36:14 mike Exp $
 
-package Net::Z3950::IRSpy::Record;
+package ZOOM::IRSpy::Record;
 
 use 5.008;
 use strict;
@@ -8,7 +8,7 @@ use warnings;
 
 =head1 NAME
 
-Net::Z3950::IRSpy::Record - record describing a target for IRSpy
+ZOOM::IRSpy::Record - record describing a target for IRSpy
 
 =head1 SYNOPSIS
 
@@ -34,7 +34,7 @@ sub new {
 
 =head1 SEE ALSO
 
-Net::Z3950::IRSpy
+ZOOM::IRSpy
 
 =head1 AUTHOR
 

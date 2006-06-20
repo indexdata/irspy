@@ -1,11 +1,11 @@
-# $Id: IRSpy.pm,v 1.1 2006-06-20 12:27:12 mike Exp $
+# $Id: IRSpy.pm,v 1.2 2006-06-20 12:36:13 mike Exp $
 
-package Net::Z3950::IRSpy;
+package ZOOM::IRSpy;
 
 use 5.008;
 use strict;
 use warnings;
-use Net::Z3950::IRSpy::Record;
+use ZOOM::IRSpy::Record;
 use ZOOM::Pod;
 
 our @ISA = qw();
@@ -13,12 +13,12 @@ our $VERSION = '0.02';
 
 =head1 NAME
 
-Net::Z3950::IRSpy - Perl extension for discovering and analysing IR services
+ZOOM::IRSpy - Perl extension for discovering and analysing IR services
 
 =head1 SYNOPSIS
 
- use Net::Z3950::IRSpy;
- $spy = new Net::Z3950::IRSpy("target/string/for/irspy/database");
+ use ZOOM::IRSpy;
+ $spy = new ZOOM::IRSpy("target/string/for/irspy/database");
  print $spy->report_status();
 
 =head1 DESCRIPTION
@@ -131,14 +131,14 @@ sub initialise {
 	my $target = _render_record($rs, $i-1, "id");
 	my $zeerex = _render_record($rs, $i-1, "zeerex");
 	$target2record{lc($target)} =
-	    new Net::Z3950::IRSpy::Record($target, $zeerex);
+	    new ZOOM::IRSpy::Record($target, $zeerex);
     }
 
     foreach my $target (keys %target2record) {
 	my $record = $target2record{$target};
 	if (!defined $record) {
 	    $this->log("irspy", "new record for '$target'");
-	    $target2record{$target} = new Net::Z3950::IRSpy::Record($target);
+	    $target2record{$target} = new ZOOM::IRSpy::Record($target);
 	} else {
 	    $this->log("irspy", "existing record for '$target' $record");
 	}
@@ -233,7 +233,7 @@ sub _render_record {
 
 =head1 SEE ALSO
 
-Net::Z3950::IRSpy::Record
+ZOOM::IRSpy::Record
 
 The ZOOM-Perl module,
 http://search.cpan.org/~mirk/Net-Z3950-ZOOM/

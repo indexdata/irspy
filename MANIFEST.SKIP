@@ -2,10 +2,8 @@
 CVS
 archive
 lib/CVS
-lib/Net/CVS
-lib/Net/Z3950/CVS
-lib/Net/Z3950/IRSpy/CVS
 lib/ZOOM/CVS
+lib/ZOOM/IRSpy/CVS
 t/CVS
 zebra/.cvsignore
 zebra/CVS

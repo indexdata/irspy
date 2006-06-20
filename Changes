@@ -1,8 +1,9 @@
-$Id: Changes,v 1.1 2006-04-13 14:53:17 mike Exp $
+$Id: Changes,v 1.2 2006-06-20 12:36:11 mike Exp $
 
-Revision history for Perl extension Net::Z3950::IRSpy.
+Revision history for Perl extension ZOOM::IRSpy.
 
 0.02  [IN PROGRESS]
+	- Renamed from Net::Z3950::IRSpy to ZOOM::IRSpy
 
 0.01  Wed Apr  5 15:53:47 2006
 	- original version; created by h2xs 1.23 with options
