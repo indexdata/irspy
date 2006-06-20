@@ -10,11 +10,12 @@ zebra/CVS
 zebra/db/CVS
 zebra/db/lock/.cvsignore
 zebra/db/lock/CVS
+zebra/db/lock/[a-z]*
 zebra/db/register/.cvsignore
 zebra/db/register/CVS
+zebra/db/register/[a-z]*
 zebra/db/shadow/.cvsignore
 zebra/db/shadow/CVS
 zebra/db/tmp/CVS
 zebra/records
-zebra/db/lock/[a-z]*
-zebra/db/register/[a-z]*
+zebra/terse.properties
