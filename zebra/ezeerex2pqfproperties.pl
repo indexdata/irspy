@@ -1,6 +1,6 @@
 #! /usr/bin/perl -w
 
-# $Id: ezeerex2pqfproperties.pl,v 1.5 2006-06-19 16:45:18 mike Exp $
+# $Id: ezeerex2pqfproperties.pl,v 1.6 2006-06-20 11:05:43 mike Exp $
 #
 # Run like this:
 #	./ezeerex2pqfproperties.pl zeerex.xml
@@ -17,8 +17,8 @@ my $root = $doc->getDocumentElement();
 my $xc = XML::LibXML::XPathContext->new($root);
 $xc->registerNs(z => 'http://explain.z3950.org/dtd/2.0/');
 
-print_sets($xc);
-print_default_set($xc);
+my %setmap = print_sets($xc);
+print_default_set($xc, \%setmap);
 print_indexes($xc);
 print_relations($xc);
 print_relation_modifiers($xc);
@@ -30,27 +30,35 @@ print_truncations($xc);
 # SRU index: that way we could avoid defining
 #	set.bib1 = 1.2.840.10003.3.1
 # which is a Z39.50 attribute set that we don't need for CQL.  But
-# doing that would be a marginal gain.
+# doing that would be a lot of work for marginal gain.
 #
 sub print_sets {
     my($xc) = @_;
 
+    my %setmap;
     my(@nodes) = $xc->findnodes('z:indexInfo/z:set');
     foreach my $node (@nodes) {
 	my $name = $node->findvalue('@name');
 	my $identifier = $node->findvalue('@identifier');
 	print "set.$name = $identifier\n";
+	$setmap{$name} = $identifier;
     }
+
+    return %setmap;
 }
 
 sub print_default_set {
-    my($xc) = @_;
+    my($xc, $setmap) = @_;
 
     my (@nodes) = $xc->findnodes('z:configInfo/' .
 				 'z:default[@type="contextSet"]');
     foreach my $node (@nodes) {
-	### Look this up and render as a URI
-	print "set = ", $node->findvalue('.'), "\n";
+	my $name = $node->findvalue('.');
+	my $identifier = $setmap->{$name}
+	    or die "no identifier for default context-set name '$name'";
+
+	print "# default context-set name '$name'\n";
+	print "set = $identifier\n";
     }
 }
 
