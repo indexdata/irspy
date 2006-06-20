@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id: zeerex.xml,v 1.8 2006-06-20 11:25:10 mike Exp $ -->
+<!-- $Id: zeerex.xml,v 1.9 2006-06-20 11:55:13 mike Exp $ -->
 <explain xmlns="http://explain.z3950.org/dtd/2.0/">
 
  <serverInfo protocol="SRW/SRU/Z39.50" version="1.1" method="GET/POST">
@@ -66,20 +66,67 @@
   <index search="true" scan="true" sort="false">
    <title lang="en">Record identifier</title>
    <map><name set="rec">id</name></map>
-   <map>
-    <attr type="1" set="bib1">rec:id</attr>
-    <attr type="4" set="bib1">3</attr>
-   </map>
+   <map><attr type="1" set="bib1">rec:id</attr>
+        <attr type="4" set="bib1">3</attr></map>
   </index>
 
-  <!-- ### Many more indexes to be added -->
+  <index search="true" scan="true" sort="false">
+   <title lang="en">Protocol</title>
+   <map><name set="net">protocol</name></map>
+   <map><attr type="1" set="bib1">net:protocol</attr></map>
+  </index>
+
+  <index search="true" scan="true" sort="false">
+   <title lang="en">Protocol version</title>
+   <map><name set="net">version</name></map>
+   <map><attr type="1" set="bib1">net:version</attr>
+        <attr type="4" set="bib1">3</attr></map>
+  </index>
+
+  <index search="true" scan="true" sort="false">
+   <title lang="en">Protocol method</title>
+   <map><name set="net">method</name></map>
+   <map><attr type="1" set="bib1">net:method</attr></map>
+  </index>
+
+  <index search="true" scan="true" sort="false">
+   <title lang="en">Host</title>
+   <map><name set="net">host</name></map>
+   <map><attr type="1" set="bib1">net:host</attr>
+        <attr type="4" set="bib1">3</attr></map>
+  </index>
+
+  <index search="true" scan="true" sort="false">
+   <title lang="en">Port</title>
+   <map><name set="net">port</name></map>
+   <map><attr type="1" set="bib1">net:port</attr>
+        <attr type="4" set="bib1">3</attr></map>
+  </index>
+
+  <index search="true" scan="true" sort="false">
+   <title lang="en">Path</title>
+   <map><name set="net">path</name></map>
+   <map><attr type="1" set="bib1">net:path</attr></map>
+  </index>
+
+  <index search="true" scan="true" sort="false">
+   <title lang="en">Title</title>
+   <map><name set="dc">title</name></map>
+   <map><attr type="1" set="bib1">dc:title</attr></map>
+  </index>
+
+  <index search="true" scan="true" sort="false">
+   <title lang="en">Creator</title>
+   <map><name set="dc">creator</name></map>
+   <map><attr type="1" set="bib1">dc:creator</attr></map>
+  </index>
  </indexInfo>
 
  <!--
  <recordInfo> is not allowed in the same record as <schemaInfo>,
  because standard ZeeRex assumes that the record is describing
  _either_ a Z39.50 database _or_ an SRW/SRU database, but not both.
- We want to override that restriction, which ill entail making a new
+ We want to override that restriction, which will entail making a new
  schema.  Yuck.
  -->
 
