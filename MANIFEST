@@ -5,8 +5,8 @@ META.yml                                 Module meta-data (added by MakeMaker)
 Makefile.PL
 README
 irspy.pl
-lib/Net/Z3950/IRSpy.pm
-lib/Net/Z3950/IRSpy/Record.pm
+lib/ZOOM/IRSpy.pm
+lib/ZOOM/IRSpy/Record.pm
 lib/ZOOM/Pod.pm
 t/Net-Z3950-IRSpy.t
 test-pod.pl

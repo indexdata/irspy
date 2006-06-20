@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: irspy.pl,v 1.4 2006-06-07 17:04:52 mike Exp $
+# $Id: irspy.pl,v 1.5 2006-06-20 12:36:11 mike Exp $
 #
 # Run like this:
 #	YAZ_LOG=irspy perl -I lib irspy.pl -t "bagel.indexdata.dk/gils z3950.loc.gov:7090/Voyager" localhost:1313/IR-Explain---1
@@ -8,7 +8,7 @@
 use strict;
 use warnings;
 use Getopt::Std;
-use Net::Z3950::IRSpy;
+use ZOOM::IRSpy;
 
 my %opts;
 if (!getopts('t:au', \%opts) || @ARGV != 1) {
@@ -27,7 +27,7 @@ if (!defined $targetList && !$opts{a}) {
     exit 2;
 }
 
-my $spy = new Net::Z3950::IRSpy($dbname);
+my $spy = new ZOOM::IRSpy($dbname);
 $spy->targets($targetList) if defined $targetList;
 $spy->initialise();
 $spy->check();
