@@ -1,6 +1,6 @@
 #! /usr/bin/perl -w
 
-# $Id: ezeerex2pqfproperties.pl,v 1.6 2006-06-20 11:05:43 mike Exp $
+# $Id: ezeerex2pqfproperties.pl,v 1.7 2006-06-20 11:24:22 mike Exp $
 #
 # Run like this:
 #	./ezeerex2pqfproperties.pl zeerex.xml
@@ -67,20 +67,23 @@ sub print_indexes {
 
     foreach my $node ($xc->findnodes('z:indexInfo/' .
 				     'z:index[@search="true"]')) {
-	my @pqf = $xc->findnodes("z:map/z:attr", $node);
+	my @pqf = $xc->findnodes("z:map[z:attr]", $node);
 	die("no PQF mapping for index '" .
 	    $xc->findvalue("z:title", $node) . "'")
 	    if @pqf == 0;
-	my $ptype = $xc->findvalue('@type', $pqf[0]);
-	my $pval = $xc->findvalue(".", $pqf[0]);
+	# Just pick one if there's more than one: they all work
+
+	my $attrstr = "";
+	foreach my $attr ($xc->findnodes("z:attr", $pqf[0])) {
+	    my $ptype = $xc->findvalue('@type', $attr);
+	    my $pval = $xc->findvalue(".", $attr);
+	    $attrstr .= " $ptype=$pval";
+	}
 
 	foreach my $map ($xc->findnodes("z:map", $node)) {
 	    my $setname = $xc->findvalue('z:name/@set', $map);
 	    my $indexname = $xc->findvalue('z:name', $map);
-	    ### We need a way for the ZeeRex record to specify other
-	    #   attributes to be specified along with the access-point,
-	    #   e.g. @attr 4=3 for whole-field indexes.
-	    print "index.$setname.$indexname = $ptype=$pval\n"
+	    print "index.$setname.$indexname =$attrstr\n"
 		if $indexname ne "";
 	}
     }
