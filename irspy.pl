@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: irspy.pl,v 1.5 2006-06-20 12:36:11 mike Exp $
+# $Id: irspy.pl,v 1.6 2006-06-20 16:25:48 mike Exp $
 #
 # Run like this:
 #	YAZ_LOG=irspy perl -I lib irspy.pl -t "bagel.indexdata.dk/gils z3950.loc.gov:7090/Voyager" localhost:1313/IR-Explain---1
@@ -30,4 +30,9 @@ if (!defined $targetList && !$opts{a}) {
 my $spy = new ZOOM::IRSpy($dbname);
 $spy->targets($targetList) if defined $targetList;
 $spy->initialise();
-$spy->check();
+my $res = $spy->check();
+if ($res == 0) {
+    print "All tests were run\n";
+} else {
+    print "Some tests were skipped\n";
+}
