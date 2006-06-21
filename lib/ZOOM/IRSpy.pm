@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.4 2006-06-21 14:35:03 mike Exp $
+# $Id: IRSpy.pm,v 1.5 2006-06-21 16:09:02 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -29,7 +29,11 @@ protocols.  It is a successor to the ZSpy program.
 
 =cut
 
-BEGIN { ZOOM::Log::mask_str("irspy") }
+BEGIN {
+    ZOOM::Log::mask_str("irspy");
+    ZOOM::Log::mask_str("irspy_test");
+    ZOOM::Log::mask_str("irspy_debug");
+}
 
 sub new {
     my $class = shift();
@@ -76,8 +80,9 @@ sub targets {
 	if (!defined $host) {
 	    $port = 210;
 	    ($host, $db) = ($target =~ /(.*?)\/(.*)/);
-	    $this->log("irspy", "rewrote '$target' to '$host:$port/$db'");
-	    $target = "$host:$port/$db";
+	    my $new = "$host:$port/$db";
+	    $this->log("irspy_debug", "rewriting '$target' to '$new'");
+	    $target = $new;
 	}
 	die "invalid target string '$target'"
 	    if !defined $host;
@@ -140,10 +145,10 @@ sub initialise {
     foreach my $target (keys %target2record) {
 	my $record = $target2record{$target};
 	if (!defined $record) {
-	    $this->log("irspy", "made new record for '$target'");
+	    $this->log("irspy_debug", "made new record for '$target'");
 	    $target2record{$target} = new ZOOM::IRSpy::Record($target);
 	} else {
-	    $this->log("irspy", "using existing record for '$target'");
+	    $this->log("irspy_debug", "using existing record for '$target'");
 	}
     }
 
@@ -206,7 +211,15 @@ sub pod {
 sub record {
     my $this = shift();
     my($target) = @_;
-    return $this->{target2record}->{$target};
+
+    if (ref($target) && $target->isa("ZOOM::Connection")) {
+	# Can be called with a Connection instead of a target-name
+	my $conn = $target;
+	$target = $conn->option("host");
+	$this->log("irspy_debug", "record() resolved $conn to '$target'");
+    }
+
+    return $this->{target2record}->{lc($target)};
 }
 
 
