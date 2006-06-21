@@ -1,4 +1,4 @@
-# $Id: Main.pm,v 1.1 2006-06-20 16:32:42 mike Exp $
+# $Id: Main.pm,v 1.2 2006-06-21 16:26:09 mike Exp $
 
 package ZOOM::IRSpy::Test::Main;
 
@@ -28,7 +28,7 @@ I<### To follow>
 sub run {
     my $this = shift();
 
-    return $this->run_tests("Ping");
+    return $this->run_tests(qw(Ping Search::Title));
 }
 
 
