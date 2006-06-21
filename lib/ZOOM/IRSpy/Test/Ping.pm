@@ -1,4 +1,4 @@
-# $Id: Ping.pm,v 1.2 2006-06-21 14:35:09 mike Exp $
+# $Id: Ping.pm,v 1.3 2006-06-21 16:10:18 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -19,15 +19,18 @@ sub run {
     my $pod = $irspy->pod();
 
     $pod->callback(ZOOM::Event::CONNECT, \&connected);
-    my $err = $pod->wait();
+    my $err = $pod->wait($irspy);
 
     return 0;
 }
 
 
 sub connected {
-    my($conn, $state, $rs, $event) = @_;
-    print $conn->option("host"), ": connected\n";
+    my($conn, $irspy, $rs, $event) = @_;
+
+    my $rec = $irspy->record($conn);
+    $irspy->log("irspy_test", $conn->option("host"), " connected");
+    ### Note the successful connection in $rec
     return 0;
 }
 
