@@ -1,4 +1,4 @@
-# $Id: Ping.pm,v 1.1 2006-06-20 16:32:42 mike Exp $
+# $Id: Ping.pm,v 1.2 2006-06-21 14:35:09 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -15,16 +15,25 @@ our @ISA;
 
 sub run {
     my $this = shift();
+    my $irspy = $this->irspy();
+    my $pod = $irspy->pod();
 
-    print "Running 'Ping' test\n";
-    ### Now actually do it
+    $pod->callback(ZOOM::Event::CONNECT, \&connected);
+    my $err = $pod->wait();
+
+    return 0;
+}
+
+
+sub connected {
+    my($conn, $state, $rs, $event) = @_;
+    print $conn->option("host"), ": connected\n";
     return 0;
 }
 
 
 # Some of this Pod-using code may be useful.
 #
-#my $pod = new ZOOM::Pod(@ARGV);
 #$pod->option(elementSetName => "b");
 #$pod->callback(ZOOM::Event::RECV_SEARCH, \&completed_search);
 #$pod->callback(ZOOM::Event::RECV_RECORD, \&got_record);
