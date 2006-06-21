@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.3 2006-06-20 16:32:03 mike Exp $
+# $Id: IRSpy.pm,v 1.4 2006-06-21 14:35:03 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -41,7 +41,10 @@ sub new {
     my $this = bless {
 	conn => $conn,
 	allrecords => 1,	# unless overridden by targets()
-	# query and targets will be filled in later
+	query => undef,		# filled in later
+	targets => undef,	# filled in later
+	target2record => undef,	# filled in later
+	pod => undef,		# filled in later
     }, $class;
     $this->log("irspy", "starting up with database '$dbname'");
 
@@ -144,7 +147,10 @@ sub initialise {
 	}
     }
 
+    $this->{target2record} = \%target2record;
     $this->{pod} = new ZOOM::Pod(@{ $this->{targets} });
+    delete $this->{targets};	# The information is now in the Pod.
+    delete $this->{query};	# Not needed at all
 }
 
 
@@ -189,6 +195,20 @@ sub _run_test {
     my $test = "ZOOM::IRSpy::Test::$tname"->new($this);
     return $test->run();
 }
+
+
+# Access methods for the use of Test modules
+sub pod {
+    my $this = shift();
+    return $this->{pod};
+}
+
+sub record {
+    my $this = shift();
+    my($target) = @_;
+    return $this->{target2record}->{$target};
+}
+
 
 
 =head1 SEE ALSO
