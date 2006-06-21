@@ -1,0 +1,48 @@
+From mike@miketaylor.org.uk  Wed Jun 21 17:36:28 2006
+X-VM-v5-Data: ([nil nil nil nil nil nil nil nil nil]
+	["1648" "Wednesday" "21" "June" "2006" "17:36:28" "+0100" "Mike Taylor" "mike@miketaylor.org.uk" nil "32" "IRSpy Progress" "^From:" nil nil "6" nil nil nil nil nil nil nil nil nil]
+	nil)
+Return-Path: <mike@miketaylor.org.uk>
+X-Original-To: mike
+Delivered-To: mike@miketaylor.org.uk
+Received: by localhost.localdomain (Postfix, from userid 1000)
+	id 74B39ABBDE; Wed, 21 Jun 2006 17:36:28 +0100 (BST)
+Message-Id: <20060621163628.74B39ABBDE@localhost.localdomain>
+From: mike@miketaylor.org.uk (Mike Taylor)
+To: perhans@indexdata.dk,quinn@indexdata.dk
+Subject: IRSpy Progress
+Date: Wed, 21 Jun 2006 17:36:28 +0100 (BST)
+
+Hi Per, Seb.
+
+I'm pleased to announce some good progress now on IRSpy, although
+tomorrow's one-day conference and next week's three-dayer come at an
+irritating time just the framework is pretty much in place.  If you
+want to play with it, feel free (cvs co irspy) or you could leave it a
+week or two until I have it purring properly.
+
+The framework is there now to run sets of tests, each of which is
+coded as a plugin Perl module with a straightforward API.  So far,
+though I've only made two -- "Ping" which just checks the connection,
+and "Search::Title" which checks whether a simple @attr 1=4 title
+works.  (Actually, three tests: there's also "Main", which does
+nothing but invoke the other two.)  Each test plugin class is defined
+as a subclass of a base "Test" class.
+
+Aside from adding many more tests, the main thing that needs to be
+done is giving the test a way to permanently register their results,
+which they'll do by updating an IRSpy::Record structure which is
+initially built from the stored ZeeRex record and is, when the test
+are complete, serialised back to ZeeRex and written back to the
+controlling database.  That part is not yet done, depending as it does
+on defining the necessary ZeeRex extensions.  With a trailing wind,
+I'll get it done on Friday.
+
+I'm sorry it's taken so long to get to this point.  Hopefully from
+here on everything will speed up dramatically.
+
+ _/|_	 ___________________________________________________________________
+/o ) \/  Mike Taylor  <mike@miketaylor.org.uk>  http://www.miketaylor.org.uk
+)_v__/\  "Keep an open mind, but not so open that your brain falls out"
+	 -- attributed to Carl Sagan.
+
