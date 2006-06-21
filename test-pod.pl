@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: test-pod.pl,v 1.7 2006-05-10 15:55:19 mike Exp $
+# $Id: test-pod.pl,v 1.8 2006-06-21 14:31:23 mike Exp $
 #
 # Run like this:
 #	YAZ_LOG=pod perl -I lib test-pod.pl "bagel.indexdata.com/gils" "bagel.indexdata.com/marc"
@@ -22,25 +22,30 @@ $pod->callback(ZOOM::Event::RECV_SEARCH, \&completed_search);
 $pod->callback(ZOOM::Event::RECV_RECORD, \&got_record);
 #$pod->callback(exception => \&exception_thrown);
 $pod->search_pqf("the");
-my $err = $pod->wait();
+my $err = $pod->wait({});
 die "$pod->wait() failed with error $err" if $err;
 
 sub completed_search {
-    my($conn, $state, $rs, $event) = @_;
-    print $conn->option("host"), ": found ", $rs->size(), " records\n";
-    $state->{next_to_fetch} = 0;
-    $state->{next_to_show} = 0;
-    request_records($conn, $rs, $state, 2);
+    my($conn, $arg, $rs, $event) = @_;
+
+    my $host = $conn->option("host");
+    print "$host : found ", $rs->size(), " records\n";
+    my %state = (next_to_show => 0, next_to_fetch => 0);
+    request_records($conn, $rs, \%state, 2);
+    $arg->{$host} = \%state;
     return 0;
 }
 
 sub got_record {
-    my($conn, $state, $rs, $event) = @_;
+    my($conn, $arg, $rs, $event) = @_;
+
+    my $host = $conn->option("host");
+    my %state = $arg->{$host};
 
     {
 	# Sanity-checking assertions.  These should be impossible
-	my $ns = $state->{next_to_show};
-	my $nf = $state->{next_to_fetch};
+	my $ns = $arg->{$host}->{next_to_show};
+	my $nf = $arg->{$host}->{next_to_fetch};
 	if ($ns > $nf) {
 	    die "next_to_show > next_to_fetch ($ns > $nf)";
 	} elsif ($ns == $nf) {
@@ -48,17 +53,17 @@ sub got_record {
 	}
     }
 
-    my $i = $state->{next_to_show}++;
+    my $i = $arg->{$host}->{next_to_show}++;
     my $rec = $rs->record($i);
-    print $conn->option("host"), ": record $i is ", render_record($rec), "\n";
-    request_records($conn, $rs, $state, 3)
-	if $i == $state->{next_to_fetch}-1;
+    print "$host: record $i is ", render_record($rec), "\n";
+    request_records($conn, $rs, $arg->{$host}, 3)
+	if $i == $arg->{$host}->{next_to_fetch}-1;
 
     return 0;
 }
 
 sub exception_thrown {
-    my($conn, $state, $rs, $exception) = @_;
+    my($conn, $arg, $rs, $exception) = @_;
     print "Uh-oh!  $exception\n";
     return 0;
 }

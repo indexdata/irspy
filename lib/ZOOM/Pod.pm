@@ -1,4 +1,4 @@
-# $Id: Pod.pm,v 1.12 2006-06-07 10:43:22 mike Exp $
+# $Id: Pod.pm,v 1.13 2006-06-21 14:31:24 mike Exp $
 
 package ZOOM::Pod;
 
@@ -95,7 +95,6 @@ sub new {
     my(@conn) = @_;
 
     die "$class with no connections" if @conn == 0;
-    my @state; # Hashrefs with application state associated with connections
     foreach my $conn (@conn) {
 	if (!ref $conn) {
 	    $conn = new ZOOM::Connection($conn, 0, async => 1);
@@ -103,12 +102,10 @@ sub new {
 	    # server.  Such errors are caught later, by the _check()
 	    # call in wait(). 
 	}
-	push @state, {};
     }
 
     return bless {
 	conn => \@conn,
-	state => \@state,
 	rs => [],
 	callback => {},
     }, $class;
@@ -154,8 +151,8 @@ events, by multiple invocations of C<callback()>.
 
 When an event occurs during the execution of C<wait()>, the relevant
 callback function is called with four arguments: the connection that the
-event happened on; a state hash-reference associated with the
-connection; the result-set associated with the connection; and the
+event happened on; the argument that was passed into C<wait()>;
+the result-set associated with the connection (if there is one); and the
 event-type (so that a single function that handles events of multiple
 types can switch on the code where necessary).  The callback function
 can handle the event as it wishes, finishing up by returning an
@@ -166,7 +163,7 @@ C<wait()>.
 So a simple event-handler might look like this:
 
  sub got_event {
-      ($conn, $state, $rs, $event) = @_;
+      ($conn, $arg, $rs, $event) = @_;
       print "event $event on connection ", $conn->option("host"), "\n";
       print "Found ", $rs->size(), " records\n"
 	  if $event == ZOOM::Event::RECV_SEARCH;
@@ -185,7 +182,7 @@ the exception using C<die $exception>.
 So a simple error-handler might look like this:
 
  sub got_error {
-      ($conn, $state, $rs, $exception) = @_;
+      ($conn, $arg, $rs, $exception) = @_;
       if ($exception->isa("ZOOM::Exception")) {
           print "Caught error $exception - continuing";
           return 0;
@@ -193,13 +190,13 @@ So a simple error-handler might look like this:
       die $exception;
  }
 
-The C<$state> argument is a reference to an initially empty hash,
-which the application can use as it sees fit, to store its own
-connection-relation information.  For example, an application might
-use C<$state-E<gt>{last}> to keep a record of which was the last record
-retrieved from the associated connection.  The pod module itself does
-not use the state hash at all, and applications are also welcome to
-ignore it if they do not need it.
+The C<$arg> argument could be anything at all - it is whatever the
+application code passed into C<wait()>.  For example, it could be
+a reference to a hash indexed by the host string of the connections to
+yield some per-connection state information.
+An application might use such information
+to keep a record of which was the last record
+retrieved from the associated connection.
 
 =cut
 
@@ -248,12 +245,15 @@ sub search_pqf {
 =head2 wait()
 
  $err = $pod->wait();
+ # or
+ $err = $pod->wait($arg);
  die "$pod->wait() failed with error $err" if $err;
 
 Waits for events on the connections that make up the pod, usually
 continuing until there are no more events left and then returning
 zero.  Whenever an event occurs, a callback function is dispatched as
-described above; if
+described above; if an argument was passed to C<wait()>, then that
+same argument is also passed to each callback invocation.  If
 that function returns a non-zero value, then C<wait()> terminates
 immediately, whether or not any events remain, and returns that value.
 
@@ -269,8 +269,9 @@ course re-throw the exception.
 
 sub wait {
     my $this = shift();
-    my $res = 0;
+    my($arg) = @_;
 
+    my $res = 0;
     while ((my $i = ZOOM::event($this->{conn})) != 0) {
 	my $conn = $this->{conn}->[$i-1];
 	my $ev = $conn->last_event();
@@ -282,16 +283,14 @@ sub wait {
 	}; if ($@) {
 	    my $sub = $this->{callback}->{exception};
 	    die $@ if !defined $sub;
-	    $res = &$sub($conn, $this->{state}->[$i-1],
-			 $this->{rs}->[$i-1], $@);
+	    $res = &$sub($conn, $arg, $this->{rs}->[$i-1], $@);
 	    last if $res != 0;
 	    next;
 	}
 
 	my $sub = $this->{callback}->{$ev};
 	if (defined $sub) {
-	    $res = &$sub($conn, $this->{state}->[$i-1],
-			 $this->{rs}->[$i-1], $ev);
+	    $res = &$sub($conn, $arg, $this->{rs}->[$i-1], $ev);
 	    last if $res != 0;
 	} else {
 	    ZOOM::Log::log("pod_unhandled", "connection ", $i-1, ": unhandled event $ev ($evstr)");
