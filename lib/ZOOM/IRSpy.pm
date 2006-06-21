@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.5 2006-06-21 16:09:02 mike Exp $
+# $Id: IRSpy.pm,v 1.6 2006-06-21 16:24:55 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -189,7 +189,9 @@ sub _run_test {
     my($tname) = @_;
 
     eval {
-	require "ZOOM/IRSpy/Test/$tname.pm";
+	my $slashSeperatedTname = $tname;
+	$slashSeperatedTname =~ s/::/\//g;
+	require "ZOOM/IRSpy/Test/$slashSeperatedTname.pm";
     }; if ($@) {
 	$this->log("warn", "can't load test '$tname': skipping",
 		   $@ =~ /^Can.t locate/ ? () : " ($@)");
