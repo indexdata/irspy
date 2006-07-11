@@ -1,4 +1,4 @@
-# $Id: Record.pm,v 1.2 2006-06-20 12:36:14 mike Exp $
+# $Id: Record.pm,v 1.3 2006-07-11 16:14:47 mike Exp $
 
 package ZOOM::IRSpy::Record;
 
@@ -27,9 +27,15 @@ sub new {
     ### Should compile the ZeeRex record into something useful.
     return bless {
 	target => $target,
-	zeerex => $zeerex,
+	zeerex => $zeerex,	# Do we actually need this for anything?
     }, $class;
 }
+
+
+#use XML::Simple qw(:strict);
+#my %attr = (KeyAttr => [], KeepRoot => 1);
+#my $config = XMLin("foo.xml", %attr, ForceArray => 1, ForceContent => 1);
+#print XMLout($config, %attr);
 
 
 =head1 SEE ALSO
