@@ -1,4 +1,4 @@
-# $Id: Ping.pm,v 1.4 2006-06-21 16:26:29 mike Exp $
+# $Id: Ping.pm,v 1.5 2006-07-11 14:16:06 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -30,7 +30,7 @@ sub connected {
 
     my $rec = $irspy->record($conn);
     $irspy->log("irspy_test", $conn->option("host"), " connected");
-    ### Note the successful connection in $rec
+    ### At this point we should note the successful connection in $rec
     return 0;
 }
 

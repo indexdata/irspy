@@ -1,4 +1,4 @@
-# $Id: Title.pm,v 1.1 2006-06-21 16:27:01 mike Exp $
+# $Id: Title.pm,v 1.2 2006-07-11 14:16:35 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -33,7 +33,7 @@ sub found {
     my $n = $rs->size();
     $irspy->log("irspy_test", $conn->option("host"),
 		" title search found $n record", $n==1 ? "" : "s");
-    ### Note the success or failure of the search in $rec
+    ### We should note the success or failure of the search in $rec
     return 0;
 }
 
