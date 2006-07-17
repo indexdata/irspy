@@ -7,6 +7,10 @@ README
 irspy.pl
 lib/ZOOM/IRSpy.pm
 lib/ZOOM/IRSpy/Record.pm
+lib/ZOOM/IRSpy/Test.pm
+lib/ZOOM/IRSpy/Test/Main.pm
+lib/ZOOM/IRSpy/Test/Ping.pm
+lib/ZOOM/IRSpy/Test/Search/Title.pm
 lib/ZOOM/Pod.pm
 t/Net-Z3950-IRSpy.t
 test-pod.pl
