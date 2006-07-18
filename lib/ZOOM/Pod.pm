@@ -1,4 +1,4 @@
-# $Id: Pod.pm,v 1.14 2006-07-18 11:43:55 mike Exp $
+# $Id: Pod.pm,v 1.15 2006-07-18 13:45:36 mike Exp $
 
 package ZOOM::Pod;
 
@@ -277,8 +277,9 @@ sub wait {
 
     my $res = 0;
 
-    my @conn;
-    foreach my $conn (@{ $this->{conn} }) {
+    my(@conn, @imap);
+    foreach my $i (0 .. @{ $this->{conn} }-1) {
+	my $conn = $this->{conn}->[$i];
 	if (!$conn->option("pod_omit")) {
 	    push @conn, $conn;
 	} else {
