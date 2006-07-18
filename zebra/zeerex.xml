@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id: zeerex.xml,v 1.10 2006-07-18 11:08:20 mike Exp $ -->
+<!-- $Id: zeerex.xml,v 1.11 2006-07-18 16:54:00 mike Exp $ -->
 <explain xmlns="http://explain.z3950.org/dtd/2.0/">
 
  <serverInfo protocol="SRW/SRU/Z39.50" version="1.1" method="GET/POST">
@@ -158,11 +158,11 @@
   <!-- ### Many more <default>s, <setting>s and <supports>s to be added -->
  </configInfo>
 
- <irspy:status xmlns:irspy="http://indexdata.com/irspy/1.0"?
+ <irspy:status xmlns:irspy="http://indexdata.com/irspy/1.0">
   <irspy:availability>
-   <irspy:probe ok="0">2006-07-10T11:45:06<probe>
-   <irspy:probe ok="1">2006-07-17T11:45:02<probe>
+   <irspy:probe ok="0">2006-07-10T11:45:06</irspy:probe>
+   <irspy:probe ok="1">2006-07-17T11:45:02</irspy:probe>
    <!-- Leave it to applications to calculate averages, etc. -->
   </irspy:availability>
- </irspy>
+ </irspy:status>
 </explain>
