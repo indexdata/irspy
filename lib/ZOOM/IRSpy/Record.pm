@@ -1,10 +1,13 @@
-# $Id: Record.pm,v 1.3 2006-07-11 16:14:47 mike Exp $
+# $Id: Record.pm,v 1.4 2006-07-18 11:09:51 mike Exp $
 
 package ZOOM::IRSpy::Record;
 
 use 5.008;
 use strict;
 use warnings;
+
+use XML::LibXML;
+
 
 =head1 NAME
 
@@ -24,18 +27,34 @@ sub new {
     my $class = shift();
     my($target, $zeerex) = @_;
 
-    ### Should compile the ZeeRex record into something useful.
+    if (!defined $zeerex) {
+	$zeerex = _empty_zeerex_record($target);
+    }
+
+    my $parser = new XML::LibXML();
     return bless {
 	target => $target,
-	zeerex => $zeerex,	# Do we actually need this for anything?
+	zeerex => $parser->parse_string($zeerex),
     }, $class;
 }
 
 
-#use XML::Simple qw(:strict);
-#my %attr = (KeyAttr => [], KeepRoot => 1);
-#my $config = XMLin("foo.xml", %attr, ForceArray => 1, ForceContent => 1);
-#print XMLout($config, %attr);
+sub _empty_zeerex_record {
+    my($target) = @_;
+
+    ### Doesn't recognise SRU/SRW URLs
+    my($host, $port, $db) = ZOOM::IRSpy::_parse_target_string($target);
+
+    return <<__EOT__;
+<explain xmlns="http://explain.z3950.org/dtd/2.0/">
+ <serverInfo protocol="Z39.50" version="1995">
+  <host>$host</host>
+  <port>$port</port>
+  <database>$db</database>
+ </serverInfo>
+</explain>
+__EOT__
+}
 
 
 =head1 SEE ALSO
