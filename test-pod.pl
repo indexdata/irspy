@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: test-pod.pl,v 1.8 2006-06-21 14:31:23 mike Exp $
+# $Id: test-pod.pl,v 1.9 2006-07-18 13:45:08 mike Exp $
 #
 # Run like this:
 #	YAZ_LOG=pod perl -I lib test-pod.pl "bagel.indexdata.com/gils" "bagel.indexdata.com/marc"
@@ -40,12 +40,12 @@ sub got_record {
     my($conn, $arg, $rs, $event) = @_;
 
     my $host = $conn->option("host");
-    my %state = $arg->{$host};
+    my $state = $arg->{$host};
 
     {
 	# Sanity-checking assertions.  These should be impossible
-	my $ns = $arg->{$host}->{next_to_show};
-	my $nf = $arg->{$host}->{next_to_fetch};
+	my $ns = $state->{next_to_show};
+	my $nf = $state->{next_to_fetch};
 	if ($ns > $nf) {
 	    die "next_to_show > next_to_fetch ($ns > $nf)";
 	} elsif ($ns == $nf) {
@@ -53,11 +53,11 @@ sub got_record {
 	}
     }
 
-    my $i = $arg->{$host}->{next_to_show}++;
+    my $i = $state->{next_to_show}++;
     my $rec = $rs->record($i);
     print "$host: record $i is ", render_record($rec), "\n";
-    request_records($conn, $rs, $arg->{$host}, 3)
-	if $i == $arg->{$host}->{next_to_fetch}-1;
+    request_records($conn, $rs, $state, 3)
+	if $i == $state->{next_to_fetch}-1;
 
     return 0;
 }
@@ -72,7 +72,8 @@ sub request_records {
     my($conn, $rs, $state, $count) = @_;
 
     my $i = $state->{next_to_fetch};
-    ZOOM::Log::log("appl", "requesting $count records from $i");
+    ZOOM::Log::log("appl", "requesting $count records from $i for ",
+		   $conn->option("host"));
     $rs->records($i, $count, 0);
     $state->{next_to_fetch} += $count;
 }
