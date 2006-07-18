@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.6 2006-06-21 16:24:55 mike Exp $
+# $Id: IRSpy.pm,v 1.7 2006-07-18 11:10:38 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -76,22 +76,34 @@ sub targets {
     my @targets = split /\s+/, $targetList;
     my @qlist;
     foreach my $target (@targets) {
-	my($host, $port, $db) = ($target =~ /(.*?):(.*?)\/(.*)/);
-	if (!defined $host) {
-	    $port = 210;
-	    ($host, $db) = ($target =~ /(.*?)\/(.*)/);
-	    my $new = "$host:$port/$db";
-	    $this->log("irspy_debug", "rewriting '$target' to '$new'");
-	    $target = $new;
+	my($host, $port, $db, $newtarget) = _parse_target_string($target);
+	if ($newtarget ne $target) {
+	    $this->log("irspy_debug", "rewriting '$target' to '$newtarget'");
+	    $target = $newtarget; ### Does this get written through the ref?
 	}
-	die "invalid target string '$target'"
-	    if !defined $host;
 	push @qlist,
 	    (qq[(host = "$host" and port = "$port" and path="$db")]);
     }
 
     $this->{targets} = \@targets;
     $this->{query} = join(" or ", @qlist);
+}
+
+
+# Also used by ZOOM::IRSpy::Record
+sub _parse_target_string {
+    my($target) = @_;
+
+    my($host, $port, $db) = ($target =~ /(.*?):(.*?)\/(.*)/);
+    if (!defined $host) {
+	$port = 210;
+	($host, $db) = ($target =~ /(.*?)\/(.*)/);
+	$target = "$host:$port/$db";
+    }
+    die "invalid target string '$target'"
+	if !defined $host;
+
+    return ($host, $port, $db, $target);
 }
 
 
