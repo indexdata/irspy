@@ -1,4 +1,4 @@
-# $Id: Pod.pm,v 1.13 2006-06-21 14:31:24 mike Exp $
+# $Id: Pod.pm,v 1.14 2006-07-18 11:43:55 mike Exp $
 
 package ZOOM::Pod;
 
@@ -265,6 +265,10 @@ indicates whether C<wait()> should continue (return-value 0) or return
 immediately (any other value).  Exception-handling callbacks may of
 course re-throw the exception.
 
+Connections that have the C<pod_omit> option set are omitted from
+consideration.  This is useful if, for example, a connection that is
+part of a pod is known to have encountered an unrecoverable error.
+
 =cut
 
 sub wait {
@@ -272,8 +276,21 @@ sub wait {
     my($arg) = @_;
 
     my $res = 0;
-    while ((my $i = ZOOM::event($this->{conn})) != 0) {
-	my $conn = $this->{conn}->[$i-1];
+
+    my @conn;
+    foreach my $conn (@{ $this->{conn} }) {
+	if (!$conn->option("pod_omit")) {
+	    push @conn, $conn;
+	} else {
+	    # If we don't push anything onto @conn, then the index $i
+	    # will be meaningless in the loop below, and the
+	    # references to $rs[$i] will be wrong.  Ouch.
+	    push @conn, undef;
+	}
+    }
+
+    while ((my $i = ZOOM::event(\@conn)) != 0) {
+	my $conn = $conn[$i-1];
 	my $ev = $conn->last_event();
 	my $evstr = ZOOM::event_str($ev);
 	ZOOM::Log::log("pod", "connection ", $i-1, ": event $ev ($evstr)");
