@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: test-net-z3950-zoom.pl,v 1.1 2006-07-19 11:41:05 mike Exp $
+# $Id: test-net-z3950-zoom.pl,v 1.2 2006-07-19 16:28:59 mike Exp $
 #
 # Run the same way as "test-pod.pl".  This is supposed to be an
 # exactly equivalent program but written using the Net::Z3950::ZOOM
@@ -106,6 +106,6 @@ sub render_record {
     my($rec) = @_;
 
     return "undefined" if !defined $rec;
-    my $len;
+    my $len = 0;
     return "'" . Net::Z3950::ZOOM::record_get($rec, "render", $len) . "'";
 }
