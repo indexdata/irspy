@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: test-zoom.pl,v 1.1 2006-07-18 16:15:25 mike Exp $
+# $Id: test-zoom.pl,v 1.1 2006-07-19 11:40:26 mike Exp $
 #
 # Run the same way as "test-pod.pl".  This is supposed to be an
 # exactly equivalent program but written using the ZOOM-Perl
