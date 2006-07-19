@@ -1,6 +1,7 @@
 .cvsignore
 CVS
 archive
+bin/test-zoom-c
 lib/CVS
 lib/ZOOM/CVS
 lib/ZOOM/IRSpy/CVS
