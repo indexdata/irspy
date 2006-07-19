@@ -4,7 +4,10 @@ MANIFEST.SKIP
 META.yml                                 Module meta-data (added by MakeMaker)
 Makefile.PL
 README
-irspy.pl
+bin/irspy.pl
+bin/test-net-z3950-zoom.pl
+bin/test-pod.pl
+bin/test-zoom.pl
 lib/ZOOM/IRSpy.pm
 lib/ZOOM/IRSpy/Record.pm
 lib/ZOOM/IRSpy/Test.pm
@@ -13,7 +16,6 @@ lib/ZOOM/IRSpy/Test/Ping.pm
 lib/ZOOM/IRSpy/Test/Search/Title.pm
 lib/ZOOM/Pod.pm
 t/Net-Z3950-IRSpy.t
-test-pod.pl
 zebra/Makefile
 zebra/README
 zebra/ezeerex2pqfproperties.pl
