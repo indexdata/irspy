@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: irspy.pl,v 1.7 2006-06-21 15:58:08 mike Exp $
+# $Id: irspy.pl,v 1.1 2006-07-19 11:41:42 mike Exp $
 #
 # Run like this:
 #	YAZ_LOG=irspy,irspy_test,irspy_debug perl -I lib irspy.pl -t "bagel.indexdata.dk/gils z3950.loc.gov:7090/Voyager" localhost:1313/IR-Explain---1
