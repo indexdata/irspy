@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: test-pod.pl,v 1.9 2006-07-18 13:45:08 mike Exp $
+# $Id: test-pod.pl,v 1.1 2006-07-19 11:39:58 mike Exp $
 #
 # Run like this:
 #	YAZ_LOG=pod perl -I lib test-pod.pl "bagel.indexdata.com/gils" "bagel.indexdata.com/marc"
