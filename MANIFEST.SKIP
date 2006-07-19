@@ -4,6 +4,7 @@ archive
 lib/CVS
 lib/ZOOM/CVS
 lib/ZOOM/IRSpy/CVS
+lib/ZOOM/XML
 t/CVS
 zebra/.cvsignore
 zebra/CVS
