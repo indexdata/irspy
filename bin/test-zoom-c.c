@@ -1,5 +1,5 @@
 /*
- * $Id: test-zoom-c.c,v 1.1 2006-07-19 16:29:51 mike Exp $
+ * $Id: test-zoom-c.c,v 1.2 2006-07-20 12:01:43 mike Exp $
  *
  * Run the same way as "test-pod.pl".  This is supposed to be an
  * exactly equivalent program but written using the ZOOM-C imperative
@@ -23,10 +23,10 @@ struct conn_and_state {
 static void completed_search(struct conn_and_state *csp);
 static void got_record(struct conn_and_state *csp);
 static void request_records(struct conn_and_state *csp, int count);
-static const char *render_record(ZOOM_record rec);
 
 
 int main (int argc, char *argv[]) {
+    ZOOM_options options;
     struct conn_and_state cs[100];
     ZOOM_connection zconn[100];
     int i, n;
@@ -37,12 +37,13 @@ int main (int argc, char *argv[]) {
     }
 
     yaz_log_mask_str("appl");
+    options = ZOOM_options_create();
+    ZOOM_options_set_int(options, "async", 1);
+    ZOOM_options_set(options, "elementSetName", "b");
+
     n = argc-1;
     for (i = 0; i < n; i++) {
 	char *target = argv[i+1];
-	ZOOM_options options = ZOOM_options_create();
-	ZOOM_options_set_int(options, "async", 1);
-	ZOOM_options_set(options, "elementSetName", "b");
 	cs[i].conn = zconn[i] = ZOOM_connection_create(options);
 	ZOOM_connection_connect(cs[i].conn, target, 0);
 	cs[i].rs = ZOOM_connection_search_pqf(cs[i].conn, "the");
@@ -87,16 +88,16 @@ static void completed_search(struct conn_and_state *csp) {
 
 static void got_record(struct conn_and_state *csp) {
     const char *host = ZOOM_connection_option_get(csp->conn, "host");
-    int i;
+    int i, len;
     ZOOM_record rec;
 
     assert(csp->next_to_show < csp->next_to_fetch);
     i = csp->next_to_show++;
     rec = ZOOM_resultset_record(csp->rs, i);
-    printf("%s: record %d is %s\n", host, i, render_record(rec));
-    if (i == csp->next_to_fetch-1) {
+    printf("%s: record %d is %s\n", host, i,
+	   rec == 0 ? "undefined" : ZOOM_record_get(rec, "render", &len));
+    if (i == csp->next_to_fetch-1)
 	request_records(csp, 3);
-    }
 }
 
 
@@ -109,14 +110,4 @@ static void request_records(struct conn_and_state *csp, int count) {
 
     ZOOM_resultset_records(csp->rs, (ZOOM_record*) 0, i, count);
     csp->next_to_fetch += count;
-}
-
-
-static const char *render_record(ZOOM_record rec) {
-    int len;
-
-    if (rec == 0)
-	return "undefined";
-    else 
-	return ZOOM_record_get(rec, "render", &len);
 }
