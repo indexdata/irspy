@@ -1,4 +1,4 @@
-# $Id: Record.pm,v 1.5 2006-07-21 11:30:51 mike Exp $
+# $Id: Record.pm,v 1.6 2006-07-21 16:50:20 mike Exp $
 
 package ZOOM::IRSpy::Record;
 
@@ -7,6 +7,7 @@ use strict;
 use warnings;
 
 use XML::LibXML;
+use XML::LibXML::XPathContext;
 
 
 =head1 NAME
@@ -34,7 +35,7 @@ sub new {
     my $parser = new XML::LibXML();
     return bless {
 	target => $target,
-	zeerex => $parser->parse_string($zeerex),
+	zeerex => $parser->parse_string($zeerex)->documentElement(),
     }, $class;
 }
 
@@ -54,6 +55,30 @@ sub _empty_zeerex_record {
  </serverInfo>
 </explain>
 __EOT__
+}
+
+
+sub append_entry {
+    my $this = shift();
+    my($xpath, $frag) = @_;
+
+    print STDERR "this=$this, xpath='$xpath', frag='$frag'\n";
+    my $root = $this->{zeerex}; # XML::LibXML::Element ISA XML::LibXML::Node
+    print "Record='", $root->toString(), "'\n";
+    my $xc = XML::LibXML::XPathContext->new($root);
+    $xc->registerNs(zeerex => "http://explain.z3950.org/dtd/2.0/");
+    $xc->registerNs(irspy => "http://indexdata.com/irspy/1.0");
+
+    my @nodes = $xc->findnodes($xpath);
+    if (@nodes == 0) {
+	ZOOM::Log::log("irspy", "no matches for '$xpath': can't append");
+	return;
+    } elsif (@nodes > 1) {
+	ZOOM::Log::log("irspy", scalar(@nodes),
+		       " matches for '$xpath': using first");
+    }
+
+    print STDERR "zeerex='$root'\n";
 }
 
 
