@@ -1,4 +1,4 @@
-# $Id: Main.pm,v 1.2 2006-06-21 16:26:09 mike Exp $
+# $Id: Main.pm,v 1.3 2006-07-21 11:30:51 mike Exp $
 
 package ZOOM::IRSpy::Test::Main;
 
@@ -17,11 +17,11 @@ ZOOM::IRSpy::Test::Main - a single test for IRSpy
 
 =head1 SYNOPSIS
 
- ### To follow
+ ## To follow
 
 =head1 DESCRIPTION
 
-I<### To follow>
+I<## To follow>
 
 =cut
 
