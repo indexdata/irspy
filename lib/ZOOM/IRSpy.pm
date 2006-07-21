@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.7 2006-07-18 11:10:38 mike Exp $
+# $Id: IRSpy.pm,v 1.8 2006-07-21 11:27:02 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -230,7 +230,6 @@ sub record {
 	# Can be called with a Connection instead of a target-name
 	my $conn = $target;
 	$target = $conn->option("host");
-	$this->log("irspy_debug", "record() resolved $conn to '$target'");
     }
 
     return $this->{target2record}->{lc($target)};
