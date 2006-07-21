@@ -1,4 +1,4 @@
-# $Id: Pod.pm,v 1.15 2006-07-18 13:45:36 mike Exp $
+# $Id: Pod.pm,v 1.16 2006-07-21 10:58:42 mike Exp $
 
 package ZOOM::Pod;
 
@@ -277,21 +277,28 @@ sub wait {
 
     my $res = 0;
 
-    my(@conn, @imap);
-    foreach my $i (0 .. @{ $this->{conn} }-1) {
-	my $conn = $this->{conn}->[$i];
-	if (!$conn->option("pod_omit")) {
-	    push @conn, $conn;
-	} else {
-	    # If we don't push anything onto @conn, then the index $i
-	    # will be meaningless in the loop below, and the
-	    # references to $rs[$i] will be wrong.  Ouch.
-	    push @conn, undef;
+    while (1) {
+	my @conn;
+	my @idxmap; # maps indexes into conn to global indexes
+	foreach my $i (0 .. @{ $this->{conn} }-1) {
+	    my $conn = $this->{conn}->[$i];
+	    if ($conn->option("pod_omit")) {
+		ZOOM::Log::log("pod", "connection $i omitted (",
+			       $conn->option("host"), ")");
+	      } else {
+		  push @conn, $conn;
+		  push @idxmap, $i;
+		  ZOOM::Log::log("pod", "connection $i included (",
+				 $conn->option("host"), ")");
+	      }
 	}
-    }
 
-    while ((my $i = ZOOM::event(\@conn)) != 0) {
-	my $conn = $conn[$i-1];
+	my $i0 = ZOOM::event(\@conn);
+	last if $i0 == 0;
+	my $i = 1+$idxmap[$i0-1];
+	my $conn = $this->{conn}->[$i-1];
+	die "connection-mapping screwup" if $conn ne $conn[$i0-1];
+
 	my $ev = $conn->last_event();
 	my $evstr = ZOOM::event_str($ev);
 	ZOOM::Log::log("pod", "connection ", $i-1, ": event $ev ($evstr)");
