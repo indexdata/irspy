@@ -1,4 +1,4 @@
-# $Id: Test.pm,v 1.2 2006-07-21 11:30:51 mike Exp $
+# $Id: Test.pm,v 1.3 2006-07-21 11:49:27 mike Exp $
 
 package ZOOM::IRSpy::Test;
 
@@ -41,7 +41,6 @@ sub run {
     die "can't run the base-class test";
 }
 
-### Could include loop detection
 sub run_tests {
     my $this = shift();
     my @tname = @_;
