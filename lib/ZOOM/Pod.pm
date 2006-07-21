@@ -1,4 +1,4 @@
-# $Id: Pod.pm,v 1.16 2006-07-21 10:58:42 mike Exp $
+# $Id: Pod.pm,v 1.17 2006-07-21 11:25:43 mike Exp $
 
 package ZOOM::Pod;
 
@@ -228,8 +228,8 @@ have one search active on it at a time: this allows the pod to
 maintain the one-to-one mapping between connections and result-sets.
 Submitting a new search on a connection before the old one has
 completed will result in a total failure in the nature of causality,
-and the spontaneous existence-failure of the universe.  Do not do
-this.
+and the spontaneous existence-failure of the universe.  Try to avoid
+doing this too often.
 
 =cut
 
@@ -238,7 +238,9 @@ sub search_pqf {
     my($pqf) = @_;
 
     foreach my $i (0..@{ $this->{conn} }-1) {
-	$this->{rs}->[$i] = $this->{conn}->[$i]->search_pqf($pqf);
+	my $conn = $this->{conn}->[$i];
+	$this->{rs}->[$i] = $conn->search_pqf($pqf)
+	    if !$conn->option("pod_omit");
     }
 }
 
@@ -283,13 +285,13 @@ sub wait {
 	foreach my $i (0 .. @{ $this->{conn} }-1) {
 	    my $conn = $this->{conn}->[$i];
 	    if ($conn->option("pod_omit")) {
-		ZOOM::Log::log("pod", "connection $i omitted (",
-			       $conn->option("host"), ")");
+		#ZOOM::Log::log("pod", "connection $i omitted (",
+			       #$conn->option("host"), ")");
 	      } else {
 		  push @conn, $conn;
 		  push @idxmap, $i;
-		  ZOOM::Log::log("pod", "connection $i included (",
-				 $conn->option("host"), ")");
+		  #ZOOM::Log::log("pod", "connection $i included (",
+				 #$conn->option("host"), ")");
 	      }
 	}
 
