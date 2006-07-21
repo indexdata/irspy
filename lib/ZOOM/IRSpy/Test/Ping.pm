@@ -1,4 +1,4 @@
-# $Id: Ping.pm,v 1.6 2006-07-18 10:40:13 mike Exp $
+# $Id: Ping.pm,v 1.7 2006-07-21 11:27:33 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -35,7 +35,7 @@ sub maybe_connected {
     my $rec = $irspy->record($conn);
     $irspy->log("irspy_test", $conn->option("host"),
 		($ok ? "" : " not"), " connected");
-    $rec->failed(1) if !$ok;
+    $conn->option(pod_omit => 1) if !$ok;
     ### At this point we should note the successful connection in $rec
     return 0;
 }
