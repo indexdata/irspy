@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.9 2006-07-21 11:28:16 mike Exp $
+# $Id: IRSpy.pm,v 1.10 2006-07-21 11:50:17 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -49,6 +49,7 @@ sub new {
 	targets => undef,	# filled in later
 	target2record => undef,	# filled in later
 	pod => undef,		# filled in later
+	tests => [],		# stack of tests currently being executed
     }, $class;
     $this->log("irspy", "starting up with database '$dbname'");
 
@@ -100,7 +101,7 @@ sub _parse_target_string {
 	($host, $db) = ($target =~ /(.*?)\/(.*)/);
 	$target = "$host:$port/$db";
     }
-    die "invalid target string '$target'"
+    die "$0: invalid target string '$target'"
 	if !defined $host;
 
     return ($host, $port, $db, $target);
@@ -200,6 +201,10 @@ sub _run_test {
     my $this = shift();
     my($tname) = @_;
 
+    die("$0: test-hierarchy loop detected: " .
+	join(" -> ", @{ $this->{tests} }, $tname))
+	if grep { $_ eq $tname } @{ $this->{tests} };
+
     eval {
 	my $slashSeperatedTname = $tname;
 	$slashSeperatedTname =~ s/::/\//g;
@@ -211,8 +216,11 @@ sub _run_test {
     }
 
     $this->log("irspy", "running test '$tname'");
+    push @{ $this->{tests} }, $tname;
     my $test = "ZOOM::IRSpy::Test::$tname"->new($this);
-    return $test->run();
+    my $res =$test->run();
+    pop @{ $this->{tests} };
+    return $res;
 }
 
 
