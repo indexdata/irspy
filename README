@@ -1,4 +1,4 @@
-$Id: README,v 1.1 2006-04-13 14:53:17 mike Exp $
+$Id: README,v 1.2 2006-07-21 11:24:20 mike Exp $
 
 Net-Z3950-IRSpy
 ===============
@@ -31,4 +31,8 @@ This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.7 or,
 at your option, any later version of Perl 5 you may have available.
 
+--
+
+Note to self: everyone else please ignore this.
+$ cd /usr/local/src/cvs/irspy && YAZ_LOG=irspy,irspy_test,irspy_debug,pod perl -I lib bin/irspy.pl -t "bagel.indexdata.dk/gils foo.bar.baz:12345/fish z3950.loc.gov:7090/Voyager" localhost:1313/IR-Explain---1
 
