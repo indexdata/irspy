@@ -1,4 +1,4 @@
-# $Id: Test.pm,v 1.1 2006-06-20 16:32:42 mike Exp $
+# $Id: Test.pm,v 1.2 2006-07-21 11:30:51 mike Exp $
 
 package ZOOM::IRSpy::Test;
 
@@ -12,11 +12,11 @@ ZOOM::IRSpy::Test - base class for tests in IRSpy
 
 =head1 SYNOPSIS
 
- ### To follow
+ ## To follow
 
 =head1 DESCRIPTION
 
-I<### To follow>
+I<## To follow>
 
 =cut
 

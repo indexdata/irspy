@@ -1,4 +1,4 @@
-# $Id: Record.pm,v 1.4 2006-07-18 11:09:51 mike Exp $
+# $Id: Record.pm,v 1.5 2006-07-21 11:30:51 mike Exp $
 
 package ZOOM::IRSpy::Record;
 
@@ -15,11 +15,11 @@ ZOOM::IRSpy::Record - record describing a target for IRSpy
 
 =head1 SYNOPSIS
 
- ### To follow
+ ## To follow
 
 =head1 DESCRIPTION
 
-I<### To follow>
+I<## To follow>
 
 =cut
 
