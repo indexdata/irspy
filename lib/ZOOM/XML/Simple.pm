@@ -1,4 +1,4 @@
-# $Id: Simple.pm,v 1.1 2006-07-17 15:37:33 mike Exp $
+# $Id: Simple.pm,v 1.2 2006-07-21 11:29:17 mike Exp $
 
 package ZOOM::XML::Simple;
 
@@ -45,8 +45,9 @@ need, natch.
 
 =cut
 
-### But will what I make actually be all that much simpler than DOM?
-
+# But will what I make actually be all that much simpler than DOM?
+#
+# For now, this effort is abandoned, and I am using DOM directly.
 
 #use XML::Simple qw(:strict);
 #my %attr = (KeyAttr => [], KeepRoot => 1);
