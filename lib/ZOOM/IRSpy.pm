@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.8 2006-07-21 11:27:02 mike Exp $
+# $Id: IRSpy.pm,v 1.9 2006-07-21 11:28:16 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -79,7 +79,7 @@ sub targets {
 	my($host, $port, $db, $newtarget) = _parse_target_string($target);
 	if ($newtarget ne $target) {
 	    $this->log("irspy_debug", "rewriting '$target' to '$newtarget'");
-	    $target = $newtarget; ### Does this get written through the ref?
+	    $target = $newtarget; # This written through the ref
 	}
 	push @qlist,
 	    (qq[(host = "$host" and port = "$port" and path="$db")]);
