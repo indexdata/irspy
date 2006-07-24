@@ -1,4 +1,4 @@
-# $Id: Title.pm,v 1.2 2006-07-11 14:16:35 mike Exp $
+# $Id: Title.pm,v 1.3 2006-07-24 17:02:51 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -21,6 +21,7 @@ sub run {
     $pod->callback(ZOOM::Event::RECV_SEARCH, \&found);
     $pod->search_pqf('@attr 1=4 computer');
     my $err = $pod->wait($irspy);
+    ### Should notice failure and log it.
 
     return 0;
 }
@@ -33,7 +34,8 @@ sub found {
     my $n = $rs->size();
     $irspy->log("irspy_test", $conn->option("host"),
 		" title search found $n record", $n==1 ? "" : "s");
-    ### We should note the success or failure of the search in $rec
+    $rec->append_entry("irspy:status", "<irspy:search_title ok='1'>" .
+		       $irspy->isodate(time()) . "</irspy:search_title>");
     return 0;
 }
 
