@@ -1,4 +1,4 @@
-# $Id: Record.pm,v 1.8 2006-07-24 16:44:00 mike Exp $
+# $Id: Record.pm,v 1.9 2006-07-24 17:01:46 mike Exp $
 
 package ZOOM::IRSpy::Record;
 
@@ -86,10 +86,7 @@ sub append_entry {
 		   scalar(@nodes), " matches for '$xpath': using first")
 	if @nodes > 1;
 
-    my $node = $nodes[0];
-    # $node ISA XML::LibXML::ElementXML::LibXML::Element
-    $this->_half_decent_appendWellBalancedChunk($node, $frag);
-    #print STDERR "POST: zeerex='$root' = \n", $root->toString(), "\n";
+    $this->_half_decent_appendWellBalancedChunk($nodes[0], $frag);
 }
 
 
@@ -140,7 +137,7 @@ sub _half_decent_appendWellBalancedChunk {
     die "mismatched XML start/end <$open>...<$close>"
 	if $close ne $tag;
     print STDERR "tag='$tag', attrs=[$attrs], content='$content'\n";
-    die "### no code yet to make DOM node";
+    die "## no code yet to make DOM node";
 }
 
 
