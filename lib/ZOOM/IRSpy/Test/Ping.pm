@@ -1,4 +1,4 @@
-# $Id: Ping.pm,v 1.9 2006-07-24 16:16:29 mike Exp $
+# $Id: Ping.pm,v 1.10 2006-07-24 17:02:20 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -36,18 +36,9 @@ sub maybe_connected {
     $irspy->log("irspy_test", $conn->option("host"),
 		($ok ? "" : " not"), " connected");
     $rec->append_entry("irspy:status", "<irspy:probe ok='$ok'>" .
-		       isodate(time()) . "</irspy:probe>");
+		       $irspy->isodate(time()) . "</irspy:probe>");
     $conn->option(pod_omit => 1) if !$ok;
     return 0;
-}
-
-
-sub isodate {
-    my($time) = @_;
-
-    my($sec, $min, $hour, $mday, $mon, $year) = localtime($time);
-    return sprintf("%04d-%02d-%02dT%02d:%02d:%02d",
-		   $year+1900, $mon+1, $mday, $hour, $min, $sec);
 }
 
 
