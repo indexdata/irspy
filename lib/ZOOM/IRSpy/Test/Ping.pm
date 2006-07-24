@@ -1,4 +1,4 @@
-# $Id: Ping.pm,v 1.8 2006-07-21 16:49:52 mike Exp $
+# $Id: Ping.pm,v 1.9 2006-07-24 16:16:29 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -35,10 +35,9 @@ sub maybe_connected {
     my $rec = $irspy->record($conn);
     $irspy->log("irspy_test", $conn->option("host"),
 		($ok ? "" : " not"), " connected");
-    $conn->option(pod_omit => 1) if !$ok;
-
-    $rec->append_entry("zeerex:serverInfo", "<irspy:probe ok='$ok'>" .
+    $rec->append_entry("irspy:status", "<irspy:probe ok='$ok'>" .
 		       isodate(time()) . "</irspy:probe>");
+    $conn->option(pod_omit => 1) if !$ok;
     return 0;
 }
 
