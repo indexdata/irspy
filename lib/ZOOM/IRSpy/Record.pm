@@ -1,4 +1,4 @@
-# $Id: Record.pm,v 1.7 2006-07-24 15:25:51 mike Exp $
+# $Id: Record.pm,v 1.8 2006-07-24 16:44:00 mike Exp $
 
 package ZOOM::IRSpy::Record;
 
@@ -71,12 +71,20 @@ sub append_entry {
 
     my @nodes = $xc->findnodes($xpath);
     if (@nodes == 0) {
-	ZOOM::Log::log("irspy", "no matches for '$xpath': can't append");
-	return;
-    } elsif (@nodes > 1) {
-	ZOOM::Log::log("irspy", scalar(@nodes),
-		       " matches for '$xpath': using first");
+	# Make the node that we're inserting into, if possible.  A
+	# fully general version would work its way through each
+	# component of the XPath, but for now we just treat it as a
+	# single chunk to go inside the top-level node.
+	$this->_half_decent_appendWellBalancedChunk($root,
+						    "<$xpath></$xpath>");
+	@nodes = $xc->findnodes($xpath);
+	die("still no matches for '$xpath' after creating: can't append")
+	    if @nodes == 0;
     }
+
+    ZOOM::Log::log("irspy",
+		   scalar(@nodes), " matches for '$xpath': using first")
+	if @nodes > 1;
 
     my $node = $nodes[0];
     # $node ISA XML::LibXML::ElementXML::LibXML::Element
