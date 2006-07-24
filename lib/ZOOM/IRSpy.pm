@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.10 2006-07-21 11:50:17 mike Exp $
+# $Id: IRSpy.pm,v 1.11 2006-07-24 17:00:36 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -193,7 +193,15 @@ sub _render_record {
 sub check {
     my $this = shift();
 
-    return $this->_run_test("Main");
+    my $res = $this->_run_test("Main");
+    foreach my $target (sort keys %{ $this->{target2record} }) {
+	my $rec = $this->{target2record}->{$target};
+	print STDERR "$target: zeerex='", $rec->{zeerex}, "' = \n",
+	    $rec->{zeerex}->toString(), "\n";
+	### Write record back to database, if modified.
+    }
+    return $res;
+
 }
 
 
@@ -243,6 +251,16 @@ sub record {
     return $this->{target2record}->{lc($target)};
 }
 
+
+# Utility method, really nothing to do with IRSpy
+sub isodate {
+    my $this = shift();
+    my($time) = @_;
+
+    my($sec, $min, $hour, $mday, $mon, $year) = localtime($time);
+    return sprintf("%04d-%02d-%02dT%02d:%02d:%02d",
+		   $year+1900, $mon+1, $mday, $hour, $min, $sec);
+}
 
 
 =head1 SEE ALSO
