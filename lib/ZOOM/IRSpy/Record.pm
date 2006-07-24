@@ -1,4 +1,4 @@
-# $Id: Record.pm,v 1.6 2006-07-21 16:50:20 mike Exp $
+# $Id: Record.pm,v 1.7 2006-07-24 15:25:51 mike Exp $
 
 package ZOOM::IRSpy::Record;
 
@@ -35,6 +35,7 @@ sub new {
     my $parser = new XML::LibXML();
     return bless {
 	target => $target,
+	parser => $parser,
 	zeerex => $parser->parse_string($zeerex)->documentElement(),
     }, $class;
 }
@@ -64,7 +65,6 @@ sub append_entry {
 
     print STDERR "this=$this, xpath='$xpath', frag='$frag'\n";
     my $root = $this->{zeerex}; # XML::LibXML::Element ISA XML::LibXML::Node
-    print "Record='", $root->toString(), "'\n";
     my $xc = XML::LibXML::XPathContext->new($root);
     $xc->registerNs(zeerex => "http://explain.z3950.org/dtd/2.0/");
     $xc->registerNs(irspy => "http://indexdata.com/irspy/1.0");
@@ -78,7 +78,61 @@ sub append_entry {
 		       " matches for '$xpath': using first");
     }
 
-    print STDERR "zeerex='$root'\n";
+    my $node = $nodes[0];
+    # $node ISA XML::LibXML::ElementXML::LibXML::Element
+    $this->_half_decent_appendWellBalancedChunk($node, $frag);
+    #print STDERR "POST: zeerex='$root' = \n", $root->toString(), "\n";
+}
+
+
+# *sigh*
+#
+# _Clearly_ the right way to append a well-balanced chunk of XML to
+# a node's children is to call appendWellBalancedChunk() from the
+# XML::LibXML::Element class.  However, this fails in the common case
+# where the ZeeRex record we're working with doesn't declare the
+# "irspy" namespace that the inserted fragments use.
+#
+# To my utter astonishment it seems that XML::LibXML (as of version
+# 1.58, 31st March 2004) doesn't provide ANY way to register a
+# namespace for parsing, which makes the parse_balanced_chunk()
+# function that appendWellBalancedChunk() uses effectively useless.
+# It _is_ possible to use setNamespace() on a node, to register a new
+# namespace mapping for that node -- but that only affects pre-parsed
+# trees, and is no use for parsing.  Hence the following pair of lines
+# DOES NOT WORK:
+#	$node->setNamespace("http://indexdata.com/irspy/1.0", "irspy", 0);
+#	$node->appendWellBalancedChunk($frag);
+#
+# Instead I have to go the long way round, hence this method.  I have
+# two candidate re-implementations, of which the former is marginally
+# less loathsome, but does require that the excess namespace
+# declarations be factored out later -- as least, if you want neat
+# output.
+#
+sub _half_decent_appendWellBalancedChunk {
+    my $this = shift();
+    my($node, $frag) = @_;
+
+    if (1) {
+	$frag =~ s,>, xmlns:irspy="http://indexdata.com/irspy/1.0">,;
+	$node->appendWellBalancedChunk($frag);
+	return;
+    }
+
+    # Instead -- and to call this brain-damaged would be an insult
+    # to all those fine people out there with actual brain damage
+    # -- I have to "parse" the XML fragment myself and insert the
+    # resulting hand-build DOM tree.  Someone shoot me now.
+    my($open, $content, $close) = $frag =~ /^<(.*?)>(.*)<\/(.*?)>$/;
+    die "can't 'parse' XML fragment '$frag'"
+	if !defined $open;
+    my($tag, $attrs) = $open =~ /(.*?)\s(.*)/;
+    $tag = $open if !defined $tag;
+    die "mismatched XML start/end <$open>...<$close>"
+	if $close ne $tag;
+    print STDERR "tag='$tag', attrs=[$attrs], content='$content'\n";
+    die "### no code yet to make DOM node";
 }
 
 
