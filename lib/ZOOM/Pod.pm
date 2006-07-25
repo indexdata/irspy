@@ -1,4 +1,4 @@
-# $Id: Pod.pm,v 1.17 2006-07-21 11:25:43 mike Exp $
+# $Id: Pod.pm,v 1.18 2006-07-25 16:51:22 mike Exp $
 
 package ZOOM::Pod;
 
@@ -295,6 +295,7 @@ sub wait {
 	      }
 	}
 
+	last if @conn == 0;
 	my $i0 = ZOOM::event(\@conn);
 	last if $i0 == 0;
 	my $i = 1+$idxmap[$i0-1];
