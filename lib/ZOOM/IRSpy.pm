@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.11 2006-07-24 17:00:36 mike Exp $
+# $Id: IRSpy.pm,v 1.12 2006-07-25 15:18:03 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -153,6 +153,8 @@ sub initialise {
 	my $zeerex = _render_record($rs, $i-1, "zeerex");
 	$target2record{lc($target)} =
 	    new ZOOM::IRSpy::Record($target, $zeerex);
+	push @{ $this->{targets} }, $target
+	    if $this->{allrecords};
     }
 
     foreach my $target (keys %target2record) {
