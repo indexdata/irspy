@@ -1,4 +1,4 @@
-# $Id: Record.pm,v 1.9 2006-07-24 17:01:46 mike Exp $
+# $Id: Record.pm,v 1.10 2006-07-25 16:53:28 mike Exp $
 
 package ZOOM::IRSpy::Record;
 
@@ -63,7 +63,7 @@ sub append_entry {
     my $this = shift();
     my($xpath, $frag) = @_;
 
-    print STDERR "this=$this, xpath='$xpath', frag='$frag'\n";
+    #print STDERR "this=$this, xpath='$xpath', frag='$frag'\n";
     my $root = $this->{zeerex}; # XML::LibXML::Element ISA XML::LibXML::Node
     my $xc = XML::LibXML::XPathContext->new($root);
     $xc->registerNs(zeerex => "http://explain.z3950.org/dtd/2.0/");
