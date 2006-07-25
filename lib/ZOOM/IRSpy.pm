@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.12 2006-07-25 15:18:03 mike Exp $
+# $Id: IRSpy.pm,v 1.13 2006-07-25 16:50:49 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -198,6 +198,7 @@ sub check {
     my $res = $this->_run_test("Main");
     foreach my $target (sort keys %{ $this->{target2record} }) {
 	my $rec = $this->{target2record}->{$target};
+	# It's a shame that LibXML can't pretty-print this
 	print STDERR "$target: zeerex='", $rec->{zeerex}, "' = \n",
 	    $rec->{zeerex}->toString(), "\n";
 	### Write record back to database, if modified.
