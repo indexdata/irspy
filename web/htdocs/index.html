@@ -1,0 +1,21 @@
+%# $Id: index.html,v 1.1 2006-07-27 16:20:12 mike Exp $
+<%perl>
+use lib "/usr/local/src/cvs/irspy/lib";
+use ZOOM::IRSpy;
+my $dbname = "localhost:1313/IR-Explain---1";
+my @targets = qw(bagel.indexdata.dk/gils
+		 z3950.loc.gov:7090/Voyager);
+</%perl>
+IRSpy version <% $ZOOM::IRSpy::VERSION %><br/>
+<%perl>
+my $targetList = join(" ", @targets);
+my $spy = new ZOOM::IRSpy($dbname);
+$spy->targets($targetList);
+$spy->initialise();
+my $res = $spy->check();
+if ($res == 0) {
+    print "All tests were run\n";
+} else {
+    print "Some tests were skipped\n";
+}
+</%perl>
