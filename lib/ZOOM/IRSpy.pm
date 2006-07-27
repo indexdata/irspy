@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.13 2006-07-25 16:50:49 mike Exp $
+# $Id: IRSpy.pm,v 1.14 2006-07-27 15:51:05 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -148,9 +148,11 @@ sub initialise {
     }
 
     my $rs = $this->{conn}->search(new ZOOM::Query::CQL($this->{query}));
+    #print "size='", $rs->size(), "'\n";
     foreach my $i (1 .. $rs->size()) {
 	my $target = _render_record($rs, $i-1, "id");
 	my $zeerex = _render_record($rs, $i-1, "zeerex");
+	#print STDERR "making '$target' record with '$zeerex'\n";
 	$target2record{lc($target)} =
 	    new ZOOM::IRSpy::Record($target, $zeerex);
 	push @{ $this->{targets} }, $target
@@ -161,6 +163,7 @@ sub initialise {
 	my $record = $target2record{$target};
 	if (!defined $record) {
 	    $this->log("irspy_debug", "made new record for '$target'");
+	    #print STDERR "making '$target' record without zeerex\n";
 	    $target2record{$target} = new ZOOM::IRSpy::Record($target);
 	} else {
 	    $this->log("irspy_debug", "using existing record for '$target'");
