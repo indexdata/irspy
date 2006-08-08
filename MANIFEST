@@ -18,6 +18,8 @@ lib/ZOOM/IRSpy/Test/Ping.pm
 lib/ZOOM/IRSpy/Test/Search/Title.pm
 lib/ZOOM/Pod.pm
 t/Net-Z3950-IRSpy.t
+web/conf/apache1.3/xeno.conf
+web/htdocs/index.html
 zebra/Makefile
 zebra/README
 zebra/ezeerex2pqfproperties.pl
