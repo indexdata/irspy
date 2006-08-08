@@ -7,6 +7,10 @@ lib/ZOOM/CVS
 lib/ZOOM/IRSpy/CVS
 lib/ZOOM/XML
 t/CVS
+web/data/cache/*
+web/data/obj/*
+web/logs/access.log
+web/logs/error.log
 zebra/.cvsignore
 zebra/CVS
 zebra/db/CVS
@@ -18,6 +22,7 @@ zebra/db/register/CVS
 zebra/db/register/[a-z]*
 zebra/db/shadow/.cvsignore
 zebra/db/shadow/CVS
+zebra/db/shadow/[a-z]*
 zebra/db/tmp/CVS
 zebra/records
 zebra/terse.properties
