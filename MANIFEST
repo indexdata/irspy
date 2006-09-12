@@ -11,6 +11,7 @@ bin/test-pod.pl
 bin/test-zoom-c.c
 bin/test-zoom.pl
 lib/ZOOM/IRSpy.pm
+lib/ZOOM/IRSpy/Maintenance.pod
 lib/ZOOM/IRSpy/Record.pm
 lib/ZOOM/IRSpy/Test.pm
 lib/ZOOM/IRSpy/Test/Main.pm
