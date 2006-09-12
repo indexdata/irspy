@@ -1,0 +1,41 @@
+# $Id: Maintenance.pod,v 1.1 2006-09-12 16:32:42 mike Exp $
+
+package ZOOM::IRSpy::Maintenance;
+
+=head1 NAME
+
+ZOOM::IRSpy::Maintenance - maintenance documentation for IRSpy
+
+=head1 SYNOPSIS
+
+The IRSpy application is implemented by a library of classes mostly
+within the C<ZOOM::IRSpy> "namespace", together with a command-line
+invocation script called C<irspy> and a web-based UI - either can be
+used to run the spy software, but the latter is more capable in that
+it also provides ways to interrogate the database of results.
+
+=head1 DESCRIPTION
+
+I<### To follow>
+
+=cut
+
+=head1 SEE ALSO
+
+ZOOM::IRSpy
+
+=head1 AUTHOR
+
+Mike Taylor, E<lt>mike@indexdata.comE<gt>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2006 by Index Data ApS.
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.8.7 or,
+at your option, any later version of Perl 5 you may have available.
+
+=cut
+
+1;
