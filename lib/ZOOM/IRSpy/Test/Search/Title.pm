@@ -1,4 +1,4 @@
-# $Id: Title.pm,v 1.3 2006-07-24 17:02:51 mike Exp $
+# $Id: Title.pm,v 1.4 2006-09-13 16:30:27 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -30,10 +30,10 @@ sub run {
 sub found {
     my($conn, $irspy, $rs, $event) = @_;
 
-    my $rec = $irspy->record($conn);
     my $n = $rs->size();
     $irspy->log("irspy_test", $conn->option("host"),
 		" title search found $n record", $n==1 ? "" : "s");
+    my $rec = $irspy->record($conn);
     $rec->append_entry("irspy:status", "<irspy:search_title ok='1'>" .
 		       $irspy->isodate(time()) . "</irspy:search_title>");
     return 0;
