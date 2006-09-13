@@ -1,4 +1,4 @@
-# $Id: Ping.pm,v 1.10 2006-07-24 17:02:20 mike Exp $
+# $Id: Ping.pm,v 1.11 2006-09-13 16:29:55 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -32,9 +32,9 @@ sub not_connected { maybe_connected(@_, 0) }
 sub maybe_connected {
     my($conn, $irspy, $rs, $event, $ok) = @_;
 
-    my $rec = $irspy->record($conn);
     $irspy->log("irspy_test", $conn->option("host"),
 		($ok ? "" : " not"), " connected");
+    my $rec = $irspy->record($conn);
     $rec->append_entry("irspy:status", "<irspy:probe ok='$ok'>" .
 		       $irspy->isodate(time()) . "</irspy:probe>");
     $conn->option(pod_omit => 1) if !$ok;
