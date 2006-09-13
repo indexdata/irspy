@@ -1,4 +1,4 @@
-$Id: README,v 1.10 2006-06-16 14:25:32 mike Exp $
+$Id: README,v 1.11 2006-09-13 15:36:12 mike Exp $
 
 What's what in this directory:
 
@@ -30,7 +30,9 @@ pqf.properties -- The specification for how CQL queries are translated
 
 ezeerex2pqfproperties.pl -- An in-progress script to automatically
 	generate the pqf.properties file from an extended ZeeRex
-	record.  Not yet in use.
+	record.  Not yet in use.  A Makefile controls the use of this
+	script to generate "terse.properties", which may be, but is
+	not, used in place of "pqf.properties".
 
 zebra.cfg -- Zebra-specific configuration, including the location of
 	the register files, the location of the XSLT filter
