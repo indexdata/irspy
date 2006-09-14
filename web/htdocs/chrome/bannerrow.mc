@@ -1,4 +1,4 @@
-%# $Id: bannerrow.mc,v 1.1 2006-09-14 15:17:48 mike Exp $
+%# $Id: bannerrow.mc,v 1.2 2006-09-14 16:13:36 mike Exp $
 <%args>
 $title
 </%args>
@@ -7,7 +7,7 @@ $title
     <td align="left">
     </td>
     <td align="center">
-     <h1><a style="text-decoration: none" href="/"><% $title %></a></h1>
-    </td>
+     <h1><a style="text-decoration: none" href="/"
+	>IRSpy: <% $title %></a></h1>
     </td>
    </tr>
