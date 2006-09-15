@@ -1,4 +1,4 @@
-/* $Id: style.mc,v 1.2 2006-09-15 16:49:29 mike Exp $ */
+/* $Id: style.mc,v 1.3 2006-09-15 16:50:18 mike Exp $ */
 body {
   color: black;
   background: white;
@@ -6,7 +6,7 @@ body {
 
 .banner { background: white }
 .panel1, .panel2 { background: #d4e7f3; padding: 0.5em 1em; }
-.panel3 { background: #ffe0e0 }
+.panel3 { background: #b4c7d3 }
 
 <%doc>Fixing the layout</%doc>
 .panel1, .panel2 { width: 100px }
