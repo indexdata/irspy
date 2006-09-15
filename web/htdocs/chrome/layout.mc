@@ -1,4 +1,4 @@
-%# $Id: layout.mc,v 1.1 2006-09-14 15:17:48 mike Exp $
+%# $Id: layout.mc,v 1.2 2006-09-15 16:49:05 mike Exp $
 <%args>
 $debug => undef
 $title
@@ -13,16 +13,16 @@ my $text = $m->scomp($component, %ARGS);
 </%perl>
 <& /chrome/head.mc, title => $title &>
   <table border="0" cellpadding="0" cellspacing="0" width="100%">
-   <& /chrome/bannerrow.mc, title => $title &>
+<& /chrome/bannerrow.mc, title => $title &>
   </table>
   <table border="0" cellpadding="0" cellspacing="0" width="100%">
-   <& /chrome/lmenu.mc &>
+<& /chrome/lmenu.mc &>
   </table>
   <p></p>
   <table border="0" cellpadding="0" cellspacing="0" width="100%">
    <tr>
     <td valign="top" class="panel1">
-     <& /chrome/menu.mc &>
+<& /chrome/menu.mc &>
     </td>
     <td class="spacer"></td>
     <td valign="top">
@@ -31,7 +31,7 @@ my $text = $m->scomp($component, %ARGS);
     <td class="spacer">
     </td>
     <td valign="top" class="panel2">
-     <& /chrome/pmenu.mc &>
+<& /chrome/pmenu.mc &>
     </td>
    </tr>
   </table>
