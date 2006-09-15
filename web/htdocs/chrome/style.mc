@@ -1,13 +1,12 @@
-/* $Id: style.mc,v 1.1 2006-09-14 15:17:48 mike Exp $ */
+/* $Id: style.mc,v 1.2 2006-09-15 16:49:29 mike Exp $ */
 body {
-  color: darkblue;
+  color: black;
   background: white;
 }
 
-.banner { background: yellow }
-.panel1 { background: lightblue }
-.panel2 { background: lightgreen }
-.panel3 { background: pink }
+.banner { background: white }
+.panel1, .panel2 { background: #d4e7f3; padding: 0.5em 1em; }
+.panel3 { background: #ffe0e0 }
 
 <%doc>Fixing the layout</%doc>
 .panel1, .panel2 { width: 100px }
@@ -20,3 +19,9 @@ img { border: 0 }
 .left   { text-align: left }
 .center { text-align: center }
 .right  { text-align: right }
+
+.searchform tr th { text-align: right; padding-right: 0.5em }
+.searchform tr td input { background: #ffffc0 }
+.searchform tr td select { background: #ffffc0 }
+
+.thleft th { text-align: left }
