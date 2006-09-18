@@ -1,4 +1,4 @@
-/* $Id: style.mc,v 1.3 2006-09-15 16:50:18 mike Exp $ */
+/* $Id: style.mc,v 1.4 2006-09-18 12:22:28 mike Exp $ */
 body {
   color: black;
   background: white;
@@ -25,3 +25,5 @@ img { border: 0 }
 .searchform tr td select { background: #ffffc0 }
 
 .thleft th { text-align: left }
+
+.disabled { color: grey }
