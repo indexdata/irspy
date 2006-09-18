@@ -1,17 +1,19 @@
-%# $Id: found.mc,v 1.1 2006-09-15 16:51:51 mike Exp $
+%# $Id: found.mc,v 1.2 2006-09-18 12:22:07 mike Exp $
 <%once>
 use XML::LibXML;
 use XML::LibXML::XPathContext;
 </%once>
 <%perl>
+my %params = map { ( $_, $r->param($_)) } $r->param();
 my $query = "";
-foreach my $key ($r->param()) {
+foreach my $key (keys %params) {
     next if $key =~ /^_/;
-    my $val = $r->param($key);
+    my $val = $params{$key};
     next if $val eq "";
     $query .= " and " if $query ne "";
     $query .= "$key = ($val)";
 }
+$query = 'cql.allRecords=x' if $query eq "";
 
 ### We can think about keeping the Connection object open to re-use
 # for multiple requests, but that may not get us much.  Same applies
@@ -23,8 +25,8 @@ my $parser = new XML::LibXML();
 my $rs = $conn->search(new ZOOM::Query::CQL($query));
 my $n = $rs->size();
 
-my $skip = $r->param("_skip") || 0;
-my $count = $r->param("_count") || 10;
+my $skip = $params{"_skip"} || 0;
+my $count = $params{"_count"} || 10;
 
 my $first = $skip+1;
 my $last = $first+$count-1;
@@ -36,9 +38,26 @@ $last = $n if $last > $n;
 % if ($n == 0) {
       No matches
 % } elsif ($first > $n) {
+%# "Can't happen"
       Past end of <% $n %> records
 % } else {
-      Records <% $first %> to <% $last %> of <% $n %>
+      Records <% $first %> to <% $last %> of <% $n %><br/>
+<%perl>
+if ($skip > 0) {
+    $params{_skip} = $count < $skip ? $skip-$count : 0;
+    my $prev = "?" . join("&", map { "$_=" . $params{$_}  } sort keys %params);
+    print qq[     <a href="$prev">Prev</a>\n];
+} else {
+    print qq[     <span class="disabled">Prev</span>\n];
+}
+if ($last < $n) {
+    $params{_skip} = $skip+$count;
+    my $next = "?" . join("&", map { "$_=" . $params{$_}  } sort keys %params);
+    print qq[     <a href="$next">Next</a>\n];
+} else {
+    print qq[     <span class="disabled">Next</span>\n];
+}
+</%perl>
 % }
      </p>
 % if ($n > 0 && $first <= $n) {
