@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.14 2006-07-27 15:51:05 mike Exp $
+# $Id: IRSpy.pm,v 1.15 2006-09-18 16:30:25 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -74,7 +74,7 @@ sub targets {
 
     $this->log("irspy", "setting explicit list of targets '$targetList'");
     $this->{allrecords} = 0;
-    my @targets = split /\s+/, $targetList;
+    my @targets = grep { $_ ne "" } split /\s+/, $targetList;
     my @qlist;
     foreach my $target (@targets) {
 	my($host, $port, $db, $newtarget) = _parse_target_string($target);
