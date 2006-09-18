@@ -1,4 +1,4 @@
-%# $Id: found.mc,v 1.2 2006-09-18 12:22:07 mike Exp $
+%# $Id: found.mc,v 1.3 2006-09-18 19:26:37 mike Exp $
 <%once>
 use XML::LibXML;
 use XML::LibXML::XPathContext;
@@ -67,6 +67,7 @@ if ($last < $n) {
        <th>Host</th>
        <th>Port</th>
        <th>DB</th>
+       <th></th>
       </tr>
 % foreach my $i ($first .. $last) {
 <%perl>
@@ -79,12 +80,16 @@ $xc->registerNs(e => 'http://explain.z3950.org/dtd/2.0/');
 my $host = $xc->find("e:serverInfo/e:host");
 my $port = $xc->find("e:serverInfo/e:port");
 my $db = $xc->find("e:serverInfo/e:database");
+my $id = $xc->find("concat(e:serverInfo/e:host, ':',
+                           e:serverInfo/e:port, '/',
+                           e:serverInfo/e:database)");
 </%perl>
       <tr style="background: <% ($i % 2) ? '#ffffc0' : 'white' %>">
        <td><% $i %></td>
        <td><% $host %></td>
        <td><% $port %></td>
        <td><% $db %></td>
+       <td><a href="<% "/check.html?id=$id" %>">[Check]</a></td>
       </tr>
 %}
      </table>
