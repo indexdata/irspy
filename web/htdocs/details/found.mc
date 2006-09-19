@@ -1,4 +1,4 @@
-%# $Id: found.mc,v 1.4 2006-09-19 11:12:33 mike Exp $
+%# $Id: found.mc,v 1.5 2006-09-19 16:35:25 mike Exp $
 <%once>
 use XML::LibXML;
 use XML::LibXML::XPathContext;
@@ -14,6 +14,13 @@ foreach my $key (keys %params) {
     $query .= "$key = ($val)";
 }
 $query = 'cql.allRecords=x' if $query eq "";
+
+my $sort = $params{"_sort"};
+if ($sort) {
+    $query .= " or $sort=/sort";
+    $query .= "-desc" if $params{_desc};
+    $query .= " 0";
+}
 
 ### We can think about keeping the Connection object open to re-use
 # for multiple requests, but that may not get us much.  Same applies
@@ -32,9 +39,8 @@ my $first = $skip+1;
 my $last = $first+$count-1;
 $last = $n if $last > $n;
 </%perl>
+     <h2><% $query %></h2>
      <p>
-      <b><% $query %></b>
-      <br/>
 % if ($n == 0) {
       No matches
 % } elsif ($first > $n) {
