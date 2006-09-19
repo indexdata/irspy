@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id: zeerex2index.xsl,v 1.3 2006-05-17 16:15:32 mike Exp $ -->
+<!-- $Id: zeerex2index.xsl,v 1.4 2006-09-19 16:24:59 mike Exp $ -->
 <!-- See the ZeeRex profile at http://srw.cheshire3.org/profiles/ZeeRex/ -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:z="http://indexdata.dk/zebra/xslt/1"
@@ -42,10 +42,19 @@
    <z:index name="net:host" type="0">
     <xsl:value-of select="e:serverInfo/e:host"/>
    </z:index>
+   <z:index name="net:host" type="s">
+    <xsl:value-of select="e:serverInfo/e:host"/>
+   </z:index>
    <z:index name="net:port" type="0">
     <xsl:value-of select="e:serverInfo/e:port"/>
    </z:index>
+   <z:index name="net:port" type="s">
+    <xsl:value-of select="e:serverInfo/e:port"/>
+   </z:index>
    <z:index name="net:path" type="w"><!-- "w" for case-insensitivity -->
+    <xsl:value-of select="e:serverInfo/e:database"/>
+   </z:index>
+   <z:index name="net:path" type="s">
     <xsl:value-of select="e:serverInfo/e:database"/>
    </z:index>
    <z:index name="dc:date" type="d">
@@ -59,10 +68,16 @@
    <z:index name="dc:title" type="w">
     <xsl:value-of select="e:databaseInfo/e:title"/>
    </z:index>
+   <z:index name="dc:title" type="s">
+    <xsl:value-of select="e:databaseInfo/e:title"/>
+   </z:index>
    <z:index name="dc:description" type="w">
     <xsl:value-of select="e:databaseInfo/e:description"/>
    </z:index>
    <z:index name="dc:creator" type="w">
+    <xsl:value-of select="e:databaseInfo/e:author"/>
+   </z:index>
+   <z:index name="dc:creator" type="s">
     <xsl:value-of select="e:databaseInfo/e:author"/>
    </z:index>
    <z:index name="dc:language" type="w">
