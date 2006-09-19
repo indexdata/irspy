@@ -1,4 +1,4 @@
-/* $Id: style.mc,v 1.4 2006-09-18 12:22:28 mike Exp $ */
+/* $Id: style.mc,v 1.5 2006-09-19 11:11:52 mike Exp $ */
 body {
   color: black;
   background: white;
@@ -27,3 +27,4 @@ img { border: 0 }
 .thleft th { text-align: left }
 
 .disabled { color: grey }
+.error { color: red; font-weight: bold }
