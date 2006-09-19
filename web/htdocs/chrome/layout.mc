@@ -1,4 +1,4 @@
-%# $Id: layout.mc,v 1.2 2006-09-15 16:49:05 mike Exp $
+%# $Id: layout.mc,v 1.3 2006-09-19 11:13:58 mike Exp $
 <%args>
 $debug => undef
 $title
@@ -27,12 +27,6 @@ my $text = $m->scomp($component, %ARGS);
     <td class="spacer"></td>
     <td valign="top">
      <% $text %>
-    </td>
-    <td class="spacer">
-    </td>
-    <td valign="top" class="panel2">
-<& /chrome/pmenu.mc &>
-    </td>
    </tr>
   </table>
 <& /chrome/tail.mc &>
