@@ -1,8 +1,8 @@
-%# $Id: menu.mc,v 1.3 2006-09-15 16:56:02 mike Exp $
+%# $Id: menu.mc,v 1.4 2006-09-19 16:29:46 mike Exp $
      <a href="/index.html"><b>Home</b></a><br/>
-     <a href="/all.html">Test&nbsp;all&nbsp;databases</a><br/>
-     <a href="/find.html">Find a database</a><br/>
-     <a href="/report.html">Reporting</a><br/>
+     <a href="/all.html">Test&nbsp;all&nbsp;targets</a><br/>
+     <a href="/find.html">Find a target</a><br/>
+     <a href="/add.html">Add a target</a><br/>
      <br/>
      <br/>
      <a href="http://validator.w3.org/check?uri=referer"><img
