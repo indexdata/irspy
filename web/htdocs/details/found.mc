@@ -1,4 +1,4 @@
-%# $Id: found.mc,v 1.3 2006-09-18 19:26:37 mike Exp $
+%# $Id: found.mc,v 1.4 2006-09-19 11:12:33 mike Exp $
 <%once>
 use XML::LibXML;
 use XML::LibXML::XPathContext;
@@ -64,9 +64,11 @@ if ($last < $n) {
      <table width="100%">
       <tr class="thleft">
        <th>#</th>
+       <th>Title</th>
        <th>Host</th>
        <th>Port</th>
        <th>DB</th>
+       <th></th>
        <th></th>
       </tr>
 % foreach my $i ($first .. $last) {
@@ -77,6 +79,7 @@ my $doc = $parser->parse_string($xml);
 my $root = $doc->getDocumentElement();
 my $xc = XML::LibXML::XPathContext->new($root);
 $xc->registerNs(e => 'http://explain.z3950.org/dtd/2.0/');
+my $title = $xc->find("e:databaseInfo/e:title");
 my $host = $xc->find("e:serverInfo/e:host");
 my $port = $xc->find("e:serverInfo/e:port");
 my $db = $xc->find("e:serverInfo/e:database");
@@ -86,10 +89,12 @@ my $id = $xc->find("concat(e:serverInfo/e:host, ':',
 </%perl>
       <tr style="background: <% ($i % 2) ? '#ffffc0' : 'white' %>">
        <td><% $i %></td>
+       <td><% $title %></td>
        <td><% $host %></td>
        <td><% $port %></td>
        <td><% $db %></td>
        <td><a href="<% "/check.html?id=$id" %>">[Check]</a></td>
+       <td><a href="<% "/raw.html?id=$id" %>">[Raw]</a></td>
       </tr>
 %}
      </table>
