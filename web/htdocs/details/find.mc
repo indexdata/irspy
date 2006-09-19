@@ -1,10 +1,10 @@
-%# $Id: find.mc,v 1.1 2006-09-15 16:51:51 mike Exp $
+%# $Id: find.mc,v 1.2 2006-09-19 16:34:48 mike Exp $
 % if ($r->param("_search")) {
 %     $m->comp("found.mc");
 % } else {
      <p>
       Choose one or more critera by which to search for registered
-      databases, then press the <b>Search</b> button.
+      targets, then press the <b>Search</b> button.
      </p>
      <form>
       <table class="searchform">
@@ -60,6 +60,23 @@
         <th>Creator</th>
 	<td><input type="text" name="dc.creator" size="40"/></td>
        </tr>
+       </tr>
+       <tr><td colspan="2">&nbsp;</td></tr>
+       <tr>
+        <th>Sort by</th>
+	<td>
+         <select name="_sort" size="1">
+	  <option value="">[Do not sort]</option>
+	  <option value="dc.title">Title</option>
+	  <option value="dc.creator">Creator</option>
+	  <option value="net.host">Host</option>
+	  <option value="net.port">Port</option>
+	  <option value="net.path">Database</option>
+	 </select>
+	 <input type="checkbox" id="desc" name="_desc" value="1"/>
+	 <label for="desc">descending?</label>
+        </td>
+       </tr>
        <tr><td colspan="2">&nbsp;</td></tr>
        <tr>
         <th/>
@@ -69,7 +86,7 @@
       <p>
        <small>
 	Show
-	<input type="text" name="_count" size="4" value="10"/>
+	<input type="text" name="_count" size="4" value="20"/>
 	records, skipping the first
 	<input type="text" name="_skip" size="4" value="0"/>
        </small>
