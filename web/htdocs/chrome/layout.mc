@@ -1,4 +1,4 @@
-%# $Id: layout.mc,v 1.3 2006-09-19 11:13:58 mike Exp $
+%# $Id: layout.mc,v 1.4 2006-09-19 16:32:34 mike Exp $
 <%args>
 $debug => undef
 $title
@@ -8,9 +8,6 @@ $component
 use lib "/usr/local/src/cvs/irspy/lib";
 use ZOOM::IRSpy;
 </%once>
-<%perl>
-my $text = $m->scomp($component, %ARGS);
-</%perl>
 <& /chrome/head.mc, title => $title &>
   <table border="0" cellpadding="0" cellspacing="0" width="100%">
 <& /chrome/bannerrow.mc, title => $title &>
@@ -26,7 +23,7 @@ my $text = $m->scomp($component, %ARGS);
     </td>
     <td class="spacer"></td>
     <td valign="top">
-     <% $text %>
+<& $component, %ARGS &>
    </tr>
   </table>
 <& /chrome/tail.mc &>
