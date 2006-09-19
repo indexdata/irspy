@@ -1,4 +1,4 @@
-%# $Id: layout.mc,v 1.4 2006-09-19 16:32:34 mike Exp $
+%# $Id: layout.mc,v 1.5 2006-09-19 16:33:19 mike Exp $
 <%args>
 $debug => undef
 $title
@@ -21,7 +21,7 @@ use ZOOM::IRSpy;
     <td valign="top" class="panel1">
 <& /chrome/menu.mc &>
     </td>
-    <td class="spacer"></td>
+    <td class="spacer">&nbsp;</td>
     <td valign="top">
 <& $component, %ARGS &>
    </tr>
