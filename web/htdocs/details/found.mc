@@ -1,4 +1,4 @@
-%# $Id: found.mc,v 1.7 2006-09-20 13:19:53 mike Exp $
+%# $Id: found.mc,v 1.8 2006-09-20 16:37:15 mike Exp $
 <%once>
 use XML::LibXML;
 use XML::LibXML::XPathContext;
@@ -83,6 +83,7 @@ if ($last < $n) {
        <th></th>
        <th></th>
       </tr>
+% my @ids;
 % foreach my $i ($first .. $last) {
 <%perl>
 my $rec = $rs->record($i-1);
@@ -99,6 +100,7 @@ my $db = $xc->find("e:serverInfo/e:database");
 my $id = $xc->find("concat(e:serverInfo/e:host, ':',
                            e:serverInfo/e:port, '/',
                            e:serverInfo/e:database)");
+push @ids, $id;
 </%perl>
       <tr style="background: <% ($i % 2) ? '#ffffc0' : 'white' %>">
        <td><% $i %></td>
@@ -107,9 +109,13 @@ my $id = $xc->find("concat(e:serverInfo/e:host, ':',
        <td><% $host %></td>
        <td><% $port %></td>
        <td><% $db %></td>
-       <td><a href="<% "/check.html?id=$id" %>">[Check]</a></td>
+       <td><a href="<% "/check.html?id=$id" %>">[Test]</a></td>
        <td><a href="<% "/raw.html?id=$id" %>">[Raw]</a></td>
       </tr>
-%}
+% }
      </table>
+     <p>
+      <a href="<% "/check.html?id=" . join(" ", @ids)
+	%>">[Test all targets on this list]</a>
+     </p>
 % }
