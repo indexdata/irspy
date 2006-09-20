@@ -1,4 +1,4 @@
-%# $Id: find.mc,v 1.3 2006-09-20 10:12:59 mike Exp $
+%# $Id: find.mc,v 1.4 2006-09-20 11:13:15 mike Exp $
 % if ($r->param("_search")) {
 %     $m->comp("found.mc");
 % } else {
@@ -57,7 +57,7 @@
 	<td><input type="text" name="dc.title" size="40"/></td>
        </tr>
        <tr>
-        <th>Creator</th>
+        <th>Author</th>
 	<td><input type="text" name="dc.creator" size="40"/></td>
        </tr>
        </tr>
@@ -68,7 +68,7 @@
          <select name="_sort" size="1">
 	  <option value="">[Do not sort]</option>
 	  <option value="dc.title">Title</option>
-	  <option value="dc.creator">Creator</option>
+	  <option value="dc.creator">Author</option>
 	  <option value="net.host">Host</option>
 	  <option value="net.port/numeric">Port</option>
 	  <option value="net.path">Database</option>
