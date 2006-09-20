@@ -1,4 +1,4 @@
-%# $Id: find.mc,v 1.2 2006-09-19 16:34:48 mike Exp $
+%# $Id: find.mc,v 1.3 2006-09-20 10:12:59 mike Exp $
 % if ($r->param("_search")) {
 %     $m->comp("found.mc");
 % } else {
@@ -70,7 +70,7 @@
 	  <option value="dc.title">Title</option>
 	  <option value="dc.creator">Creator</option>
 	  <option value="net.host">Host</option>
-	  <option value="net.port">Port</option>
+	  <option value="net.port/numeric">Port</option>
 	  <option value="net.path">Database</option>
 	 </select>
 	 <input type="checkbox" id="desc" name="_desc" value="1"/>
@@ -86,7 +86,7 @@
       <p>
        <small>
 	Show
-	<input type="text" name="_count" size="4" value="20"/>
+	<input type="text" name="_count" size="4" value="10"/>
 	records, skipping the first
 	<input type="text" name="_skip" size="4" value="0"/>
        </small>
