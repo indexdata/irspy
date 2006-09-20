@@ -1,4 +1,4 @@
-%# $Id: found.mc,v 1.6 2006-09-20 11:25:42 mike Exp $
+%# $Id: found.mc,v 1.7 2006-09-20 13:19:53 mike Exp $
 <%once>
 use XML::LibXML;
 use XML::LibXML::XPathContext;
@@ -30,7 +30,7 @@ if ($sort) {
 ### We can think about keeping the Connection object open to re-use
 # for multiple requests, but that may not get us much.  Same applies
 # for the XML parser.
-my $conn = new ZOOM::Connection("localhost:1313/IR-Explain---1");
+my $conn = new ZOOM::Connection("localhost:3313/IR-Explain---1");
 $conn->option(elementSetName => "zeerex");
 my $parser = new XML::LibXML();
 
