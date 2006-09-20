@@ -1,15 +1,15 @@
-/* $Id: style.mc,v 1.6 2006-09-20 11:37:33 mike Exp $ */
+/* $Id: style.mc,v 1.7 2006-09-20 11:40:26 mike Exp $ */
 body {
   color: black;
   background: white;
 }
 
 .banner { background: white }
-.panel1, .panel2 { background: #d4e7f3; padding: 0em 1em; }
+.panel1 { background: #d4e7f3; padding: 0em 1em; }
 .panel3 { background: #b4c7d3 }
 
 <%doc>Fixing the layout</%doc>
-.panel1, .panel2 { width: 100px }
+.panel1 { width: 100px }
 .spacer { width: 1em }
 
 <%doc>Why isn't this the default?</%doc>
