@@ -1,10 +1,10 @@
-%# $Id: found.mc,v 1.5 2006-09-19 16:35:25 mike Exp $
+%# $Id: found.mc,v 1.6 2006-09-20 11:25:42 mike Exp $
 <%once>
 use XML::LibXML;
 use XML::LibXML::XPathContext;
 </%once>
 <%perl>
-my %params = map { ( $_, $r->param($_)) } $r->param();
+my %params = map { ( $_, $r->param($_)) } grep { $r->param($_) } $r->param();
 my $query = "";
 foreach my $key (keys %params) {
     next if $key =~ /^_/;
@@ -17,8 +17,13 @@ $query = 'cql.allRecords=x' if $query eq "";
 
 my $sort = $params{"_sort"};
 if ($sort) {
+    my $modifiers = "";
+    if ($sort =~ s/(\/.*)//) {
+	$modifiers = $1;
+    }
     $query .= " or $sort=/sort";
     $query .= "-desc" if $params{_desc};
+    $query .= $modifiers;
     $query .= " 0";
 }
 
@@ -71,6 +76,7 @@ if ($last < $n) {
       <tr class="thleft">
        <th>#</th>
        <th>Title</th>
+       <th>Author</th>
        <th>Host</th>
        <th>Port</th>
        <th>DB</th>
@@ -86,6 +92,7 @@ my $root = $doc->getDocumentElement();
 my $xc = XML::LibXML::XPathContext->new($root);
 $xc->registerNs(e => 'http://explain.z3950.org/dtd/2.0/');
 my $title = $xc->find("e:databaseInfo/e:title");
+my $author = $xc->find("e:databaseInfo/e:author");
 my $host = $xc->find("e:serverInfo/e:host");
 my $port = $xc->find("e:serverInfo/e:port");
 my $db = $xc->find("e:serverInfo/e:database");
@@ -96,6 +103,7 @@ my $id = $xc->find("concat(e:serverInfo/e:host, ':',
       <tr style="background: <% ($i % 2) ? '#ffffc0' : 'white' %>">
        <td><% $i %></td>
        <td><% $title %></td>
+       <td><% $author %></td>
        <td><% $host %></td>
        <td><% $port %></td>
        <td><% $db %></td>
