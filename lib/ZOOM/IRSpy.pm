@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.15 2006-09-18 16:30:25 mike Exp $
+# $Id: IRSpy.pm,v 1.16 2006-09-20 16:12:56 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -37,9 +37,13 @@ BEGIN {
 
 sub new {
     my $class = shift();
-    my($dbname) = @_;
+    my($dbname, $user, $password) = @_;
 
-    my $conn = new ZOOM::Connection($dbname)
+    my @options;
+    push @options, (user => $user, password => $password)
+	if defined $user;
+
+    my $conn = new ZOOM::Connection($dbname, 0, @options)
 	or die "$0: can't connection to IRSpy database 'dbname'";
 
     my $this = bless {
@@ -201,13 +205,26 @@ sub check {
     my $res = $this->_run_test("Main");
     foreach my $target (sort keys %{ $this->{target2record} }) {
 	my $rec = $this->{target2record}->{$target};
-	# It's a shame that LibXML can't pretty-print this
-	print STDERR "$target: zeerex='", $rec->{zeerex}, "' = \n",
-	    $rec->{zeerex}->toString(), "\n";
-	### Write record back to database, if modified.
-    }
-    return $res;
+	# Write record back to database
+	my $p = $this->{conn}->package();
+	$p->option(action => "specialUpdate");
+	my $xml = $rec->{zeerex}->toString();
+	$p->option(record => $xml);
+	$p->send("update");
+	$p->destroy();
 
+	$p = $this->{conn}->package();
+	$p->send("commit");
+	$p->destroy();
+	if (0) {
+	    $xml =~ s/&/&amp/g;
+	    $xml =~ s/</&lt;/g;
+	    $xml =~ s/>/&gt;/g;
+	    print "Updated with xml=<br/>\n<pre>$xml</pre>\n";
+	}
+    }
+
+    return $res;
 }
 
 
