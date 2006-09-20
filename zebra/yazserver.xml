@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id: yazserver.xml,v 1.2 2006-05-12 16:13:53 mike Exp $ -->
+<!-- $Id: yazserver.xml,v 1.3 2006-09-20 13:19:54 mike Exp $ -->
 <yazgfs>
- <listen id="tcp1313">tcp:@:1313</listen>
- <server id="alvis" listenref="tcp1313">
+ <listen id="tcp3313">tcp:@:3313</listen>
+ <server id="alvis" listenref="tcp3313">
   <directory>./</directory>
   <config>zebra.cfg</config>
   <cql2rpn>pqf.properties</cql2rpn>
@@ -11,7 +11,7 @@
     <explain xmlns="http://explain.z3950.org/dtd/2.0/">
      <serverInfo>
       <host>localhost</host>
-      <port>1313</port>
+      <port>3313</port>
       <database>IR-Explain---1</database>
      </serverInfo>
     </explain>
