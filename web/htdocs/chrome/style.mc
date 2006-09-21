@@ -1,10 +1,12 @@
-/* $Id: style.mc,v 1.7 2006-09-20 11:40:26 mike Exp $ */
+/* $Id: style.mc,v 1.8 2006-09-21 13:13:42 mike Exp $ */
 body {
   color: black;
   background: white;
 }
 
-.banner { background: white }
+.banner { background: url(/beach.jpeg) }
+.logo { text-decoration: none; color: white; margin-left: 1em }
+.title { color: black; margin-right: 1em }
 .panel1 { background: #d4e7f3; padding: 0em 1em; }
 .panel3 { background: #b4c7d3 }
 
