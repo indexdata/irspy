@@ -1,13 +1,15 @@
-%# $Id: bannerrow.mc,v 1.3 2006-09-15 16:48:43 mike Exp $
+%# $Id: bannerrow.mc,v 1.4 2006-09-21 13:13:49 mike Exp $
 <%args>
 $title
 </%args>
 % my $agent = $m->notes("agent");
    <tr class="banner">
     <td align="left">
-     <h1><a style="text-decoration: none" href="/">IRSpy</a></h1>
+     <br/>
+     <h1><a class="logo" href="/">IRSpy</a></h1>
     </td>
     <td align="right">
-     <h1><% $title %></h1>
+     <br/>
+     <h1 class="title"><% $title %></h1>
     </td>
    </tr>
