@@ -45,7 +45,6 @@ web/htdocs/favicon.ico
 web/htdocs/find.html
 web/htdocs/index.html
 web/htdocs/raw.html
-web/htdocs/run.html
 web/htdocs/valid-xhtml10.png
 web/htdocs/vcss.png
 zebra/Makefile
