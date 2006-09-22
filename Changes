@@ -1,4 +1,4 @@
-$Id: Changes,v 1.4 2006-09-22 08:45:16 mike Exp $
+$Id: Changes,v 1.5 2006-09-22 09:06:58 mike Exp $
 
 Revision history for Perl extension ZOOM::IRSpy.
 
@@ -7,6 +7,8 @@ TODO
 	    list of targets beginning with "R".
 	### Change targets() API to accept a Perl list rather than a
 	    space-separated string.
+	### Proper HTML-quoting of all "&" in links.
+	### Proper URL-encoding of all search-terms, etc.
 	### Change check.html parameters to cleanly accept multiple
 	    target IDs even if they contain spaces.
 	### Add Dublin Core record format to Zebra configuration.
