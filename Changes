@@ -1,4 +1,4 @@
-$Id: Changes,v 1.3 2006-09-21 16:16:01 mike Exp $
+$Id: Changes,v 1.4 2006-09-22 08:45:16 mike Exp $
 
 Revision history for Perl extension ZOOM::IRSpy.
 
@@ -18,20 +18,21 @@ TODO
 		- Type of library (Academic, Public, Corporate,
 		    Special, National, Education or Other)
 		- Country.
-	### Ability to add target bu uploading a ZeeRex record.
-	### Capture YAZ logging output for web display.
-	### Make full-record display for target records.
-	### Link from target-test results to full and raw records.
+	### When adding a new database, check for pre-existence, using
+	    IP address/hostname canonicalisation.
+	### Ability to add target by uploading a ZeeRex record.
+	### "Add another database to this target" button.
 	### Form for editing details of an existing target.
 	### Maybe require authentication for database-changing
 	    operations such as target testing, adding a new target and
 	    editing and existing one.
+	### Capture YAZ logging output for web display.
+	### Make full-record display for target records.
+	### Link from target-test results to full and raw records.
 	### Mark targets that persistently don't respond.
 	### Email administrative contact on failure.
 	### Add statistics page like that one at
 		http://targettest.indexdata.com/stat.php
-	### When adding a new database, check for pre-existence, using
-	    IP address/hostname canonicalisation.
 
 0.02  [IN PROGRESS]
 	- Renamed from Net::Z3950::IRSpy to ZOOM::IRSpy
