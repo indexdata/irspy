@@ -1,9 +1,9 @@
-$Id: Changes,v 1.5 2006-09-22 09:06:58 mike Exp $
+$Id: Changes,v 1.6 2006-09-22 14:59:56 mike Exp $
 
 Revision history for Perl extension ZOOM::IRSpy.
 
 TODO
-	### Fix display of non-ASCII characters in, for example, the
+	DONE Fix display of non-ASCII characters in, for example, the
 	    list of targets beginning with "R".
 	### Change targets() API to accept a Perl list rather than a
 	    space-separated string.
