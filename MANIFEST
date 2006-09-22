@@ -35,7 +35,6 @@ web/htdocs/chrome/poweredby.mc
 web/htdocs/chrome/style.mc
 web/htdocs/chrome/tail.mc
 web/htdocs/details/add.mc
-web/htdocs/details/all.mc
 web/htdocs/details/check.mc
 web/htdocs/details/error.mc
 web/htdocs/details/find.mc
