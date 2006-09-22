@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.16 2006-09-20 16:12:56 mike Exp $
+# $Id: IRSpy.pm,v 1.17 2006-09-22 15:02:24 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -74,11 +74,11 @@ sub log {
 #
 sub targets {
     my $this = shift();
-    my($targetList) = @_;
+    my(@targets) = @_;
 
-    $this->log("irspy", "setting explicit list of targets '$targetList'");
+    $this->log("irspy", "setting explicit list of targets ",
+	       join(", ", map { "'$_'" } @targets));
     $this->{allrecords} = 0;
-    my @targets = grep { $_ ne "" } split /\s+/, $targetList;
     my @qlist;
     foreach my $target (@targets) {
 	my($host, $port, $db, $newtarget) = _parse_target_string($target);
