@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: irspy.pl,v 1.5 2006-09-22 15:01:13 mike Exp $
+# $Id: irspy.pl,v 1.6 2006-09-22 15:23:51 mike Exp $
 #
 # Run like this:
 #	YAZ_LOG=irspy,irspy_test,irspy_debug perl -I ../lib irspy.pl -t "bagel.indexdata.dk/gils z3950.loc.gov:7090/Voyager" localhost:3313/IR-Explain---1
@@ -11,11 +11,10 @@ use Getopt::Std;
 use ZOOM::IRSpy;
 
 my %opts;
-if (!getopts('t:au', \%opts) || @ARGV != 1) {
+if (!getopts('t:a', \%opts) || @ARGV != 1) {
     print STDERR qq[Usage: $0 [options] <IRSpy-database>
 	-t <t1 t2 ...>	Space-separated list of targets to check
 	-a		Check all targets registered in database
-	-u		Update information in database
 ];
     exit 1;
 }
