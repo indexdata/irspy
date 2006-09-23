@@ -1,4 +1,4 @@
-%# $Id: found.mc,v 1.8 2006-09-20 16:37:15 mike Exp $
+%# $Id: found.mc,v 1.9 2006-09-23 07:14:05 mike Exp $
 <%once>
 use XML::LibXML;
 use XML::LibXML::XPathContext;
@@ -115,7 +115,7 @@ push @ids, $id;
 % }
      </table>
      <p>
-      <a href="<% "/check.html?id=" . join(" ", @ids)
+      <a href="<% "/check.html?" . join("&", map { "id=$_" } @ids)
 	%>">[Test all targets on this list]</a>
      </p>
 % }
