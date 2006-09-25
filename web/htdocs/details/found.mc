@@ -1,8 +1,7 @@
-%# $Id: found.mc,v 1.10 2006-09-25 14:58:20 mike Exp $
+%# $Id: found.mc,v 1.11 2006-09-25 16:52:30 mike Exp $
 <%once>
 use XML::LibXML;
 use XML::LibXML::XPathContext;
-use ZOOM::IRSpy::Record qw(xml_encode);
 use URI::Escape;
 
 sub print_navlink {
