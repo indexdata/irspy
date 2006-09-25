@@ -1,10 +1,13 @@
-# $Id: Record.pm,v 1.11 2006-09-25 12:39:34 mike Exp $
+# $Id: Record.pm,v 1.12 2006-09-25 14:21:07 mike Exp $
 
 package ZOOM::IRSpy::Record;
 
 use 5.008;
 use strict;
 use warnings;
+
+use Exporter 'import';
+our @EXPORT_OK = qw(xml_encode);
 
 use XML::LibXML;
 use XML::LibXML::XPathContext;
