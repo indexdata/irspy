@@ -1,4 +1,4 @@
-%# $Id: bannerrow.mc,v 1.5 2006-09-25 16:46:27 mike Exp $
+%# $Id: bannerrow.mc,v 1.6 2006-09-25 19:52:20 mike Exp $
 <%args>
 $title
 </%args>
@@ -9,6 +9,6 @@ $title
     </td>
     <td align="right">
      <br/>
-     <h1 class="title"><% $title %></h1>
+     <h1 class="title"><% xml_encode($title) %></h1>
     </td>
    </tr>
