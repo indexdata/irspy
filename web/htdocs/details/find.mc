@@ -1,4 +1,4 @@
-%# $Id: find.mc,v 1.4 2006-09-20 11:13:15 mike Exp $
+%# $Id: find.mc,v 1.5 2006-09-25 15:32:06 mike Exp $
 % if ($r->param("_search")) {
 %     $m->comp("found.mc");
 % } else {
@@ -6,7 +6,7 @@
       Choose one or more critera by which to search for registered
       targets, then press the <b>Search</b> button.
      </p>
-     <form>
+     <form method="get" action="">
       <table class="searchform">
        <tr>
         <th>(Anywhere)</th>
