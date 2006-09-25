@@ -1,7 +1,29 @@
-%# $Id: found.mc,v 1.9 2006-09-23 07:14:05 mike Exp $
+%# $Id: found.mc,v 1.10 2006-09-25 14:58:20 mike Exp $
 <%once>
 use XML::LibXML;
 use XML::LibXML::XPathContext;
+use ZOOM::IRSpy::Record qw(xml_encode);
+use URI::Escape;
+
+sub print_navlink {
+    my($params, $cond, $caption, $skip) = @_;
+
+    if ($cond) {
+	print('     <a href="', navlink($params, $caption, $skip),
+	      '"', ">$caption</a>\n");
+    } else {
+	print qq[     <span class="disabled">$caption</span>\n];
+    }
+}
+
+sub navlink {
+    my($params, $caption, $skip) = @_;
+    local $params->{_skip} = $skip;
+    my $url = "?" . join("&", map { "$_=" . $params->{$_}  } sort keys %$params);
+    $url = xml_encode($url);
+    return $url;
+}
+
 </%once>
 <%perl>
 my %params = map { ( $_, $r->param($_)) } grep { $r->param($_) } $r->param();
@@ -44,7 +66,7 @@ my $first = $skip+1;
 my $last = $first+$count-1;
 $last = $n if $last > $n;
 </%perl>
-     <h2><% $query %></h2>
+     <h2><% xml_encode($query) %></h2>
      <p>
 % if ($n == 0) {
       No matches
@@ -54,20 +76,8 @@ $last = $n if $last > $n;
 % } else {
       Records <% $first %> to <% $last %> of <% $n %><br/>
 <%perl>
-if ($skip > 0) {
-    $params{_skip} = $count < $skip ? $skip-$count : 0;
-    my $prev = "?" . join("&", map { "$_=" . $params{$_}  } sort keys %params);
-    print qq[     <a href="$prev">Prev</a>\n];
-} else {
-    print qq[     <span class="disabled">Prev</span>\n];
-}
-if ($last < $n) {
-    $params{_skip} = $skip+$count;
-    my $next = "?" . join("&", map { "$_=" . $params{$_}  } sort keys %params);
-    print qq[     <a href="$next">Next</a>\n];
-} else {
-    print qq[     <span class="disabled">Next</span>\n];
-}
+print_navlink(\%params, $skip > 0, "Prev", $count < $skip ? $skip-$count : 0);
+print_navlink(\%params, $last < $n, "Next", $skip+$count);
 </%perl>
 % }
      </p>
@@ -104,18 +114,25 @@ push @ids, $id;
 </%perl>
       <tr style="background: <% ($i % 2) ? '#ffffc0' : 'white' %>">
        <td><% $i %></td>
-       <td><% $title %></td>
-       <td><% $author %></td>
-       <td><% $host %></td>
-       <td><% $port %></td>
-       <td><% $db %></td>
-       <td><a href="<% "/check.html?id=$id" %>">[Test]</a></td>
-       <td><a href="<% "/raw.html?id=$id" %>">[Raw]</a></td>
+       <td><% xml_encode($title) %></td>
+       <td><% xml_encode($author) %></td>
+       <td><% xml_encode($host) %></td>
+       <td><% xml_encode($port) %></td>
+       <td><% xml_encode($db) %></td>
+       <td><a href="<% xml_encode("/check.html?id=" . uri_escape($id))
+	%>">[Test]</a></td>
+       <td><a href="<% xml_encode("/raw.html?id=" . uri_escape($id))
+	%>">[Raw]</a></td>
       </tr>
 % }
      </table>
+<%perl>
+print_navlink(\%params, $skip > 0, "Prev", $count < $skip ? $skip-$count : 0);
+print_navlink(\%params, $last < $n, "Next", $skip+$count);
+</%perl>
      <p>
-      <a href="<% "/check.html?" . join("&", map { "id=$_" } @ids)
+      <a href="<% "/check.html?" .
+	xml_encode(join("&", map { "id=" . uri_escape($_) } @ids))
 	%>">[Test all targets on this list]</a>
      </p>
 % }
