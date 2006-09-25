@@ -1,4 +1,4 @@
-# $Id: Makefile.PL,v 1.4 2006-09-15 16:38:28 mike Exp $
+# $Id: Makefile.PL,v 1.5 2006-09-25 12:44:12 mike Exp $
 
 use 5.008;
 use ExtUtils::MakeMaker;
@@ -10,6 +10,7 @@ WriteMakefile(
     PREREQ_PM         => {
 	Net::Z3950::ZOOM => 1.04,
 	XML::LibXML::XPathContext => 0.07, # For Web UI
+	URI::Escape => 3.28, # For Web UI
     },
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM  => 'lib/ZOOM/IRSpy.pm', # retrieve abstract from module
