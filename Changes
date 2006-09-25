@@ -1,4 +1,4 @@
-$Id: Changes,v 1.7 2006-09-22 16:17:16 mike Exp $
+$Id: Changes,v 1.8 2006-09-25 16:51:04 mike Exp $
 
 Revision history for Perl extension ZOOM::IRSpy.
 
@@ -9,8 +9,8 @@ TODO
 	    space-separated string.
 	DONE Change check.html parameters to cleanly accept multiple
 	    target IDs even if they contain spaces.
-	### Proper HTML-quoting of all "&" in links.
-	### Proper URL-encoding of all search-terms, etc.
+	DONE Proper URL-encoding of all link parameters.
+	DONE Proper HTML-quoting of all output.
 	### Add Dublin Core record format to Zebra configuration.
 	### Much better "Add a target" form, including:
 		- Name
