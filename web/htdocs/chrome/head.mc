@@ -1,4 +1,4 @@
-%# $Id: head.mc,v 1.2 2006-09-22 09:05:39 mike Exp $
+%# $Id: head.mc,v 1.3 2006-09-25 19:53:02 mike Exp $
 <%args>
 $title
 </%args>
@@ -9,7 +9,7 @@ $title
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
  <head>
-  <title>IRSpy: <% $title %></title>
+  <title>IRSpy: <% xml_encode($title) %></title>
   <style type="text/css">
    <& style.mc &>
   </style>
