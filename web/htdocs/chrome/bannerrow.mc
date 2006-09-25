@@ -1,8 +1,7 @@
-%# $Id: bannerrow.mc,v 1.4 2006-09-21 13:13:49 mike Exp $
+%# $Id: bannerrow.mc,v 1.5 2006-09-25 16:46:27 mike Exp $
 <%args>
 $title
 </%args>
-% my $agent = $m->notes("agent");
    <tr class="banner">
     <td align="left">
      <br/>
