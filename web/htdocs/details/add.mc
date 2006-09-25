@@ -1,4 +1,4 @@
-%# $Id: add.mc,v 1.1 2006-09-20 16:49:46 mike Exp $
+%# $Id: add.mc,v 1.2 2006-09-25 12:45:00 mike Exp $
 <%perl>
 if ($r->param("_add")) {
     my $host = $r->param("net.host");
@@ -6,7 +6,7 @@ if ($r->param("_add")) {
     my $db = $r->param("net.path");
     my $id = "$host:$port/$db";
     $r->param(id => $id);
-    $m->comp("check.mc");
+    $m->comp("check.mc", id => $id);
 } else {
 </%perl>
      <p>
