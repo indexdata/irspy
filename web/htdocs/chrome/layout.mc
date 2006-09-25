@@ -1,4 +1,4 @@
-%# $Id: layout.mc,v 1.6 2006-09-20 14:14:30 mike Exp $
+%# $Id: layout.mc,v 1.7 2006-09-25 16:47:36 mike Exp $
 <%args>
 $debug => undef
 $title
@@ -7,6 +7,7 @@ $component
 <%once>
 use lib "/usr/local/src/cvs/irspy/lib";
 use ZOOM::IRSpy;
+use ZOOM::IRSpy::Record qw(xml_encode);
 </%once>
 <& /chrome/head.mc, title => $title &>
   <table border="0" cellpadding="0" cellspacing="0" width="100%">
