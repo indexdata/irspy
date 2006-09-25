@@ -1,4 +1,4 @@
-%# $Id: add.mc,v 1.2 2006-09-25 12:45:00 mike Exp $
+%# $Id: add.mc,v 1.3 2006-09-25 15:33:38 mike Exp $
 <%perl>
 if ($r->param("_add")) {
     my $host = $r->param("net.host");
@@ -13,7 +13,7 @@ if ($r->param("_add")) {
       Enter the connection details of the target you wish to add,
       then press the <b>Add</b> button.
      </p>
-     <form>
+     <form method="get" action="">
       <table class="searchform">
        <tr>
         <th>Host</th>
