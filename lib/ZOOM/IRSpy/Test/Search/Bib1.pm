@@ -1,4 +1,4 @@
-# $Id: Bib1.pm,v 1.1 2006-09-26 13:12:28 sondberg Exp $
+# $Id: Bib1.pm,v 1.2 2006-09-26 13:34:38 sondberg Exp $
 
 # See the "Main" test package for documentation
 
@@ -23,7 +23,8 @@ sub run {
 
     foreach my $attr (@Bib1_Attr) {
         $pod->search_pqf('@attr 1=' . $attr . ' water' );
-        my $err = $pod->wait({'irspy' => $irspy, 'attr' => $attr});
+        $irspy->{'handle'}->{'attr'} = $attr;
+        my $err = $pod->wait($irspy);
     }
 
     return 0;
@@ -31,9 +32,8 @@ sub run {
 
 
 sub found {
-    my($conn, $href, $rs, $event) = @_;
-    my $irspy = $href->{'irspy'};
-    my $attr = $href->{'attr'};
+    my($conn, $irspy, $rs, $event) = @_;
+    my $attr = $irspy->{'handle'}->{'attr'};
     my $n = $rs->size();
     my $rec = $irspy->record($conn);
 
