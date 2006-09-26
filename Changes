@@ -1,4 +1,4 @@
-$Id: Changes,v 1.8 2006-09-25 16:51:04 mike Exp $
+$Id: Changes,v 1.9 2006-09-26 12:33:18 mike Exp $
 
 Revision history for Perl extension ZOOM::IRSpy.
 
@@ -11,6 +11,7 @@ TODO
 	    target IDs even if they contain spaces.
 	DONE Proper URL-encoding of all link parameters.
 	DONE Proper HTML-quoting of all output.
+	DONE Capture YAZ logging output for web display.
 	### Add Dublin Core record format to Zebra configuration.
 	### Much better "Add a target" form, including:
 		- Name
@@ -28,7 +29,6 @@ TODO
 	### Maybe require authentication for database-changing
 	    operations such as target testing, adding a new target and
 	    editing and existing one.
-	### Capture YAZ logging output for web display.
 	### Make full-record display for target records.
 	### Link from target-test results to full and raw records.
 	### Mark targets that persistently don't respond.
