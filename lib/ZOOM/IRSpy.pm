@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.19 2006-09-26 09:08:36 mike Exp $
+# $Id: IRSpy.pm,v 1.20 2006-09-26 09:24:45 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -288,7 +288,10 @@ sub isodate {
 
 =head1 SEE ALSO
 
-ZOOM::IRSpy::Record
+ZOOM::IRSpy::Record,
+ZOOM::IRSpy::Web,
+ZOOM::IRSpy::Test,
+ZOOM::IRSpy::Maintenance.
 
 The ZOOM-Perl module,
 http://search.cpan.org/~mirk/Net-Z3950-ZOOM/
