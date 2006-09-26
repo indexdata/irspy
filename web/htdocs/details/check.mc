@@ -1,4 +1,4 @@
-%# $Id: check.mc,v 1.6 2006-09-26 10:16:15 mike Exp $
+%# $Id: check.mc,v 1.7 2006-09-26 11:25:30 mike Exp $
 <%args>
 @id
 </%args>
@@ -16,6 +16,7 @@ $m->flush_buffer();
 
 my $spy = new ZOOM::IRSpy::Web("localhost:3313/IR-Explain---1",
 			       admin => "fruitbat");
+$spy->log_init_level("irspy,irspy_test");
 $spy->targets(@id) if !$allTargets;
 $spy->initialise();
 my $res = $spy->check();
