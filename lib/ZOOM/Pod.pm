@@ -1,4 +1,4 @@
-# $Id: Pod.pm,v 1.18 2006-07-25 16:51:22 mike Exp $
+# $Id: Pod.pm,v 1.19 2006-09-26 08:52:21 mike Exp $
 
 package ZOOM::Pod;
 
@@ -8,7 +8,7 @@ use warnings;
 use ZOOM;
 
 BEGIN {
-    # Just register the name
+    # Just register the names: this doesn't turn the levels on
     ZOOM::Log::mask_str("pod");
     ZOOM::Log::mask_str("pod_unhandled");
 }
