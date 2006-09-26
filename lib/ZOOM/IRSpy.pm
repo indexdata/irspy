@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.18 2006-09-25 12:44:38 mike Exp $
+# $Id: IRSpy.pm,v 1.19 2006-09-26 09:08:36 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -158,7 +158,7 @@ sub initialise {
 	my $zeerex = _render_record($rs, $i-1, "zeerex");
 	#print STDERR "making '$target' record with '$zeerex'\n";
 	$target2record{lc($target)} =
-	    new ZOOM::IRSpy::Record($target, $zeerex);
+	    new ZOOM::IRSpy::Record($this, $target, $zeerex);
 	push @{ $this->{targets} }, $target
 	    if $this->{allrecords};
     }
@@ -168,7 +168,7 @@ sub initialise {
 	if (!defined $record) {
 	    $this->log("irspy_debug", "made new record for '$target'");
 	    #print STDERR "making '$target' record without zeerex\n";
-	    $target2record{$target} = new ZOOM::IRSpy::Record($target);
+	    $target2record{$target} = new ZOOM::IRSpy::Record($this, $target);
 	} else {
 	    $this->log("irspy_debug", "using existing record for '$target'");
 	}
