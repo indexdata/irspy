@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id: zeerex2index.xsl,v 1.4 2006-09-19 16:24:59 mike Exp $ -->
+<!-- $Id: zeerex2index.xsl,v 1.5 2006-09-26 13:22:12 mike Exp $ -->
 <!-- See the ZeeRex profile at http://srw.cheshire3.org/profiles/ZeeRex/ -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:z="http://indexdata.dk/zebra/xslt/1"
                 xmlns:e="http://explain.z3950.org/dtd/2.0/"
                 version="1.0">
  <xsl:output indent="yes" method="xml" version="1.0" encoding="UTF-8"/>
- <!-- disable all default text node output -->
+ <!-- Disable all default text node output -->
  <xsl:template match="text()"/>
- <!-- match on alvis xml record -->
+ <!-- Match on ZeeRex XML record -->
  <xsl:template match="//e:explain">
   <z:record id="{concat(
 		e:serverInfo/e:host, ':',
