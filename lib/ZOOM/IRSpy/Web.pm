@@ -1,4 +1,4 @@
-# $Id: Web.pm,v 1.1 2006-09-26 09:31:10 mike Exp $
+# $Id: Web.pm,v 1.2 2006-09-26 11:25:07 mike Exp $
 
 package ZOOM::IRSpy::Web;
 
@@ -19,18 +19,34 @@ ZOOM::IRSpy::Web - subclass of ZOOM::IRSpy for use by Web UI
 
 This behaves exactly the same as the base C<ZOOM::IRSpy> class except
 that the Clog()> method does not call YAZ log, but outputs
-HTML-formatted messages on standard output.
+HTML-formatted messages on standard output.  The additional function
+log_init_level() controls what log-levels are to be included in the
+output.
 
 =cut
+
+sub log_init_level {
+    my $this = shift();
+    my($level) = @_;
+
+    my $old = $this->{log_level};
+    $this->{log_level} = $level if defined $level;
+    return $old;
+}
 
 sub log {
     my $this = shift();
     my($level, @s) = @_;
 
-    # We should only produce output if $level is turned on
+    $this->{log_level} = "irspy" if !defined $this->{log_level};
+    return if index(("," . $this->{log_level} . ","), ",$level,") < 0;
+
     my $message = "[$level] " . join("", @s);
     $| = 1;			# 
     print xml_encode($message), "<br/>\n";
+
+    ### This is naughty -- it knows about HTML::Mason
+    $HTML::Mason::Commands::m->flush_buffer();
 }
 
 
