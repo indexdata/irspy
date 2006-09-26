@@ -1,4 +1,4 @@
-# $Id: Record.pm,v 1.12 2006-09-25 14:21:07 mike Exp $
+# $Id: Record.pm,v 1.13 2006-09-26 09:08:09 mike Exp $
 
 package ZOOM::IRSpy::Record;
 
@@ -29,7 +29,7 @@ I<## To follow>
 
 sub new {
     my $class = shift();
-    my($target, $zeerex) = @_;
+    my($irspy, $target, $zeerex) = @_;
 
     if (!defined $zeerex) {
 	$zeerex = _empty_zeerex_record($target);
@@ -37,6 +37,7 @@ sub new {
 
     my $parser = new XML::LibXML();
     return bless {
+	irspy => $irspy,
 	target => $target,
 	parser => $parser,
 	zeerex => $parser->parse_string($zeerex)->documentElement(),
@@ -104,8 +105,8 @@ sub append_entry {
 	    if @nodes == 0;
     }
 
-    ZOOM::Log::log("irspy",
-		   scalar(@nodes), " matches for '$xpath': using first")
+    $this->{irspy}->log("irspy",
+			scalar(@nodes), " matches for '$xpath': using first")
 	if @nodes > 1;
 
     $this->_half_decent_appendWellBalancedChunk($nodes[0], $frag);
