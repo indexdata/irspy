@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.20 2006-09-26 09:24:45 mike Exp $
+# $Id: IRSpy.pm,v 1.21 2006-09-27 12:49:46 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -201,8 +201,10 @@ sub _render_record {
 #
 sub check {
     my $this = shift();
+    my($test) = @_;
 
-    my $res = $this->_run_test("Main");
+    $test = "Main" if !defined $test;
+    my $res = $this->_run_test($test);
     foreach my $target (sort keys %{ $this->{target2record} }) {
 	my $rec = $this->{target2record}->{$target};
 	# Write record back to database
@@ -249,7 +251,8 @@ sub _run_test {
     $this->log("irspy", "running test '$tname'");
     push @{ $this->{tests} }, $tname;
     my $test = "ZOOM::IRSpy::Test::$tname"->new($this);
-    my $res =$test->run();
+    my $res = $test->run();
+    $this->pod()->remove_callbacks();
     pop @{ $this->{tests} };
     return $res;
 }
