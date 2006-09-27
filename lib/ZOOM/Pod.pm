@@ -1,4 +1,4 @@
-# $Id: Pod.pm,v 1.20 2006-09-27 12:40:44 mike Exp $
+# $Id: Pod.pm,v 1.21 2006-09-27 12:48:20 mike Exp $
 
 package ZOOM::Pod;
 
@@ -208,6 +208,20 @@ sub callback {
     $this->{callback}->{$event} = $sub;
 
     return $old;
+}
+
+=head2 remove_callbacks()
+
+ $pod->remove_callbacks();
+
+Removes all registed callbacks from the pod.  This is useful when the
+pod has completed one operation and is about to start the next.
+
+=cut
+
+sub remove_callbacks {
+    my $this = shift();
+    $this->{callback} = {};
 }
 
 =head2 search_pqf()
