@@ -1,4 +1,4 @@
-# $Id: Pod.pm,v 1.19 2006-09-26 08:52:21 mike Exp $
+# $Id: Pod.pm,v 1.20 2006-09-27 12:40:44 mike Exp $
 
 package ZOOM::Pod;
 
@@ -205,8 +205,7 @@ sub callback {
     my($event, $sub) = @_;
 
     my $old = $this->{callback}->{$event};
-    $this->{callback}->{$event} = $sub
-	if defined $sub;
+    $this->{callback}->{$event} = $sub;
 
     return $old;
 }
