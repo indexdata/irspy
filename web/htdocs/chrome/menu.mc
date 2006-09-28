@@ -1,4 +1,4 @@
-%# $Id: menu.mc,v 1.7 2006-09-20 14:11:03 mike Exp $
+%# $Id: menu.mc,v 1.8 2006-09-28 16:47:22 mike Exp $
      <p>
       <a href="/"><b>Home</b></a><br/>
       <a href="/all.html">Test&nbsp;all&nbsp;targets</a><br/>
@@ -11,6 +11,9 @@
 % foreach my $i ('a' .. 'z') {
       <a href="/find.html?dc.title=^<% $i %>*&amp;_sort=dc.title&amp;_count=9999&amp;_search=Search"><% uc($i) %></a>
 % }
+     </p>
+     <p>
+      <a href="/doc.html">Documentation</a>
      </p>
      <p>
       <a href="http://validator.w3.org/check?uri=referer"><img
