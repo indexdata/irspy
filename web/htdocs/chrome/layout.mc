@@ -1,11 +1,15 @@
-%# $Id: layout.mc,v 1.8 2006-09-26 09:30:28 mike Exp $
+%# $Id: layout.mc,v 1.9 2006-09-28 16:03:08 mike Exp $
 <%args>
 $debug => undef
 $title
 $component
 </%args>
 <%once>
-use lib "/usr/local/src/cvs/irspy/lib";
+BEGIN {
+    use vars qw($LIBDIR);
+    $LIBDIR = $r->dir_config("IRSpyLibDir");
+}
+use lib $LIBDIR;
 use ZOOM::IRSpy::Web;
 use ZOOM::IRSpy::Record qw(xml_encode);
 </%once>
