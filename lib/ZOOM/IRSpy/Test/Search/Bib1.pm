@@ -1,4 +1,4 @@
-# $Id: Bib1.pm,v 1.2 2006-09-26 13:34:38 sondberg Exp $
+# $Id: Bib1.pm,v 1.3 2006-10-02 07:40:53 sondberg Exp $
 
 # See the "Main" test package for documentation
 
@@ -10,7 +10,7 @@ use warnings;
 use Data::Dumper;
 
 use ZOOM::IRSpy::Test;
-our @ISA = @ISA = qw(ZOOM::IRSpy::Test);
+our @ISA = qw(ZOOM::IRSpy::Test);
 our @Bib1_Attr = qw(1 2 3 4 5 6 7 8 9); 
 
 
@@ -24,7 +24,7 @@ sub run {
     foreach my $attr (@Bib1_Attr) {
         $pod->search_pqf('@attr 1=' . $attr . ' water' );
         $irspy->{'handle'}->{'attr'} = $attr;
-        my $err = $pod->wait($irspy);
+        my $err = $pod->wait({'irspy' => $irspy, 'attr' => $attr});
     }
 
     return 0;
@@ -32,8 +32,9 @@ sub run {
 
 
 sub found {
-    my($conn, $irspy, $rs, $event) = @_;
-    my $attr = $irspy->{'handle'}->{'attr'};
+    my($conn, $href, $rs, $event) = @_;
+    my $irspy = $href->{'irspy'};
+    my $attr = $href->{'attr'};
     my $n = $rs->size();
     my $rec = $irspy->record($conn);
 
