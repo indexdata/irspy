@@ -1,4 +1,4 @@
-# $Id: Bib1.pm,v 1.3 2006-10-02 07:40:53 sondberg Exp $
+# $Id: Bib1.pm,v 1.4 2006-10-02 13:02:10 sondberg Exp $
 
 # See the "Main" test package for documentation
 
@@ -20,11 +20,13 @@ sub run {
     my $pod = $irspy->pod();
 
     $pod->callback(ZOOM::Event::RECV_SEARCH, \&found);
+    $pod->callback("exception", \&error_handler);
+    $pod->callback(ZOOM::Event::ZEND, \&continue);
 
     foreach my $attr (@Bib1_Attr) {
         $pod->search_pqf('@attr 1=' . $attr . ' water' );
         $irspy->{'handle'}->{'attr'} = $attr;
-        my $err = $pod->wait({'irspy' => $irspy, 'attr' => $attr});
+        my $err = $pod->wait($irspy);
     }
 
     return 0;
@@ -32,8 +34,8 @@ sub run {
 
 
 sub found {
-    my($conn, $href, $rs, $event) = @_;
-    my $irspy = $href->{'irspy'};
+    my($conn, $irspy, $rs, $event) = @_;
+    my $href = $irspy->{'handle'};
     my $attr = $href->{'attr'};
     my $n = $rs->size();
     my $rec = $irspy->record($conn);
@@ -48,5 +50,27 @@ sub found {
     return 0;
 }
 
+
+sub continue { 
+    my ($conn, $irspy, $rs, $event) = @_;
+
+    print "ZEND\n";
+}
+
+
+
+sub error_handler { maybe_connected(@_, 0) }
+
+sub maybe_connected {
+    my($conn, $irspy, $rs, $event, $ok) = @_;
+
+    $irspy->log("irspy_test", $conn->option("host"),
+		($ok ? "" : " not"), " connected");
+    my $rec = $irspy->record($conn);
+    $rec->append_entry("irspy:status", "<irspy:probe ok='$ok'>" .
+		       $irspy->isodate(time()) . "</irspy:probe>");
+    $conn->option(pod_omit => 1) if !$ok;
+    return 0;
+}
 
 1;
