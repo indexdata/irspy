@@ -1,6 +1,6 @@
-# $Id: Main.pm,v 1.6 2006-10-02 13:08:42 sondberg Exp $
+# $Id: Main.pm,v 1.1 2006-10-02 13:08:42 sondberg Exp $
 
-package ZOOM::IRSpy::Test::Main;
+package ZOOM::IRSpy::Test::Search::Main;
 
 use 5.008;
 use strict;
@@ -13,7 +13,7 @@ our @ISA;
 
 =head1 NAME
 
-ZOOM::IRSpy::Test::Main - a single test for IRSpy
+ZOOM::IRSpy::Test::Main::Search::Main - a single test for IRSpy
 
 =head1 SYNOPSIS
 
@@ -28,7 +28,7 @@ I<## To follow>
 sub run {
     my $this = shift();
 
-    return $this->run_tests(qw(Ping Search::Main));
+    return $this->run_tests(qw(Search::Bib1));
 }
 
 
