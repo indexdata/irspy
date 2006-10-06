@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id: zeerex2index.xsl,v 1.5 2006-09-26 13:22:12 mike Exp $ -->
+<!-- $Id: zeerex2index.xsl,v 1.6 2006-10-06 11:07:11 mike Exp $ -->
 <!-- See the ZeeRex profile at http://srw.cheshire3.org/profiles/ZeeRex/ -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:z="http://indexdata.dk/zebra/xslt/1"
@@ -51,7 +51,7 @@
    <z:index name="net:port" type="s">
     <xsl:value-of select="e:serverInfo/e:port"/>
    </z:index>
-   <z:index name="net:path" type="w"><!-- "w" for case-insensitivity -->
+   <z:index name="net:path" type="0">
     <xsl:value-of select="e:serverInfo/e:database"/>
    </z:index>
    <z:index name="net:path" type="s">
