@@ -1,4 +1,4 @@
-# $Id: Ping.pm,v 1.11 2006-09-13 16:29:55 mike Exp $
+# $Id: Ping.pm,v 1.12 2006-10-06 11:33:08 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -9,20 +9,15 @@ use strict;
 use warnings;
 
 use ZOOM::IRSpy::Test;
-our @ISA;
-@ISA = qw(ZOOM::IRSpy::Test);
+our @ISA = qw(ZOOM::IRSpy::Test);
 
 
-sub run {
-    my $this = shift();
-    my $irspy = $this->irspy();
-    my $pod = $irspy->pod();
+sub start {
+    my $class = shift();
+    my($conn) = @_;
 
-    $pod->callback(ZOOM::Event::CONNECT, \&connected);
-    $pod->callback("exception", \&not_connected);
-    my $err = $pod->wait($irspy);
-
-    return 0;
+    $conn->irspy_connect(ZOOM::Event::CONNECT, \&connected,
+			 "exception", \&not_connected);
 }
 
 
@@ -30,15 +25,14 @@ sub connected { maybe_connected(@_, 1) }
 sub not_connected { maybe_connected(@_, 0) }
 
 sub maybe_connected {
-    my($conn, $irspy, $rs, $event, $ok) = @_;
+    my($conn, $rs, $event, $ok) = @_;
 
-    $irspy->log("irspy_test", $conn->option("host"),
-		($ok ? "" : " not"), " connected");
-    my $rec = $irspy->record($conn);
+    $conn->log("irspy_test", ($ok ? "" : "not "), "connected");
+    my $rec = $conn->record();
     $rec->append_entry("irspy:status", "<irspy:probe ok='$ok'>" .
-		       $irspy->isodate(time()) . "</irspy:probe>");
+		       isodate(time()) . "</irspy:probe>");
     $conn->option(pod_omit => 1) if !$ok;
-    return 0;
+    return ZOOM::IRSpy::Status::TASK_DONE;
 }
 
 

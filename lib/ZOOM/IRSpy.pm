@@ -1,15 +1,28 @@
-# $Id: IRSpy.pm,v 1.21 2006-09-27 12:49:46 mike Exp $
+# $Id: IRSpy.pm,v 1.22 2006-10-06 11:33:07 mike Exp $
 
 package ZOOM::IRSpy;
 
 use 5.008;
 use strict;
 use warnings;
+
+use Data::Dumper; # For debugging only
+use ZOOM::IRSpy::Node;
+use ZOOM::IRSpy::Connection;
 use ZOOM::IRSpy::Record;
-use ZOOM::Pod;
 
 our @ISA = qw();
 our $VERSION = '0.02';
+
+
+# Enumeration for callback functions to return
+package ZOOM::IRSpy::Status;
+sub OK { 29 }			# No problems, task is still progressing
+sub TASK_DONE { 18 }		# Task is complete, next task should begin
+sub TEST_GOOD { 8 }		# Whole test is complete, and succeeded
+sub TEST_BAD { 31 }		# Whole test is complete, and failed
+package ZOOM::IRSpy;
+
 
 =head1 NAME
 
@@ -33,6 +46,8 @@ BEGIN {
     ZOOM::Log::mask_str("irspy");
     ZOOM::Log::mask_str("irspy_test");
     ZOOM::Log::mask_str("irspy_debug");
+    ZOOM::Log::mask_str("irspy_event");
+    ZOOM::Log::mask_str("irspy_unhandled");
 }
 
 sub new {
@@ -51,8 +66,7 @@ sub new {
 	allrecords => 1,	# unless overridden by targets()
 	query => undef,		# filled in later
 	targets => undef,	# filled in later
-	target2record => undef,	# filled in later
-	pod => undef,		# filled in later
+	connections => undef,	# filled in later
 	tests => [],		# stack of tests currently being executed
     }, $class;
     $this->log("irspy", "starting up with database '$dbname'");
@@ -86,8 +100,7 @@ sub targets {
 	    $this->log("irspy_debug", "rewriting '$target' to '$newtarget'");
 	    $target = $newtarget; # This is written through the ref
 	}
-	push @qlist,
-	    (qq[(host = "$host" and port = "$port" and path="$db")]);
+	push @qlist, (qq[(host="$host" and port="$port" and path="$db")]);
     }
 
     $this->{targets} = \@targets;
@@ -151,8 +164,10 @@ sub initialise {
 	}
     }
 
+    $this->log("irspy_debug", "query '", $this->{query}, "'");
     my $rs = $this->{conn}->search(new ZOOM::Query::CQL($this->{query}));
-    #print "size='", $rs->size(), "'\n";
+    delete $this->{query};	# No longer needed at all
+    $this->log("irspy_debug", "found ", $rs->size(), " target records");
     foreach my $i (1 .. $rs->size()) {
 	my $target = _render_record($rs, $i-1, "id");
 	my $zeerex = _render_record($rs, $i-1, "zeerex");
@@ -163,21 +178,31 @@ sub initialise {
 	    if $this->{allrecords};
     }
 
+    # Make records for targets not previously in the database
     foreach my $target (keys %target2record) {
 	my $record = $target2record{$target};
 	if (!defined $record) {
 	    $this->log("irspy_debug", "made new record for '$target'");
-	    #print STDERR "making '$target' record without zeerex\n";
 	    $target2record{$target} = new ZOOM::IRSpy::Record($this, $target);
 	} else {
 	    $this->log("irspy_debug", "using existing record for '$target'");
 	}
     }
 
-    $this->{target2record} = \%target2record;
-    $this->{pod} = new ZOOM::Pod(@{ $this->{targets} });
-    delete $this->{targets};	# The information is now in the Pod.
-    delete $this->{query};	# Not needed at all
+    my @connections;
+    foreach my $target (@{ $this->{targets} }) {
+	my $conn = new ZOOM::IRSpy::Connection($this, $target, 0, async => 1);
+	my $record = delete $target2record{lc($target)};
+	$conn->record($record);
+	push @connections, $conn;
+    }
+    die("remaining target2record = { " .
+	join(", ", map { "$_ ->'" . $target2record{$_}. "'" }
+	     sort keys %target2record) . " }")
+	if %target2record;
+
+    $this->{connections} = \@connections;
+    delete $this->{targets};	# The information is now in {connections}
 }
 
 
@@ -195,19 +220,12 @@ sub _render_record {
 }
 
 
-# Returns:
-#	0 all tests successfully run
-#	1 some tests skipped
-#
-sub check {
+sub _rewrite_records {
     my $this = shift();
-    my($test) = @_;
 
-    $test = "Main" if !defined $test;
-    my $res = $this->_run_test($test);
-    foreach my $target (sort keys %{ $this->{target2record} }) {
-	my $rec = $this->{target2record}->{$target};
-	# Write record back to database
+    # Write modified records back to database
+    foreach my $conn (@{ $this->{connections} }) {
+	my $rec = $conn->record();
 	my $p = $this->{conn}->package();
 	$p->option(action => "specialUpdate");
 	my $xml = $rec->{zeerex}->toString();
@@ -225,18 +243,165 @@ sub check {
 	    print "Updated with xml=<br/>\n<pre>$xml</pre>\n";
 	}
     }
-
-    return $res;
 }
 
 
-sub _run_test {
+# New approach:
+# 1. Gather declarative information about test hierarchy.
+# 2. For each connection, start the initial test -- invokes run().
+# 3. Run each connection's first queued task.
+# 4. while (1) { wait() }.  Callbacks return a ZOOM::IRSpy::Status value
+# No individual test ever calls wait: tests just set up tasks.
+#
+sub check {
     my $this = shift();
     my($tname) = @_;
 
+    $tname = "Main" if !defined $tname;
+    $this->{tree} = $this->_gather_tests($tname)
+	or die "No tests defined";
+    #$this->{tree}->print(0);
+
+    my @conn = @{ $this->{connections} };
+    foreach my $conn (@conn) {
+	$this->_start_test($conn, "");
+    }
+
+    while ((my $i0 = ZOOM::event(\@conn)) != 0) {
+	my $conn = $conn[$i0-1];
+	my $target = $conn->option("host");
+	my $ev = $conn->last_event();
+	my $evstr = ZOOM::event_str($ev);
+	$this->log("irspy_event", "$target event $ev ($evstr)");
+
+	my $task = $conn->current_task();
+	my $res;
+	eval {
+	    $conn->_check();
+	}; if ($@) {
+	    # This is a nasty hack.  An error in, say, a search response,
+	    # becomes visible to ZOOM before the Receive Data event is
+	    # sent and persists until after the End, which means that
+	    # successive events each report the same error.  So we
+	    # just ignore errors on "unimportant" events.  Let's hope
+	    # this doesn't come back and bite us.
+	    if ($ev == ZOOM::Event::RECV_DATA ||
+		$ev == ZOOM::Event::RECV_APDU ||
+		$ev == ZOOM::Event::ZEND) {
+		$this->log("irspy_event", "$target ignoring error ",
+			   "on event $ev ($evstr): $@");
+	    } else {
+		my $sub = $task->{cb}->{exception};
+		die $@ if !defined $sub;
+		$res = &$sub($conn, $task, $@);
+		goto HANDLE_RESULT;
+	    }
+	}
+
+	my $sub = $task ? $task->{cb}->{$ev} : undef;
+	if (!defined $sub) {
+	    $conn->log("irspy_unhandled", "event $ev ($evstr)");
+	    # Catch the case of a pure-container test ending
+	    if ($ev == ZOOM::Event::ZEND && !$conn->current_task()) {
+		$conn->log("irspy", "last event, no task queued");
+		goto NEXT_TEST;
+	    }
+	    next;
+	}
+
+	$res = &$sub($conn, $task, $ev);
+      HANDLE_RESULT:
+	if ($res == ZOOM::IRSpy::Status::OK) {
+	    # Nothing to do -- life continues
+
+	} elsif ($res == ZOOM::IRSpy::Status::TASK_DONE) {
+	    my $task = $conn->current_task();
+	    die "can't happen" if !$task;
+	    $conn->log("irspy", "completed task $task");
+	    my $nexttask = $task->{next};
+	    if (defined $nexttask) {
+		$conn->log("irspy_debug", "next task is '$nexttask'");
+		$conn->start_task($nexttask);
+	    } else {
+		$conn->log("irspy_debug", "jumping to NEXT_TEST");
+		$conn->current_task(0);
+		goto NEXT_TEST;
+	    }
+
+	} elsif ($res == ZOOM::IRSpy::Status::TEST_GOOD) {
+	    $conn->log("irspy", "test completed (GOOD)");
+	  NEXT_TEST:
+	    my $address = $conn->option("address");
+	    my $nextaddr = $this->_next_test($address);
+	    if (defined $nextaddr) {
+		$this->_start_test($conn, $nextaddr);
+	    } else {
+		$conn->log("irspy", "has no tests after '$address'");
+		# Nothing else to do: we will get no more meaningful
+		# events on this connection, and when all the
+		# connections have reached this state, ZOOM::event()
+		# will return 0 and we will fall out of the loop.
+	    }
+
+	} elsif ($res == ZOOM::IRSpy::Status::TEST_BAD) {
+	    $conn->log("irspy", "test completed (BAD)");
+	    ### Should skip over remaining sibling tests
+	    goto NEXT_TEST;
+	}
+    }
+
+    $this->log("irspy_event", "ZOOM::event() returned 0");
+
+    #$this->_rewrite_records();
+    return 0;			# What does this mean?
+}
+
+
+# Preconditions:
+# - called only when there no tasks remain for the connection
+# - called with valid address
+sub _start_test {
+    my $this = shift();
+    my($conn, $address) = @_;
+    {
+	my $task = $conn->current_task();
+	die "_start_test(): $conn already has task $task"
+	    if $task;
+    }
+
+    my $node = $this->{tree}->select($address)
+	or die "_start_test(): invalid address '$address'";
+
+    $conn->option(address => $address);
+    my $tname = $node->name();
+    $this->log("irspy", $conn->option("host"),
+	       " starting test '$address' = $tname");
+
+    # We will need to find the first of the tasks that are added by
+    # the test we're about to start, so we can start that task.  This
+    # requires a little trickery: noting the current length of the
+    # tasks array first, then fetching the next one off the end.
+    my $alltasks = $conn->tasks();
+    my $ntasks = defined $alltasks ? @$alltasks : 0;
+    my $test = "ZOOM::IRSpy::Test::$tname"->start($conn);
+
+    $alltasks = $conn->tasks();
+    if (defined $alltasks && @$alltasks > $ntasks) {
+	my $task = $alltasks->[$ntasks];
+	$conn->start_task($task);
+    } else {
+	$this->log("irspy", "no tasks added for test '$address' = $tname");
+    }
+}
+
+
+sub _gather_tests {
+    my $this = shift();
+    my($tname, @ancestors) = @_;
+
     die("$0: test-hierarchy loop detected: " .
-	join(" -> ", @{ $this->{tests} }, $tname))
-	if grep { $_ eq $tname } @{ $this->{tests} };
+	join(" -> ", @ancestors, $tname))
+	if grep { $_ eq $tname } @ancestors;
 
     eval {
 	my $slashSeperatedTname = $tname;
@@ -245,47 +410,43 @@ sub _run_test {
     }; if ($@) {
 	$this->log("warn", "can't load test '$tname': skipping",
 		   $@ =~ /^Can.t locate/ ? () : " ($@)");
-	return 1;
+	return undef;
     }
 
-    $this->log("irspy", "running test '$tname'");
-    push @{ $this->{tests} }, $tname;
-    my $test = "ZOOM::IRSpy::Test::$tname"->new($this);
-    my $res = $test->run();
-    $this->pod()->remove_callbacks();
-    pop @{ $this->{tests} };
-    return $res;
-}
-
-
-# Access methods for the use of Test modules
-sub pod {
-    my $this = shift();
-    return $this->{pod};
-}
-
-sub record {
-    my $this = shift();
-    my($target) = @_;
-
-    if (ref($target) && $target->isa("ZOOM::Connection")) {
-	# Can be called with a Connection instead of a target-name
-	my $conn = $target;
-	$target = $conn->option("host");
+    $this->log("irspy", "adding test '$tname'");
+    my @subtests;
+    foreach my $subtname ("ZOOM::IRSpy::Test::$tname"->subtests($this)) {
+	my $subtest = $this->_gather_tests($subtname, @ancestors, $tname);
+	push @subtests, $subtest if defined $subtest;
     }
 
-    return $this->{target2record}->{lc($target)};
+    return new ZOOM::IRSpy::Node($tname, @subtests);
 }
 
 
-# Utility method, really nothing to do with IRSpy
-sub isodate {
+sub _next_test {
     my $this = shift();
-    my($time) = @_;
+    my($address, $omit_child) = @_;
 
-    my($sec, $min, $hour, $mday, $mon, $year) = localtime($time);
-    return sprintf("%04d-%02d-%02dT%02d:%02d:%02d",
-		   $year+1900, $mon+1, $mday, $hour, $min, $sec);
+    $this->log("irspy", "checking for next test after '$address'");
+
+    # Try first child
+    if (!$omit_child) {
+	my $maybe = $address eq "" ? "0" : "$address:0";
+	return $maybe if $this->{tree}->select($maybe);
+    }
+
+    # The top-level node has no successor or parent
+    return undef if $address eq "";
+
+    # Try next sibling child
+    my @components = split /:/, $address;
+    my $last = pop @components;
+    my $maybe = join(":", @components, $last+1);
+    return $maybe if $this->{tree}->select($maybe);
+
+    # This node is exhausted: try the parent's successor
+    return $this->_next_test(join(":", @components), 1)
 }
 
 
@@ -315,5 +476,6 @@ it under the same terms as Perl itself, either Perl version 5.8.7 or,
 at your option, any later version of Perl 5 you may have available.
 
 =cut
+
 
 1;
