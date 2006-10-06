@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.22 2006-10-06 11:33:07 mike Exp $
+# $Id: IRSpy.pm,v 1.23 2006-10-06 16:52:50 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -414,13 +414,13 @@ sub _gather_tests {
     }
 
     $this->log("irspy", "adding test '$tname'");
-    my @subtests;
+    my @subnodes;
     foreach my $subtname ("ZOOM::IRSpy::Test::$tname"->subtests($this)) {
 	my $subtest = $this->_gather_tests($subtname, @ancestors, $tname);
-	push @subtests, $subtest if defined $subtest;
+	push @subnodes, $subtest if defined $subtest;
     }
 
-    return new ZOOM::IRSpy::Node($tname, @subtests);
+    return new ZOOM::IRSpy::Node($tname, @subnodes);
 }
 
 
