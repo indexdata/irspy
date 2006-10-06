@@ -1,4 +1,4 @@
-# $Id: Pod.pm,v 1.21 2006-09-27 12:48:20 mike Exp $
+# $Id: Pod.pm,v 1.22 2006-10-06 11:33:07 mike Exp $
 
 package ZOOM::Pod;
 
@@ -110,6 +110,21 @@ sub new {
 	callback => {},
     }, $class;
 }
+
+
+=head2 connections()
+
+ @c = $pod->connections();
+
+Returns a list of the connection objects in the pod.
+
+=cut
+
+sub connections {
+    my $this = shift();
+    return @{ $this->{conn} }
+}
+
 
 =head2 option()
 

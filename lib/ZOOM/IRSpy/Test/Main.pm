@@ -1,4 +1,4 @@
-# $Id: Main.pm,v 1.6 2006-10-02 13:08:42 sondberg Exp $
+# $Id: Main.pm,v 1.7 2006-10-06 11:33:08 mike Exp $
 
 package ZOOM::IRSpy::Test::Main;
 
@@ -7,8 +7,7 @@ use strict;
 use warnings;
 
 use ZOOM::IRSpy::Test;
-our @ISA;
-@ISA = qw(ZOOM::IRSpy::Test);
+our @ISA = qw(ZOOM::IRSpy::Test);
 
 
 =head1 NAME
@@ -25,10 +24,13 @@ I<## To follow>
 
 =cut
 
-sub run {
-    my $this = shift();
+sub subtests { qw(Search::Title Search::Bib1) }
 
-    return $this->run_tests(qw(Ping Search::Main));
+sub start {
+    my $class = shift();
+    my($conn) = @_;
+
+    # Do nothing -- this test is just a subtest container
 }
 
 

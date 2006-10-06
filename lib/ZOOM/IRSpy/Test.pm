@@ -1,10 +1,13 @@
-# $Id: Test.pm,v 1.3 2006-07-21 11:49:27 mike Exp $
+# $Id: Test.pm,v 1.4 2006-10-06 11:33:07 mike Exp $
 
 package ZOOM::IRSpy::Test;
 
 use 5.008;
 use strict;
 use warnings;
+
+use Exporter 'import';
+our @EXPORT = qw(isodate);
 
 =head1 NAME
 
@@ -20,38 +23,23 @@ I<## To follow>
 
 =cut
 
-sub new {
+sub subtests { () }
+
+sub start {
     my $class = shift();
-    my($irspy) = @_;
+    my($conn) = @_;
 
-    return bless {
-	irspy => $irspy,
-    }, $class;
+    die "can't start the base-class test";
 }
 
 
-sub irspy {
-    my $this = shift();
-    return $this->{irspy};
-}
+# Utility function, really nothing to do with IRSpy
+sub isodate {
+    my($time) = @_;
 
-
-sub run {
-    my $this = shift();
-    die "can't run the base-class test";
-}
-
-sub run_tests {
-    my $this = shift();
-    my @tname = @_;
-
-    my $res = 0;
-    foreach my $tname (@tname) {
-	my $sub = $this->irspy()->_run_test($tname);
-	$res = $sub if $sub > $res;
-    }
-
-    return $res;
+    my($sec, $min, $hour, $mday, $mon, $year) = localtime($time);
+    return sprintf("%04d-%02d-%02dT%02d:%02d:%02d",
+		   $year+1900, $mon+1, $mday, $hour, $min, $sec);
 }
 
 
