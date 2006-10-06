@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-# $Id: irspy.pl,v 1.9 2006-09-27 13:29:31 mike Exp $
+# $Id: irspy.pl,v 1.10 2006-10-06 11:25:11 mike Exp $
 #
 # Run like this:
-#	YAZ_LOG=irspy,irspy_test,irspy_debug perl -I ../lib irspy.pl localhost:3313/IR-Explain---1 bagel.indexdata.dk/gils z3950.loc.gov:7090/Voyager "edcsns17.cr.usgs.gov:6675/CORONA SATELLITE PHOTOGRAPHY"
+#	YAZ_LOG=irspy,irspy_test,irspy_debug,irspy_event perl -I ../lib irspy.pl localhost:3313/IR-Explain---1 bagel.indexdata.dk/gils z3950.loc.gov:7090/Voyager bagel.indexdata.dk:210/marc 
 
 use strict;
 use warnings;
