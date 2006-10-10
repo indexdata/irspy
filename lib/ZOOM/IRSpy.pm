@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.23 2006-10-06 16:52:50 mike Exp $
+# $Id: IRSpy.pm,v 1.24 2006-10-10 13:16:31 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -269,26 +269,26 @@ sub check {
 
     while ((my $i0 = ZOOM::event(\@conn)) != 0) {
 	my $conn = $conn[$i0-1];
-	my $target = $conn->option("host");
 	my $ev = $conn->last_event();
 	my $evstr = ZOOM::event_str($ev);
-	$this->log("irspy_event", "$target event $ev ($evstr)");
+	$conn->log("irspy_event", "event $ev ($evstr)");
 
 	my $task = $conn->current_task();
 	my $res;
 	eval {
 	    $conn->_check();
 	}; if ($@) {
-	    # This is a nasty hack.  An error in, say, a search response,
-	    # becomes visible to ZOOM before the Receive Data event is
-	    # sent and persists until after the End, which means that
-	    # successive events each report the same error.  So we
-	    # just ignore errors on "unimportant" events.  Let's hope
-	    # this doesn't come back and bite us.
+	    # An error in, say, a search response, becomes visible to
+	    # ZOOM before the Receive Data event is sent and persists
+	    # until after the End, which means that successive events
+	    # each report the same error.  So we just ignore errors on
+	    # "unimportant" events.  ### But this doesn't work for,
+	    # say, a Connection Refused, as the only event that shows
+	    # us this error is the End.
 	    if ($ev == ZOOM::Event::RECV_DATA ||
 		$ev == ZOOM::Event::RECV_APDU ||
 		$ev == ZOOM::Event::ZEND) {
-		$this->log("irspy_event", "$target ignoring error ",
+		$conn->log("irspy_event", "ignoring error ",
 			   "on event $ev ($evstr): $@");
 	    } else {
 		my $sub = $task->{cb}->{exception};
@@ -374,8 +374,7 @@ sub _start_test {
 
     $conn->option(address => $address);
     my $tname = $node->name();
-    $this->log("irspy", $conn->option("host"),
-	       " starting test '$address' = $tname");
+    $conn->log("irspy", " starting test '$address' = $tname");
 
     # We will need to find the first of the tasks that are added by
     # the test we're about to start, so we can start that task.  This
