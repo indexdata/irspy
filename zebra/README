@@ -1,4 +1,4 @@
-$Id: README,v 1.12 2006-09-20 13:19:54 mike Exp $
+$Id: README,v 1.13 2006-10-10 12:53:29 mike Exp $
 
 What's what in this directory:
 
@@ -20,8 +20,14 @@ zeerex.xml -- The static ZeeRex record for this database of ZeeRex
 zeerex-2.0.xsd -- The XML Schema describing ZeeRex records, as
 	downloaded from the official ZeeRex site at:
 		http://explain.z3950.org/dtd/zeerex-2.0.xsd
-	This can be used to validate both our own static ZeeRex record
-	and the records created by IRSpy.	
+	Originally, this was used to validate both our own static
+	ZeeRex record and the records created by IRSpy, using:
+		xmllint --noout --schema zeerex-2.0.xsd zeerex.xml
+	However, it can no longer be used for this purpose, as the
+	records now carry IRSpy-specific extensions that the schema
+	does not understand.  Eventually a new schema (most likely in
+	Relax NG Compact format) will be created for validation of the
+	extendd records.
 
 pqf.properties -- The specification for how CQL queries are translated
 	into 39.50 Type-1 queries.  This file is identical to the one
@@ -42,7 +48,9 @@ filterconf.xml -- Configuration of Zebra's XSLT filter, which uses
 	XSLT stylesheets to identify the indexable data in incoming
 	files and to transform records for presentation.
 
-zeerex2index.xsl -- The indexing stylesheet for ZeeRex records.
+zeerex2index.xsl -- The indexing stylesheet for ZeeRex records.  It's
+	possible to check what indexer will see as follows:
+		xsltproc zeerex2index.xsl zeerex.xml
 
 zeerex2zeerex.xsl -- The "no-op" stylesheet for presenting ZeeRex
 	records.
@@ -72,13 +80,11 @@ form.html -- a simple HTML search form that submits SRU queries to a
 
 To create the database and start the server:
 
-xmllint --noout --schema zeerex-2.0.xsd zeerex.xml # Verify
-xsltproc zeerex2index.xsl zeerex.xml # Check what indexer will see
-zebraidx init # Remove any existing database records
-zebraidx update zeerex.xml # The single record describe this DB, or:
-zebraidx update records # The many records harvested from Index Data
-zebraidx commit
-zebrasrv -f yazserver.xml
+zebraidx-2.0 init # Remove any existing database records
+zebraidx-2.0 update zeerex.xml # The single record describe this DB, or:
+zebraidx-2.0 update records # The many records harvested from Index Data
+zebraidx-2.0 commit
+zebrasrv-2.0 -f yazserver.xml
 
 Then interrogate the database with SRU URLs such as:
 	http://localhost:3313/IR-Explain---1?version=1.1&operation=searchRetrieve&maximumRecords=10&recordSchema=zeerex&query=net.protocol=sru
