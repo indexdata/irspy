@@ -1,4 +1,4 @@
-# $Id: Bib1.pm,v 1.5 2006-10-06 11:33:08 mike Exp $
+# $Id: Bib1.pm,v 1.6 2006-10-11 16:47:23 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -35,10 +35,24 @@ sub found {
 
     my $n = $task->{rs}->size();
     $conn->log("irspy_test", "search found $n record", $n==1 ? "" : "s");
-    my $rec = $conn->record();
-    $rec->append_entry("irspy:status", "<irspy:search_title ok='1'>" .
-		       isodate(time()) . "</irspy:search_title>");
+    ### Need to get the BIB-1 attribute into this callback
+    $conn->record()->append_entry("irspy:status",
+				  "<irspy:search_bib1 ok='1'>" .
+				  isodate(time()) .
+				  "</irspy:search_bib1>");
 
+    return ZOOM::IRSpy::Status::TASK_DONE;
+}
+
+
+sub error {
+    my($conn, $task, $exception) = @_;
+
+    $conn->log("irspy_test", "error: $exception");
+    $conn->record()->append_entry("irspy:status",
+				  "<irspy:search_bib1 ok='0'>" .
+				  isodate(time()) .
+				  "</irspy:search_bib1>");
     return ZOOM::IRSpy::Status::TASK_DONE;
 }
 
