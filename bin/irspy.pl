@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: irspy.pl,v 1.11 2006-10-09 07:29:43 mike Exp $
+# $Id: irspy.pl,v 1.12 2006-10-11 16:43:32 mike Exp $
 #
 # Run like this:
 #	YAZ_LOG=irspy,irspy_test,irspy_debug,irspy_event perl -I ../lib irspy.pl -t Main localhost:3313/IR-Explain---1 bagel.indexdata.dk/gils z3950.loc.gov:7090/Voyager bagel.indexdata.dk:210/marc
@@ -28,5 +28,5 @@ my $res = $spy->check($opts{t});
 if ($res == 0) {
     print "All tests were run\n";
 } else {
-    print "Some tests were skipped\n";
+    print "$res tests were skipped\n";
 }
