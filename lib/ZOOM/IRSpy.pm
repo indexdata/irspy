@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.24 2006-10-10 13:16:31 mike Exp $
+# $Id: IRSpy.pm,v 1.25 2006-10-11 16:44:04 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -191,7 +191,8 @@ sub initialise {
 
     my @connections;
     foreach my $target (@{ $this->{targets} }) {
-	my $conn = new ZOOM::IRSpy::Connection($this, $target, 0, async => 1);
+	my $conn = create ZOOM::IRSpy::Connection($this, async => 1);
+	$conn->option(host => $target);
 	my $record = delete $target2record{lc($target)};
 	$conn->record($record);
 	push @connections, $conn;
@@ -246,12 +247,33 @@ sub _rewrite_records {
 }
 
 
-# New approach:
-# 1. Gather declarative information about test hierarchy.
-# 2. For each connection, start the initial test -- invokes run().
-# 3. Run each connection's first queued task.
-# 4. while (1) { wait() }.  Callbacks return a ZOOM::IRSpy::Status value
-# No individual test ever calls wait: tests just set up tasks.
+# The approach: gather declarative information about test hierarchy,
+# then go into a loop.  In the loop, we ensure that each connection is
+# running a test, and within that test a task, until its list of tests
+# is exhausted.  No individual test ever calls wait(): tests just queue
+# up tasks and return immediately.  When the tasks are run (one at a
+# time on each connection) they generate events, and it is these that
+# are harvested by ZOOM::event().  Since each connection knows what
+# task it is running, it can invoke the appropriate callbacks.
+# Callbacks return a ZOOM::IRSpy::Status value which tells the main
+# loop how to continue.
+#
+# Invariants:
+#	While a connection is running a task, its current_task()
+#	points at the task structure.  When it finishes its task, 
+#	next_task() is pointed at the next task to execute (if there
+#	is one), and its current_task() is set to zero.  When the next
+#	task is executed, the connection's next_task() is set to zero
+#	and its current_task() pointed to the task structure.
+#	current_task() and next_task() are both zero only when there
+#	are no more queued tasks, which is when a new test is
+#	started.
+#
+#	Each connection's current test is stored in its
+#	"current_test_address" option.  The next test to execute is
+#	calculated by walking the declarative tree of tests.  This
+#	option begins empty; the "next test" after this is of course
+#	the root test.
 #
 sub check {
     my $this = shift();
@@ -261,23 +283,72 @@ sub check {
     $this->{tree} = $this->_gather_tests($tname)
 	or die "No tests defined";
     #$this->{tree}->print(0);
+    my $nskipped = 0;
 
     my @conn = @{ $this->{connections} };
-    foreach my $conn (@conn) {
-	$this->_start_test($conn, "");
-    }
 
-    while ((my $i0 = ZOOM::event(\@conn)) != 0) {
+    while (1) {
+	my @copy_conn = @conn;	# avoid alias problems after splice()
+	foreach my $i0 (0 .. $#copy_conn) {
+	    my $conn = $copy_conn[$i0];
+	    #print "connection $i0 of ", scalar(@copy_conn), " from ", scalar(@conn), " is $conn\n";
+	    if (!$conn->current_task()) {
+		if (!$conn->next_task()) {
+		    # Out of tasks: we need a new test
+		  NEXT_TEST:
+		    my $address = $conn->option("current_test_address");
+		    my $nextaddr = defined $address ?
+			$this->_next_test($address) : "";
+		    if (!defined $nextaddr) {
+			$conn->log("irspy", "has no more tests: removing");
+			splice @conn, $i0, 1;
+			next;
+		    }
+
+		    my $node = $this->{tree}->select($nextaddr)
+			or die "invalid nextaddr '$nextaddr'";
+		    $conn->option(current_test_address => $nextaddr);
+		    my $tname = $node->name();
+		    $conn->log("irspy", "starting test '$nextaddr' = $tname");
+		    my $tasks = $conn->tasks();
+		    my $oldcount = @$tasks;
+		    "ZOOM::IRSpy::Test::$tname"->start($conn);
+		    $tasks = $conn->tasks();
+		    if (@$tasks > $oldcount) {
+			# Prepare to start the first of the newly added tasks
+			$conn->next_task($tasks->[$oldcount]);
+		    } else {
+			$conn->log("irspy", "no tasks added by new test $tname");
+			goto NEXT_TEST;
+		    }
+		}
+
+		my $task = $conn->next_task();
+		die "no next task queued for $conn" if !defined $task;
+		$conn->log("irspy", "starting task $task");
+		$conn->next_task(0);
+		$conn->current_task($task);
+		$task->run();
+	    }
+
+	    ### Test $conn->is_idle() here?
+	}
+
+	my $i0 = ZOOM::event(\@conn);
+	$this->log("irspy_event", "ZOOM_event(", scalar(@conn), " connections) = $i0");
+	last if $i0 == 0 || $i0 == -3; # no events or no connections
 	my $conn = $conn[$i0-1];
 	my $ev = $conn->last_event();
 	my $evstr = ZOOM::event_str($ev);
 	$conn->log("irspy_event", "event $ev ($evstr)");
 
 	my $task = $conn->current_task();
-	my $res;
-	eval {
-	    $conn->_check();
-	}; if ($@) {
+	die "$conn has no current task for event $ev ($evstr)" if !$task;
+	eval { $conn->_check() };
+	if ($@ &&
+	    ($ev == ZOOM::Event::RECV_DATA ||
+	     $ev == ZOOM::Event::RECV_APDU ||
+	     $ev == ZOOM::Event::ZEND)) {
 	    # An error in, say, a search response, becomes visible to
 	    # ZOOM before the Receive Data event is sent and persists
 	    # until after the End, which means that successive events
@@ -285,112 +356,52 @@ sub check {
 	    # "unimportant" events.  ### But this doesn't work for,
 	    # say, a Connection Refused, as the only event that shows
 	    # us this error is the End.
-	    if ($ev == ZOOM::Event::RECV_DATA ||
-		$ev == ZOOM::Event::RECV_APDU ||
-		$ev == ZOOM::Event::ZEND) {
-		$conn->log("irspy_event", "ignoring error ",
-			   "on event $ev ($evstr): $@");
-	    } else {
-		my $sub = $task->{cb}->{exception};
-		die $@ if !defined $sub;
-		$res = &$sub($conn, $task, $@);
-		goto HANDLE_RESULT;
-	    }
-	}
-
-	my $sub = $task ? $task->{cb}->{$ev} : undef;
-	if (!defined $sub) {
-	    $conn->log("irspy_unhandled", "event $ev ($evstr)");
-	    # Catch the case of a pure-container test ending
-	    if ($ev == ZOOM::Event::ZEND && !$conn->current_task()) {
-		$conn->log("irspy", "last event, no task queued");
-		goto NEXT_TEST;
-	    }
+	    $conn->log("irspy_event", "ignoring error ",
+		       "on event $ev ($evstr): $@");
 	    next;
 	}
 
-	$res = &$sub($conn, $task, $ev);
-      HANDLE_RESULT:
+	my $res;
+	if ($@) {
+	    my $sub = $task->{cb}->{exception};
+	    die $@ if !defined $sub;
+	    $res = &$sub($conn, $task, $@);
+	} else {
+	    my $sub = $task->{cb}->{$ev};
+	    if (!defined $sub) {
+		$conn->log("irspy_unhandled", "event $ev ($evstr)");
+		next;
+	    }
+
+	    $res = &$sub($conn, $task, $ev);
+	}
+
 	if ($res == ZOOM::IRSpy::Status::OK) {
 	    # Nothing to do -- life continues
 
 	} elsif ($res == ZOOM::IRSpy::Status::TASK_DONE) {
 	    my $task = $conn->current_task();
-	    die "can't happen" if !$task;
+	    die "no task for TASK_DONE on $conn" if !$task;
+	    die "next task already defined for $conn" if $conn->next_task();
 	    $conn->log("irspy", "completed task $task");
-	    my $nexttask = $task->{next};
-	    if (defined $nexttask) {
-		$conn->log("irspy_debug", "next task is '$nexttask'");
-		$conn->start_task($nexttask);
-	    } else {
-		$conn->log("irspy_debug", "jumping to NEXT_TEST");
-		$conn->current_task(0);
-		goto NEXT_TEST;
-	    }
+	    $conn->next_task($task->{next});
+	    $conn->current_task(0);
 
-	} elsif ($res == ZOOM::IRSpy::Status::TEST_GOOD) {
-	    $conn->log("irspy", "test completed (GOOD)");
-	  NEXT_TEST:
-	    my $address = $conn->option("address");
-	    my $nextaddr = $this->_next_test($address);
-	    if (defined $nextaddr) {
-		$this->_start_test($conn, $nextaddr);
-	    } else {
-		$conn->log("irspy", "has no tests after '$address'");
-		# Nothing else to do: we will get no more meaningful
-		# events on this connection, and when all the
-		# connections have reached this state, ZOOM::event()
-		# will return 0 and we will fall out of the loop.
-	    }
-
-	} elsif ($res == ZOOM::IRSpy::Status::TEST_BAD) {
-	    $conn->log("irspy", "test completed (BAD)");
-	    ### Should skip over remaining sibling tests
-	    goto NEXT_TEST;
+	} elsif ($res == ZOOM::IRSpy::Status::TEST_GOOD ||
+		 $res == ZOOM::IRSpy::Status::TEST_BAD) {
+	    my $x = ($res == ZOOM::IRSpy::Status::TEST_GOOD) ? "good" : "bad";
+	    $conn->log("irspy", "test completed ($x)");
+	    $conn->current_task(0);
+	    $conn->next_task(0);
+	    ### Should also skip over remaining sibling tests if TEST_BAD
+	    $nskipped += 1;	# should count number of skipped siblings
 	}
     }
 
-    $this->log("irspy_event", "ZOOM::event() returned 0");
+    $this->log("irspy_event", "no more events: finishing");
 
     #$this->_rewrite_records();
-    return 0;			# What does this mean?
-}
-
-
-# Preconditions:
-# - called only when there no tasks remain for the connection
-# - called with valid address
-sub _start_test {
-    my $this = shift();
-    my($conn, $address) = @_;
-    {
-	my $task = $conn->current_task();
-	die "_start_test(): $conn already has task $task"
-	    if $task;
-    }
-
-    my $node = $this->{tree}->select($address)
-	or die "_start_test(): invalid address '$address'";
-
-    $conn->option(address => $address);
-    my $tname = $node->name();
-    $conn->log("irspy", " starting test '$address' = $tname");
-
-    # We will need to find the first of the tasks that are added by
-    # the test we're about to start, so we can start that task.  This
-    # requires a little trickery: noting the current length of the
-    # tasks array first, then fetching the next one off the end.
-    my $alltasks = $conn->tasks();
-    my $ntasks = defined $alltasks ? @$alltasks : 0;
-    my $test = "ZOOM::IRSpy::Test::$tname"->start($conn);
-
-    $alltasks = $conn->tasks();
-    if (defined $alltasks && @$alltasks > $ntasks) {
-	my $task = $alltasks->[$ntasks];
-	$conn->start_task($task);
-    } else {
-	$this->log("irspy", "no tasks added for test '$address' = $tname");
-    }
+    return $nskipped;
 }
 
 
