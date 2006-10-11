@@ -1,4 +1,4 @@
-# $Id: Search.pm,v 1.1 2006-10-06 11:33:08 mike Exp $
+# $Id: Search.pm,v 1.2 2006-10-11 16:48:19 mike Exp $
 
 package ZOOM::IRSpy::Task::Search;
 
@@ -41,7 +41,15 @@ sub run {
     $this->irspy()->log("irspy_test", $conn->option("host"),
 			" searching for '$query'");
     $this->{rs} = $conn->search_pqf($query);
-    # Wow -- that's it.
+
+    # I want to catch the situation where a search is attempted on a
+    # not-yet opened connection (e.g. the Search::Title test is run
+    # before Ping) but since this situation doesn't involve the
+    # generation of a ZOOM event, the main loop won't see an error.
+    # So I check for it immediately:
+    $conn->_check();
+    # ### Unfortunately, this also fails to detect the condition I'm
+    # concerned with, so I think I am out of luck.
 }
 
 sub render {
