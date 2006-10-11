@@ -1,4 +1,4 @@
-# $Id: Node.pm,v 1.4 2006-10-11 16:35:43 mike Exp $
+# $Id: Node.pm,v 1.5 2006-10-11 16:36:03 mike Exp $
 
 package ZOOM::IRSpy::Node;
 
@@ -160,7 +160,6 @@ sub select {
     if ($address eq "") {
 	return $this;
     } elsif (my($head, $tail) = $address =~ /(.*?):(.*)/) {
-	print "*** testing head='$head' tail='$tail'\n";
 	return $sub[$head]->select($tail);
     } else {
 	return $sub[$address];
