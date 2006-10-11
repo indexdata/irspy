@@ -1,4 +1,4 @@
-%# $Id: check.mc,v 1.7 2006-09-26 11:25:30 mike Exp $
+%# $Id: check.mc,v 1.8 2006-10-11 16:42:50 mike Exp $
 <%args>
 @id
 </%args>
@@ -24,7 +24,7 @@ print "<p>\n";
 if ($res == 0) {
     print "<b>All tests were run</b>\n";
 } else {
-    print "<b>Some tests were skipped</b>\n";
+    print "<b>$res tests were skipped</b>\n";
 }
 print "</p>\n";
 </%perl>
