@@ -1,4 +1,4 @@
-# $Id: Connection.pm,v 1.1 2006-10-06 11:33:07 mike Exp $
+# $Id: Connection.pm,v 1.2 2006-10-11 16:46:01 mike Exp $
 
 package ZOOM::IRSpy::Connection;
 
@@ -30,14 +30,14 @@ IRSpy object that it is associated with.
 
 =cut
 
-sub new {
+sub create {
     my $class = shift();
     my $irspy = shift();
 
-    my $this = $class->SUPER::new(@_);
+    my $this = $class->SUPER::create(@_);
     $this->{irspy} = $irspy;
     $this->{record} = undef;
-    $this->{tasks} = undef;
+    $this->{tasks} = [];
 
     return $this;
 }
@@ -61,11 +61,8 @@ sub record {
 
 sub tasks {
     my $this = shift();
-    my($new) = @_;
 
-    my $old = $this->{tasks};
-    $this->{tasks} = $new if defined $new;
-    return $old;
+    return $this->{tasks};
 }
 
 
@@ -77,6 +74,20 @@ sub current_task {
     if (defined $new) {
 	$this->{current_task} = $new;
 	$this->log("irspy_debug", "set current task to $new");
+    }
+
+    return $old;
+}
+
+
+sub next_task {
+    my $this = shift();
+    my($new) = @_;
+
+    my $old = $this->{next_task};
+    if (defined $new) {
+	$this->{next_task} = $new;
+	$this->log("irspy_debug", "set next task to $new");
     }
 
     return $old;
@@ -113,26 +124,10 @@ sub add_task {
     my $this = shift();
     my($task) = @_;
 
-    my $tasks = $this->tasks();
-    if (!defined $tasks) {
-	$this->tasks([ $task ]);
-    } else {
-	$tasks->[-1]->{next} = $task;
-	push @$tasks, $task;
-    }
-
+    my $tasks = $this->{tasks};
+    $tasks->[-1]->{next} = $task if @$tasks > 0;
+    push @$tasks, $task;
     $this->log("irspy", "added task $task");
-}
-
-
-sub start_task {
-    my $this = shift();
-    my($task) = @_;
-    die "no task defined for " . $this->option("host")
-	if !defined $task;
-
-    $this->current_task($task);
-    $task->run();
 }
 
 
