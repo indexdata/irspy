@@ -1,4 +1,4 @@
-# $Id: Main.pm,v 1.7 2006-10-06 11:33:08 mike Exp $
+# $Id: Main.pm,v 1.8 2006-10-11 16:46:37 mike Exp $
 
 package ZOOM::IRSpy::Test::Main;
 
@@ -24,12 +24,13 @@ I<## To follow>
 
 =cut
 
-sub subtests { qw(Search::Title Search::Bib1) }
+sub subtests { qw(Ping Search::Main) }
 
 sub start {
     my $class = shift();
     my($conn) = @_;
 
+    $conn->log("irspy", "Main test no-opping");
     # Do nothing -- this test is just a subtest container
 }
 
