@@ -1,4 +1,4 @@
-# $Id: Node.pm,v 1.2 2006-10-06 16:51:32 mike Exp $
+# $Id: Node.pm,v 1.3 2006-10-11 14:34:21 mike Exp $
 
 package ZOOM::IRSpy::Node;
 
@@ -97,6 +97,8 @@ sub subnodes {
 Pretty-prints the node and, recursively, all its children.  The
 parameter is the level of indentation to use in printing the node;
 this method recursively invokes itself with higher levels.
+
+=cut
 
 sub print {
     my $this = shift();
