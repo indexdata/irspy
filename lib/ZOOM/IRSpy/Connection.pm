@@ -1,4 +1,4 @@
-# $Id: Connection.pm,v 1.2 2006-10-11 16:46:01 mike Exp $
+# $Id: Connection.pm,v 1.3 2006-10-12 14:35:43 mike Exp $
 
 package ZOOM::IRSpy::Connection;
 
@@ -104,18 +104,20 @@ sub log {
 
 sub irspy_connect {
     my $this = shift();
-    my(%cb) = @_;
+    my($udata, %cb) = @_;
 
-    $this->add_task(new ZOOM::IRSpy::Task::Connect($this, %cb));
+    my $task = new ZOOM::IRSpy::Task::Connect($this, $udata, %cb);
+    $this->add_task($task);
     $this->log("irspy", "registered connect()");
 }
 
 
 sub irspy_search_pqf {
     my $this = shift();
-    my($query, %cb) = @_;
+    my($query, $udata, %cb) = @_;
 
-    $this->add_task(new ZOOM::IRSpy::Task::Search($query, $this, %cb));
+    my $task = new ZOOM::IRSpy::Task::Search($query, $this, $udata, %cb);
+    $this->add_task($task);
     $this->log("irspy", "registered search_pqf($query)");
 }
 
