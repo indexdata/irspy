@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.26 2006-10-12 11:06:03 mike Exp $
+# $Id: IRSpy.pm,v 1.27 2006-10-12 14:34:59 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -367,7 +367,7 @@ sub check {
 	if ($@) {
 	    my $sub = $task->{cb}->{exception};
 	    die $@ if !defined $sub;
-	    $res = &$sub($conn, $task, $@);
+	    $res = &$sub($conn, $task, $task->udata(), $@);
 	} else {
 	    my $sub = $task->{cb}->{$ev};
 	    if (!defined $sub) {
@@ -375,7 +375,7 @@ sub check {
 		next;
 	    }
 
-	    $res = &$sub($conn, $task, $ev);
+	    $res = &$sub($conn, $task, $task->udata(), $ev);
 	}
 
 	if ($res == ZOOM::IRSpy::Status::OK) {
