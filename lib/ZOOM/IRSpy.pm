@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.27 2006-10-12 14:34:59 mike Exp $
+# $Id: IRSpy.pm,v 1.28 2006-10-12 15:51:37 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -333,7 +333,7 @@ sub check {
 		$task->run();
 	    }
 
-	    ### Test $conn->is_idle() here?
+	    # Do we need to test $conn->is_idle()?  I don't think so!
 	}
 
 	my $i0 = ZOOM::event(\@conn);
@@ -395,8 +395,11 @@ sub check {
 	    $conn->log("irspy", "test completed ($x)");
 	    $conn->current_task(0);
 	    $conn->next_task(0);
-	    ### Should also skip over remaining sibling tests if TEST_BAD
-	    $nskipped += 1;	# should count number of skipped siblings
+	    if ($res == ZOOM::IRSpy::Status::TEST_BAD) {
+		### Should skip over remaining sibling tests if TEST_BAD
+		### Should count the number of skipped siblings
+		$nskipped += 1;
+	    }
 	}
     }
 
