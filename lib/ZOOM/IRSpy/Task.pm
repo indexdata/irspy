@@ -1,4 +1,4 @@
-# $Id: Task.pm,v 1.1 2006-10-06 11:33:07 mike Exp $
+# $Id: Task.pm,v 1.2 2006-10-12 14:36:34 mike Exp $
 
 package ZOOM::IRSpy::Task;
 
@@ -32,12 +32,13 @@ pointer to the next task to be performed after this.
 
 sub new {
     my $class = shift();
-    my($conn, %cb) = @_;
+    my($conn, $udata, %cb) = @_;
 
     return bless {
 	irspy => $conn->{irspy},
 	conn => $conn,
 	cb => \%cb,
+	udata => $udata,
 	timeRegistered => time(),
     }, $class;
 }
@@ -51,6 +52,11 @@ sub irspy {
 sub conn {
     my $this = shift();
     return $this->{conn};
+}
+
+sub udata {
+    my $this = shift();
+    return $this->{udata};
 }
 
 sub run {
