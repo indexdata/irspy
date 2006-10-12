@@ -1,4 +1,4 @@
-# $Id: Bib1.pm,v 1.7 2006-10-12 14:40:24 mike Exp $
+# $Id: Bib1.pm,v 1.8 2006-10-12 14:40:33 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -36,7 +36,6 @@ sub found {
     my $n = $task->{rs}->size();
     $conn->log("irspy_test", "search on access-point $attr found $n record",
 	       $n==1 ? "" : "s");
-    ### Need to get the BIB-1 attribute into this callback
     $conn->record()->append_entry("irspy:status",
 				  "<irspy:search_bib1 ap='$attr' ok='1'>" .
 				  isodate(time()) .
