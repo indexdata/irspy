@@ -1,4 +1,4 @@
-# $Id: Main.pm,v 1.8 2006-10-11 16:46:37 mike Exp $
+# $Id: Main.pm,v 1.9 2006-10-12 16:54:13 mike Exp $
 
 package ZOOM::IRSpy::Test::Main;
 
@@ -30,7 +30,7 @@ sub start {
     my $class = shift();
     my($conn) = @_;
 
-    $conn->log("irspy", "Main test no-opping");
+    $conn->log("irspy_test", "Main test no-opping");
     # Do nothing -- this test is just a subtest container
 }
 

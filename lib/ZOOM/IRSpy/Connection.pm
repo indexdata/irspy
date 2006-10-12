@@ -1,4 +1,4 @@
-# $Id: Connection.pm,v 1.3 2006-10-12 14:35:43 mike Exp $
+# $Id: Connection.pm,v 1.4 2006-10-12 16:54:13 mike Exp $
 
 package ZOOM::IRSpy::Connection;
 
@@ -73,7 +73,7 @@ sub current_task {
     my $old = $this->{current_task};
     if (defined $new) {
 	$this->{current_task} = $new;
-	$this->log("irspy_debug", "set current task to $new");
+	$this->log("irspy_task", "set current task to $new");
     }
 
     return $old;
@@ -87,7 +87,7 @@ sub next_task {
     my $old = $this->{next_task};
     if (defined $new) {
 	$this->{next_task} = $new;
-	$this->log("irspy_debug", "set next task to $new");
+	$this->log("irspy_task", "set next task to $new");
     }
 
     return $old;
@@ -108,7 +108,6 @@ sub irspy_connect {
 
     my $task = new ZOOM::IRSpy::Task::Connect($this, $udata, %cb);
     $this->add_task($task);
-    $this->log("irspy", "registered connect()");
 }
 
 
@@ -118,7 +117,6 @@ sub irspy_search_pqf {
 
     my $task = new ZOOM::IRSpy::Task::Search($query, $this, $udata, %cb);
     $this->add_task($task);
-    $this->log("irspy", "registered search_pqf($query)");
 }
 
 
@@ -129,7 +127,7 @@ sub add_task {
     my $tasks = $this->{tasks};
     $tasks->[-1]->{next} = $task if @$tasks > 0;
     push @$tasks, $task;
-    $this->log("irspy", "added task $task");
+    $this->log("irspy_task", "added task $task");
 }
 
 

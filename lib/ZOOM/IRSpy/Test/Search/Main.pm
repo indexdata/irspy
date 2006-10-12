@@ -1,4 +1,4 @@
-# $Id: Main.pm,v 1.2 2006-10-06 11:33:08 mike Exp $
+# $Id: Main.pm,v 1.3 2006-10-12 16:54:13 mike Exp $
 
 package ZOOM::IRSpy::Test::Search::Main;
 
@@ -12,6 +12,10 @@ our @ISA = qw(ZOOM::IRSpy::Test);
 sub subtests { qw(Search::Title Search::Bib1) }
 
 sub start {
+    my $class = shift();
+    my($conn) = @_;
+
+    $conn->log("irspy_test", "Main::Search test no-opping");
     # Do nothing -- this test is just a subtest container
 }
 
