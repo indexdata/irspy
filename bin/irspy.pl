@@ -1,9 +1,16 @@
 #!/usr/bin/perl -w
 
-# $Id: irspy.pl,v 1.12 2006-10-11 16:43:32 mike Exp $
+# $Id: irspy.pl,v 1.13 2006-10-12 16:53:04 mike Exp $
 #
 # Run like this:
 #	YAZ_LOG=irspy,irspy_test,irspy_debug,irspy_event perl -I ../lib irspy.pl -t Main localhost:3313/IR-Explain---1 bagel.indexdata.dk/gils z3950.loc.gov:7090/Voyager bagel.indexdata.dk:210/marc
+# Available log-levels are as follows:
+#	irspy -- high-level application logging
+#	irspy_debug -- low-level debugging (not very interesting)
+#	irspy_event -- invocations of ZOOM_event() and individual events
+#	irspy_unhandled -- unhandled events (not very interesting)
+#	irspy_test -- adding, queueing and running tests
+#	irspy_task -- adding, queueing and running tasks
 
 use strict;
 use warnings;
