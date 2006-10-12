@@ -1,4 +1,4 @@
-# $Id: Record.pm,v 1.13 2006-09-26 09:08:09 mike Exp $
+# $Id: Record.pm,v 1.14 2006-10-12 16:54:13 mike Exp $
 
 package ZOOM::IRSpy::Record;
 
@@ -105,7 +105,7 @@ sub append_entry {
 	    if @nodes == 0;
     }
 
-    $this->{irspy}->log("irspy",
+    $this->{irspy}->log("warn",
 			scalar(@nodes), " matches for '$xpath': using first")
 	if @nodes > 1;
 

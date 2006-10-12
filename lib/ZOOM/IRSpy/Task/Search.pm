@@ -1,4 +1,4 @@
-# $Id: Search.pm,v 1.2 2006-10-11 16:48:19 mike Exp $
+# $Id: Search.pm,v 1.3 2006-10-12 16:54:13 mike Exp $
 
 package ZOOM::IRSpy::Task::Search;
 
@@ -38,7 +38,7 @@ sub run {
 
     my $conn = $this->conn();
     my $query = $this->{query};
-    $this->irspy()->log("irspy_test", $conn->option("host"),
+    $this->irspy()->log("irspy_task", $conn->option("host"),
 			" searching for '$query'");
     $this->{rs} = $conn->search_pqf($query);
 
@@ -54,7 +54,7 @@ sub run {
 
 sub render {
     my $this = shift();
-    return ref($this) . " " . $this->{query};
+    return ref($this) . "(" . $this->{query}. ")";
 }
 
 use overload '""' => \&render;

@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.28 2006-10-12 15:51:37 mike Exp $
+# $Id: IRSpy.pm,v 1.29 2006-10-12 16:54:13 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -46,10 +46,11 @@ protocols.  It is a successor to the ZSpy program.
 
 BEGIN {
     ZOOM::Log::mask_str("irspy");
-    ZOOM::Log::mask_str("irspy_test");
     ZOOM::Log::mask_str("irspy_debug");
     ZOOM::Log::mask_str("irspy_event");
     ZOOM::Log::mask_str("irspy_unhandled");
+    ZOOM::Log::mask_str("irspy_test");
+    ZOOM::Log::mask_str("irspy_task");
 }
 
 sub new {
@@ -299,8 +300,13 @@ sub check {
 		    # Out of tasks: we need a new test
 		  NEXT_TEST:
 		    my $address = $conn->option("current_test_address");
-		    my $nextaddr = defined $address ?
-			$this->_next_test($address) : "";
+		    my $nextaddr;
+		    if (!defined $address) {
+			$nextaddr = "";
+		    } else {
+			$this->log("irspy_test", "checking for next test after '$address'");
+			$nextaddr = $this->_next_test($address);
+		    }
 		    if (!defined $nextaddr) {
 			$conn->log("irspy", "has no more tests: removing");
 			splice @conn, $i0, 1;
@@ -311,7 +317,7 @@ sub check {
 			or die "invalid nextaddr '$nextaddr'";
 		    $conn->option(current_test_address => $nextaddr);
 		    my $tname = $node->name();
-		    $conn->log("irspy", "starting test '$nextaddr' = $tname");
+		    $conn->log("irspy_test", "starting test '$nextaddr' = $tname");
 		    my $tasks = $conn->tasks();
 		    my $oldcount = @$tasks;
 		    "ZOOM::IRSpy::Test::$tname"->start($conn);
@@ -320,14 +326,14 @@ sub check {
 			# Prepare to start the first of the newly added tasks
 			$conn->next_task($tasks->[$oldcount]);
 		    } else {
-			$conn->log("irspy", "no tasks added by new test $tname");
+			$conn->log("irspy_task", "no tasks added by new test $tname");
 			goto NEXT_TEST;
 		    }
 		}
 
 		my $task = $conn->next_task();
 		die "no next task queued for $conn" if !defined $task;
-		$conn->log("irspy", "starting task $task");
+		$conn->log("irspy_task", "starting task $task");
 		$conn->next_task(0);
 		$conn->current_task($task);
 		$task->run();
@@ -385,14 +391,14 @@ sub check {
 	    my $task = $conn->current_task();
 	    die "no task for TASK_DONE on $conn" if !$task;
 	    die "next task already defined for $conn" if $conn->next_task();
-	    $conn->log("irspy", "completed task $task");
+	    $conn->log("irspy_task", "completed task $task");
 	    $conn->next_task($task->{next});
 	    $conn->current_task(0);
 
 	} elsif ($res == ZOOM::IRSpy::Status::TEST_GOOD ||
 		 $res == ZOOM::IRSpy::Status::TEST_BAD) {
 	    my $x = ($res == ZOOM::IRSpy::Status::TEST_GOOD) ? "good" : "bad";
-	    $conn->log("irspy", "test completed ($x)");
+	    $conn->log("irspy_test", "test completed ($x)");
 	    $conn->current_task(0);
 	    $conn->next_task(0);
 	    if ($res == ZOOM::IRSpy::Status::TEST_BAD) {
@@ -403,7 +409,7 @@ sub check {
 	}
     }
 
-    $this->log("irspy_event", "no more events: finishing");
+    $this->log("irspy", "exiting main loop");
 
     #$this->_rewrite_records();
     return $nskipped;
@@ -442,8 +448,6 @@ sub _gather_tests {
 sub _next_test {
     my $this = shift();
     my($address, $omit_child) = @_;
-
-    $this->log("irspy", "checking for next test after '$address'");
 
     # Try first child
     if (!$omit_child) {

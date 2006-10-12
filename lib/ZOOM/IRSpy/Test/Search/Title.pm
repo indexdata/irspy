@@ -1,4 +1,4 @@
-# $Id: Title.pm,v 1.6 2006-10-12 14:38:27 mike Exp $
+# $Id: Title.pm,v 1.7 2006-10-12 16:54:13 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -39,7 +39,7 @@ sub found {
 sub error {
     my($conn, $task, $__UNUSED_udata, $exception) = @_;
 
-    $conn->log("irspy_test", "error: $exception");
+    $conn->log("irspy_test", "title search had error: $exception");
     my $rec = $conn->record();
     $rec->append_entry("irspy:status", "<irspy:search_title ok='0'>" .
 		       isodate(time()) . "</irspy:search_title>");
