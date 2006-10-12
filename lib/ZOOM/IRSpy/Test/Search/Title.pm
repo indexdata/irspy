@@ -1,4 +1,4 @@
-# $Id: Title.pm,v 1.5 2006-10-06 11:33:08 mike Exp $
+# $Id: Title.pm,v 1.6 2006-10-12 14:38:27 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -16,14 +16,14 @@ sub start {
     my $class = shift();
     my($conn) = @_;
 
-    $conn->irspy_search_pqf('@attr 1=4 mineral',
+    $conn->irspy_search_pqf('@attr 1=4 mineral', undef,
 			    ZOOM::Event::RECV_SEARCH, \&found,
 			    "exception", \&error);
 }
 
 
 sub found {
-    my($conn, $task, $event) = @_;
+    my($conn, $task, $__UNUSED_udata, $event) = @_;
 
     my $n = $task->{rs}->size();
     $conn->log("irspy_test",
@@ -37,7 +37,7 @@ sub found {
 
 
 sub error {
-    my($conn, $task, $exception) = @_;
+    my($conn, $task, $__UNUSED_udata, $exception) = @_;
 
     $conn->log("irspy_test", "error: $exception");
     my $rec = $conn->record();
