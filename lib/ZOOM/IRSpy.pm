@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.25 2006-10-11 16:44:04 mike Exp $
+# $Id: IRSpy.pm,v 1.26 2006-10-12 11:06:03 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -7,6 +7,8 @@ use strict;
 use warnings;
 
 use Data::Dumper; # For debugging only
+use ZOOM;
+use Net::Z3950::ZOOM 1.13;	# For the ZOOM version-check only
 use ZOOM::IRSpy::Node;
 use ZOOM::IRSpy::Connection;
 use ZOOM::IRSpy::Record;
