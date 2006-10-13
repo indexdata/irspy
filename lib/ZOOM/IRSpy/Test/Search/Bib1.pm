@@ -1,4 +1,4 @@
-# $Id: Bib1.pm,v 1.8 2006-10-12 14:40:33 mike Exp $
+# $Id: Bib1.pm,v 1.9 2006-10-13 10:03:31 sondberg Exp $
 
 # See the "Main" test package for documentation
 
@@ -8,6 +8,7 @@ use 5.008;
 use strict;
 use warnings;
 
+use Data::Dumper;
 use ZOOM::IRSpy::Test;
 our @ISA = qw(ZOOM::IRSpy::Test);
 
@@ -23,7 +24,8 @@ sub start {
 		 1016,		# any
 		 );
     foreach my $attr (@attrs) {
-	$conn->irspy_search_pqf("\@attr 1=$attr mineral", $attr,
+	$conn->irspy_search_pqf("\@attr 1=$attr mineral",
+                                {'attr' => $attr},
 				ZOOM::Event::RECV_SEARCH, \&found,
 				exception => \&error);
     }
@@ -31,29 +33,31 @@ sub start {
 
 
 sub found {
-    my($conn, $task, $attr, $event) = @_;
-
+    my($conn, $task, $test_args, $event) = @_;
+    my $attr = $test_args->{'attr'};
     my $n = $task->{rs}->size();
+
     $conn->log("irspy_test", "search on access-point $attr found $n record",
 	       $n==1 ? "" : "s");
     $conn->record()->append_entry("irspy:status",
-				  "<irspy:search_bib1 ap='$attr' ok='1'>" .
+				  "<irspy:search set='bib1' ap='$attr' ok='1'>".
 				  isodate(time()) .
-				  "</irspy:search_bib1>");
+				  "</irspy:search>");
 
     return ZOOM::IRSpy::Status::TASK_DONE;
 }
 
 
 sub error {
-    my($conn, $task, $attr, $exception) = @_;
+    my($conn, $task, $test_args, $exception) = @_;
+    my $attr = $test_args->{'attr'};
 
     $conn->log("irspy_test", "search on access-point $attr had error: ",
 	       $exception);
     $conn->record()->append_entry("irspy:status",
-				  "<irspy:search_bib1 ap='$attr' ok='0'>" .
+				  "<irspy:search set='bib1' ap='$attr' ok='0'>".
 				  isodate(time()) .
-				  "</irspy:search_bib1>");
+				  "</irspy:search>");
     return ZOOM::IRSpy::Status::TASK_DONE;
 }
 
