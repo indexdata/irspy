@@ -1,4 +1,4 @@
-# $Id: Test.pm,v 1.5 2006-10-13 10:07:36 sondberg Exp $
+# $Id: Test.pm,v 1.6 2006-10-13 10:08:57 sondberg Exp $
 
 package ZOOM::IRSpy::Test;
 
@@ -30,11 +30,6 @@ sub start {
     my($conn) = @_;
 
     die "can't start the base-class test";
-}
-
-
-sub get_handle {
-    return $_->{'handle'};
 }
 
 
