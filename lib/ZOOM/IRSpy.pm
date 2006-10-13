@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.30 2006-10-13 13:41:56 sondberg Exp $
+# $Id: IRSpy.pm,v 1.31 2006-10-13 15:17:25 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -225,28 +225,27 @@ sub _render_record {
 }
 
 
-sub _rewrite_records {
+sub _rewrite_record {
     my $this = shift();
+    my($conn) = @_;
 
-    # Write modified records back to database
-    foreach my $conn (@{ $this->{connections} }) {
-	my $rec = $conn->record();
-	my $p = $this->{conn}->package();
-	$p->option(action => "specialUpdate");
-	my $xml = $rec->{zeerex}->toString();
-	$p->option(record => $xml);
-	$p->send("update");
-	$p->destroy();
+    $conn->log("irspy", "rewriting XML record");
+    my $rec = $conn->record();
+    my $p = $this->{conn}->package();
+    $p->option(action => "specialUpdate");
+    my $xml = $rec->{zeerex}->toString();
+    $p->option(record => $xml);
+    $p->send("update");
+    $p->destroy();
 
-	$p = $this->{conn}->package();
-	$p->send("commit");
-	$p->destroy();
-	if (0) {
-	    $xml =~ s/&/&amp/g;
-	    $xml =~ s/</&lt;/g;
-	    $xml =~ s/>/&gt;/g;
-	    print "Updated with xml=<br/>\n<pre>$xml</pre>\n";
-	}
+    $p = $this->{conn}->package();
+    $p->send("commit");
+    $p->destroy();
+    if (0) {
+	$xml =~ s/&/&amp/g;
+	$xml =~ s/</&lt;/g;
+	$xml =~ s/>/&gt;/g;
+	print "Updated $conn with xml=<br/>\n<pre>$xml</pre>\n";
     }
 }
 
@@ -293,9 +292,10 @@ sub check {
 
     while (1) {
 	my @copy_conn = @conn;	# avoid alias problems after splice()
+	my $nconn = scalar(@copy_conn);
 	foreach my $i0 (0 .. $#copy_conn) {
 	    my $conn = $copy_conn[$i0];
-	    #print "connection $i0 of ", scalar(@copy_conn), " from ", scalar(@conn), " is $conn\n";
+	    #print "connection $i0 of $nconn/", scalar(@conn), " is $conn\n";
 	    if (!$conn->current_task()) {
 		if (!$conn->next_task()) {
 		    # Out of tasks: we need a new test
@@ -305,12 +305,14 @@ sub check {
 		    if (!defined $address) {
 			$nextaddr = "";
 		    } else {
-			$this->log("irspy_test", "checking for next test after '$address'");
+			$this->log("irspy_test",
+				   "checking for next test after '$address'");
 			$nextaddr = $this->_next_test($address);
 		    }
 		    if (!defined $nextaddr) {
 			$conn->log("irspy", "has no more tests: removing");
 			splice @conn, $i0, 1;
+			$this->_rewrite_record($conn);
 			next;
 		    }
 
@@ -318,7 +320,8 @@ sub check {
 			or die "invalid nextaddr '$nextaddr'";
 		    $conn->option(current_test_address => $nextaddr);
 		    my $tname = $node->name();
-		    $conn->log("irspy_test", "starting test '$nextaddr' = $tname");
+		    $conn->log("irspy_test",
+			       "starting test '$nextaddr' = $tname");
 		    my $tasks = $conn->tasks();
 		    my $oldcount = @$tasks;
 		    "ZOOM::IRSpy::Test::$tname"->start($conn);
@@ -327,7 +330,8 @@ sub check {
 			# Prepare to start the first of the newly added tasks
 			$conn->next_task($tasks->[$oldcount]);
 		    } else {
-			$conn->log("irspy_task", "no tasks added by new test $tname");
+			$conn->log("irspy_task",
+				   "no tasks added by new test $tname");
 			goto NEXT_TEST;
 		    }
 		}
@@ -344,7 +348,8 @@ sub check {
 	}
 
 	my $i0 = ZOOM::event(\@conn);
-	$this->log("irspy_event", "ZOOM_event(", scalar(@conn), " connections) = $i0");
+	$this->log("irspy_event",
+		   "ZOOM_event(", scalar(@conn), " connections) = $i0");
 	last if $i0 == 0 || $i0 == -3; # no events or no connections
 	my $conn = $conn[$i0-1];
 	my $ev = $conn->last_event();
@@ -411,8 +416,6 @@ sub check {
     }
 
     $this->log("irspy", "exiting main loop");
-
-    #$this->_rewrite_records();
     return $nskipped;
 }
 
