@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.29 2006-10-12 16:54:13 mike Exp $
+# $Id: IRSpy.pm,v 1.30 2006-10-13 13:41:56 sondberg Exp $
 
 package ZOOM::IRSpy;
 
@@ -15,6 +15,7 @@ use ZOOM::IRSpy::Record;
 
 our @ISA = qw();
 our $VERSION = '0.02';
+our $irspy_ns = 'http://indexdata.com/irspy/1.0';
 
 
 # Enumeration for callback functions to return

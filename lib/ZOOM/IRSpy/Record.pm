@@ -1,4 +1,4 @@
-# $Id: Record.pm,v 1.14 2006-10-12 16:54:13 mike Exp $
+# $Id: Record.pm,v 1.15 2006-10-13 13:41:57 sondberg Exp $
 
 package ZOOM::IRSpy::Record;
 
@@ -90,7 +90,7 @@ sub append_entry {
     my $root = $this->{zeerex}; # XML::LibXML::Element ISA XML::LibXML::Node
     my $xc = XML::LibXML::XPathContext->new($root);
     $xc->registerNs(zeerex => "http://explain.z3950.org/dtd/2.0/");
-    $xc->registerNs(irspy => "http://indexdata.com/irspy/1.0");
+    $xc->registerNs(irspy => $ZOOM::IRSpy::irspy_ns);
 
     my @nodes = $xc->findnodes($xpath);
     if (@nodes == 0) {
@@ -129,7 +129,7 @@ sub append_entry {
 # namespace mapping for that node -- but that only affects pre-parsed
 # trees, and is no use for parsing.  Hence the following pair of lines
 # DOES NOT WORK:
-#	$node->setNamespace("http://indexdata.com/irspy/1.0", "irspy", 0);
+#	$node->setNamespace($ZOOM::IRSpy::irspy_ns, "irspy", 0);
 #	$node->appendWellBalancedChunk($frag);
 #
 # Instead I have to go the long way round, hence this method.  I have
@@ -143,7 +143,7 @@ sub _half_decent_appendWellBalancedChunk {
     my($node, $frag) = @_;
 
     if (1) {
-	$frag =~ s,>, xmlns:irspy="http://indexdata.com/irspy/1.0">,;
+	$frag =~ s,>, xmlns:irspy="$ZOOM::IRSpy::irspy_ns">,;
 	$node->appendWellBalancedChunk($frag);
 	return;
     }
