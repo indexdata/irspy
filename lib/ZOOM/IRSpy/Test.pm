@@ -1,4 +1,4 @@
-# $Id: Test.pm,v 1.4 2006-10-06 11:33:07 mike Exp $
+# $Id: Test.pm,v 1.5 2006-10-13 10:07:36 sondberg Exp $
 
 package ZOOM::IRSpy::Test;
 
@@ -31,6 +31,12 @@ sub start {
 
     die "can't start the base-class test";
 }
+
+
+sub get_handle {
+    return $_->{'handle'};
+}
+
 
 
 # Utility function, really nothing to do with IRSpy
