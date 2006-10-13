@@ -1,4 +1,4 @@
-# $Id: Bib1.pm,v 1.9 2006-10-13 10:03:31 sondberg Exp $
+# $Id: Bib1.pm,v 1.10 2006-10-13 10:34:34 sondberg Exp $
 
 # See the "Main" test package for documentation
 
@@ -8,7 +8,6 @@ use 5.008;
 use strict;
 use warnings;
 
-use Data::Dumper;
 use ZOOM::IRSpy::Test;
 our @ISA = qw(ZOOM::IRSpy::Test);
 
@@ -16,13 +15,12 @@ our @ISA = qw(ZOOM::IRSpy::Test);
 sub start {
     my $class = shift();
     my($conn) = @_;
+    my @attrs = ( 1..63, 1000..1036,            # Bib-1
+                  1037..1096, 1185..1209,       # Extended Bib-1
+                  1097..1111,                   # Dublin-Core
+                  1112..1184                    # GILS
+                );
 
-    my @attrs = (1,		# personal name
-		 4,		# title
-		 52,		# subject
-		 1003,		# author
-		 1016,		# any
-		 );
     foreach my $attr (@attrs) {
 	$conn->irspy_search_pqf("\@attr 1=$attr mineral",
                                 {'attr' => $attr},
