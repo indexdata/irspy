@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.32 2006-10-17 15:46:30 mike Exp $
+# $Id: IRSpy.pm,v 1.33 2006-10-17 16:22:17 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -409,9 +409,13 @@ sub check {
 	    $conn->current_task(0);
 	    $conn->next_task(0);
 	    if ($res == ZOOM::IRSpy::Status::TEST_BAD) {
-		### Should skip over remaining sibling tests if TEST_BAD
-		### Should count the number of skipped siblings
-		$nskipped += 1;
+		my $address = $conn->option('current_test_address');
+		($address, my $n) = $this->_last_sibling_test($address);
+		if (defined $address) {
+		    $conn->log("irspy_test", "skipped $n tests");
+		    $conn->option(current_test_address => $address);
+		    $nskipped += $n;
+		}
 	    }
 	}
     }
@@ -450,6 +454,7 @@ sub _gather_tests {
 }
 
 
+# These next three should arguably be Node methods
 sub _next_test {
     my $this = shift();
     my($address, $omit_child) = @_;
@@ -471,6 +476,38 @@ sub _next_test {
 
     # This node is exhausted: try the parent's successor
     return $this->_next_test(join(":", @components), 1)
+}
+
+
+sub _last_sibling_test {
+    my $this = shift();
+    my($address) = @_;
+
+    return undef
+	if !defined $this->_next_sibling_test($address);
+
+    my $nskipped = 0;
+    while (1) {
+	my $maybe = $this->_next_sibling_test($address);
+	last if !defined $maybe;
+	$nskipped++;
+	$this->log("irspy", "skipping $nskipped = '$address'");
+	$address = $maybe;
+    }
+
+    return ($address, $nskipped);
+}
+
+
+sub _next_sibling_test {
+    my $this = shift();
+    my($address) = @_;
+
+    my @components = split /:/, $address;
+    my $last = pop @components;
+    my $maybe = join(":", @components, $last+1);
+    return $maybe if $this->{tree}->select($maybe);
+    return undef;
 }
 
 
