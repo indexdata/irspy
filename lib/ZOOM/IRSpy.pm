@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.31 2006-10-13 15:17:25 mike Exp $
+# $Id: IRSpy.pm,v 1.32 2006-10-17 15:46:30 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -404,6 +404,7 @@ sub check {
 	} elsif ($res == ZOOM::IRSpy::Status::TEST_GOOD ||
 		 $res == ZOOM::IRSpy::Status::TEST_BAD) {
 	    my $x = ($res == ZOOM::IRSpy::Status::TEST_GOOD) ? "good" : "bad";
+	    $conn->log("irspy_task", "test ended during task $task ($x)");
 	    $conn->log("irspy_test", "test completed ($x)");
 	    $conn->current_task(0);
 	    $conn->next_task(0);
