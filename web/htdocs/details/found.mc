@@ -1,4 +1,4 @@
-%# $Id: found.mc,v 1.11 2006-09-25 16:52:30 mike Exp $
+%# $Id: found.mc,v 1.12 2006-10-17 14:49:58 mike Exp $
 <%once>
 use XML::LibXML;
 use XML::LibXML::XPathContext;
@@ -23,6 +23,8 @@ sub navlink {
     return $url;
 }
 
+# Just make this once; forge the connection on first use
+our $conn = undef;
 </%once>
 <%perl>
 my %params = map { ( $_, $r->param($_)) } grep { $r->param($_) } $r->param();
@@ -48,10 +50,9 @@ if ($sort) {
     $query .= " 0";
 }
 
-### We can think about keeping the Connection object open to re-use
-# for multiple requests, but that may not get us much.  Same applies
-# for the XML parser.
-my $conn = new ZOOM::Connection("localhost:3313/IR-Explain---1");
+if (!defined $conn) {
+    $conn = new ZOOM::Connection("localhost:3313/IR-Explain---1");
+}
 $conn->option(elementSetName => "zeerex");
 my $parser = new XML::LibXML();
 
