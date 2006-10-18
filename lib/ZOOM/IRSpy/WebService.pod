@@ -1,4 +1,4 @@
-# $Id: WebService.pod,v 1.2 2006-10-17 16:21:46 mike Exp $
+# $Id: WebService.pod,v 1.3 2006-10-18 14:25:48 mike Exp $
 
 package ZOOM::IRSpy::WebService;
 
@@ -30,6 +30,7 @@ firewall issues.  It is broken across lines for clarity:
 		query=net.port=3950&
 		maximumRecords=10&
 		recordSchema=zeerex
+
 =cut
 
 # http://irspy.indexdata.com:3313/IR-Explain---1?version=1.1&operation=searchRetrieve&query=net.port=3950&maximumRecords=10&recordSchema=zeerex
@@ -136,7 +137,140 @@ names are the same as those listed below.
 
 =head2 CQL SUPPORT
 
-I<###>
+The following CQL context sets are supported, and are recognised in
+queries by the specified prefixes:
+
+=over 4
+
+=item cql
+
+The CQL context set.
+http://www.loc.gov/standards/sru/cql/cql-context-set.html
+
+=item rec
+
+The Record Metadata context set.
+http://srw.cheshire3.org/contextSets/rec/1.1/
+
+=item net
+
+The Network context set.
+http://srw.cheshire3.org/contextSets/net/
+
+=item dc
+
+The Dublin Core context set.
+http://www.loc.gov/standards/sru/cql/dc-context-set.html
+
+=item zeerex
+
+The ZeeRex context set.
+http://srw.cheshire3.org/contextSets/ZeeRex/
+
+=back
+
+Within those sets, the following indexes are supported:
+
+=over 4
+
+=item cql.anywhere
+
+=item cql.allRecords
+
+=item rec.id
+
+=item net.protocol
+
+=item net.version
+
+=item net.method
+
+=item net.host
+
+=item net.port
+
+=item net.path
+
+=item dc.title
+
+=item dc.creator
+
+=item zeerex.numberOfRecords
+
+=item zeerex.set
+
+=item zeerex.index
+
+=item zeerex.attributeType
+
+=item zeerex.attributeValue
+
+=item zeerex.schema
+
+=item zeerex.recordSyntax
+
+=item zeerex.supports_relation
+
+=item zeerex.supports_relationModifier
+
+=item zeerex.supports_maskingCharacter
+
+=item zeerex.default_contextSet
+
+=item zeerex.default_index
+
+=back
+
+These indexes may in general be used with all the relations
+C<<>,
+C<<=>,
+C<=>,
+C<E<gt>=>,
+C<E<gt>>,
+C<<E<gt>>
+and
+C<exact>,
+although of course not all combinations of index and relation make
+sense.
+The masking characters
+C<*>
+and
+C<?>
+may be used in all appropriate circumstances, as may the
+word-anchoring character C<^>.
+
+Finally, sorting criteria may be specified within the query itself.
+Since YAZ's CQL parser does not yet implement the recently approved
+CQL 1.2 sorting extension described at
+http://zing.z3950.org/cql/sorting.html a different scheme is used
+involving special relation modifiers, C<sort>, C<sort-desc> and
+C<numeric>.
+
+When a search-term that carries either the C<sort> or C<sort-desc>
+relation-modifier is C<or>'d with a query, the results of that query
+are sorted according to the value associated with the specified index
+- for example, sorted by title if the query is C<or>'d with
+C<dc.title=/sort 0>.  In such sort-specification query terms, the term
+itself (C<0> in this example) is the precendence of the sort-key, with
+zero being highest.  Further less significant sort keys may also be
+specified, using higher-valued terms.  By default, sorting is
+lexicographical (alphabetical); however, if the additional relation
+modified C<numeric> is also specified, then numeric sorting is used.
+
+For example, the query:
+
+ net.host = *.edu and dc.title=^a* or net.port=/sort/numeric 0
+
+Finds records describing services hosted in the C<.edu> domain and
+whose titles' first words begin with the letter C<a>, and sorts the
+results in numeric order of the port number that they run on.  And the
+query:
+
+ net.host = *.edu or net.port=/sort/numeric 0 or net.path=/sort-desc 1
+
+Sorts all the C<.edu>-hosted services numerically by port; and further
+sorts each equivalence class of services running the same port
+alphabetically, descending, by database name.
 
 =head2 RECORD SCHEMAS
 
