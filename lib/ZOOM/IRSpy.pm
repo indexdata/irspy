@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.33 2006-10-17 16:22:17 mike Exp $
+# $Id: IRSpy.pm,v 1.34 2006-10-18 10:22:54 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -338,7 +338,7 @@ sub check {
 
 		my $task = $conn->next_task();
 		die "no next task queued for $conn" if !defined $task;
-		$conn->log("irspy_task", "starting task $task");
+		$conn->log("irspy_task", "preparing task $task");
 		$conn->next_task(0);
 		$conn->current_task($task);
 		$task->run();
@@ -491,7 +491,7 @@ sub _last_sibling_test {
 	my $maybe = $this->_next_sibling_test($address);
 	last if !defined $maybe;
 	$nskipped++;
-	$this->log("irspy", "skipping $nskipped = '$address'");
+	$this->log("irspy", "skipping $nskipped tests to '$address'");
 	$address = $maybe;
     }
 
