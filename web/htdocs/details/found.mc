@@ -1,4 +1,4 @@
-%# $Id: found.mc,v 1.12 2006-10-17 14:49:58 mike Exp $
+%# $Id: found.mc,v 1.13 2006-10-18 12:36:05 mike Exp $
 <%once>
 use XML::LibXML;
 use XML::LibXML::XPathContext;
@@ -28,13 +28,18 @@ our $conn = undef;
 </%once>
 <%perl>
 my %params = map { ( $_, $r->param($_)) } grep { $r->param($_) } $r->param();
-my $query = "";
-foreach my $key (keys %params) {
-    next if $key =~ /^_/;
-    my $val = $params{$key};
-    next if $val eq "";
-    $query .= " and " if $query ne "";
-    $query .= "$key = ($val)";
+my $query;
+if ($params{_query}) {
+    $query = $params{_query};
+} else {
+    $query = "";
+    foreach my $key (keys %params) {
+	next if $key =~ /^_/;
+	my $val = $params{$key};
+	next if $val eq "";
+	$query .= " and " if $query ne "";
+	$query .= "$key = ($val)";
+    }
 }
 $query = 'cql.allRecords=x' if $query eq "";
 
@@ -66,7 +71,10 @@ my $first = $skip+1;
 my $last = $first+$count-1;
 $last = $n if $last > $n;
 </%perl>
-     <h2><% xml_encode($query) %></h2>
+     <form method="get" action="">
+      <input type="text" name="_query" size="60" value="<% xml_encode($query) %>"/>
+      <input type="submit" name="_search" value="Search"/>
+     </form>
      <p>
 % if ($n == 0) {
       No matches
