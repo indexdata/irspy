@@ -1,4 +1,4 @@
-%# $Id: found.mc,v 1.13 2006-10-18 12:36:05 mike Exp $
+%# $Id: found.mc,v 1.14 2006-10-18 14:03:42 mike Exp $
 <%once>
 use XML::LibXML;
 use XML::LibXML::XPathContext;
@@ -55,13 +55,24 @@ if ($sort) {
     $query .= " 0";
 }
 
+my $tried_to_open = 0;
 if (!defined $conn) {
+  OPEN:
     $conn = new ZOOM::Connection("localhost:3313/IR-Explain---1");
+    $conn->option(elementSetName => "zeerex");
 }
-$conn->option(elementSetName => "zeerex");
 my $parser = new XML::LibXML();
 
-my $rs = $conn->search(new ZOOM::Query::CQL($query));
+my $rs;
+eval { $rs = $conn->search(new ZOOM::Query::CQL($query)) };
+if ($@ && ref $@ && $@->isa('ZOOM::Exception') &&
+    $@->code() == ZOOM::Error::CONNECTION_LOST && !$tried_to_open) {
+    $tried_to_open = 1;
+    goto OPEN;
+} elsif ($@) {
+    die $@;
+}
+
 my $n = $rs->size();
 
 my $skip = $params{"_skip"} || 0;
