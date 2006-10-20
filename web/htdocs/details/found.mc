@@ -1,7 +1,5 @@
-%# $Id: found.mc,v 1.14 2006-10-18 14:03:42 mike Exp $
+%# $Id: found.mc,v 1.15 2006-10-20 16:57:23 mike Exp $
 <%once>
-use XML::LibXML;
-use XML::LibXML::XPathContext;
 use URI::Escape;
 
 sub print_navlink {
@@ -61,7 +59,6 @@ if (!defined $conn) {
     $conn = new ZOOM::Connection("localhost:3313/IR-Explain---1");
     $conn->option(elementSetName => "zeerex");
 }
-my $parser = new XML::LibXML();
 
 my $rs;
 eval { $rs = $conn->search(new ZOOM::Query::CQL($query)) };
@@ -116,11 +113,7 @@ print_navlink(\%params, $last < $n, "Next", $skip+$count);
 % foreach my $i ($first .. $last) {
 <%perl>
 my $rec = $rs->record($i-1);
-my $xml = $rec->render();
-my $doc = $parser->parse_string($xml);
-my $root = $doc->getDocumentElement();
-my $xc = XML::LibXML::XPathContext->new($root);
-$xc->registerNs(e => 'http://explain.z3950.org/dtd/2.0/');
+my $xc = irspy_xpath_context($rec);
 my $title = $xc->find("e:databaseInfo/e:title");
 my $author = $xc->find("e:databaseInfo/e:author");
 my $host = $xc->find("e:serverInfo/e:host");
@@ -133,15 +126,20 @@ push @ids, $id;
 </%perl>
       <tr style="background: <% ($i % 2) ? '#ffffc0' : 'white' %>">
        <td><% $i %></td>
-       <td><% xml_encode($title) %></td>
+       <td><a href="<% xml_encode("/full.html?id=" . uri_escape($id))
+		%>"><% xml_encode($title) %></a></td>
        <td><% xml_encode($author) %></td>
        <td><% xml_encode($host) %></td>
        <td><% xml_encode($port) %></td>
        <td><% xml_encode($db) %></td>
-       <td><a href="<% xml_encode("/check.html?id=" . uri_escape($id))
-	%>">[Test]</a></td>
-       <td><a href="<% xml_encode("/raw.html?id=" . uri_escape($id))
-	%>">[Raw]</a></td>
+       <td>
+	<a href="<% xml_encode("/check.html?id=" . uri_escape($id))
+		%>" title="Test this target"><b>T</b></a
+	>&nbsp;<a href="<% xml_encode("/edit.html?id=" . uri_escape($id))
+		%>" title="Edit this target's record"><b>E</b></a
+	>&nbsp;<a href="<% xml_encode("/raw.html?id=" . uri_escape($id))
+		%>" title="Raw XML record"><b>X</b></a>
+       </td>
       </tr>
 % }
      </table>
