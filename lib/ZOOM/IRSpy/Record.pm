@@ -1,13 +1,10 @@
-# $Id: Record.pm,v 1.15 2006-10-13 13:41:57 sondberg Exp $
+# $Id: Record.pm,v 1.16 2006-10-20 14:51:01 mike Exp $
 
 package ZOOM::IRSpy::Record;
 
 use 5.008;
 use strict;
 use warnings;
-
-use Exporter 'import';
-our @EXPORT_OK = qw(xml_encode);
 
 use XML::LibXML;
 use XML::LibXML::XPathContext;
@@ -51,9 +48,9 @@ sub _empty_zeerex_record {
     ### Doesn't recognise SRU/SRW URLs
     my($host, $port, $db) = ZOOM::IRSpy::_parse_target_string($target);
 
-    my $xhost = xml_encode($host);
-    my $xport = xml_encode($port);
-    my $xdb = xml_encode($db);
+    my $xhost = ZOOM::IRSpy::xml_encode($host);
+    my $xport = ZOOM::IRSpy::xml_encode($port);
+    my $xdb = ZOOM::IRSpy::xml_encode($db);
     return <<__EOT__;
 <explain xmlns="http://explain.z3950.org/dtd/2.0/">
  <serverInfo protocol="Z39.50" version="1995">
@@ -63,22 +60,6 @@ sub _empty_zeerex_record {
  </serverInfo>
 </explain>
 __EOT__
-}
-
-
-# I can't -- just can't, can't, can't -- believe that this function
-# isn't provided by one of the core XML modules.  But the evidence all
-# says that it's not: among other things, XML::Generator and
-# Template::Plugin both roll their own.  So I will do likewise.  D'oh!
-#
-sub xml_encode {
-    my ($text) = @_;
-    $text =~ s/&/&amp;/g;
-    $text =~ s/</&lt;/g;
-    $text =~ s/>/&gt;/g;
-    $text =~ s/['']/&apos;/g;
-    $text =~ s/[""]/&quot;/g;
-    return $text;
 }
 
 
