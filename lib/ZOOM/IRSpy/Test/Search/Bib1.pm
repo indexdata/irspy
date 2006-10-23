@@ -1,4 +1,4 @@
-# $Id: Bib1.pm,v 1.10 2006-10-13 10:34:34 sondberg Exp $
+# $Id: Bib1.pm,v 1.11 2006-10-23 12:23:29 sondberg Exp $
 
 # See the "Main" test package for documentation
 
@@ -37,10 +37,9 @@ sub found {
 
     $conn->log("irspy_test", "search on access-point $attr found $n record",
 	       $n==1 ? "" : "s");
-    $conn->record()->append_entry("irspy:status",
-				  "<irspy:search set='bib1' ap='$attr' ok='1'>".
-				  isodate(time()) .
-				  "</irspy:search>");
+    $conn->record()->store_result('search', 'set'       => 'bib1',
+                                            'ap'        => $attr,
+                                            'ok'        => 1);
 
     return ZOOM::IRSpy::Status::TASK_DONE;
 }
@@ -52,10 +51,9 @@ sub error {
 
     $conn->log("irspy_test", "search on access-point $attr had error: ",
 	       $exception);
-    $conn->record()->append_entry("irspy:status",
-				  "<irspy:search set='bib1' ap='$attr' ok='0'>".
-				  isodate(time()) .
-				  "</irspy:search>");
+    $conn->record()->store_result('search', 'set'       => 'bib1',
+                                            'ap'        => $attr,
+                                            'ok'        => 0);
     return ZOOM::IRSpy::Status::TASK_DONE;
 }
 
