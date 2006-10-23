@@ -1,4 +1,4 @@
-# $Id: Record.pm,v 1.16 2006-10-20 14:51:01 mike Exp $
+# $Id: Record.pm,v 1.17 2006-10-23 12:22:52 sondberg Exp $
 
 package ZOOM::IRSpy::Record;
 
@@ -93,6 +93,19 @@ sub append_entry {
     $this->_half_decent_appendWellBalancedChunk($nodes[0], $frag);
 }
 
+sub store_result {
+    my ($this, $type, %info) = @_;
+    my $xml = "<irspy:$type";
+
+    foreach my $key (keys %info) {
+        $xml .= " $key=\"" . $this->_string2cdata($info{$key}) . "\"";
+    }
+
+    $xml .= ">" . $this->_isodate(time()) . "</irspy:$type>\n";
+
+    $this->append_entry('irspy:status', $xml);
+}
+
 
 # *sigh*
 #
@@ -142,6 +155,27 @@ sub _half_decent_appendWellBalancedChunk {
 	if $close ne $tag;
     print STDERR "tag='$tag', attrs=[$attrs], content='$content'\n";
     die "## no code yet to make DOM node";
+}
+
+
+# Yes, I know that this is already implemented in IRSpy.pm. I suggest that we
+# introduce a toolkit package with such subroutines...
+#
+sub _string2cdata {
+    my ($this, $buffer) = @_;
+    $buffer =~ s/&/&amp;/gs;
+    $buffer =~ s/</&lt;/gs;
+    $buffer =~ s/>/&gt;/gs;
+    $buffer =~ s/"/&quot;/gs;
+    $buffer =~ s/'/&apos;/gs;
+
+    return $buffer;
+}
+
+
+sub _isodate {
+    my ($this, $time) = @_;
+    return ZOOM::IRSpy::Test::isodate($time);
 }
 
 
