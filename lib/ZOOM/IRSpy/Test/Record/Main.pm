@@ -1,6 +1,6 @@
-# $Id: Main.pm,v 1.10 2006-10-23 13:54:52 sondberg Exp $
+# $Id: Main.pm,v 1.1 2006-10-23 13:54:52 sondberg Exp $
 
-package ZOOM::IRSpy::Test::Main;
+package ZOOM::IRSpy::Test::Record::Main;
 
 use 5.008;
 use strict;
@@ -24,7 +24,7 @@ I<## To follow>
 
 =cut
 
-sub subtests { qw(Ping Search::Main Record::Main) }
+sub subtests { qw(Record::Fetch) }
 
 sub start {
     my $class = shift();
