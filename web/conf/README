@@ -1,4 +1,4 @@
-$Id: README,v 1.1 2006-09-20 13:32:02 mike Exp $
+$Id: README,v 1.2 2006-10-24 23:05:13 mike Exp $
 
 To install the web UI (assuming you're using some version of Apache as
 your web server):
@@ -16,7 +16,7 @@ your web server):
 
 -- Include this configuration in that of the web server.  For example,
    if you're using the Apache 1.3 setup that is the default on
-   Debian-based operating systems, go to /etc/apache/conf and:
+   Debian-based operating systems, go to /etc/apache/conf.d and:
 	# ln -s /usr/local/src/cvs/irspy/web/conf/apache1.3/XXX.conf irspy.conf
 
 -- Make sure that the web-server's user (often root, www-data or
