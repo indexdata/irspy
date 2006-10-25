@@ -1,4 +1,4 @@
-# $Id: DBDate.pm,v 1.1 2006-10-17 16:20:00 mike Exp $
+# $Id: DBDate.pm,v 1.2 2006-10-25 10:49:51 mike Exp $
 
 # This plugin tests searching on BIB-1 access-point 1011 (Date/time
 # added to db), the significance of which is that this search
@@ -22,7 +22,7 @@ sub start {
     my $class = shift();
     my($conn) = @_;
 
-    $conn->irspy_search_pqf('@attr 1=1011 mineral', undef,
+    $conn->irspy_search_pqf('@attr 1=1011 mineral', undef, {},
 			    ZOOM::Event::RECV_SEARCH, \&found,
 			    "exception", \&error);
 }

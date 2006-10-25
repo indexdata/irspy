@@ -1,4 +1,4 @@
-# $Id: Dan1.pm,v 1.2 2006-10-23 12:23:29 sondberg Exp $
+# $Id: Dan1.pm,v 1.3 2006-10-25 10:49:51 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -20,7 +20,7 @@ sub start {
 
     foreach my $attr (@attrs) {
 	$conn->irspy_search_pqf("\@attr dan1 1=$attr mineral",
-                                {'attr' => $attr},
+                                {'attr' => $attr}, {},
 				ZOOM::Event::RECV_SEARCH, \&found,
 				exception => \&error);
     }
