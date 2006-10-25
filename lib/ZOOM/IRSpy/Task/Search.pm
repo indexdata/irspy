@@ -1,4 +1,4 @@
-# $Id: Search.pm,v 1.4 2006-10-25 10:54:43 mike Exp $
+# $Id: Search.pm,v 1.5 2006-10-25 13:36:47 mike Exp $
 
 package ZOOM::IRSpy::Task::Search;
 
@@ -43,6 +43,8 @@ sub run {
     $this->irspy()->log("irspy_task", $conn->option("host"),
 			" searching for '$query'");
     $this->{rs} = $conn->search_pqf($query);
+
+    $this->set_options();
 
     # I want to catch the situation where a search is attempted on a
     # not-yet opened connection (e.g. the Search::Title test is run

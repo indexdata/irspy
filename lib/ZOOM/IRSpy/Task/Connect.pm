@@ -1,4 +1,4 @@
-# $Id: Connect.pm,v 1.4 2006-10-25 10:54:43 mike Exp $
+# $Id: Connect.pm,v 1.5 2006-10-25 13:36:02 mike Exp $
 
 # See ZOOM/IRSpy/Task/Search.pm for documentation
 
@@ -25,6 +25,8 @@ sub run {
     my $conn = $this->conn();
     $conn->log("irspy_task", "connecting");
     $conn->connect($conn->option("host"));
+
+    $this->set_options();
 }
 
 sub render {
