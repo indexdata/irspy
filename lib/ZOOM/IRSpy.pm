@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.35 2006-10-20 14:49:11 mike Exp $
+# $Id: IRSpy.pm,v 1.36 2006-10-25 15:42:47 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -421,6 +421,8 @@ sub check {
 		    $nskipped += $n;
 		}
 	    }
+	} else {
+	    die "unknown callback return-value '$res'";
 	}
     }
 
