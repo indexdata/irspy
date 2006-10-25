@@ -1,4 +1,4 @@
-# $Id: Ping.pm,v 1.13 2006-10-12 14:37:24 mike Exp $
+# $Id: Ping.pm,v 1.14 2006-10-25 10:49:37 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -16,7 +16,7 @@ sub start {
     my $class = shift();
     my($conn) = @_;
 
-    $conn->irspy_connect(undef,
+    $conn->irspy_connect(undef, {},
 			 ZOOM::Event::CONNECT, \&connected,
 			 exception => \&not_connected);
 }
