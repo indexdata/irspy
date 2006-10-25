@@ -1,4 +1,4 @@
-# $Id: Fetch.pm,v 1.7 2006-10-25 15:44:50 mike Exp $
+# $Id: Fetch.pm,v 1.8 2006-10-25 15:45:07 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -50,7 +50,7 @@ sub completed_search {
                    'usmarc',
                    'xml'
                 );
-    @syntax = qw(grs-1 sutrs usmarc xml); # simplify for debugging
+    #@syntax = qw(grs-1 sutrs usmarc xml); # simplify for debugging
     foreach my $syntax (@syntax) {
 	$conn->irspy_rs_record($task->{rs}, 0,
 			       { syntax => $syntax },
