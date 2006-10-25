@@ -1,4 +1,4 @@
-# $Id: Fetch.pm,v 1.4 2006-10-25 10:19:33 mike Exp $
+# $Id: Fetch.pm,v 1.5 2006-10-25 10:47:17 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -38,15 +38,13 @@ sub start {
                 );
 
     foreach my $syn (@syntax) {
-        $conn->option('preferredRecordSyntax' => $syn);
-        $conn->option('start'   => 0);
-        $conn->option('count'   => 1);
-
         ## Here I want to get a use attribute from the session, which we've
         ## managed to search for in the Search/Bib1 or Search/Dan1 tests. But
         ## how? So far we search for title: 1=4
 	$conn->irspy_search_pqf("\@attr 1=4 mineral",
                                 {'syntax' => $syn},
+				{ start => 0, count => 1,
+				  preferredRecordSyntax => $syn },
                                 ZOOM::Event::RECV_RECORD, \&record,
 				exception => \&error);
     }
@@ -75,7 +73,7 @@ sub error {
     my($conn, $task, $test_args, $exception) = @_;
     my $syn = $test_args->{'syntax'};
 
-    $conn->log("irspy_test", "Retrieval of $syn record failed:", $exception);
+    $conn->log("irspy_test", "Retrieval of $syn record failed: ", $exception);
     $conn->record()->store_result('record_fetch',
                                   'syntax'       => $syn,
                                   'ok'        => 0);
