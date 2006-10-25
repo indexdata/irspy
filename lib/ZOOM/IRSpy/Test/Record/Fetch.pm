@@ -1,4 +1,4 @@
-# $Id: Fetch.pm,v 1.3 2006-10-25 09:18:28 sondberg Exp $
+# $Id: Fetch.pm,v 1.4 2006-10-25 10:19:33 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -15,7 +15,8 @@ our @ISA = qw(ZOOM::IRSpy::Test);
 sub start {
     my $class = shift();
     my($conn) = @_;
-    my @syntax = ( 'canmarc',
+    my @syntax = (
+                   'canmarc',
                    'danmarc',
                    'grs-1',
                    'ibermarc',
