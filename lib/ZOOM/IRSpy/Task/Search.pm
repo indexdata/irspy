@@ -1,4 +1,4 @@
-# $Id: Search.pm,v 1.3 2006-10-12 16:54:13 mike Exp $
+# $Id: Search.pm,v 1.4 2006-10-25 10:54:43 mike Exp $
 
 package ZOOM::IRSpy::Task::Search;
 
@@ -35,6 +35,8 @@ sub new {
 
 sub run {
     my $this = shift();
+
+    $this->set_options();
 
     my $conn = $this->conn();
     my $query = $this->{query};
