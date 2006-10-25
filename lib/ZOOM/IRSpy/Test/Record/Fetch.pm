@@ -1,4 +1,4 @@
-# $Id: Fetch.pm,v 1.5 2006-10-25 10:47:17 mike Exp $
+# $Id: Fetch.pm,v 1.6 2006-10-25 11:44:35 sondberg Exp $
 
 # See the "Main" test package for documentation
 
@@ -57,6 +57,8 @@ sub record {
     my $rs = $task->{rs};
 
     if (1) {
+        print STDERR "Hits: ", $rs->size(), "\n";
+        print STDERR "Syntax: ", $syn, "\n";
         print STDERR $rs->record(0)->render();
     }
 
