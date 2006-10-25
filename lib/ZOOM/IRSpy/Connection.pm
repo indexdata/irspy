@@ -1,4 +1,4 @@
-# $Id: Connection.pm,v 1.5 2006-10-25 10:52:04 mike Exp $
+# $Id: Connection.pm,v 1.6 2006-10-25 15:43:43 mike Exp $
 
 package ZOOM::IRSpy::Connection;
 
@@ -11,6 +11,7 @@ our @ISA = qw(ZOOM::Connection);
 
 use ZOOM::IRSpy::Task::Connect;
 use ZOOM::IRSpy::Task::Search;
+use ZOOM::IRSpy::Task::Retrieve;
 
 
 =head1 NAME
@@ -115,7 +116,18 @@ sub irspy_search_pqf {
     my $this = shift();
     my($query, $udata, $options, %cb) = @_;
 
-    my $task = new ZOOM::IRSpy::Task::Search($query, $this, $udata, $options, %cb);
+    my $task = new ZOOM::IRSpy::Task::Search($query,
+					     $this, $udata, $options, %cb);
+    $this->add_task($task);
+}
+
+
+sub irspy_rs_record {
+    my $this = shift();
+    my($rs, $index0, $udata, $options, %cb) = @_;
+
+    my $task = new ZOOM::IRSpy::Task::Retrieve($rs, $index0,
+					       $this, $udata, $options, %cb);
     $this->add_task($task);
 }
 
