@@ -1,4 +1,4 @@
-# $Id: Task.pm,v 1.3 2006-10-25 10:52:53 mike Exp $
+# $Id: Task.pm,v 1.4 2006-10-25 13:34:56 mike Exp $
 
 package ZOOM::IRSpy::Task;
 
@@ -68,11 +68,13 @@ sub run {
 sub set_options {
     my $this = shift();
 
-    my %options = %{ $this->{options} };
-    foreach my $key (sort keys %options) {
-	my $value = $options{$key};
-	$this->conn()->log("irspy_debug", "$this setting option '$key' -> '$value'");
-	$this->conn()->option($key, $value);
+    foreach my $key (sort keys %{ $this->{options} }) {
+	my $value = $this->{options}->{$key};
+	$value = "" if !defined $value;
+	$this->conn()->log("irspy_debug", "$this setting option '$key' -> ",
+			   defined $value ? "'$value'" : "undefined");
+	$this->{options}->{$key} = $this->conn()->option($key, $value);
+	#Net::Z3950::ZOOM::connection_option_set($this->conn()->_conn(), $key, $value);
     }
 }
 
