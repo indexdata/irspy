@@ -1,4 +1,4 @@
-# $Id: Explain.pm,v 1.1 2006-10-25 12:44:55 sondberg Exp $
+# $Id: Explain.pm,v 1.2 2006-10-25 13:38:10 sondberg Exp $
 
 # See the "Main" test package for documentation
 
@@ -37,7 +37,7 @@ sub found {
     my $n = $task->{rs}->size();
     my $ok = 0;
 
-    $conn->log("irspy_test", "Explain category ", $category, " gave, ", $n,
+    $conn->log("irspy_test", "Explain category ", $category, " gave ", $n,
                " hit(s).");
     if ($n > 0) {
         $ok = 1;
