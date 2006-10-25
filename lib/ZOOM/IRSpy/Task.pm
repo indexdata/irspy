@@ -1,4 +1,4 @@
-# $Id: Task.pm,v 1.2 2006-10-12 14:36:34 mike Exp $
+# $Id: Task.pm,v 1.3 2006-10-25 10:52:53 mike Exp $
 
 package ZOOM::IRSpy::Task;
 
@@ -32,13 +32,14 @@ pointer to the next task to be performed after this.
 
 sub new {
     my $class = shift();
-    my($conn, $udata, %cb) = @_;
+    my($conn, $udata, $options, %cb) = @_;
 
     return bless {
 	irspy => $conn->{irspy},
 	conn => $conn,
-	cb => \%cb,
 	udata => $udata,
+	options => $options,
+	cb => \%cb,
 	timeRegistered => time(),
     }, $class;
 }
@@ -62,6 +63,17 @@ sub udata {
 sub run {
     my $this = shift();
     die "can't run base-class task $this";
+}
+
+sub set_options {
+    my $this = shift();
+
+    my %options = %{ $this->{options} };
+    foreach my $key (sort keys %options) {
+	my $value = $options{$key};
+	$this->conn()->log("irspy_debug", "$this setting option '$key' -> '$value'");
+	$this->conn()->option($key, $value);
+    }
 }
 
 sub render {
