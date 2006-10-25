@@ -1,4 +1,4 @@
-# $Id: Fetch.pm,v 1.1 2006-10-23 13:54:52 sondberg Exp $
+# $Id: Fetch.pm,v 1.2 2006-10-25 08:40:53 sondberg Exp $
 
 # See the "Main" test package for documentation
 
@@ -13,8 +13,6 @@ our @ISA = qw(ZOOM::IRSpy::Test);
 
 
 sub start {
-    print STDERR "Got here\n";
-    exit 1;
     my $class = shift();
     my($conn) = @_;
     my @syntax = ( 'canmarc',
@@ -31,11 +29,11 @@ sub start {
                    'rusmarc',
                    'summary',
                    'sutrs',
-                   'swemarc'
+                   'swemarc',
                    'ukmarc',
                    'unimarc',
                    'usmarc',
-                   'xml',
+                   'xml'
                 );
 
     foreach my $syn (@syntax) {
@@ -56,10 +54,9 @@ sub start {
 
 sub record {
     my($conn, $task, $test_args, $event) = @_;
-    my $syn = $test_args->{'syn'};
+    my $syn = $test_args->{'syntax'};
 
-    $conn->log("irspy_test", "search on access-point $attr found $n record",
-	       $n==1 ? "" : "s");
+    $conn->log("irspy_test", "Successfully retrieved a $syn record");
     $conn->record()->store_result('record_fetch',
                                   'syntax'   => $syn,
                                   'ok'       => 1);
@@ -70,10 +67,9 @@ sub record {
 
 sub error {
     my($conn, $task, $test_args, $exception) = @_;
-    my $syn = $test_args->{'syn'};
+    my $syn = $test_args->{'syntax'};
 
-    $conn->log("irspy_test", "search on access-point $attr had error: ",
-	       $exception);
+    $conn->log("irspy_test", "Retrieval of $syn record failed:", $exception);
     $conn->record()->store_result('record_fetch',
                                   'syntax'       => $syn,
                                   'ok'        => 0);
