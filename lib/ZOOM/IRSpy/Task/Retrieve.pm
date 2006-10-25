@@ -1,4 +1,4 @@
-# $Id: Retrieve.pm,v 1.1 2006-10-25 15:45:29 mike Exp $
+# $Id: Retrieve.pm,v 1.2 2006-10-25 17:16:14 mike Exp $
 
 package ZOOM::IRSpy::Task::Retrieve;
 
@@ -51,7 +51,9 @@ sub run {
 
 sub render {
     my $this = shift();
-    return ref($this) . "(" . $this->{rs}. ", " . $this->{index0} . ")";
+    my $syntax = $this->{options}->{preferredRecordSyntax};
+    $syntax = defined $syntax ? "'$syntax'" : "undef";
+    return ref($this) . "(" . $this->{index0} . ", $syntax)";
 }
 
 use overload '""' => \&render;
