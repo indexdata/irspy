@@ -1,4 +1,4 @@
-# $Id: Fetch.pm,v 1.2 2006-10-25 08:40:53 sondberg Exp $
+# $Id: Fetch.pm,v 1.3 2006-10-25 09:18:28 sondberg Exp $
 
 # See the "Main" test package for documentation
 
@@ -55,6 +55,11 @@ sub start {
 sub record {
     my($conn, $task, $test_args, $event) = @_;
     my $syn = $test_args->{'syntax'};
+    my $rs = $task->{rs};
+
+    if (1) {
+        print STDERR $rs->record(0)->render();
+    }
 
     $conn->log("irspy_test", "Successfully retrieved a $syn record");
     $conn->record()->store_result('record_fetch',
