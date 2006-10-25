@@ -1,4 +1,4 @@
-# $Id: Connect.pm,v 1.3 2006-10-12 16:54:13 mike Exp $
+# $Id: Connect.pm,v 1.4 2006-10-25 10:54:43 mike Exp $
 
 # See ZOOM/IRSpy/Task/Search.pm for documentation
 
@@ -19,6 +19,8 @@ sub new {
 
 sub run {
     my $this = shift();
+
+    $this->set_options();
 
     my $conn = $this->conn();
     $conn->log("irspy_task", "connecting");
