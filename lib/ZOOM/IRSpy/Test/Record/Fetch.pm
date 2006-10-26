@@ -1,4 +1,4 @@
-# $Id: Fetch.pm,v 1.9 2006-10-26 17:17:27 mike Exp $
+# $Id: Fetch.pm,v 1.10 2006-10-26 18:22:41 sondberg Exp $
 
 # See the "Main" test package for documentation
 
@@ -70,7 +70,7 @@ sub record {
     my $rs = $task->{rs};
 
     $conn->log("irspy_test", "Successfully retrieved a $syn record");
-    if (1) {
+    if (0) {
         print STDERR "Hits: ", $rs->size(), "\n";
         print STDERR "Syntax: ", $syn, "\n";
         my $record = _fetch_record($rs, 0, $syn);
