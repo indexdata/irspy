@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.37 2006-10-26 13:39:13 sondberg Exp $
+# $Id: IRSpy.pm,v 1.38 2006-10-26 17:21:35 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -85,7 +85,7 @@ sub new {
 	targets => undef,	# filled in later
 	connections => undef,	# filled in later
         libxml => $libxml,
-        irspy_to_zeerex_style => $xslt->parse_stylesheet($xsl_doc),
+        irspy_to_zeerex_style => $irspy_to_zeerex_style,
 	tests => [],		# stack of tests currently being executed
     }, $class;
     $this->log("irspy", "starting up with database '$dbname'");
