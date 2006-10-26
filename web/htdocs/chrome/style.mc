@@ -1,4 +1,4 @@
-/* $Id: style.mc,v 1.8 2006-09-21 13:13:42 mike Exp $ */
+/* $Id: style.mc,v 1.9 2006-10-26 17:22:35 mike Exp $ */
 body {
   color: black;
   background: white;
@@ -25,6 +25,9 @@ img { border: 0 }
 .searchform tr th { text-align: right; padding-right: 0.5em }
 .searchform tr td input { background: #ffffc0 }
 .searchform tr td select { background: #ffffc0 }
+
+.fullrecord { background: #ffffee }
+.fullrecord th { text-align: left }
 
 .thleft th { text-align: left }
 
