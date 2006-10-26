@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.38 2006-10-26 17:21:35 mike Exp $
+# $Id: IRSpy.pm,v 1.39 2006-10-26 17:46:41 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -309,7 +309,7 @@ sub check {
 
     $tname = "Main" if !defined $tname;
     $this->{tree} = $this->_gather_tests($tname)
-	or die "No tests defined";
+	or die "No tests defined for '$tname'";
     #$this->{tree}->print(0);
     my $nskipped = 0;
 
