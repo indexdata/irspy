@@ -1,10 +1,11 @@
-%# $Id: layout.mc,v 1.10 2006-10-20 16:56:07 mike Exp $
+%# $Id: layout.mc,v 1.11 2006-10-26 17:22:15 mike Exp $
 <%args>
 $debug => undef
 $title
 $component
 </%args>
 <%once>
+use URI::Escape;
 BEGIN {
     use vars qw($LIBDIR);
     $LIBDIR = $r->dir_config("IRSpyLibDir");
