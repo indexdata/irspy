@@ -1,4 +1,4 @@
-# $Id: Boolean.pm,v 1.2 2006-10-25 11:25:36 sondberg Exp $
+# $Id: Boolean.pm,v 1.3 2006-10-26 10:24:20 sondberg Exp $
 
 # See the "Main" test package for documentation
 
@@ -38,8 +38,7 @@ sub found {
 
     $conn->log("irspy_test", "search using boolean operator ", $operator,
                              " found $n record", $n==1 ? "" : "s");
-    $conn->record()->store_result('boolean', 'operator' => $operator,
-                                             'ok'       => 1);
+    update($conn, $operator, 1);
 
     return ZOOM::IRSpy::Status::TASK_DONE;
 }
@@ -51,9 +50,16 @@ sub error {
 
     $conn->log("irspy_test", "search using boolean operator ", $operator,
                              " had error: ", $exception);
-    $conn->record()->store_result('boolean', 'operator' => $operator,
-                                             'ok'       => 0);
+    update($conn, $operator, 0);
     return ZOOM::IRSpy::Status::TASK_DONE;
+}
+
+
+sub update {
+    my ($conn, $operator, $ok) = @_;
+
+    $conn->record()->store_result('boolean', 'operator' => $operator,
+                                             'ok'       => $ok);
 }
 
 
