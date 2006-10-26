@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.39 2006-10-26 17:46:41 mike Exp $
+# $Id: IRSpy.pm,v 1.40 2006-10-26 18:02:59 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -460,11 +460,22 @@ sub _gather_tests {
 	join(" -> ", @ancestors, $tname))
 	if grep { $_ eq $tname } @ancestors;
 
+    my $slashSeperatedTname = $tname;
+    $slashSeperatedTname =~ s/::/\//g;
+    my $fullName = "ZOOM/IRSpy/Test/$slashSeperatedTname.pm";
+
     eval {
-	my $slashSeperatedTname = $tname;
-	$slashSeperatedTname =~ s/::/\//g;
-	require "ZOOM/IRSpy/Test/$slashSeperatedTname.pm";
+	### This next line shouldn't be necessary, as we should
+	#   already be running in an environment where the test
+	#   modules are available -- otherwise, how did _this_ module
+	#   get loaded?  But it seems that for reasons I don't
+	#   understand we do sometimes (not always!) need this when
+	#   running under Apache.
+	use lib '/usr/local/src/cvs/irspy/lib';
+	require $fullName;
+	$this->log("irspy", "successfully required '$fullName'");
     }; if ($@) {
+	$this->log("irspy", "couldn't require '$fullName': $@");
 	$this->log("warn", "can't load test '$tname': skipping",
 		   $@ =~ /^Can.t locate/ ? () : " ($@)");
 	return undef;
