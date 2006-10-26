@@ -1,4 +1,4 @@
-%# $Id: full.mc,v 1.1 2006-10-20 16:57:40 mike Exp $
+%# $Id: full.mc,v 1.2 2006-10-26 17:23:13 mike Exp $
 <%args>
 $id
 </%args>
@@ -39,15 +39,26 @@ if ($n == 0) {
 		  [ "Language of Records" => "e:databaseInfo/e:langUsage" ],
 		  [ Restrictions => "e:databaseInfo/e:restrictions" ],
 		  [ Subjects => "e:databaseInfo/e:subjects" ],
-		  ### Remember to set e:metaInfo/e:dateModified
+		  [ "Server ID" => sub { "CNIDR zserver v2.07g" } ],
+		  [ "Reliability" => sub { "97%" } ],
+		  [ "Services" => sub { "search, present, delSet, concurrentOperations, namedResultSets" } ],
+		  [ "Bib-1 Use attributes" => sub { "4-5, 7-8, 12, 21, 31, 54, 58, 63, 1003-1005, 1009, 1011-1012, 1016, 1031" } ],
+		  [ "Operators" => sub { "and, or, not" } ],
+		  [ "Record syntaxes" => sub { "SUTRS, USmarc, Danmarc" } ],
+		  [ "Explain" => sub { "CategoryList, TargetInfo, DatabaseInfo, RecordSyntaxInfo, AttributeSetInfo, AttributeDetails" } ],
 		  );
 </%perl>
      <h2><% xml_encode($id) %></h2>
-     <table class="searchform">
+     <table class="fullrecord" border="1" cellspacing="0" cellpadding="5" width="100%">
 <%perl>
     foreach my $ref (@fields) {
 	my($caption, $xpath, %attrs) = @$ref;
-	my $data = $xc->find($xpath);
+	my $data;
+	if (ref $xpath && ref($xpath) eq "CODE") {
+	    $data = &$xpath();
+	} else {
+	    $data = $xc->find($xpath);
+	}
 	if ($data) {
 </%perl>
       <tr>
@@ -57,4 +68,8 @@ if ($n == 0) {
 %	}
 %   }
      </table>
+     <p>
+      <a href="<% xml_encode("/raw.html?id=" . uri_escape($id))
+		%>">Raw XML record</a>
+     </p>
 % }
