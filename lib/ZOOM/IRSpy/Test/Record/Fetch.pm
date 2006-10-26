@@ -1,4 +1,4 @@
-# $Id: Fetch.pm,v 1.8 2006-10-25 15:45:07 mike Exp $
+# $Id: Fetch.pm,v 1.9 2006-10-26 17:17:27 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -73,7 +73,8 @@ sub record {
     if (1) {
         print STDERR "Hits: ", $rs->size(), "\n";
         print STDERR "Syntax: ", $syn, "\n";
-        print STDERR $rs->record(0)->render();
+        my $record = _fetch_record($rs, 0, $syn);
+        print STDERR $record->render();
     }
 
     $conn->record()->store_result('record_fetch',
@@ -81,6 +82,18 @@ sub record {
                                   'ok'       => 1);
 
     return ZOOM::IRSpy::Status::TASK_DONE;
+}
+
+
+sub _fetch_record {
+    my($rs, $index0, $syntax) = @_;
+
+    my $oldSyntax = $rs->option(preferredRecordSyntax => $syntax);
+    my $record = $rs->record(0);
+    $oldSyntax = "" if !defined $oldSyntax;
+    $rs->option(preferredRecordSyntax => $oldSyntax);
+
+    return $record;
 }
 
 
