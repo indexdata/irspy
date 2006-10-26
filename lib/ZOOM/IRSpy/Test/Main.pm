@@ -1,4 +1,4 @@
-# $Id: Main.pm,v 1.10 2006-10-23 13:54:52 sondberg Exp $
+# $Id: Main.pm,v 1.11 2006-10-26 10:24:05 sondberg Exp $
 
 package ZOOM::IRSpy::Test::Main;
 
@@ -24,7 +24,8 @@ I<## To follow>
 
 =cut
 
-sub subtests { qw(Ping Search::Main Record::Main) }
+sub subtests { qw(Ping Record::Main Search::Main) }     ## Works
+#sub subtests { qw(Ping Search::Main Record::Main) }     ## Does not work
 
 sub start {
     my $class = shift();
