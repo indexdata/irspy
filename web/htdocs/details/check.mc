@@ -1,10 +1,25 @@
-%# $Id: check.mc,v 1.10 2006-10-25 09:54:16 mike Exp $
+%# $Id: check.mc,v 1.11 2006-10-26 17:45:32 mike Exp $
 <%args>
 @id
 $test => "Quick"
+$really => 0
 </%args>
 <%perl>
 my $allTargets = (@id == 1 && $id[0] eq "");
+if ($allTargets && !$really) {
+</%perl>
+     <h2>Warning</h2>
+     <p class="error">
+      Testing all the targets is a very slow process.
+      Are you sure you want to do this?
+     </p>
+     <p>
+      <a href="?really=1">Yes</a>
+      <a href="/">No</a>
+     </p>
+<%perl>
+} else {
+
 print "<h2>Testing ...</h2>\n";
 print "     <ul>\n", join("", map { "      <li>$_\n" } @id), "</ul>\n"
     if !$allTargets;
@@ -28,4 +43,5 @@ if ($res == 0) {
     print "<b>$res tests were skipped</b>\n";
 }
 print "</p>\n";
+}
 </%perl>
