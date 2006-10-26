@@ -1,4 +1,4 @@
-# $Id: Explain.pm,v 1.2 2006-10-25 13:38:10 sondberg Exp $
+# $Id: Explain.pm,v 1.3 2006-10-26 12:55:35 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -22,9 +22,9 @@ sub start {
                      Processing VariantSetInfo UnitSet);
 
     foreach my $category (@explain) {
-        $conn->option('databaseName', 'IR-Explain-1');
 	$conn->irspy_search_pqf('@attr exp-1 1=1 ' . $category,
-                                {'category' => $category}, {},
+                                {'category' => $category},
+				{ databaseName => 'IR-Explain-1' },
 				ZOOM::Event::RECV_SEARCH, \&found,
 				exception => \&error);
     }
