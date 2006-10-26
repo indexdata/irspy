@@ -1,7 +1,5 @@
-%# $Id: found.mc,v 1.15 2006-10-20 16:57:23 mike Exp $
+%# $Id: found.mc,v 1.16 2006-10-26 17:22:56 mike Exp $
 <%once>
-use URI::Escape;
-
 sub print_navlink {
     my($params, $cond, $caption, $skip) = @_;
 
