@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.36 2006-10-25 15:42:47 mike Exp $
+# $Id: IRSpy.pm,v 1.37 2006-10-26 13:39:13 sondberg Exp $
 
 package ZOOM::IRSpy;
 
@@ -10,6 +10,9 @@ use Exporter 'import';
 our @EXPORT_OK = qw(xml_encode irspy_xpath_context);
 
 use Data::Dumper;		# For debugging only
+use File::Basename;
+use XML::LibXSLT;
+use XML::LibXML;
 use XML::LibXML::XPathContext;
 use ZOOM;
 use Net::Z3950::ZOOM 1.13;	# For the ZOOM version-check only
@@ -20,6 +23,7 @@ use ZOOM::IRSpy::Record;
 our @ISA = qw();
 our $VERSION = '0.02';
 our $irspy_ns = 'http://indexdata.com/irspy/1.0';
+our $irspy_to_zeerex_xsl = dirname(__FILE__) . '/../../xsl/irspy2zeerex.xsl';
 
 
 # Enumeration for callback functions to return
@@ -69,12 +73,19 @@ sub new {
     my $conn = new ZOOM::Connection($dbname, 0, @options)
 	or die "$0: can't connection to IRSpy database 'dbname'";
 
+    my $xslt = new XML::LibXSLT;
+    my $libxml = new XML::LibXML;
+    my $xsl_doc = $libxml->parse_file($irspy_to_zeerex_xsl);
+    my $irspy_to_zeerex_style = $xslt->parse_stylesheet($xsl_doc);
+
     my $this = bless {
 	conn => $conn,
 	allrecords => 1,	# unless overridden by targets()
 	query => undef,		# filled in later
 	targets => undef,	# filled in later
 	connections => undef,	# filled in later
+        libxml => $libxml,
+        irspy_to_zeerex_style => $xslt->parse_stylesheet($xsl_doc),
 	tests => [],		# stack of tests currently being executed
     }, $class;
     $this->log("irspy", "starting up with database '$dbname'");
@@ -229,15 +240,25 @@ sub _render_record {
 }
 
 
+sub _irspy_to_zeerex {
+    my ($this, $conn) = @_;
+    my $irspy_doc = $conn->record()->{zeerex}->ownerDocument;
+    my %params = ();
+    my $result = $this->{irspy_to_zeerex_style}->transform($irspy_doc, %params);
+
+    return $result->documentElement();
+}
+
+
 sub _rewrite_record {
     my $this = shift();
     my($conn) = @_;
 
     $conn->log("irspy", "rewriting XML record");
-    my $rec = $conn->record();
+    my $rec = $this->_irspy_to_zeerex($conn);
     my $p = $this->{conn}->package();
     $p->option(action => "specialUpdate");
-    my $xml = $rec->{zeerex}->toString();
+    my $xml = $rec->toString();
     $p->option(record => $xml);
     $p->send("update");
     $p->destroy();
