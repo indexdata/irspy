@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id: zeerex.xml,v 1.13 2006-09-20 13:19:54 mike Exp $ -->
+<!-- $Id: zeerex.xml,v 1.14 2006-10-27 00:44:36 mike Exp $ -->
 <explain xmlns="http://explain.z3950.org/dtd/2.0/">
 
  <serverInfo protocol="SRW/SRU/Z39.50" version="1.1" method="GET/POST">
   <host>localhost</host>
   <port>3313</port>
-  <database>Default</database>
+  <database>IR-Explain---1</database>
  </serverInfo>
 
  <databaseInfo>
@@ -160,6 +160,9 @@
  </configInfo>
 
  <irspy:status xmlns:irspy="http://indexdata.com/irspy/1.0">
+  <irspy:implementationId>81</irspy:implementationId>
+  <irspy:implementationName>Zebra Information Server/GFS/YAZ</irspy:implementationName>
+  <irspy:implementationVersion>Zebra 2.0.1/1.98/2.1.30</irspy:implementationVersion>
   <irspy:availability>
    <irspy:probe ok="0">2006-07-10T11:45:06</irspy:probe>
    <irspy:probe ok="1">2006-07-17T11:45:02</irspy:probe>
