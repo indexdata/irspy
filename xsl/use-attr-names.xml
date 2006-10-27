@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<!--
+    $Id: use-attr-names.xml,v 1.1 2006-10-27 12:45:10 sondberg Exp $
+
+    Maps numeric use attributes to human readable names - credits to Per
+-->
+<mapping>
+    <map attr="1" name="Personal name"/>
+    <map attr="2" name="Corporate name"/>
+    <map attr="3" name="Conference name"/>
+    <map attr="4" name="Title"/>
+    <map attr="5" name="Title series"/>
+    <map attr="6" name="Title uniform"/>
+    <map attr="7" name="ISBN"/>
+    <map attr="8" name="ISSN"/>
+    <map attr="9" name="LC card number"/>
+    <map attr="10" name="BNB card no."/>
+    <map attr="11" name="BGF number"/>
+    <map attr="12" name="Local number"/>
+    <map attr="13" name="Dewey classificat"/>
+    <map attr="14" name="UDC classification"/>
+    <map attr="15" name="Bliss classification"/>
+    <map attr="16" name="LC call number"/>
+    <map attr="17" name="NLM call number"/>
+    <map attr="18" name="NAL call number"/>
+    <map attr="19" name="MOS call number"/>
+    <map attr="20" name="Local classification"/>
+    <map attr="21" name="Subject heading"/>
+    <map attr="22" name="Subject Rameau"/>
+    <map attr="23" name="BDI index subject"/>
+    <map attr="24" name="INSPEC subject"/>
+    <map attr="25" name="MESH subject"/>
+    <map attr="26" name="PA subject"/>
+    <map attr="27" name="LC subject heading"/>
+    <map attr="28" name="RVM subject heading"/>
+    <map attr="29" name="Local subject index"/>
+    <map attr="30" name="Date"/>
+    <map attr="31" name="Date of publication"/>
+    <map attr="32" name="Date of acquisition"/>
+    <map attr="33" name="Title key"/>
+    <map attr="34" name="Title collective"/>
+    <map attr="35" name="Title parallel"/>
+    <map attr="36" name="Title cover"/>
+    <map attr="37" name="Title added title page"/>
+    <map attr="38" name="Title caption"/>
+    <map attr="39" name="Title running"/>
+    <map attr="40" name="Title spine"/>
+    <map attr="41" name="Title other variant"/>
+    <map attr="42" name="Title former"/>
+    <map attr="43" name="Title abbreviated"/>
+    <map attr="44" name="Title expanded"/>
+    <map attr="45" name="Subject precis"/>
+    <map attr="46" name="Subject rswk"/>
+    <map attr="47" name="Subject subdivision"/>
+    <map attr="48" name="No. nat'l biblio."/>
+    <map attr="49" name="No. legal deposit"/>
+    <map attr="50" name="No. govt pub."/>
+    <map attr="51" name="No. music publisher"/>
+    <map attr="52" name="Number db"/>
+    <map attr="53" name="Number local call"/>
+    <map attr="54" name="Code--language"/>
+    <map attr="55" name="Code--geographic area"/>
+    <map attr="56" name="Code--institution"/>
+    <map attr="57" name="Name and title"/>
+    <map attr="58" name="Name geographic"/>
+    <map attr="59" name="Place publication"/>
+    <map attr="60" name="CODEN"/>
+    <map attr="61" name="Microform generation"/>
+    <map attr="62" name="Abstract"/>
+    <map attr="63" name="Note"/>
+    <map attr="1000" name="Author-title"/>
+    <map attr="1001" name="Record type"/>
+    <map attr="1002" name="Name"/>
+    <map attr="1003" name="Author"/>
+    <map attr="1004" name="Author-name personal"/>
+    <map attr="1005" name="Author-name corporate"/>
+    <map attr="1006" name="Author-name conference"/>
+    <map attr="1007" name="Identifier--standard"/>
+    <map attr="1008" name="Subject--LC children's"/>
+    <map attr="1009" name="Subject name -- personal"/>
+    <map attr="1010" name="Body of text"/>
+    <map attr="1011" name="Date/time added to db"/>
+    <map attr="1012" name="Date/time last modified"/>
+    <map attr="1013" name="Authority/format id"/>
+    <map attr="1014" name="Concept-text"/>
+    <map attr="1015" name="Concept-reference"/>
+    <map attr="1016" name="Any"/>
+    <map attr="1017" name="Server-choice"/>
+    <map attr="1018" name="Publisher"/>
+    <map attr="1019" name="Record-source"/>
+    <map attr="1020" name="Editor"/>
+    <map attr="1021" name="Bib-level"/>
+    <map attr="1022" name="Geographic-class"/>
+    <map attr="1023" name="Indexed-by"/>
+    <map attr="1024" name="Map-scale"/>
+    <map attr="1025" name="Music-key"/>
+    <map attr="1026" name="Related-periodical"/>
+    <map attr="1027" name="Report-number"/>
+    <map attr="1028" name="Stock-number"/>
+    <map attr="1030" name="Thematic-number"/>
+    <map attr="1031" name="Material-type"/>
+    <map attr="1032" name="Doc-id"/>
+    <map attr="1033" name="Host-item"/>
+    <map attr="1034" name="Content-type"/>
+    <map attr="1035" name="Anywhere"/>
+    <map attr="1036" name="Author-Title-Subject"/>
+</mapping>
