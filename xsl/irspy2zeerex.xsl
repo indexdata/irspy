@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-    $Id: irspy2zeerex.xsl,v 1.6 2006-10-27 12:51:56 sondberg Exp $
+    $Id: irspy2zeerex.xsl,v 1.7 2006-10-27 13:41:57 sondberg Exp $
 
     This stylesheet is used by IRSpy to map the internal mixed Zeerex/IRSpy
     record format into the Zeerex record which we store.
@@ -24,7 +24,7 @@
   <xsl:variable name="old_indexes" select="/*/explain:indexInfo/explain:index"/>
   <xsl:variable name="use_attr_names" select="document('use-attr-names.xml')"/>
 
-
+  
   <xsl:template match="node() | @*">
     <xsl:copy>
       <xsl:apply-templates select="@* | node()"/>
@@ -32,7 +32,19 @@
   </xsl:template>
 
 
-  <xsl:template match="explain:indexInfo">
+  <xsl:template match="/*">
+    <explain>
+      <xsl:apply-templates select="explain:serverInfo   |
+                                   explain:databaseInfo |
+                                   explain:metaInfo"/>
+                                   
+      <xsl:call-template name="insert-indexInfo"/>
+      <xsl:call-template name="insert-recordInfo"/>
+    </explain>
+  </xsl:template>
+
+
+  <xsl:template name="insert-indexInfo">
     <indexInfo>
       <xsl:for-each select="/*/irspy:status/irspy:search">
         <xsl:variable name="set" select="@set"/>
@@ -55,7 +67,7 @@
   </xsl:template>
 
 
-  <xsl:template match="explain:recordInfo">
+  <xsl:template name="insert-recordInfo">
     <recordInfo>
       <xsl:for-each select="/*/irspy:status/irspy:record_fetch[@ok = 1]">
         <recordSyntax name="{@syntax}">
