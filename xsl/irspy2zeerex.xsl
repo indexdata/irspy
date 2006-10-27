@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-    $Id: irspy2zeerex.xsl,v 1.2 2006-10-27 11:43:17 sondberg Exp $
+    $Id: irspy2zeerex.xsl,v 1.3 2006-10-27 11:45:18 sondberg Exp $
 
     This stylesheet is used by IRSpy to map the internal mixed Zeerex/IRSpy
     record format into the Zeerex record which we store.
@@ -38,8 +38,8 @@
         <xsl:variable name="set" select="@set"/>
         <xsl:variable name="ap" select="@ap"/>
         <xsl:variable name="old"
-         select="$old_indexes[explain:map/explain:attr/@set = $set and
-                              explain:map/explain:attr/text() = $ap]"/>
+            select="$old_indexes[explain:map/explain:attr/@set = $set and
+                                 explain:map/explain:attr/text() = $ap]"/>
         <xsl:choose>
           <xsl:when test="$old">
             <xsl:call-template name="insert-index-section">
