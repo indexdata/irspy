@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.41 2006-10-27 00:45:12 mike Exp $
+# $Id: IRSpy.pm,v 1.42 2006-10-27 15:36:04 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -256,14 +256,21 @@ sub _rewrite_record {
 
     $conn->log("irspy", "rewriting XML record");
     my $rec = $this->_irspy_to_zeerex($conn);
-    my $p = $this->{conn}->package();
+    _really_rewrite_record($this->{conn}, $rec);
+}
+
+
+sub _really_rewrite_record {
+    my($conn, $rec) = @_;
+
+    my $p = $conn->package();
     $p->option(action => "specialUpdate");
     my $xml = $rec->toString();
     $p->option(record => $xml);
     $p->send("update");
     $p->destroy();
 
-    $p = $this->{conn}->package();
+    $p = $conn->package();
     $p->send("commit");
     $p->destroy();
     if (0) {
