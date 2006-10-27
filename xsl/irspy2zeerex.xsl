@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-    $Id: irspy2zeerex.xsl,v 1.3 2006-10-27 11:45:18 sondberg Exp $
+    $Id: irspy2zeerex.xsl,v 1.4 2006-10-27 12:27:38 sondberg Exp $
 
     This stylesheet is used by IRSpy to map the internal mixed Zeerex/IRSpy
     record format into the Zeerex record which we store.
@@ -56,6 +56,13 @@
 
 
   <xsl:template match="explain:recordInfo">
+    <recordInfo>
+      <xsl:for-each select="/*/irspy:status/irspy:record_fetch[@ok = 1]">
+        <recordSyntax name="{@syntax}">
+          <elementSet name="F"/> <!-- FIXME: This should be probed too -->
+        </recordSyntax>
+      </xsl:for-each>
+    </recordInfo>
   </xsl:template>
 
 
@@ -90,7 +97,6 @@
     <xsl:param name="update"/>
     <xsl:value-of select="$update/@ap"/>
   </xsl:template>
-
 
 
   <xsl:template match="explain:dateModified">
