@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-    $Id: irspy2zeerex.xsl,v 1.4 2006-10-27 12:27:38 sondberg Exp $
+    $Id: irspy2zeerex.xsl,v 1.5 2006-10-27 12:50:06 sondberg Exp $
 
     This stylesheet is used by IRSpy to map the internal mixed Zeerex/IRSpy
     record format into the Zeerex record which we store.
@@ -22,7 +22,7 @@
   <xsl:preserve-space elements="*"/>
 
   <xsl:variable name="old_indexes" select="/*/explain:indexInfo/explain:index"/>
-  <xsl:variable name="old_syntaxes" select="/*/explain:recordInfo"/>
+  <xsl:variable name="use_attr_names" select="document('use-attr-names.xml')"/>
 
 
   <xsl:template match="node() | @*">
@@ -95,7 +95,14 @@
 
   <xsl:template name="insert-index-title">
     <xsl:param name="update"/>
-    <xsl:value-of select="$update/@ap"/>
+    <xsl:variable name="name"
+                select="$use_attr_names/*/map[@attr = $update/@ap]/@name"/>
+
+    <xsl:choose>
+      <xsl:when test="string-length($name) &gt; 0"><xsl:value-of
+                                            select="$name"/></xsl:when>
+      <xsl:otherwise><xsl:value-of select="$update/@ap"/></xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
 
