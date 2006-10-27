@@ -1,4 +1,4 @@
-%# $Id: edit.mc,v 1.1 2006-10-20 16:57:40 mike Exp $
+%# $Id: edit.mc,v 1.2 2006-10-27 00:47:24 mike Exp $
 <%args>
 $id
 </%args>
@@ -19,39 +19,52 @@ if ($n == 0) {
 } else {
     my $rec = $rs->record(0);
     my $xc = irspy_xpath_context($rec);
-    my @fields = (
-		  [ Protocol => "e:serverInfo/\@protocol" ],
-		  [ Host => "e:serverInfo/e:host" ],
-		  [ Port => "e:serverInfo/e:port" ],
-		  [ "Database Name" => "e:serverInfo/e:database" ],
-		  [ "Username (if needed)" =>
-		    "e:serverInfo/e:authentication/e:user" ],
-		  [ "Password (if needed)" =>
-		    "e:serverInfo/e:authentication/e:password" ],
-		  [ Title => "e:databaseInfo/e:title",
-		    lang => "en", primary => "true" ],
-		  [ Description => "e:databaseInfo/e:description",
-		    lang => "en", primary => "true" ],
-		  [ Author => "e:databaseInfo/e:author" ],
-		  [ Contact => "e:databaseInfo/e:contact" ],
-		  [ Extent => "e:databaseInfo/e:extent" ],
-		  [ History => "e:databaseInfo/e:history" ],
-		  [ "Language of Records" => "e:databaseInfo/e:langUsage" ],
-		  [ Restrictions => "e:databaseInfo/e:restrictions" ],
-		  [ Subjects => "e:databaseInfo/e:subjects" ],
-		  ### Remember to set e:metaInfo/e:dateModified
-		  );
+    my @fields =
+	(
+	 [ protocol     => 0, "Protocol", "e:serverInfo/\@protocol" ],
+	 [ host         => 0, "Host", "e:serverInfo/e:host" ],
+	 [ port         => 0, "Port", "e:serverInfo/e:port" ],
+	 [ dbname       => 0, "Database Name", "e:serverInfo/e:database" ],
+	 [ username     => 0, "Username (if needed)", "e:serverInfo/e:authentication/e:user" ],
+	 [ password     => 0, "Password (if needed)", "e:serverInfo/e:authentication/e:password" ],
+	 [ title        => 0, "title", "e:databaseInfo/e:title", lang => "en", primary => "true" ],
+	 [ description  => 5, "Description", "e:databaseInfo/e:description", lang => "en", primary => "true" ],
+	 [ author       => 0, "Author", "e:databaseInfo/e:author" ],
+	 [ contact      => 0, "Contact", "e:databaseInfo/e:contact" ],
+	 [ extent       => 3, "Extent", "e:databaseInfo/e:extent" ],
+	 [ history      => 5, "History", "e:databaseInfo/e:history" ],
+	 [ language     => 0, "Language of Records", "e:databaseInfo/e:langUsage" ],
+	 [ restrictions => 2, "Restrictions", "e:databaseInfo/e:restrictions" ],
+	 [ subjects     => 2, "Subjects", "e:databaseInfo/e:subjects" ],
+	 ### Remember to set e:metaInfo/e:dateModified
+	 );
 </%perl>
      <h2><% xml_encode($id) %></h2>
-     <table class="searchform">
+     <form method="get" action="">
+      <table class="fullrecord" border="1" cellspacing="0" cellpadding="5" width="100%">
 <%perl>
     foreach my $ref (@fields) {
-	my($caption, $xpath, %attrs) = @$ref;
+	my($name, $nlines, $caption, $xpath, %attrs) = @$ref;
 </%perl>
-      <tr>
-       <th><% $caption %></th>
-       <td><% $xc->find($xpath) %></td>
-      </tr>
+       <tr>
+	<th><% $caption %></th>
+	<td>
+% my $data = xml_encode($xc->find($xpath));
+% if ($nlines) {
+	 <textarea name="<% $name %>" rows="<% $nlines %>" cols="61"><% $data %></textarea>
+% } else {
+	 <input name="<% $name %>" type="text" size="60" value="<% $data %>">
+% }
+	</td>
+       </tr>
 %   }
-     </table>
+       <tr>
+        <td></td>
+        <td align="right">
+	 <input type="submit" name="update" value="Update"/>
+	 <input type="hidden" name="id" value="<% xml_encode($id) %>"/>
+        </td>
+       </tr>
+      </table>
+     </form>
 % }
