@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.40 2006-10-26 18:02:59 mike Exp $
+# $Id: IRSpy.pm,v 1.41 2006-10-27 00:45:12 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -576,6 +576,7 @@ sub irspy_xpath_context {
     my $root = $doc->getDocumentElement();
     my $xc = XML::LibXML::XPathContext->new($root);
     $xc->registerNs(e => 'http://explain.z3950.org/dtd/2.0/');
+    $xc->registerNs(i => $irspy_ns);
     return $xc;
 }
 
