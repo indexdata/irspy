@@ -1,4 +1,4 @@
-%# $Id: edit.mc,v 1.3 2006-10-27 16:58:41 mike Exp $
+%# $Id: edit.mc,v 1.4 2006-10-27 17:16:20 mike Exp $
 <%args>
 $id
 </%args>
@@ -73,7 +73,7 @@ if ($n == 0) {
     }
 </%perl>
      <h2><% xml_encode($id) %></h2>
-% print "     <p>Thanks for the update!</p>\n" if defined $update;
+% print "     <p><b>The record has been updated.</b></p>\n" if defined $update;
      <form method="get" action="">
       <table class="fullrecord" border="1" cellspacing="0" cellpadding="5" width="100%">
 <%perl>
