@@ -1,4 +1,4 @@
-# $Id: Dan1.pm,v 1.4 2006-10-26 10:24:20 sondberg Exp $
+# $Id: Dan1.pm,v 1.5 2006-10-27 09:56:07 sondberg Exp $
 
 # See the "Main" test package for documentation
 
@@ -55,7 +55,7 @@ sub error {
 sub update {
     my ($conn, $attr, $ok) = @_;
 
-    $conn->record()->store_result('search', 'set'       => 'dan1',
+    $conn->record()->store_result('search', 'set'       => 'dan-1',
                                             'ap'        => $attr,
                                             'ok'        => $ok);
 }
