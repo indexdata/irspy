@@ -1,4 +1,4 @@
-# $Id: Bib1.pm,v 1.13 2006-10-26 10:24:20 sondberg Exp $
+# $Id: Bib1.pm,v 1.14 2006-10-27 09:56:07 sondberg Exp $
 
 # See the "Main" test package for documentation
 
@@ -57,7 +57,7 @@ sub error {
 
 sub update {
     my ($conn, $attr, $ok) = @_;
-    $conn->record()->store_result('search', 'set'       => 'bib1',
+    $conn->record()->store_result('search', 'set'       => 'bib-1',
                                             'ap'        => $attr,
                                             'ok'        => $ok);
 }
