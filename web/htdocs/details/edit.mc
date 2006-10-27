@@ -1,4 +1,4 @@
-%# $Id: edit.mc,v 1.2 2006-10-27 00:47:24 mike Exp $
+%# $Id: edit.mc,v 1.3 2006-10-27 16:58:41 mike Exp $
 <%args>
 $id
 </%args>
@@ -6,7 +6,8 @@ $id
 use ZOOM;
 </%once>
 <%perl>
-my $conn = new ZOOM::Connection("localhost:3313/IR-Explain---1");
+my $conn = new ZOOM::Connection("localhost:3313/IR-Explain---1", 0,
+				user => "admin", password => "fruitbat");
 $conn->option(elementSetName => "zeerex");
 my $qid = $id;
 $qid =~ s/"/\\"/g;
@@ -38,8 +39,41 @@ if ($n == 0) {
 	 [ subjects     => 2, "Subjects", "e:databaseInfo/e:subjects" ],
 	 ### Remember to set e:metaInfo/e:dateModified
 	 );
+    my %fieldsByKey = map { ( $_->[0], $_) } @fields;
+    my $update = $r->param("update");
+    if (defined $update) {
+	# Update record with submitted data
+	foreach my $key ($r->param()) {
+	    next if grep { $key eq $_ } qw(id update);
+	    my $value = $r->param($key);
+	    my $ref = $fieldsByKey{$key} or die "no field '$key'";
+	    my($name, $nlines, $caption, $xpath, %attrs) = @$ref;
+	    my @nodes = $xc->findnodes($xpath);
+	    if (@nodes) {
+		warn scalar(@nodes), " nodes match '$xpath'" if @nodes > 1;
+		my $node = $nodes[0];
+		if ($node->isa("XML::LibXML::Attr")) {
+		    $node->setValue($value);
+		    print "Attr $key <- '$value' ($xpath)<br/>\n";
+		} elsif ($node->isa("XML::LibXML::Element")) {
+		    my $child = $node->firstChild();
+		    die "element child $child is not text"
+			if !ref $child || !$child->isa("XML::LibXML::Text");
+		    $child->setData($value);
+		    print "Elem $key <- '$value' ($xpath)<br/>\n";
+		} else {
+		    warn "unexpected node type $node";
+		}
+	    } else {
+		print "$key='$value' ($xpath) no nodes<br/>\n";
+		### Make new node ... heaven knows how ...
+	    }
+	}
+	ZOOM::IRSpy::_really_rewrite_record($conn, $xc->getContextNode());
+    }
 </%perl>
      <h2><% xml_encode($id) %></h2>
+% print "     <p>Thanks for the update!</p>\n" if defined $update;
      <form method="get" action="">
       <table class="fullrecord" border="1" cellspacing="0" cellpadding="5" width="100%">
 <%perl>
@@ -59,8 +93,7 @@ if ($n == 0) {
        </tr>
 %   }
        <tr>
-        <td></td>
-        <td align="right">
+        <td align="right" colspan="2">
 	 <input type="submit" name="update" value="Update"/>
 	 <input type="hidden" name="id" value="<% xml_encode($id) %>"/>
         </td>
