@@ -1,4 +1,4 @@
-# $Id: Record.pm,v 1.17 2006-10-23 12:22:52 sondberg Exp $
+# $Id: Record.pm,v 1.18 2006-10-30 16:13:49 mike Exp $
 
 package ZOOM::IRSpy::Record;
 
@@ -8,7 +8,7 @@ use warnings;
 
 use XML::LibXML;
 use XML::LibXML::XPathContext;
-
+use ZOOM::IRSpy::Utils qw(xml_encode);
 
 =head1 NAME
 
@@ -48,9 +48,9 @@ sub _empty_zeerex_record {
     ### Doesn't recognise SRU/SRW URLs
     my($host, $port, $db) = ZOOM::IRSpy::_parse_target_string($target);
 
-    my $xhost = ZOOM::IRSpy::xml_encode($host);
-    my $xport = ZOOM::IRSpy::xml_encode($port);
-    my $xdb = ZOOM::IRSpy::xml_encode($db);
+    my $xhost = xml_encode($host);
+    my $xport = xml_encode($port);
+    my $xdb = xml_encode($db);
     return <<__EOT__;
 <explain xmlns="http://explain.z3950.org/dtd/2.0/">
  <serverInfo protocol="Z39.50" version="1995">
