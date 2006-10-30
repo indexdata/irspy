@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.43 2006-10-30 14:57:14 mike Exp $
+# $Id: IRSpy.pm,v 1.44 2006-10-30 15:04:33 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -19,6 +19,7 @@ use Net::Z3950::ZOOM 1.13;	# For the ZOOM version-check only
 use ZOOM::IRSpy::Node;
 use ZOOM::IRSpy::Connection;
 use ZOOM::IRSpy::Record;
+use ZOOM::IRSpy::Utils;
 
 our @ISA = qw();
 our $VERSION = '0.02';
