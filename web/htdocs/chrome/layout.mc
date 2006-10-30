@@ -1,4 +1,4 @@
-%# $Id: layout.mc,v 1.11 2006-10-26 17:22:15 mike Exp $
+%# $Id: layout.mc,v 1.12 2006-10-30 14:58:15 mike Exp $
 <%args>
 $debug => undef
 $title
@@ -6,11 +6,6 @@ $component
 </%args>
 <%once>
 use URI::Escape;
-BEGIN {
-    use vars qw($LIBDIR);
-    $LIBDIR = $r->dir_config("IRSpyLibDir");
-}
-use lib $LIBDIR;
 use ZOOM::IRSpy::Web;
 use ZOOM::IRSpy qw(irspy_xpath_context xml_encode);
 </%once>
