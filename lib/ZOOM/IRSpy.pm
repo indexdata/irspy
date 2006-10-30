@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.42 2006-10-27 15:36:04 mike Exp $
+# $Id: IRSpy.pm,v 1.43 2006-10-30 14:57:14 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -472,13 +472,6 @@ sub _gather_tests {
     my $fullName = "ZOOM/IRSpy/Test/$slashSeperatedTname.pm";
 
     eval {
-	### This next line shouldn't be necessary, as we should
-	#   already be running in an environment where the test
-	#   modules are available -- otherwise, how did _this_ module
-	#   get loaded?  But it seems that for reasons I don't
-	#   understand we do sometimes (not always!) need this when
-	#   running under Apache.
-	use lib '/usr/local/src/cvs/irspy/lib';
 	require $fullName;
 	$this->log("irspy", "successfully required '$fullName'");
     }; if ($@) {
