@@ -1,4 +1,4 @@
-/* $Id: style.mc,v 1.9 2006-10-26 17:22:35 mike Exp $ */
+/* $Id: style.mc,v 1.10 2006-10-31 16:19:39 mike Exp $ */
 body {
   color: black;
   background: white;
@@ -8,11 +8,18 @@ body {
 .logo { text-decoration: none; color: white; margin-left: 1em }
 .title { color: black; margin-right: 1em }
 .panel1 { background: #d4e7f3; padding: 0em 1em; }
+.panel1 a { text-decoration: none }
 .panel3 { background: #b4c7d3 }
 
 <%doc>Fixing the layout</%doc>
 .panel1 { width: 100px }
 .spacer { width: 1em }
+
+.panel2 {
+  background: #b0d0ff;
+  margin: -0.5em;
+  padding: 0.5em;
+}
 
 <%doc>Why isn't this the default?</%doc>
 img { border: 0 }
