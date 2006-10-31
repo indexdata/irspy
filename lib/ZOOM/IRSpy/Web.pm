@@ -1,4 +1,4 @@
-# $Id: Web.pm,v 1.3 2006-10-20 14:51:41 mike Exp $
+# $Id: Web.pm,v 1.4 2006-10-31 15:22:31 mike Exp $
 
 package ZOOM::IRSpy::Web;
 
@@ -6,8 +6,10 @@ use 5.008;
 use strict;
 use warnings;
 
-use ZOOM::IRSpy qw(xml_encode);
+use ZOOM::IRSpy;
 our @ISA = qw(ZOOM::IRSpy);
+
+use ZOOM::IRSpy::Utils qw(xml_encode);
 
 
 =head1 NAME
