@@ -1,4 +1,4 @@
-%# $Id: full.mc,v 1.3 2006-10-27 00:46:38 mike Exp $
+%# $Id: full.mc,v 1.4 2006-10-31 16:18:47 mike Exp $
 <%args>
 $id
 </%args>
@@ -70,14 +70,4 @@ if ($n == 0) {
 %	}
 %   }
      </table>
-     <p>
-      <a href="<% xml_encode("/check.html?id=" . uri_escape($id))
-		%>">Test this target</a>
-      <br/>
-      <a href="<% xml_encode("/edit.html?id=" . uri_escape($id))
-		%>">Edit this target's information</a>
-      <br/>
-      <a href="<% xml_encode("/raw.html?id=" . uri_escape($id))
-		%>">Raw XML record</a>
-     </p>
 % }
