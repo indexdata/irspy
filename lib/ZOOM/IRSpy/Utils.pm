@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.2 2006-10-30 16:13:49 mike Exp $
+# $Id: Utils.pm,v 1.3 2006-10-31 09:26:11 mike Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -7,7 +7,10 @@ use strict;
 use warnings;
 
 use Exporter 'import';
-our @EXPORT_OK = qw(xml_encode irspy_xpath_context);
+our @EXPORT_OK = qw(xml_encode 
+		    irspy_xpath_context
+		    dom_add_element
+		    inheritance_tree);
 
 
 # Utility functions follow, exported for use of web UI
@@ -40,6 +43,50 @@ sub irspy_xpath_context {
     $xc->registerNs(i => $ZOOM::IRSpy::irspy_ns);
     return $xc;
 }
+
+
+sub dom_add_element {
+    my($xc, $ppath, $element, $value, @addAfter) = @_;
+
+    print "Adding '$value' at '$ppath' after (", join(", ", map { "'$_'" } @addAfter), ")<br/>\n";
+    my @nodes = $xc->findnodes($ppath);
+    if (@nodes == 0) {
+	# Oh dear, the parent node doesn't exist.  We could make it,
+	# but for now let's not and say we did.
+	warn "no parent node '$ppath': not adding '$element'='$value'";
+	return;
+    }
+
+    warn scalar(@nodes), " nodes match parent '$ppath'" if @nodes > 1;
+    my $node = $nodes[0];
+
+    if (1) {
+	my $text = xml_encode(inheritance_tree($xc));
+	$text =~ s/\n/<br\/>$1/sg;
+	print "<pre>$text</pre>\n";
+    }
+}
+
+
+sub inheritance_tree {
+    my($type, $level) = @_;
+    $level = 0 if !defined $level;
+    return "Woah!  Too deep, man!\n" if $level > 20;
+
+    $type = ref $type if ref $type;
+    my $text = "";
+    $text = "--> " if $level == 0;
+    $text .= ("\t" x $level) . "$type\n";
+    my @ISA = eval "\@${type}::ISA";
+    foreach my $superclass (@ISA) {
+	$text .= inheritance_tree($superclass, $level+1);
+    }
+
+    return $text;
+}
+
+
+#print "Loaded ZOOM::IRSpy::Utils.pm";
 
 
 1;
