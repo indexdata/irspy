@@ -1,4 +1,4 @@
-# $Id: Fetch.pm,v 1.10 2006-10-26 18:22:41 sondberg Exp $
+# $Id: Fetch.pm,v 1.11 2006-10-31 12:42:32 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -69,17 +69,29 @@ sub record {
     my $syn = $test_args->{'syntax'};
     my $rs = $task->{rs};
 
-    $conn->log("irspy_test", "Successfully retrieved a $syn record");
-    if (0) {
-        print STDERR "Hits: ", $rs->size(), "\n";
-        print STDERR "Syntax: ", $syn, "\n";
-        my $record = _fetch_record($rs, 0, $syn);
-        print STDERR $record->render();
+    # Due to a bug in ZOOM-C (as of YAZ 2.1.38 of 31st October 2006),
+    # diagnostics in Present responses are not reported, so that we
+    # always end up in this callback rather than in error() where we
+    # should be.  Luckily, we can test whether the retrieval really
+    # did work by rendering the record, which will yield an undefined
+    # result if the fetch failed.
+    my $record = _fetch_record($rs, 0, $syn);
+    my $text = $record->render();
+    if (defined $text) {
+	$conn->log("irspy_test", "Successfully retrieved a $syn record");
+	if (0) {
+	    print STDERR "Hits: ", $rs->size(), "\n";
+	    print STDERR "Syntax: ", $syn, "\n";
+	    print STDERR $text;
+	}
+    } else {
+	$conn->log("irspy_test", "Retrieval of $syn record failed: ",
+		   "exception unavailable");
     }
 
     $conn->record()->store_result('record_fetch',
                                   'syntax'   => $syn,
-                                  'ok'       => 1);
+                                  'ok'       => defined $text);
 
     return ZOOM::IRSpy::Status::TASK_DONE;
 }
