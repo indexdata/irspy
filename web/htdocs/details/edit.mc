@@ -1,4 +1,4 @@
-%# $Id: edit.mc,v 1.4 2006-10-27 17:16:20 mike Exp $
+%# $Id: edit.mc,v 1.5 2006-10-31 09:26:59 mike Exp $
 <%args>
 $id
 </%args>
@@ -25,18 +25,30 @@ if ($n == 0) {
 	 [ protocol     => 0, "Protocol", "e:serverInfo/\@protocol" ],
 	 [ host         => 0, "Host", "e:serverInfo/e:host" ],
 	 [ port         => 0, "Port", "e:serverInfo/e:port" ],
-	 [ dbname       => 0, "Database Name", "e:serverInfo/e:database" ],
-	 [ username     => 0, "Username (if needed)", "e:serverInfo/e:authentication/e:user" ],
-	 [ password     => 0, "Password (if needed)", "e:serverInfo/e:authentication/e:password" ],
-	 [ title        => 0, "title", "e:databaseInfo/e:title", lang => "en", primary => "true" ],
-	 [ description  => 5, "Description", "e:databaseInfo/e:description", lang => "en", primary => "true" ],
-	 [ author       => 0, "Author", "e:databaseInfo/e:author" ],
-	 [ contact      => 0, "Contact", "e:databaseInfo/e:contact" ],
-	 [ extent       => 3, "Extent", "e:databaseInfo/e:extent" ],
-	 [ history      => 5, "History", "e:databaseInfo/e:history" ],
-	 [ language     => 0, "Language of Records", "e:databaseInfo/e:langUsage" ],
-	 [ restrictions => 2, "Restrictions", "e:databaseInfo/e:restrictions" ],
-	 [ subjects     => 2, "Subjects", "e:databaseInfo/e:subjects" ],
+	 [ dbname       => 0, "Database Name", "e:serverInfo/e:database",
+	   qw(e:host e:port) ],
+	 [ username     => 0, "Username (if needed)", "e:serverInfo/e:authentication/e:user",
+	   qw() ],
+	 [ password     => 0, "Password (if needed)", "e:serverInfo/e:authentication/e:password",
+	   qw(e:user) ],
+	 [ title        => 0, "title", "e:databaseInfo/e:title",
+	   qw() ],
+	 [ description  => 5, "Description", "e:databaseInfo/e:description",
+	   qw(e:title) ],
+	 [ author       => 0, "Author", "e:databaseInfo/e:author",
+	   qw(e:title e:description) ],
+	 [ contact      => 0, "Contact", "e:databaseInfo/e:contact",
+	   qw(e:title e:description) ],
+	 [ extent       => 3, "Extent", "e:databaseInfo/e:extent",
+	   qw(e:title e:description) ],
+	 [ history      => 5, "History", "e:databaseInfo/e:history",
+	   qw(e:title e:description) ],
+	 [ language     => 0, "Language of Records", "e:databaseInfo/e:langUsage",
+	   qw(e:title e:description) ],
+	 [ restrictions => 2, "Restrictions", "e:databaseInfo/e:restrictions",
+	   qw(e:title e:description) ],
+	 [ subjects     => 2, "Subjects", "e:databaseInfo/e:subjects",
+	   qw(e:title e:description) ],
 	 ### Remember to set e:metaInfo/e:dateModified
 	 );
     my %fieldsByKey = map { ( $_->[0], $_) } @fields;
@@ -47,26 +59,27 @@ if ($n == 0) {
 	    next if grep { $key eq $_ } qw(id update);
 	    my $value = $r->param($key);
 	    my $ref = $fieldsByKey{$key} or die "no field '$key'";
-	    my($name, $nlines, $caption, $xpath, %attrs) = @$ref;
+	    my($name, $nlines, $caption, $xpath, @addAfter) = @$ref;
 	    my @nodes = $xc->findnodes($xpath);
 	    if (@nodes) {
 		warn scalar(@nodes), " nodes match '$xpath'" if @nodes > 1;
 		my $node = $nodes[0];
 		if ($node->isa("XML::LibXML::Attr")) {
 		    $node->setValue($value);
-		    print "Attr $key <- '$value' ($xpath)<br/>\n";
+		    #print "Attr $key <- '$value' ($xpath)<br/>\n";
 		} elsif ($node->isa("XML::LibXML::Element")) {
 		    my $child = $node->firstChild();
 		    die "element child $child is not text"
 			if !ref $child || !$child->isa("XML::LibXML::Text");
 		    $child->setData($value);
-		    print "Elem $key <- '$value' ($xpath)<br/>\n";
+		    #print "Elem $key <- '$value' ($xpath)<br/>\n";
 		} else {
 		    warn "unexpected node type $node";
 		}
 	    } else {
-		print "$key='$value' ($xpath) no nodes<br/>\n";
-		### Make new node ... heaven knows how ...
+		next if !$value;
+		my($ppath, $element) = $xpath =~ /(.*)\/(.*)/;
+		dom_add_element($xc, $ppath, $element, $value, @addAfter);
 	    }
 	}
 	ZOOM::IRSpy::_really_rewrite_record($conn, $xc->getContextNode());
@@ -78,7 +91,7 @@ if ($n == 0) {
       <table class="fullrecord" border="1" cellspacing="0" cellpadding="5" width="100%">
 <%perl>
     foreach my $ref (@fields) {
-	my($name, $nlines, $caption, $xpath, %attrs) = @$ref;
+	my($name, $nlines, $caption, $xpath, @addAfter) = @$ref;
 </%perl>
        <tr>
 	<th><% $caption %></th>
