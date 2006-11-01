@@ -1,4 +1,4 @@
-# $Id: Fetch.pm,v 1.11 2006-10-31 12:42:32 mike Exp $
+# $Id: Fetch.pm,v 1.12 2006-11-01 09:56:50 sondberg Exp $
 
 # See the "Main" test package for documentation
 
@@ -91,7 +91,7 @@ sub record {
 
     $conn->record()->store_result('record_fetch',
                                   'syntax'   => $syn,
-                                  'ok'       => defined $text);
+                                  'ok'       => defined $text ? 1 : 0);
 
     return ZOOM::IRSpy::Status::TASK_DONE;
 }
