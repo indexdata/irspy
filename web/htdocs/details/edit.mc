@@ -1,4 +1,4 @@
-%# $Id: edit.mc,v 1.5 2006-10-31 09:26:59 mike Exp $
+%# $Id: edit.mc,v 1.6 2006-11-01 10:00:21 mike Exp $
 <%args>
 $id
 </%args>
@@ -49,44 +49,33 @@ if ($n == 0) {
 	   qw(e:title e:description) ],
 	 [ subjects     => 2, "Subjects", "e:databaseInfo/e:subjects",
 	   qw(e:title e:description) ],
-	 ### Remember to set e:metaInfo/e:dateModified
 	 );
-    my %fieldsByKey = map { ( $_->[0], $_) } @fields;
+
+    my $nchanges = 0;
     my $update = $r->param("update");
     if (defined $update) {
 	# Update record with submitted data
+	my %fieldsByKey = map { ( $_->[0], $_) } @fields;
+	my %data;
 	foreach my $key ($r->param()) {
 	    next if grep { $key eq $_ } qw(id update);
-	    my $value = $r->param($key);
-	    my $ref = $fieldsByKey{$key} or die "no field '$key'";
-	    my($name, $nlines, $caption, $xpath, @addAfter) = @$ref;
-	    my @nodes = $xc->findnodes($xpath);
-	    if (@nodes) {
-		warn scalar(@nodes), " nodes match '$xpath'" if @nodes > 1;
-		my $node = $nodes[0];
-		if ($node->isa("XML::LibXML::Attr")) {
-		    $node->setValue($value);
-		    #print "Attr $key <- '$value' ($xpath)<br/>\n";
-		} elsif ($node->isa("XML::LibXML::Element")) {
-		    my $child = $node->firstChild();
-		    die "element child $child is not text"
-			if !ref $child || !$child->isa("XML::LibXML::Text");
-		    $child->setData($value);
-		    #print "Elem $key <- '$value' ($xpath)<br/>\n";
-		} else {
-		    warn "unexpected node type $node";
-		}
-	    } else {
-		next if !$value;
-		my($ppath, $element) = $xpath =~ /(.*)\/(.*)/;
-		dom_add_element($xc, $ppath, $element, $value, @addAfter);
-	    }
+	    $data{$key} = $r->param($key);
+	}
+
+	$nchanges = modify_xml_document($xc, \%fieldsByKey, \%data);
+	if ($nchanges) {
+	    ### Set e:metaInfo/e:dateModified
 	}
 	ZOOM::IRSpy::_really_rewrite_record($conn, $xc->getContextNode());
     }
 </%perl>
      <h2><% xml_encode($id) %></h2>
-% print "     <p><b>The record has been updated.</b></p>\n" if defined $update;
+% if (defined $update) {
+     <p><b>The record has been updated (nchanges=<% $nchanges %>).</b></p>
+% }
+% if ($nchanges) {
+     <p><b>Changed <% $nchanges %> element<% $nchanges == 1 ? "" : "s" %>.</b></p>
+% }
      <form method="get" action="">
       <table class="fullrecord" border="1" cellspacing="0" cellpadding="5" width="100%">
 <%perl>
