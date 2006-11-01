@@ -1,4 +1,4 @@
-%# $Id: menu.mc,v 1.9 2006-11-01 10:00:44 mike Exp $
+%# $Id: menu.mc,v 1.10 2006-11-01 10:33:09 mike Exp $
      <p>
       <a href="/"><b>Home</b></a><br/>
       <a href="/all.html">Test&nbsp;all&nbsp;targets</a><br/>
@@ -9,7 +9,7 @@
       <b>Show targets</b>
       <br/>
 % foreach my $i ('a' .. 'z') {
-      <a href="/find.html?dc.title=^<% $i %>*&amp;_sort=dc.title&amp;_count=9999&amp;_search=Search"><% uc($i) %></a>
+      <a href="/find.html?dc.title=^<% $i %>*&amp;_sort=dc.title&amp;_count=9999&amp;_search=Search"><tt><% uc($i) %></tt></a>
 % }
      </p>
 % our $rec;
