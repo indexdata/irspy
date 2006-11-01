@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.4 2006-11-01 10:13:26 mike Exp $
+# $Id: Utils.pm,v 1.5 2006-11-01 11:46:10 mike Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -71,15 +71,29 @@ sub modify_xml_document {
 		    print "Attr $key: '", $node->getValue(), "' -> '$value' ($xpath)<br/>\n";
 		}
 	    } elsif ($node->isa("XML::LibXML::Element")) {
-		my $child = $node->firstChild();
-		### Next line fails if data contains a comment ... *sigh*
-		die "element child $child is not text"
-		    if !ref $child || !$child->isa("XML::LibXML::Text");
-		if ($value ne $child->getData()) {
-		    $child->setData($value);
-		    $nchanges++;
-		    print "Elem $key: '", $child->getData(), "' -> '$value' ($xpath)<br/>\n";
+		# The contents could be any mixture of text and
+		# comments and maybe even other crud such as processing
+		# instructions.  The simplest thing is just to throw it all
+		# away and start again, making a single Text node the
+		# canonical representation.  But before we do that,
+		# we'll check whether the element is already
+		# canonical, to determine whether our change is a
+		# no-op.
+		my $old = "???";
+		my @children = $node->childNodes();
+		if (@children == 1) {
+		    my $child = $node->firstChild();
+		    if (ref $child && ref $child eq "XML::LibXML::Text") {
+			$old = $child->getData();
+			next if $value eq $old;
+		    }
 		}
+
+		$node->removeChildNodes();
+		my $child = new XML::LibXML::Text($value);
+		$node->appendChild($child);
+		$nchanges++;
+		print "Elem $key: '$old' -> '$value' ($xpath)<br/>\n";
 	    } else {
 		warn "unexpected node type $node";
 	    }
