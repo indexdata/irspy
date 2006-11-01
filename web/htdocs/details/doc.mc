@@ -1,20 +1,21 @@
-%# $Id: doc.mc,v 1.1 2006-09-28 16:48:20 mike Exp $
+%# $Id: doc.mc,v 1.2 2006-11-01 10:11:01 mike Exp $
 <%once>
 use Pod::Html;
 use IO::Dir;
 </%once>
 <%perl>
+my $libdir = $r->dir_config("IRSpyLibDir");
 my $module = $r->param("module");
 if (!defined $module) {
     print "     <ul>\n";
-    render_doc_links($LIBDIR, "ZOOM", 6);
+    render_doc_links($libdir, "ZOOM", 6);
     print "     </ul>\n";
 } else {
     print "<b>Documentation for '$module'</b>\n";
     { my $dir = "/tmp/pod2html"; mkdir $dir; chdir $dir || die $!; }
     # For some reason, output to standard output doesn't appear
     my $name = "ZOOM.html";
-    pod2html("$LIBDIR/$module", "--outfile=$name");
+    pod2html("$libdir/$module", "--outfile=$name");
     open F, "<$name" or die "can't open '$name': $!";
     my $text = join("", <F>);
     close F;
