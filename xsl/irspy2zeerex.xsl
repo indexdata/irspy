@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-    $Id: irspy2zeerex.xsl,v 1.8 2006-10-30 14:55:27 sondberg Exp $
+    $Id: irspy2zeerex.xsl,v 1.9 2006-11-01 11:18:56 sondberg Exp $
 
     This stylesheet is used by IRSpy to map the internal mixed Zeerex/IRSpy
     record format into the Zeerex record which we store.
@@ -19,29 +19,29 @@
       version="1.0"
       encoding="UTF-8"/>
 
-  <xsl:preserve-space elements="*"/>
+  <xsl:strip-space elements="*"/>
 
   <xsl:variable name="old_indexes" select="/*/explain:indexInfo/explain:index"/>
   <xsl:variable name="use_attr_names" select="document('use-attr-names.xml')"/>
 
-  
-  <xsl:template match="node() | @*">
-    <xsl:copy>
-      <xsl:apply-templates select="@* | node()"/>
-    </xsl:copy>
-  </xsl:template>
-
 
   <xsl:template match="/*">
     <explain>
-      <xsl:apply-templates select="explain:serverInfo   |
-                                   explain:databaseInfo |
-                                   explain:metaInfo"/>
-                                   
+      <xsl:call-template name="insert-zeerexBase"/>
       <xsl:call-template name="insert-indexInfo"/>
       <xsl:call-template name="insert-recordInfo"/>
-      <xsl:call-template name="insert-irspySection"/>
+      <xsl:apply-templates select="irspy:status"/>
     </explain>
+  </xsl:template>
+
+
+  <xsl:template name="insert-zeerexBase">
+    <xsl:copy-of select="explain:serverInfo"/>
+    <xsl:copy-of select="explain:databaseInfo"/>
+    <metaInfo>
+      <dateModified><xsl:value-of
+                    select="/*/irspy:status/*[last()]"/></dateModified>
+    </metaInfo>
   </xsl:template>
 
 
@@ -79,8 +79,25 @@
   </xsl:template>
 
 
-  <xsl:template name="insert-irspySection">
-    <xsl:copy-of select="/*/irspy:status"/>
+  <!-- 
+       Here we list the bits and pieces of the irspy:status element which we
+       want to keep in the persistent version of the zeerex record.
+       Simply add "| irspy:xxx" to the match attribute.
+  -->
+  <xsl:template match="irspy:status |
+                       irspy:probe  |
+                       irspy:boolean|
+                       irspy:explain">
+    <xsl:copy>
+      <xsl:apply-templates match="@* | node()"/>
+    </xsl:copy>
+  </xsl:template>
+
+  
+  <xsl:template match="node() | @*">
+    <xsl:copy>
+      <xsl:apply-templates select="@* | node()"/>
+    </xsl:copy>
   </xsl:template>
 
 
@@ -125,10 +142,6 @@
   </xsl:template>
 
 
-  <xsl:template match="explain:dateModified">
-    <dateModified><xsl:value-of
-                    select="/*/irspy:status/*[last()]"/></dateModified>
-  </xsl:template>
-
+  <xsl:template match="*"/>
 
 </xsl:stylesheet>
