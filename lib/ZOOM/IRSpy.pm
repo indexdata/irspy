@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.45 2006-10-30 16:13:49 mike Exp $
+# $Id: IRSpy.pm,v 1.46 2006-11-01 10:14:09 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -20,7 +20,6 @@ use ZOOM::IRSpy::Utils;
 
 our @ISA = qw();
 our $VERSION = '0.02';
-our $irspy_ns = 'http://indexdata.com/irspy/1.0';
 our $irspy_to_zeerex_xsl = dirname(__FILE__) . '/../../xsl/irspy2zeerex.xsl';
 
 
