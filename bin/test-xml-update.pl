@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: test-xml-update.pl,v 1.1 2006-11-01 09:59:28 mike Exp $
+# $Id: test-xml-update.pl,v 1.2 2006-11-01 10:31:57 mike Exp $
 #
 # Run like this:
 #	perl -I ../lib ./test-xml-update.pl bagel.indexdata.dk:210/gils
@@ -64,7 +64,21 @@ if ($n == 0) {
 my $rec = $rs->record(0);
 my $xc = irspy_xpath_context($rec);
 my %fieldsByKey = map { ( $_->[0], $_) } @fields;
+my $oldText = $xc->getContextNode()->toString();
 my $nchanges = modify_xml_document($xc, \%fieldsByKey, \%data);
+my $newText = $xc->getContextNode()->toString();
 #ZOOM::IRSpy::_really_rewrite_record($conn, $xc->getContextNode());
 print "The record has been updated (nchanges=$nchanges).\n";
-print $xc->getContextNode()->toString();
+
+# Now display diffs between the original and modified records
+my $oldFile = "/tmp/old.txu.$$";
+my $newFile = "/tmp/new.txu.$$";
+open OLD, ">$oldFile";
+print OLD $oldText;
+close OLD;
+open NEW, ">/tmp/new.txu.$$";
+print NEW $newText;
+close NEW;
+system("diff $oldFile $newFile");
+unlink($oldFile);
+unlink($newFile);
