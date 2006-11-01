@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.3 2006-10-31 09:26:11 mike Exp $
+# $Id: Utils.pm,v 1.4 2006-11-01 10:13:26 mike Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -9,8 +9,13 @@ use warnings;
 use Exporter 'import';
 our @EXPORT_OK = qw(xml_encode 
 		    irspy_xpath_context
-		    dom_add_element
+		    modify_xml_document
 		    inheritance_tree);
+
+use XML::LibXML;
+use XML::LibXML::XPathContext;
+
+our $IRSPY_NS = 'http://indexdata.com/irspy/1.0';
 
 
 # Utility functions follow, exported for use of web UI
@@ -40,8 +45,55 @@ sub irspy_xpath_context {
     my $root = $doc->getDocumentElement();
     my $xc = XML::LibXML::XPathContext->new($root);
     $xc->registerNs(e => 'http://explain.z3950.org/dtd/2.0/');
-    $xc->registerNs(i => $ZOOM::IRSpy::irspy_ns);
+    $xc->registerNs(i => $IRSPY_NS);
     return $xc;
+}
+
+
+sub modify_xml_document {
+    my($xc, $fieldsByKey, $data) = @_;
+
+    my $nchanges = 0;
+    foreach my $key (keys %$data) {
+	my $value = $data->{$key};
+	my $ref = $fieldsByKey->{$key} or die "no field '$key'";
+	my($name, $nlines, $caption, $xpath, @addAfter) = @$ref;
+	#print "Considering $key='$value' ($xpath)<br/>\n";
+	my @nodes = $xc->findnodes($xpath);
+	if (@nodes) {
+	    warn scalar(@nodes), " nodes match '$xpath'" if @nodes > 1;
+	    my $node = $nodes[0];
+
+	    if ($node->isa("XML::LibXML::Attr")) {
+		if ($value ne $node->getValue()) {
+		    $node->setValue($value);
+		    $nchanges++;
+		    print "Attr $key: '", $node->getValue(), "' -> '$value' ($xpath)<br/>\n";
+		}
+	    } elsif ($node->isa("XML::LibXML::Element")) {
+		my $child = $node->firstChild();
+		### Next line fails if data contains a comment ... *sigh*
+		die "element child $child is not text"
+		    if !ref $child || !$child->isa("XML::LibXML::Text");
+		if ($value ne $child->getData()) {
+		    $child->setData($value);
+		    $nchanges++;
+		    print "Elem $key: '", $child->getData(), "' -> '$value' ($xpath)<br/>\n";
+		}
+	    } else {
+		warn "unexpected node type $node";
+	    }
+
+	} else {
+	    next if !$value; # No need to create a new empty node
+	    my($ppath, $element) = $xpath =~ /(.*)\/(.*)/;
+	    dom_add_element($xc, $ppath, $element, $value, @addAfter);
+	    print "Add $key ($xpath) = '$value'<br/>\n";
+	    $nchanges++;
+	}
+    }
+
+    return $nchanges;
 }
 
 
