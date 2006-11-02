@@ -1,4 +1,4 @@
-# $Id: Makefile.PL,v 1.7 2006-10-26 13:39:13 sondberg Exp $
+# $Id: Makefile.PL,v 1.8 2006-11-02 14:59:02 mike Exp $
 
 use 5.008;
 use ExtUtils::MakeMaker;
@@ -10,8 +10,8 @@ WriteMakefile(
     PREREQ_PM         => {
 	Net::Z3950::ZOOM => 1.13,
 	XML::LibXML::XPathContext => 0.07, # For Web UI
-        XML::LibXML => 1.59,
-        XML::LibXSLT => 1.59,
+        XML::LibXML => 1.58,
+        XML::LibXSLT => 1.58,
 	URI::Escape => 3.28, # For Web UI
     },
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
