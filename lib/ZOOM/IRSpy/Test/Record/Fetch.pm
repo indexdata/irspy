@@ -1,4 +1,4 @@
-# $Id: Fetch.pm,v 1.12 2006-11-01 09:56:50 sondberg Exp $
+# $Id: Fetch.pm,v 1.13 2006-11-02 15:02:09 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -28,7 +28,8 @@ sub start {
 sub completed_search {
     my($conn, $task, $udata, $event) = @_;
 
-    $conn->log("irspy_test", "Fetch test search succeeded");
+    my $n = $task->{rs}->size();
+    $conn->log("irspy_test", "Fetch test search found $n records");
     my @syntax = (
                    'canmarc',
                    'danmarc',
