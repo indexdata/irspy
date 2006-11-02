@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.46 2006-11-01 10:14:09 mike Exp $
+# $Id: IRSpy.pm,v 1.47 2006-11-02 13:16:49 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -342,6 +342,7 @@ sub check {
 			$conn->log("irspy", "has no more tests: removing");
 			splice @conn, $i0, 1;
 			$this->_rewrite_record($conn);
+			$conn->option(rewrote_record => 1);
 			next;
 		    }
 
@@ -452,6 +453,27 @@ sub check {
     }
 
     $this->log("irspy", "exiting main loop");
+    # Sanity checks: none of the following should ever happen
+    foreach my $conn (@{ $this->{connections} }) {
+	my $test = $conn->option("current_test_address");
+	my $next = $this->_next_test($test);
+	if (defined $next) {
+	    warn "$conn (in test '$test') has queued test '$next'";
+	}
+	if (my $task = $conn->current_task()) {
+	    warn "$conn still has an active task $task";
+	}
+	if (my $task = $conn->next_task()) {
+	    warn "$conn still has a queued task $task";
+	}
+	if (!$conn->is_idle()) {
+	    warn "$conn is not idle (still has ZOOM-C level tasks queued)";
+	}
+	if (!$conn->option("rewrote_record")) {
+	    warn "$conn did not rewrite its ZeeRex record";
+	}
+    }
+
     return $nskipped;
 }
 
