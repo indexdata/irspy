@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-    $Id: irspy2zeerex.xsl,v 1.9 2006-11-01 11:18:56 sondberg Exp $
+    $Id: irspy2zeerex.xsl,v 1.10 2006-11-02 08:28:20 sondberg Exp $
 
     This stylesheet is used by IRSpy to map the internal mixed Zeerex/IRSpy
     record format into the Zeerex record which we store.
@@ -30,7 +30,7 @@
       <xsl:call-template name="insert-zeerexBase"/>
       <xsl:call-template name="insert-indexInfo"/>
       <xsl:call-template name="insert-recordInfo"/>
-      <xsl:apply-templates select="irspy:status"/>
+      <xsl:call-template name="insert-irspySection"/>
     </explain>
   </xsl:template>
 
@@ -82,15 +82,16 @@
   <!-- 
        Here we list the bits and pieces of the irspy:status element which we
        want to keep in the persistent version of the zeerex record.
-       Simply add "| irspy:xxx" to the match attribute.
+       Simply add "| irspy:xxx" to the select attribute.
   -->
-  <xsl:template match="irspy:status |
-                       irspy:probe  |
-                       irspy:boolean|
-                       irspy:explain">
-    <xsl:copy>
-      <xsl:apply-templates match="@* | node()"/>
-    </xsl:copy>
+  <xsl:template name="insert-irspySection">
+    <irspy:status>
+      <xsl:for-each select="*/irspy:probe   |
+                            */irspy:boolean |
+                            */irspy:explain">
+        <xsl:copy-of select="."/>
+      </xsl:for-each>
+    </irspy:status>
   </xsl:template>
 
   
