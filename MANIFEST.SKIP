@@ -26,3 +26,6 @@ zebra/db/shadow/[a-z]*
 zebra/db/tmp/CVS
 zebra/records
 zebra/terse.properties
+bin/.gdbinit
+bin/find-different-access-point.pl
+bin/test-xml-update.pl
