@@ -1,4 +1,4 @@
-# $Id: Connect.pm,v 1.5 2006-10-25 13:36:02 mike Exp $
+# $Id: Connect.pm,v 1.6 2006-11-02 16:11:44 mike Exp $
 
 # See ZOOM/IRSpy/Task/Search.pm for documentation
 
@@ -25,6 +25,8 @@ sub run {
     my $conn = $this->conn();
     $conn->log("irspy_task", "connecting");
     $conn->connect($conn->option("host"));
+    warn "no ZOOM-C level events queued by $this"
+	if $conn->is_idle();
 
     $this->set_options();
 }

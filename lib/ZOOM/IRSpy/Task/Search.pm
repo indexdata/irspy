@@ -1,4 +1,4 @@
-# $Id: Search.pm,v 1.5 2006-10-25 13:36:47 mike Exp $
+# $Id: Search.pm,v 1.6 2006-11-02 16:11:44 mike Exp $
 
 package ZOOM::IRSpy::Task::Search;
 
@@ -43,6 +43,8 @@ sub run {
     $this->irspy()->log("irspy_task", $conn->option("host"),
 			" searching for '$query'");
     $this->{rs} = $conn->search_pqf($query);
+    warn "no ZOOM-C level events queued by $this"
+	if $conn->is_idle();
 
     $this->set_options();
 
