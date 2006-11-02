@@ -1,4 +1,4 @@
-# $Id: WebService.pod,v 1.3 2006-10-18 14:25:48 mike Exp $
+# $Id: WebService.pod,v 1.4 2006-11-02 15:01:10 mike Exp $
 
 package ZOOM::IRSpy::WebService;
 
@@ -108,7 +108,7 @@ record describing the IRSpy database itself.
 This is the principle operation of SRU, combining searching of the
 database and retrieval of the records that are found.  Its behaviour
 is specified primarily by the C<query> parameter, support for which is
-described below, but also by C< C<startRecord>, C<maximumRecords> and
+described below, but also by C<startRecord>, C<maximumRecords> and
 C<recordSchema>.
 
 =item scan
