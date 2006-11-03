@@ -1,4 +1,4 @@
-# $Id: Fetch.pm,v 1.13 2006-11-02 15:02:09 mike Exp $
+# $Id: Fetch.pm,v 1.14 2006-11-03 13:37:33 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -30,6 +30,8 @@ sub completed_search {
 
     my $n = $task->{rs}->size();
     $conn->log("irspy_test", "Fetch test search found $n records");
+    return ZOOM::IRSpy::Status::TEST_SKIPPED if $n == 0;
+
     my @syntax = (
                    'canmarc',
                    'danmarc',
