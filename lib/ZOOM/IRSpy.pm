@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.47 2006-11-02 13:16:49 mike Exp $
+# $Id: IRSpy.pm,v 1.48 2006-11-03 13:11:29 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -29,6 +29,7 @@ sub OK { 29 }			# No problems, task is still progressing
 sub TASK_DONE { 18 }		# Task is complete, next task should begin
 sub TEST_GOOD { 8 }		# Whole test is complete, and succeeded
 sub TEST_BAD { 31 }		# Whole test is complete, and failed
+sub TEST_SKIPPED { 12 }		# Test couldn't be run
 package ZOOM::IRSpy;
 
 
@@ -447,6 +448,13 @@ sub check {
 		    $nskipped += $n;
 		}
 	    }
+
+	} elsif ($res == ZOOM::IRSpy::Status::TEST_SKIPPED) {
+	    $conn->log("irspy_task", "test skipped during task $task");
+	    $conn->current_task(0);
+	    $conn->next_task(0);
+	    # I think that's all we need to do
+
 	} else {
 	    die "unknown callback return-value '$res'";
 	}
