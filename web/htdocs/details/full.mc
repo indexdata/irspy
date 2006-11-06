@@ -1,4 +1,4 @@
-%# $Id: full.mc,v 1.9 2006-11-06 17:04:23 mike Exp $
+%# $Id: full.mc,v 1.10 2006-11-06 17:24:00 mike Exp $
 <%args>
 $id
 </%args>
@@ -47,7 +47,7 @@ if ($n == 0) {
 		  [ "Services" => sub { "### IRSpy does not yet check for search, present, delSet, concurrentOperations, namedResultSets, etc. and store the information is a usable form." } ],
 		  [ "Bib-1 Use attributes" => \&calc_ap, $xc, "bib-1" ],
 		  [ "Dan-1 Use attributes" => \&calc_ap, $xc, "dan-1" ],
-		  [ "Operators" => sub { "### and, or, not" } ],
+		  [ "Operators" => \&calc_boolean, $xc ],
 		  [ "Record syntaxes" => sub { "### SUTRS, USmarc, Danmarc" } ],
 		  [ "Explain" => sub { "### CategoryList, TargetInfo, DatabaseInfo, RecordSyntaxInfo, AttributeSetInfo, AttributeDetails" } ],
 		  );
@@ -122,6 +122,16 @@ sub calc_ap {
     }
 
     return "$nbib1 access points: $res";
+}
+
+sub calc_boolean {
+    my($xc) = @_;
+
+    ### Note that we are currently interrogating an IRSpy extension.
+    #	The standard ZeeRex record should be extended with a
+    #	"supports" type for this.
+    my @nodes = $xc->findnodes('i:status/i:boolean[@ok = "1"]');
+    return join(", ", map { $_->findvalue('@operator') } @nodes);
 }
 
 </%perl>
