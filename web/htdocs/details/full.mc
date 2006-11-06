@@ -1,4 +1,4 @@
-%# $Id: full.mc,v 1.12 2006-11-06 17:40:04 mike Exp $
+%# $Id: full.mc,v 1.13 2006-11-06 17:43:29 mike Exp $
 <%args>
 $id
 </%args>
@@ -53,6 +53,7 @@ the Init Response.
 		  [ "Bib-1 Use attributes" => \&calc_ap, $xc, "bib-1" ],
 		  [ "Dan-1 Use attributes" => \&calc_ap, $xc, "dan-1" ],
 		  [ "Operators" => \&calc_boolean, $xc ],
+		  [ "Named Result Sets" => \&calc_nrs, $xc ],
 		  [ "Record syntaxes" => \&calc_recsyn, $xc ],
 		  [ "Explain" => \&calc_explain, $xc ],
 		  );
@@ -139,6 +140,13 @@ sub calc_boolean {
     my $res = join(", ", map { $_->findvalue('@operator') } @nodes);
     $res = "[none]" if $res eq "";
     return $res;
+}
+
+sub calc_nrs {
+    my($xc) = @_;
+
+    my @nodes = $xc->findnodes('i:status/i:named_resultset[@ok = "1"]');
+    return @nodes ? "Yes" : "No";
 }
 
 sub calc_recsyn {
