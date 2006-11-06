@@ -1,4 +1,4 @@
-%# $Id: full.mc,v 1.5 2006-11-06 11:37:43 mike Exp $
+%# $Id: full.mc,v 1.6 2006-11-06 11:41:03 mike Exp $
 <%args>
 $id
 </%args>
@@ -51,7 +51,7 @@ if ($n == 0) {
 		  [ "Explain" => sub { "### CategoryList, TargetInfo, DatabaseInfo, RecordSyntaxInfo, AttributeSetInfo, AttributeDetails" } ],
 		  );
 </%perl>
-     <h2><% xml_encode($id) %></h2>
+     <h2><% xml_encode($xc->find("e:databaseInfo/e:title")) %></h2>
      <table class="fullrecord" border="1" cellspacing="0" cellpadding="5" width="100%">
 <%perl>
     foreach my $ref (@fields) {
