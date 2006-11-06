@@ -1,4 +1,4 @@
-%# $Id: full.mc,v 1.10 2006-11-06 17:24:00 mike Exp $
+%# $Id: full.mc,v 1.11 2006-11-06 17:34:58 mike Exp $
 <%args>
 $id
 </%args>
@@ -48,7 +48,7 @@ if ($n == 0) {
 		  [ "Bib-1 Use attributes" => \&calc_ap, $xc, "bib-1" ],
 		  [ "Dan-1 Use attributes" => \&calc_ap, $xc, "dan-1" ],
 		  [ "Operators" => \&calc_boolean, $xc ],
-		  [ "Record syntaxes" => sub { "### SUTRS, USmarc, Danmarc" } ],
+		  [ "Record syntaxes" => \&calc_recsyn, $xc ],
 		  [ "Explain" => sub { "### CategoryList, TargetInfo, DatabaseInfo, RecordSyntaxInfo, AttributeSetInfo, AttributeDetails" } ],
 		  );
 </%perl>
@@ -132,6 +132,13 @@ sub calc_boolean {
     #	"supports" type for this.
     my @nodes = $xc->findnodes('i:status/i:boolean[@ok = "1"]');
     return join(", ", map { $_->findvalue('@operator') } @nodes);
+}
+
+sub calc_recsyn {
+    my($xc) = @_;
+
+    my @nodes = $xc->findnodes('e:recordInfo/e:recordSyntax');
+    return join(", ", map { $_->findvalue('@name') } @nodes);
 }
 
 </%perl>
