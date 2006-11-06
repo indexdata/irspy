@@ -1,4 +1,4 @@
-%# $Id: full.mc,v 1.4 2006-10-31 16:18:47 mike Exp $
+%# $Id: full.mc,v 1.5 2006-11-06 11:37:43 mike Exp $
 <%args>
 $id
 </%args>
@@ -20,6 +20,7 @@ if ($n == 0) {
     my $rec = $rs->record(0);
     my $xc = irspy_xpath_context($rec);
     my @fields = (
+		  [ "Last Checked" => "i:status/i:probe[last()]" ],
 		  [ Protocol => "e:serverInfo/\@protocol" ],
 		  [ Host => "e:serverInfo/e:host" ],
 		  [ Port => "e:serverInfo/e:port" ],
