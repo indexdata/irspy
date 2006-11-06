@@ -1,4 +1,4 @@
-%# $Id: full.mc,v 1.11 2006-11-06 17:34:58 mike Exp $
+%# $Id: full.mc,v 1.12 2006-11-06 17:40:04 mike Exp $
 <%args>
 $id
 </%args>
@@ -44,12 +44,17 @@ if ($n == 0) {
 		  [ "Implementation Name" => "i:status/i:implementationName" ],
 		  [ "Implementation Version" => "i:status/i:implementationVersion" ],
 		  [ "Reliability" => \&calc_reliability, $xc ],
-		  [ "Services" => sub { "### IRSpy does not yet check for search, present, delSet, concurrentOperations, namedResultSets, etc. and store the information is a usable form." } ],
+		  [ "Services" => sub { "
+### IRSpy does not yet check for search, present, delSet,
+concurrentOperations, namedResultSets, etc. and store the information
+is a usable form.  This information should probably be harvested from
+the Init Response.
+" } ],
 		  [ "Bib-1 Use attributes" => \&calc_ap, $xc, "bib-1" ],
 		  [ "Dan-1 Use attributes" => \&calc_ap, $xc, "dan-1" ],
 		  [ "Operators" => \&calc_boolean, $xc ],
 		  [ "Record syntaxes" => \&calc_recsyn, $xc ],
-		  [ "Explain" => sub { "### CategoryList, TargetInfo, DatabaseInfo, RecordSyntaxInfo, AttributeSetInfo, AttributeDetails" } ],
+		  [ "Explain" => \&calc_explain, $xc ],
 		  );
 </%perl>
      <h2><% xml_encode($xc->find("e:databaseInfo/e:title")) %></h2>
@@ -131,14 +136,27 @@ sub calc_boolean {
     #	The standard ZeeRex record should be extended with a
     #	"supports" type for this.
     my @nodes = $xc->findnodes('i:status/i:boolean[@ok = "1"]');
-    return join(", ", map { $_->findvalue('@operator') } @nodes);
+    my $res = join(", ", map { $_->findvalue('@operator') } @nodes);
+    $res = "[none]" if $res eq "";
+    return $res;
 }
 
 sub calc_recsyn {
     my($xc) = @_;
 
     my @nodes = $xc->findnodes('e:recordInfo/e:recordSyntax');
-    return join(", ", map { $_->findvalue('@name') } @nodes);
+    my $res = join(", ", map { $_->findvalue('@name') } @nodes);
+    $res = "[none]" if $res eq "";
+    return $res;
+}
+
+sub calc_explain {
+    my($xc) = @_;
+
+    my @nodes = $xc->findnodes('i:status/i:explain[@ok = "1"]');
+    my $res = join(", ", map { $_->findvalue('@category') } @nodes);
+    $res = "[none]" if $res eq "";
+    return $res;
 }
 
 </%perl>
