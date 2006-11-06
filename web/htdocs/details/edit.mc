@@ -1,4 +1,4 @@
-%# $Id: edit.mc,v 1.6 2006-11-01 10:00:21 mike Exp $
+%# $Id: edit.mc,v 1.7 2006-11-06 14:22:22 mike Exp $
 <%args>
 $id
 </%args>
@@ -69,7 +69,7 @@ if ($n == 0) {
 	ZOOM::IRSpy::_really_rewrite_record($conn, $xc->getContextNode());
     }
 </%perl>
-     <h2><% xml_encode($id) %></h2>
+     <h2><% xml_encode($xc->find("e:databaseInfo/e:title")) %></h2>
 % if (defined $update) {
      <p><b>The record has been updated (nchanges=<% $nchanges %>).</b></p>
 % }
