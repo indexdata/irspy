@@ -1,4 +1,4 @@
-%# $Id: full.mc,v 1.6 2006-11-06 11:41:03 mike Exp $
+%# $Id: full.mc,v 1.7 2006-11-06 16:22:17 mike Exp $
 <%args>
 $id
 </%args>
@@ -43,7 +43,7 @@ if ($n == 0) {
 		  [ "Implementation ID" => "i:status/i:implementationId" ],
 		  [ "Implementation Name" => "i:status/i:implementationName" ],
 		  [ "Implementation Version" => "i:status/i:implementationVersion" ],
-		  [ "Reliability" => sub { "### 97%" } ],
+		  [ "Reliability" => \&calc_reliability, $xc ],
 		  [ "Services" => sub { "### search, present, delSet, concurrentOperations, namedResultSets" } ],
 		  [ "Bib-1 Use attributes" => sub { "### 4-5, 7-8, 12, 21, 31, 54, 58, 63, 1003-1005, 1009, 1011-1012, 1016, 1031" } ],
 		  [ "Operators" => sub { "### and, or, not" } ],
@@ -55,10 +55,10 @@ if ($n == 0) {
      <table class="fullrecord" border="1" cellspacing="0" cellpadding="5" width="100%">
 <%perl>
     foreach my $ref (@fields) {
-	my($caption, $xpath, %attrs) = @$ref;
+	my($caption, $xpath, @args) = @$ref;
 	my $data;
 	if (ref $xpath && ref($xpath) eq "CODE") {
-	    $data = &$xpath();
+	    $data = &$xpath(@args);
 	} else {
 	    $data = $xc->find($xpath);
 	}
@@ -72,3 +72,15 @@ if ($n == 0) {
 %   }
      </table>
 % }
+<%perl>
+sub calc_reliability {
+    my($xc) = @_;
+
+    my @allpings = $xc->findnodes("i:status/i:probe");
+    my $nall = @allpings;
+    return "[untested]" if @allpings == 0;
+    my @okpings = $xc->findnodes('i:status/i:probe[@ok = "1"]');
+    my $nok = @okpings;
+    return "$nok/$nall = " . int(100*$nok/$nall) . "%";
+}
+</%perl>
