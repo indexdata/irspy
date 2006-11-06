@@ -1,4 +1,4 @@
-%# $Id: full.mc,v 1.7 2006-11-06 16:22:17 mike Exp $
+%# $Id: full.mc,v 1.8 2006-11-06 17:01:03 mike Exp $
 <%args>
 $id
 </%args>
@@ -44,8 +44,8 @@ if ($n == 0) {
 		  [ "Implementation Name" => "i:status/i:implementationName" ],
 		  [ "Implementation Version" => "i:status/i:implementationVersion" ],
 		  [ "Reliability" => \&calc_reliability, $xc ],
-		  [ "Services" => sub { "### search, present, delSet, concurrentOperations, namedResultSets" } ],
-		  [ "Bib-1 Use attributes" => sub { "### 4-5, 7-8, 12, 21, 31, 54, 58, 63, 1003-1005, 1009, 1011-1012, 1016, 1031" } ],
+		  [ "Services" => sub { "### IRSpy does not yet check for search, present, delSet, concurrentOperations, namedResultSets, etc. and store the information is a usable form." } ],
+		  [ "Bib-1 Use attributes" => \&calc_bib1, $xc ],
 		  [ "Operators" => sub { "### and, or, not" } ],
 		  [ "Record syntaxes" => sub { "### SUTRS, USmarc, Danmarc" } ],
 		  [ "Explain" => sub { "### CategoryList, TargetInfo, DatabaseInfo, RecordSyntaxInfo, AttributeSetInfo, AttributeDetails" } ],
@@ -73,14 +73,53 @@ if ($n == 0) {
      </table>
 % }
 <%perl>
+
 sub calc_reliability {
     my($xc) = @_;
 
     my @allpings = $xc->findnodes("i:status/i:probe");
     my $nall = @allpings;
-    return "[untested]" if @allpings == 0;
+    return "[untested]" if $nall == 0;
     my @okpings = $xc->findnodes('i:status/i:probe[@ok = "1"]');
     my $nok = @okpings;
     return "$nok/$nall = " . int(100*$nok/$nall) . "%";
 }
+
+sub calc_bib1 {
+    my($xc) = @_;
+
+    my @bib1nodes = $xc->findnodes('e:indexInfo/e:index/e:map/e:attr[
+	@set = "bib-1" and @type = "1"]');
+    my $nbib1 = @bib1nodes;
+    return "[none]" if $nbib1 == 0;
+
+    my $res = "";
+    my($first, $last);
+    @bib1nodes = sort { $a->findvalue(".") <=> $b->findvalue(".") } @bib1nodes;
+    foreach my $node (@bib1nodes) {
+	my $ap .= $node->findvalue(".");
+	if (!defined $first) {
+	    $first = $ap;
+	} elsif (!defined $last || $last == $ap-1) {
+	    $last = $ap;
+	} else {
+	    # Got a complete range
+	    $res .= ", " if $res ne "";
+	    $res .= "$first";
+	    $res .= "-$last" if defined $last;
+	    $first = $ap;
+	    $last = undef;
+	}
+    }
+
+    # Leftovers
+    if (defined $first) {
+	$res .= ", " if $res ne "";
+	$res .= "$first";
+	$res .= "-$last" if defined $last;
+    }
+
+    return "$nbib1 access points: $res";
+}
+
 </%perl>
