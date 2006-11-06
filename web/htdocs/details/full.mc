@@ -1,4 +1,4 @@
-%# $Id: full.mc,v 1.8 2006-11-06 17:01:03 mike Exp $
+%# $Id: full.mc,v 1.9 2006-11-06 17:04:23 mike Exp $
 <%args>
 $id
 </%args>
@@ -45,7 +45,8 @@ if ($n == 0) {
 		  [ "Implementation Version" => "i:status/i:implementationVersion" ],
 		  [ "Reliability" => \&calc_reliability, $xc ],
 		  [ "Services" => sub { "### IRSpy does not yet check for search, present, delSet, concurrentOperations, namedResultSets, etc. and store the information is a usable form." } ],
-		  [ "Bib-1 Use attributes" => \&calc_bib1, $xc ],
+		  [ "Bib-1 Use attributes" => \&calc_ap, $xc, "bib-1" ],
+		  [ "Dan-1 Use attributes" => \&calc_ap, $xc, "dan-1" ],
 		  [ "Operators" => sub { "### and, or, not" } ],
 		  [ "Record syntaxes" => sub { "### SUTRS, USmarc, Danmarc" } ],
 		  [ "Explain" => sub { "### CategoryList, TargetInfo, DatabaseInfo, RecordSyntaxInfo, AttributeSetInfo, AttributeDetails" } ],
@@ -85,11 +86,12 @@ sub calc_reliability {
     return "$nok/$nall = " . int(100*$nok/$nall) . "%";
 }
 
-sub calc_bib1 {
-    my($xc) = @_;
+sub calc_ap {
+    my($xc, $set) = @_;
 
-    my @bib1nodes = $xc->findnodes('e:indexInfo/e:index/e:map/e:attr[
-	@set = "bib-1" and @type = "1"]');
+    my $expr = 'e:indexInfo/e:index/e:map/e:attr[
+	@set = "'.$set.'" and @type = "1"]';
+    my @bib1nodes = $xc->findnodes($expr);
     my $nbib1 = @bib1nodes;
     return "[none]" if $nbib1 == 0;
 
