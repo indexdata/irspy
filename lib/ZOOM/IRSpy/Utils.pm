@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.6 2006-11-07 17:18:29 mike Exp $
+# $Id: Utils.pm,v 1.7 2006-11-07 17:45:37 mike Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -122,9 +122,31 @@ sub dom_add_element {
 	warn "no parent node '$ppath': not adding '$element'='$value'";
 	return;
     }
-
     warn scalar(@nodes), " nodes match parent '$ppath'" if @nodes > 1;
     my $node = $nodes[0];
+
+    my $new = new XML::LibXML::Text($value);
+    foreach my $predecessor (reverse @addAfter) {
+	my($child) = $xc->findnodes($predecessor, $node);
+	if (defined $child) {
+	    $node->insertAfter($new, $child);
+	    print "Added after '$predecessor'\n";
+	    return;
+	}
+    }
+
+    # Didn't find any of the nodes that are supposed to precede the
+    # new one, so we need to insert the new node as the first of the
+    # parent's children.  However *sigh* there is no prependChild()
+    # analogous to appendChild(), so we have to go the long way round.
+    my @children = $node->childNodes();
+    if (@children) {
+	$node->insertBefore($new, $children[0]);
+	print "Added new first child\n";
+    } else {
+	$node->appendChild($new);
+	print "Added new only child\n";
+    }
 
     if (0) {
 	my $text = xml_encode(inheritance_tree($xc));
