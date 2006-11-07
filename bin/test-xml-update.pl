@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-# $Id: test-xml-update.pl,v 1.2 2006-11-01 10:31:57 mike Exp $
+# $Id: test-xml-update.pl,v 1.3 2006-11-07 16:29:54 mike Exp $
 #
 # Run like this:
-#	perl -I ../lib ./test-xml-update.pl bagel.indexdata.dk:210/gils
+#	perl -I ../lib ./test-xml-update.pl bagel.indexdata.dk:210/gils title "Test Database" author "Adam" description "This is a nice database"
 
 use strict;
 use warnings;
