@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.5 2006-11-01 11:46:10 mike Exp $
+# $Id: Utils.pm,v 1.6 2006-11-07 17:18:29 mike Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -126,9 +126,9 @@ sub dom_add_element {
     warn scalar(@nodes), " nodes match parent '$ppath'" if @nodes > 1;
     my $node = $nodes[0];
 
-    if (1) {
+    if (0) {
 	my $text = xml_encode(inheritance_tree($xc));
-	$text =~ s/\n/<br\/>$1/sg;
+	$text =~ s/\n/<br\/>$&/sg;
 	print "<pre>$text</pre>\n";
     }
 }
