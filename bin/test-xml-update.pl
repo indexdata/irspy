@@ -1,14 +1,16 @@
 #!/usr/bin/perl -w
 
-# $Id: test-xml-update.pl,v 1.3 2006-11-07 16:29:54 mike Exp $
+# $Id: test-xml-update.pl,v 1.4 2006-11-08 17:19:18 mike Exp $
 #
 # Run like this:
-#	perl -I ../lib ./test-xml-update.pl bagel.indexdata.dk:210/gils title "Test Database" author "Adam" description "This is a nice database"
+#	perl -I ../lib ./test-xml-update.pl bagel.indexdata.dk:210/gils title "Test Database" author "Adam" description "This is a nice database"Fr
 
 use strict;
 use warnings;
+use Getopt::Std;
 use ZOOM;
 use ZOOM::IRSpy::Utils qw(irspy_xpath_context modify_xml_document);
+use ZOOM::IRSpy;		# For _really_rewrite_record()
 
 # This array copied from ../web/htdocs/details/edit.mc
 my @fields =
@@ -42,8 +44,12 @@ my @fields =
        qw(e:title e:description) ],
      );
 
-if (@ARGV < 1 || @ARGV % 2 == 0) {
-    print STDERR "Usage: %0 <id> [<key1> <value1> ...]\n";
+my %opts;
+if (!getopts('wnd', \%opts) || @ARGV % 2 == 0) {
+    print STDERR "Usage: %0 [options] <id> [<key1> <value1> ...]\n";
+    print STDERR "	-w	Write modified record back to DB\n";
+    print STDERR "	-n	Show new values of fields using XPath\n";
+    print STDERR "	-d	Show differences between old and new XML\n";
     exit 1;
 }
 my($id, %data) = @ARGV;
@@ -64,21 +70,49 @@ if ($n == 0) {
 my $rec = $rs->record(0);
 my $xc = irspy_xpath_context($rec);
 my %fieldsByKey = map { ( $_->[0], $_) } @fields;
+
 my $oldText = $xc->getContextNode()->toString();
 my $nchanges = modify_xml_document($xc, \%fieldsByKey, \%data);
 my $newText = $xc->getContextNode()->toString();
-#ZOOM::IRSpy::_really_rewrite_record($conn, $xc->getContextNode());
-print "The record has been updated (nchanges=$nchanges).\n";
+print "Document modified with $nchanges change", $nchanges==1?"":"s", "\n";
 
-# Now display diffs between the original and modified records
-my $oldFile = "/tmp/old.txu.$$";
-my $newFile = "/tmp/new.txu.$$";
-open OLD, ">$oldFile";
-print OLD $oldText;
-close OLD;
-open NEW, ">/tmp/new.txu.$$";
-print NEW $newText;
-close NEW;
-system("diff $oldFile $newFile");
-unlink($oldFile);
-unlink($newFile);
+if ($opts{w}) {
+    ZOOM::IRSpy::_really_rewrite_record($conn, $xc->getContextNode());
+    print "Rewrote record '$id'\n";
+}
+
+if ($opts{n}) {
+    # For some reason, $xc->find() will not work on newly added nodes
+    # -- it returns empty strings -- so we need to make a new
+    # XPathContext.  Unfortunately, we can't just go ahead and make it
+    # by parsing the new text, since it will in general include
+    # references to namespaces that are not explicitly defined in the
+    # document.  So in the absence of $parser->registerNamespace() or
+    # similar, we are reduced to regexp-hackery to introduce the
+    # namespace.  Ouch ouch ouch ouch ouch.
+    my $t2 = $newText;
+    $t2 =~ s@>@ xmlns:e='http://explain.z3950.org/dtd/2.0/'>@;
+    my $newXc = irspy_xpath_context($t2);
+
+    foreach my $key (sort keys %data) {
+	my $ref = $fieldsByKey{$key};
+	my($name, $nlines, $caption, $xpath, @addAfter) = @$ref;
+	my $val = $xc->findvalue($xpath);
+	my $val2 = $newXc->findvalue($xpath);
+	print "New $caption ($xpath) = '$val' = '$val2'\n";
+    }
+}
+
+if ($opts{d}) {
+    my $oldFile = "/tmp/old.txu.$$";
+    my $newFile = "/tmp/new.txu.$$";
+    open OLD, ">$oldFile";
+    print OLD $oldText;
+    close OLD;
+    open NEW, ">/tmp/new.txu.$$";
+    print NEW $newText;
+    close NEW;
+    system("diff $oldFile $newFile");
+    unlink($oldFile);
+    unlink($newFile);
+}
