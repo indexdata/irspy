@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.7 2006-11-07 17:45:37 mike Exp $
+# $Id: Utils.pm,v 1.8 2006-11-08 17:41:27 mike Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -37,9 +37,9 @@ sub xml_encode {
 
 
 sub irspy_xpath_context {
-    my($zoom_record) = @_;
+    my($record) = @_;
 
-    my $xml = $zoom_record->render();
+    my $xml = ref $record ? $record->render() : $record;
     my $parser = new XML::LibXML();
     my $doc = $parser->parse_string($xml);
     my $root = $doc->getDocumentElement();
@@ -102,7 +102,7 @@ sub modify_xml_document {
 	    next if !$value; # No need to create a new empty node
 	    my($ppath, $element) = $xpath =~ /(.*)\/(.*)/;
 	    dom_add_element($xc, $ppath, $element, $value, @addAfter);
-	    print "Add $key ($xpath) = '$value'<br/>\n";
+	    print "New $key ($xpath) = '$value'<br/>\n";
 	    $nchanges++;
 	}
     }
@@ -114,7 +114,7 @@ sub modify_xml_document {
 sub dom_add_element {
     my($xc, $ppath, $element, $value, @addAfter) = @_;
 
-    print "Adding '$value' at '$ppath' after (", join(", ", map { "'$_'" } @addAfter), ")<br/>\n";
+    print "Adding $element='$value' at '$ppath' after (", join(", ", map { "'$_'" } @addAfter), ")<br/>\n";
     my @nodes = $xc->findnodes($ppath);
     if (@nodes == 0) {
 	# Oh dear, the parent node doesn't exist.  We could make it,
@@ -125,12 +125,13 @@ sub dom_add_element {
     warn scalar(@nodes), " nodes match parent '$ppath'" if @nodes > 1;
     my $node = $nodes[0];
 
-    my $new = new XML::LibXML::Text($value);
+    my $new = new XML::LibXML::Element($element);
+    $new->appendText($value);
     foreach my $predecessor (reverse @addAfter) {
 	my($child) = $xc->findnodes($predecessor, $node);
 	if (defined $child) {
 	    $node->insertAfter($new, $child);
-	    print "Added after '$predecessor'\n";
+	    print "Added after '$predecessor'<br/>\n";
 	    return;
 	}
     }
@@ -142,10 +143,10 @@ sub dom_add_element {
     my @children = $node->childNodes();
     if (@children) {
 	$node->insertBefore($new, $children[0]);
-	print "Added new first child\n";
+	print "Added new first child<br/>\n";
     } else {
 	$node->appendChild($new);
-	print "Added new only child\n";
+	print "Added new only child<br/>\n";
     }
 
     if (0) {
