@@ -1,4 +1,4 @@
-%# $Id: edit.mc,v 1.7 2006-11-06 14:22:22 mike Exp $
+%# $Id: edit.mc,v 1.8 2006-11-08 17:42:11 mike Exp $
 <%args>
 $id
 </%args>
@@ -70,11 +70,11 @@ if ($n == 0) {
     }
 </%perl>
      <h2><% xml_encode($xc->find("e:databaseInfo/e:title")) %></h2>
-% if (defined $update) {
-     <p><b>The record has been updated (nchanges=<% $nchanges %>).</b></p>
-% }
 % if ($nchanges) {
-     <p><b>Changed <% $nchanges %> element<% $nchanges == 1 ? "" : "s" %>.</b></p>
+     <p style="font-weight: bold">
+      The record has been updated.<br/>
+      Changed <% $nchanges %> element<% $nchanges == 1 ? "" : "s" %>.
+     </p>
 % }
      <form method="get" action="">
       <table class="fullrecord" border="1" cellspacing="0" cellpadding="5" width="100%">
@@ -102,4 +102,12 @@ if ($n == 0) {
        </tr>
       </table>
      </form>
+<%perl>
+	if ($nchanges) {
+	    my $x = $xc->getContextNode()->toString();
+	    $x = xml_encode($x);
+	    #$x =~ s/$/<br\/>/gm;
+	    print "<pre>$x</pre>\n";
+	}
+</%perl>
 % }
