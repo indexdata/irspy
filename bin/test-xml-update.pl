@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: test-xml-update.pl,v 1.5 2006-11-09 15:18:14 mike Exp $
+# $Id: test-xml-update.pl,v 1.6 2006-11-09 16:15:14 mike Exp $
 #
 # Run like this:
 #	perl -I ../lib ./test-xml-update.pl bagel.indexdata.dk:210/gils title "Test Database" author "Adam" description "This is a nice database"
@@ -45,10 +45,11 @@ my @fields =
      );
 
 my %opts;
-if (!getopts('wnd', \%opts) || @ARGV % 2 == 0) {
+if (!getopts('wnxd', \%opts) || @ARGV % 2 == 0) {
     print STDERR "Usage: %0 [options] <id> [<key1> <value1> ...]\n";
     print STDERR "	-w	Write modified record back to DB\n";
     print STDERR "	-n	Show new values of fields using XPath\n";
+    print STDERR "	-x	Show new XML document with changes made\n";
     print STDERR "	-d	Show differences between old and new XML\n";
     exit 1;
 }
@@ -82,25 +83,15 @@ if ($opts{w}) {
 }
 
 if ($opts{n}) {
-    # For some reason, $xc->find() will not work on newly added nodes
-    # -- it returns empty strings -- so we need to make a new
-    # XPathContext.  Unfortunately, we can't just go ahead and make it
-    # by parsing the new text, since it will in general include
-    # references to namespaces that are not explicitly defined in the
-    # document.  So in the absence of $parser->registerNamespace() or
-    # similar, we are reduced to regexp-hackery to introduce the
-    # namespace.  Ouch ouch ouch ouch ouch.
-    my $t2 = $newText;
-    $t2 =~ s@>@ xmlns:e='http://explain.z3950.org/dtd/2.0/'>@;
-    my $newXc = irspy_xpath_context($t2);
-
     foreach my $key (sort keys %data) {
 	my $ref = $fieldsByKey{$key};
 	my($name, $nlines, $caption, $xpath, @addAfter) = @$ref;
-	my $val = $xc->findvalue($xpath);
-	my $val2 = $newXc->findvalue($xpath);
-	print "New $caption ($xpath) = '$val' = '$val2'\n";
+	print "New $caption ($xpath) = '", $xc->findvalue($xpath), "'\n";
     }
+}
+
+if ($opts{x}) {
+    print $newText;
 }
 
 if ($opts{d}) {
