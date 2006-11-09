@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.8 2006-11-08 17:41:27 mike Exp $
+# $Id: Utils.pm,v 1.9 2006-11-09 16:09:35 mike Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -36,6 +36,24 @@ sub xml_encode {
 }
 
 
+# PRIVATE to irspy_namespace() and irspy_xpath_context()
+my %_namespaces = (
+		   e => 'http://explain.z3950.org/dtd/2.0/',
+		   i => $IRSPY_NS,
+		   );
+
+
+sub irspy_namespace {
+    my($prefix) = @_;
+
+    my $uri = $_namespaces{$prefix};
+    die "irspy_namespace(): no URI for namespace prefix '$prefix'"
+	if !defined $uri;
+
+    return $uri;
+}
+
+
 sub irspy_xpath_context {
     my($record) = @_;
 
@@ -44,8 +62,9 @@ sub irspy_xpath_context {
     my $doc = $parser->parse_string($xml);
     my $root = $doc->getDocumentElement();
     my $xc = XML::LibXML::XPathContext->new($root);
-    $xc->registerNs(e => 'http://explain.z3950.org/dtd/2.0/');
-    $xc->registerNs(i => $IRSPY_NS);
+    foreach my $prefix (keys %_namespaces) {
+	$xc->registerNs($prefix, $_namespaces{$prefix});
+    }
     return $xc;
 }
 
@@ -68,7 +87,7 @@ sub modify_xml_document {
 		if ($value ne $node->getValue()) {
 		    $node->setValue($value);
 		    $nchanges++;
-		    print "Attr $key: '", $node->getValue(), "' -> '$value' ($xpath)<br/>\n";
+		    #print "Attr $key: '", $node->getValue(), "' -> '$value' ($xpath)<br/>\n";
 		}
 	    } elsif ($node->isa("XML::LibXML::Element")) {
 		# The contents could be any mixture of text and
@@ -93,7 +112,7 @@ sub modify_xml_document {
 		my $child = new XML::LibXML::Text($value);
 		$node->appendChild($child);
 		$nchanges++;
-		print "Elem $key: '$old' -> '$value' ($xpath)<br/>\n";
+		#print "Elem $key: '$old' -> '$value' ($xpath)<br/>\n";
 	    } else {
 		warn "unexpected node type $node";
 	    }
@@ -102,7 +121,7 @@ sub modify_xml_document {
 	    next if !$value; # No need to create a new empty node
 	    my($ppath, $element) = $xpath =~ /(.*)\/(.*)/;
 	    dom_add_element($xc, $ppath, $element, $value, @addAfter);
-	    print "New $key ($xpath) = '$value'<br/>\n";
+	    #print "New $key ($xpath) = '$value'<br/>\n";
 	    $nchanges++;
 	}
     }
@@ -114,7 +133,7 @@ sub modify_xml_document {
 sub dom_add_element {
     my($xc, $ppath, $element, $value, @addAfter) = @_;
 
-    print "Adding $element='$value' at '$ppath' after (", join(", ", map { "'$_'" } @addAfter), ")<br/>\n";
+    #print "Adding $element='$value' at '$ppath' after (", join(", ", map { "'$_'" } @addAfter), ")<br/>\n";
     my @nodes = $xc->findnodes($ppath);
     if (@nodes == 0) {
 	# Oh dear, the parent node doesn't exist.  We could make it,
@@ -125,13 +144,17 @@ sub dom_add_element {
     warn scalar(@nodes), " nodes match parent '$ppath'" if @nodes > 1;
     my $node = $nodes[0];
 
-    my $new = new XML::LibXML::Element($element);
+    my(undef, $prefix, $nsElem) = $element =~ /((.*?):)?(.*)/;
+    my $new = new XML::LibXML::Element($nsElem);
+    $new->setNamespace(irspy_namespace($prefix), $prefix)
+	if $prefix ne "";
+
     $new->appendText($value);
     foreach my $predecessor (reverse @addAfter) {
 	my($child) = $xc->findnodes($predecessor, $node);
 	if (defined $child) {
 	    $node->insertAfter($new, $child);
-	    print "Added after '$predecessor'<br/>\n";
+	    #print "Added after '$predecessor'<br/>\n";
 	    return;
 	}
     }
@@ -143,10 +166,10 @@ sub dom_add_element {
     my @children = $node->childNodes();
     if (@children) {
 	$node->insertBefore($new, $children[0]);
-	print "Added new first child<br/>\n";
+	#print "Added new first child<br/>\n";
     } else {
 	$node->appendChild($new);
-	print "Added new only child<br/>\n";
+	#print "Added new only child<br/>\n";
     }
 
     if (0) {
