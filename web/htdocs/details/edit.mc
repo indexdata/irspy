@@ -1,4 +1,4 @@
-%# $Id: edit.mc,v 1.8 2006-11-08 17:42:11 mike Exp $
+%# $Id: edit.mc,v 1.9 2006-11-09 16:32:54 mike Exp $
 <%args>
 $id
 </%args>
@@ -73,7 +73,7 @@ if ($n == 0) {
 % if ($nchanges) {
      <p style="font-weight: bold">
       The record has been updated.<br/>
-      Changed <% $nchanges %> element<% $nchanges == 1 ? "" : "s" %>.
+      Changed <% $nchanges %> field<% $nchanges == 1 ? "" : "s" %>.
      </p>
 % }
      <form method="get" action="">
@@ -103,7 +103,7 @@ if ($n == 0) {
       </table>
      </form>
 <%perl>
-	if ($nchanges) {
+	if ($nchanges && 0) {
 	    my $x = $xc->getContextNode()->toString();
 	    $x = xml_encode($x);
 	    #$x =~ s/$/<br\/>/gm;
