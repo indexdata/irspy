@@ -1,4 +1,4 @@
-%# $Id: menu.mc,v 1.10 2006-11-01 10:33:09 mike Exp $
+%# $Id: menu.mc,v 1.11 2006-11-13 16:49:08 mike Exp $
      <p>
       <a href="/"><b>Home</b></a><br/>
       <a href="/all.html">Test&nbsp;all&nbsp;targets</a><br/>
@@ -23,8 +23,11 @@
       <a href="<% xml_encode("/full.html?id=" . uri_escape($id))
 		%>">Show</a>
       <br/>
-      <a href="<% xml_encode("/check.html?id=" . uri_escape($id))
-		%>">Test</a>
+      <a href="<% xml_encode("/check.html?id=" . uri_escape($id)) . "&test=Main"
+		%>">Full Test</a>
+      <br/>
+      <a href="<% xml_encode("/check.html?id=" . uri_escape($id)) . "&test=Quick"
+		%>">Quick Test</a>
       <br/>
       <a href="<% xml_encode("/edit.html?id=" . uri_escape($id))
 		%>">Edit</a>
