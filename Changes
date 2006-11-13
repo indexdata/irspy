@@ -1,4 +1,4 @@
-$Id: Changes,v 1.10 2006-09-26 15:20:51 mike Exp $
+$Id: Changes,v 1.11 2006-11-13 17:00:03 mike Exp $
 
 Revision history for Perl extension ZOOM::IRSpy.
 
@@ -29,8 +29,6 @@ TODO
 	### Maybe require authentication for database-changing
 	    operations such as target testing, adding a new target and
 	    editing and existing one.
-	### Make full-record display for target records.
-	### Link from target-test results to full and raw records.
 	### Mark targets that persistently don't respond.
 	### Email administrative contact on failure.
 	### Add statistics page like that one at
