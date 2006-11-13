@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.9 2006-11-09 16:09:35 mike Exp $
+# $Id: Utils.pm,v 1.10 2006-11-13 16:47:57 mike Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -138,6 +138,7 @@ sub dom_add_element {
     if (@nodes == 0) {
 	# Oh dear, the parent node doesn't exist.  We could make it,
 	# but for now let's not and say we did.
+	###
 	warn "no parent node '$ppath': not adding '$element'='$value'";
 	return;
     }
