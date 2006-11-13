@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.10 2006-11-13 16:47:57 mike Exp $
+# $Id: Utils.pm,v 1.11 2006-11-13 18:03:34 mike Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -134,16 +134,8 @@ sub dom_add_element {
     my($xc, $ppath, $element, $value, @addAfter) = @_;
 
     #print "Adding $element='$value' at '$ppath' after (", join(", ", map { "'$_'" } @addAfter), ")<br/>\n";
-    my @nodes = $xc->findnodes($ppath);
-    if (@nodes == 0) {
-	# Oh dear, the parent node doesn't exist.  We could make it,
-	# but for now let's not and say we did.
-	###
-	warn "no parent node '$ppath': not adding '$element'='$value'";
-	return;
-    }
-    warn scalar(@nodes), " nodes match parent '$ppath'" if @nodes > 1;
-    my $node = $nodes[0];
+    my $node = find_or_make_node($xc, $ppath, 0);
+    return if !defined $node;	### should be a "can't happen"
 
     my(undef, $prefix, $nsElem) = $element =~ /((.*?):)?(.*)/;
     my $new = new XML::LibXML::Element($nsElem);
@@ -178,6 +170,32 @@ sub dom_add_element {
 	$text =~ s/\n/<br\/>$&/sg;
 	print "<pre>$text</pre>\n";
     }
+}
+
+
+sub find_or_make_node {
+    my($xc, $path, $recursion_level) = @_;
+
+    die "deep recursion in find_or_make_node($path)"
+	if $recursion_level == 10;
+
+    my @nodes = $xc->findnodes($path);
+    if (@nodes == 0) {
+	# Oh dear, the parent node doesn't exist.  We could make it,
+	my($ppath, $element) = $path =~ /(.*)\/(.*)/;
+	warn "no node '$path': making it";
+	my $parent = find_or_make_node($xc, $ppath, $recursion_level-1);
+
+	my(undef, $prefix, $nsElem) = $element =~ /((.*?):)?(.*)/;
+	my $new = new XML::LibXML::Element($nsElem);
+	$new->setNamespace(irspy_namespace($prefix), $prefix)
+	    if $prefix ne "";
+
+	$parent->appendChild($new);
+	return $new;
+    }
+    warn scalar(@nodes), " nodes match parent '$path'" if @nodes > 1;
+    return $nodes[0];
 }
 
 
