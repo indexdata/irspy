@@ -1,6 +1,8 @@
-%# $Id: check.html,v 1.4 2006-09-23 07:13:12 mike Exp $
+%# $Id: check.html,v 1.5 2006-11-13 16:48:49 mike Exp $
 <%args>
 @id
+$test => undef
 </%args>
 <& /chrome/layout.mc, %ARGS, component => "/details/check.mc",
-    title => @id > 1 ? "Test targets" : "Test a target" &>
+    title => ((@id > 1 ? "Test targets" : "Test a target") .
+              (defined $test ? ": $test" : "")) &>
