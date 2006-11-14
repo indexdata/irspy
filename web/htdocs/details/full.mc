@@ -1,4 +1,4 @@
-%# $Id: full.mc,v 1.13 2006-11-06 17:43:29 mike Exp $
+%# $Id: full.mc,v 1.14 2006-11-14 16:24:39 mike Exp $
 <%args>
 $id
 </%args>
@@ -58,7 +58,7 @@ the Init Response.
 		  [ "Explain" => \&calc_explain, $xc ],
 		  );
 </%perl>
-     <h2><% xml_encode($xc->find("e:databaseInfo/e:title")) %></h2>
+     <h2><% xml_encode($xc->find("e:databaseInfo/e:title"), "") %></h2>
      <table class="fullrecord" border="1" cellspacing="0" cellpadding="5" width="100%">
 <%perl>
     foreach my $ref (@fields) {
