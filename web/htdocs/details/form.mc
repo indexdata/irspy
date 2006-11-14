@@ -1,4 +1,4 @@
-%# $Id: form.mc,v 1.2 2006-11-14 16:00:28 mike Exp $
+%# $Id: form.mc,v 1.3 2006-11-14 16:09:14 mike Exp $
 <%args>
 $id => undef
 $conn
@@ -55,7 +55,7 @@ if (defined $update) {
     ZOOM::IRSpy::_really_rewrite_record($conn, $xc->getContextNode());
 }
 </%perl>
- <h2><% xml_encode($xc->find("e:databaseInfo/e:title")) %></h2>
+ <h2><% xml_encode($xc->find("e:databaseInfo/e:title"), "[Untitled]") %></h2>
 % if ($nchanges) {
  <p style="font-weight: bold">
   The record has been updated.<br/>
@@ -71,8 +71,7 @@ foreach my $ref (@fields) {
    <tr>
     <th><% $caption %></th>
     <td>
-% my $data = $xc->find($xpath);
-% $data = defined $data ? xml_encode($data) : "";
+% my $data = xml_encode($xc->find($xpath), "");
 % if ($nlines) {
      <textarea name="<% $name %>" rows="<% $nlines %>" cols="61"><% $data %></textarea>
 % } else {
