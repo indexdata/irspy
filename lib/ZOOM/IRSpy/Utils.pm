@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.13 2006-11-14 16:04:36 mike Exp $
+# $Id: Utils.pm,v 1.14 2006-11-14 16:21:49 mike Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -26,7 +26,13 @@ our $IRSPY_NS = 'http://indexdata.com/irspy/1.0';
 # Template::Plugin both roll their own.  So I will do likewise.  D'oh!
 #
 sub xml_encode {
-    my ($text) = @_;
+    my ($text, $fallback) = @_;
+
+    $text = $fallback if !defined $text;
+    use Carp;
+    confess "xml_encode(): text and fallback both undefined"
+	if !defined $text;
+
     $text =~ s/&/&amp;/g;
     $text =~ s/</&lt;/g;
     $text =~ s/>/&gt;/g;
