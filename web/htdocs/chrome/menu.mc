@@ -1,9 +1,9 @@
-%# $Id: menu.mc,v 1.11 2006-11-13 16:49:08 mike Exp $
+%# $Id: menu.mc,v 1.12 2006-11-14 14:55:08 mike Exp $
      <p>
       <a href="/"><b>Home</b></a><br/>
       <a href="/all.html">Test&nbsp;all&nbsp;targets</a><br/>
       <a href="/find.html">Find a target</a><br/>
-      <a href="/add.html">Add a target</a><br/>
+      <a href="/edit.html">Add a target</a><br/>
      </p>
      <p>
       <b>Show targets</b>
