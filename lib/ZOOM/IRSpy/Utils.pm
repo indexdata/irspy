@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.11 2006-11-13 18:03:34 mike Exp $
+# $Id: Utils.pm,v 1.12 2006-11-14 14:57:41 mike Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -46,6 +46,8 @@ my %_namespaces = (
 sub irspy_namespace {
     my($prefix) = @_;
 
+    use Carp;
+    confess "irspy_namespace(undef)" if !defined $prefix;
     my $uri = $_namespaces{$prefix};
     die "irspy_namespace(): no URI for namespace prefix '$prefix'"
 	if !defined $uri;
@@ -119,8 +121,8 @@ sub modify_xml_document {
 
 	} else {
 	    next if !$value; # No need to create a new empty node
-	    my($ppath, $element) = $xpath =~ /(.*)\/(.*)/;
-	    dom_add_element($xc, $ppath, $element, $value, @addAfter);
+	    my($ppath, $selector) = $xpath =~ /(.*)\/(.*)/;
+	    dom_add_node($xc, $ppath, $selector, $value, @addAfter);
 	    #print "New $key ($xpath) = '$value'<br/>\n";
 	    $nchanges++;
 	}
@@ -130,24 +132,39 @@ sub modify_xml_document {
 }
 
 
-sub dom_add_element {
-    my($xc, $ppath, $element, $value, @addAfter) = @_;
+sub dom_add_node {
+    my($xc, $ppath, $selector, $value, @addAfter) = @_;
 
-    #print "Adding $element='$value' at '$ppath' after (", join(", ", map { "'$_'" } @addAfter), ")<br/>\n";
+    #print "Adding $selector='$value' at '$ppath' after (", join(", ", map { "'$_'" } @addAfter), ")<br/>\n";
     my $node = find_or_make_node($xc, $ppath, 0);
-    return if !defined $node;	### should be a "can't happen"
+    die "couldn't find or make node '$node'" if !defined $node;
 
-    my(undef, $prefix, $nsElem) = $element =~ /((.*?):)?(.*)/;
-    my $new = new XML::LibXML::Element($nsElem);
+    my $is_attr = ($selector =~ s/^@//);
+    my(undef, $prefix, $simpleSel) = $selector =~ /((.*?):)?(.*)/;
+    #warn "selector='$selector', prefix='$prefix', simpleSel='$simpleSel'";
+    if ($is_attr) {
+	if (defined $prefix) {
+	    ### This seems to no-op (thank, DOM!) but I have have no
+	    # idea, and it's not needed for IRSpy, so I am not going
+	    # to debug it now.
+	    $node->setAttributeNS(irspy_namespace($prefix),
+				  $simpleSel, $value);
+	} else {
+	    $node->setAttribute($simpleSel, $value);
+	}
+	return;
+    }
+
+    my $new = new XML::LibXML::Element($simpleSel);
     $new->setNamespace(irspy_namespace($prefix), $prefix)
-	if $prefix ne "";
+	if defined $prefix;
 
     $new->appendText($value);
     foreach my $predecessor (reverse @addAfter) {
 	my($child) = $xc->findnodes($predecessor, $node);
 	if (defined $child) {
 	    $node->insertAfter($new, $child);
-	    #print "Added after '$predecessor'<br/>\n";
+	    #warn "Added after '$predecessor'";
 	    return;
 	}
     }
@@ -159,10 +176,10 @@ sub dom_add_element {
     my @children = $node->childNodes();
     if (@children) {
 	$node->insertBefore($new, $children[0]);
-	#print "Added new first child<br/>\n";
+	warn "Added new first child";
     } else {
 	$node->appendChild($new);
-	#print "Added new only child<br/>\n";
+	warn "Added new only child";
     }
 
     if (0) {
@@ -178,18 +195,24 @@ sub find_or_make_node {
 
     die "deep recursion in find_or_make_node($path)"
 	if $recursion_level == 10;
+    $path = "." if $path eq "";
 
     my @nodes = $xc->findnodes($path);
     if (@nodes == 0) {
 	# Oh dear, the parent node doesn't exist.  We could make it,
-	my($ppath, $element) = $path =~ /(.*)\/(.*)/;
+	my(undef, $ppath, $element) = $path =~ /((.*)\/)?(.*)/;
+	$ppath = "" if !defined $ppath;
+	#warn "path='$path', ppath='$ppath', element='$element'";
 	warn "no node '$path': making it";
 	my $parent = find_or_make_node($xc, $ppath, $recursion_level-1);
 
 	my(undef, $prefix, $nsElem) = $element =~ /((.*?):)?(.*)/;
+	#warn "element='$element', prefix='$prefix', nsElem='$nsElem'";
 	my $new = new XML::LibXML::Element($nsElem);
-	$new->setNamespace(irspy_namespace($prefix), $prefix)
-	    if $prefix ne "";
+	if (defined $prefix) {
+	    #warn "setNamespace($prefix)";
+	    $new->setNamespace(irspy_namespace($prefix), $prefix);
+	}
 
 	$parent->appendChild($new);
 	return $new;
