@@ -1,4 +1,4 @@
-%# $Id: form.mc,v 1.1 2006-11-14 14:54:06 mike Exp $
+%# $Id: form.mc,v 1.2 2006-11-14 16:00:28 mike Exp $
 <%args>
 $id => undef
 $conn
@@ -71,7 +71,8 @@ foreach my $ref (@fields) {
    <tr>
     <th><% $caption %></th>
     <td>
-% my $data = xml_encode($xc->find($xpath));
+% my $data = $xc->find($xpath);
+% $data = defined $data ? xml_encode($data) : "";
 % if ($nlines) {
      <textarea name="<% $name %>" rows="<% $nlines %>" cols="61"><% $data %></textarea>
 % } else {
