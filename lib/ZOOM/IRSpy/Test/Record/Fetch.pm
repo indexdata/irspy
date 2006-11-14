@@ -1,4 +1,4 @@
-# $Id: Fetch.pm,v 1.14 2006-11-03 13:37:33 mike Exp $
+# $Id: Fetch.pm,v 1.15 2006-11-14 16:18:51 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -89,7 +89,7 @@ sub record {
 	}
     } else {
 	$conn->log("irspy_test", "Retrieval of $syn record failed: ",
-		   "exception unavailable");
+		   "(exception unavailable)");
     }
 
     $conn->record()->store_result('record_fetch',
