@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.12 2006-11-14 14:57:41 mike Exp $
+# $Id: Utils.pm,v 1.13 2006-11-14 16:04:36 mike Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -176,10 +176,10 @@ sub dom_add_node {
     my @children = $node->childNodes();
     if (@children) {
 	$node->insertBefore($new, $children[0]);
-	warn "Added new first child";
+	#warn "Added new first child";
     } else {
 	$node->appendChild($new);
-	warn "Added new only child";
+	#warn "Added new only child";
     }
 
     if (0) {
@@ -203,7 +203,7 @@ sub find_or_make_node {
 	my(undef, $ppath, $element) = $path =~ /((.*)\/)?(.*)/;
 	$ppath = "" if !defined $ppath;
 	#warn "path='$path', ppath='$ppath', element='$element'";
-	warn "no node '$path': making it";
+	#warn "no node '$path': making it";
 	my $parent = find_or_make_node($xc, $ppath, $recursion_level-1);
 
 	my(undef, $prefix, $nsElem) = $element =~ /((.*?):)?(.*)/;
