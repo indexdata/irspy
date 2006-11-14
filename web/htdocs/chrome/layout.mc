@@ -1,9 +1,30 @@
-%# $Id: layout.mc,v 1.15 2006-11-01 10:01:14 mike Exp $
+%# $Id: layout.mc,v 1.16 2006-11-14 16:21:08 mike Exp $
 <%args>
 $debug => undef
 $title
 $component
 </%args>
+<%perl>
+{
+    # Make up ID for newly created records.  It would be more
+    # rigorously correct, but insanely inefficient, to submit the
+    # record to Zebra and then search for it; but since we know the
+    # formula for IDs anyway, we just build one by hand.
+    my $id = $r->param("id");
+    my $host = $r->param("host");
+    my $port = $r->param("port");
+    my $dbname = $r->param("dbname");
+    #warn "id='$id', host='$host', port='$port', dbname='$dbname'";
+    #warn "%ARGS = {\n" . join("", map { "\t'$_' => '" . $ARGS{$_} . ",'\n" } sort keys %ARGS) . "}\n";
+    if ((!defined $id || $id eq "") &&
+	defined $host && defined $port && defined $dbname) {
+	$id = "$host:$port/$dbname";
+	$r->param(id => $id);
+	$ARGS{id} = $id;
+	#warn "id set to '$id'";
+    }
+}
+</%perl>
 <%once>
 use URI::Escape;
 use ZOOM::IRSpy::Web;
