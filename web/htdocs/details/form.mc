@@ -1,4 +1,4 @@
-%# $Id: form.mc,v 1.5 2006-11-15 13:15:19 mike Exp $
+%# $Id: form.mc,v 1.6 2006-11-15 13:20:32 mike Exp $
 <%args>
 $id => undef
 $conn
@@ -14,6 +14,9 @@ my @fields =
      [ port         => 0, "Port", "e:serverInfo/e:port" ],
      [ dbname       => 0, "Database Name", "e:serverInfo/e:database",
        qw(e:host e:port) ],
+     [ type         => [ qw(Academic Public Corporate Special National Education Other) ],
+       "Type of Library", "i:status/i:libraryType" ],
+     [ country      => 0, "Country", "i:status/i:country" ],
      [ username     => 0, "Username (if needed)", "e:serverInfo/e:authentication/e:user",
        qw() ],
      [ password     => 0, "Password (if needed)", "e:serverInfo/e:authentication/e:password",
@@ -23,6 +26,8 @@ my @fields =
      [ description  => 5, "Description", "e:databaseInfo/e:description",
        qw(e:title) ],
      [ author       => 0, "Author", "e:databaseInfo/e:author",
+       qw(e:title e:description) ],
+     [ hosturl       => 0, "URL to Hosting Organisation", "i:status/i:hostURL",
        qw(e:title e:description) ],
      [ contact      => 0, "Contact", "e:databaseInfo/e:contact",
        qw(e:title e:description) ],
