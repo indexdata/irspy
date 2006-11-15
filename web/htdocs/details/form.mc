@@ -1,4 +1,4 @@
-%# $Id: form.mc,v 1.6 2006-11-15 13:20:32 mike Exp $
+%# $Id: form.mc,v 1.7 2006-11-15 17:58:35 mike Exp $
 <%args>
 $id => undef
 $conn
@@ -27,8 +27,7 @@ my @fields =
        qw(e:title) ],
      [ author       => 0, "Author", "e:databaseInfo/e:author",
        qw(e:title e:description) ],
-     [ hosturl       => 0, "URL to Hosting Organisation", "i:status/i:hostURL",
-       qw(e:title e:description) ],
+     [ hosturl       => 0, "URL to Hosting Organisation", "i:status/i:hostURL" ],
      [ contact      => 0, "Contact", "e:databaseInfo/e:contact",
        qw(e:title e:description) ],
      [ extent       => 3, "Extent", "e:databaseInfo/e:extent",
@@ -50,7 +49,7 @@ if (defined $update) {
     my %fieldsByKey = map { ( $_->[0], $_) } @fields;
     my %data;
     foreach my $key ($r->param()) {
-	next if grep { $key eq $_ } qw(id update);
+	next if grep { $key eq $_ } qw(id update new copy);
 	$data{$key} = $r->param($key);
     }
 
@@ -64,7 +63,7 @@ if (defined $update) {
  <h2><% xml_encode($xc->find("e:databaseInfo/e:title"), "[Untitled]") %></h2>
 % if ($nchanges) {
  <p style="font-weight: bold">
-  The record has been updated.<br/>
+  The record has been <% $r->param("new") ? "created" : "updated" %>.<br/>
   Changed <% $nchanges %> field<% $nchanges == 1 ? "" : "s" %>.
  </p>
 % }
@@ -77,11 +76,14 @@ foreach my $ref (@fields) {
    <tr>
     <th><% $caption %></th>
     <td>
-% my $data = xml_encode($xc->find($xpath), "");
+% my $rawdata = $xc->findvalue($xpath);
+% my $data = xml_encode($rawdata, "");
 % if (ref $nlines) {
      <select name="<% $name %>" size="1">
 %     foreach my $val (@$nlines) {
-      <option value="<% $val %>"><% $val %></option>
+      <option value="<% $val %>"
+% print ' selected="selected"' if $rawdata eq $val;
+	><% $val %></option>
 %     }
      </select>
 % } elsif ($nlines) {
@@ -95,7 +97,11 @@ foreach my $ref (@fields) {
    <tr>
     <td align="right" colspan="2">
      <input type="submit" name="update" value="Update"/>
+% if (defined $id) {
      <input type="hidden" name="id" value="<% xml_encode($id) %>"/>
+% } else {
+     <input type="hidden" name="new" value="1"/>
+% }
     </td>
    </tr>
   </table>
