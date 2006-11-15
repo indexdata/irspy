@@ -1,4 +1,4 @@
-$Id: Changes,v 1.12 2006-11-15 14:55:33 mike Exp $
+$Id: Changes,v 1.13 2006-11-15 17:43:10 mike Exp $
 
 Revision history for Perl extension ZOOM::IRSpy.
 
@@ -21,10 +21,10 @@ TODO
 		- Type of library (Academic, Public, Corporate,
 		    Special, National, Education or Other)
 		- Country.
+	DONE "Add another database to this target" button.
 	### When adding a new database, check for pre-existence, using
 	    IP address/hostname canonicalisation.
 	### Ability to add target by uploading a ZeeRex record.
-	### "Add another database to this target" button.
 	### Form for editing details of an existing target.
 	### Maybe require authentication for database-changing
 	    operations such as target testing, adding a new target and
