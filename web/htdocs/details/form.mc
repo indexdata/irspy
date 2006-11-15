@@ -1,4 +1,4 @@
-%# $Id: form.mc,v 1.3 2006-11-14 16:09:14 mike Exp $
+%# $Id: form.mc,v 1.4 2006-11-15 13:10:42 mike Exp $
 <%args>
 $id => undef
 $conn
@@ -8,7 +8,8 @@ $rec
 my $xc = irspy_xpath_context($rec);
 my @fields =
     (
-     [ protocol     => 0, "Protocol", "e:serverInfo/\@protocol" ],
+     [ protocol     => [ qw(Z39.50 SRW SRU SRW/U) ],
+       "Protocol", "e:serverInfo/\@protocol" ],
      [ host         => 0, "Host", "e:serverInfo/e:host" ],
      [ port         => 0, "Port", "e:serverInfo/e:port" ],
      [ dbname       => 0, "Database Name", "e:serverInfo/e:database",
@@ -72,7 +73,13 @@ foreach my $ref (@fields) {
     <th><% $caption %></th>
     <td>
 % my $data = xml_encode($xc->find($xpath), "");
-% if ($nlines) {
+% if (ref $nlines) {
+     <select name="<% $name %>" size="1">
+%     foreach my $val (@$nlines) {
+      <option value="<% $val %>"><% $val %></option>
+%     }
+     </select>
+% } elsif ($nlines) {
      <textarea name="<% $name %>" rows="<% $nlines %>" cols="61"><% $data %></textarea>
 % } else {
      <input name="<% $name %>" type="text" size="60" value="<% $data %>">
