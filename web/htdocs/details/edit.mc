@@ -1,4 +1,4 @@
-%# $Id: edit.mc,v 1.10 2006-11-14 14:54:41 mike Exp $
+%# $Id: edit.mc,v 1.11 2006-11-15 17:56:23 mike Exp $
 <%args>
 $id => undef
 </%args>
@@ -19,8 +19,8 @@ if (!defined $id || $id eq "") {
     my $rs = $conn->search(new ZOOM::Query::CQL($query));
     my $n = $rs->size();
     if ($n == 0) {
-	$m->comp("/details/error.mc",
-		 title => "Error", message => "No such ID '$id'");
+	$m->comp("/details/form.mc", id => undef, conn => $conn,
+		 rec => '<explain xmlns="http://explain.z3950.org/dtd/2.0/"/>');
     } else {
 	my $rec = $rs->record(0);
 	$m->comp("/details/form.mc", id => $id, conn => $conn, rec => $rec);
