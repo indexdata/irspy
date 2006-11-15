@@ -1,4 +1,4 @@
-%# $Id: menu.mc,v 1.12 2006-11-14 14:55:08 mike Exp $
+%# $Id: menu.mc,v 1.13 2006-11-15 17:44:35 mike Exp $
      <p>
       <a href="/"><b>Home</b></a><br/>
       <a href="/all.html">Test&nbsp;all&nbsp;targets</a><br/>
@@ -18,23 +18,20 @@
 %    $rec = undef;
 % } else {
      <div class="panel2">
-      <b>This Record</b>
+      <b>This Target</b>
+      <a href="<% xml_encode("/full.html?id=" . uri_escape($id)) %>">Show details</a>
       <br/>
-      <a href="<% xml_encode("/full.html?id=" . uri_escape($id))
-		%>">Show</a>
+      <a href="<% xml_encode("/edit.html?id=" . uri_escape($id)) %>">Edit details</a>
       <br/>
-      <a href="<% xml_encode("/check.html?id=" . uri_escape($id)) . "&test=Main"
-		%>">Full Test</a>
-      <br/>
-      <a href="<% xml_encode("/check.html?id=" . uri_escape($id)) . "&test=Quick"
-		%>">Quick Test</a>
-      <br/>
-      <a href="<% xml_encode("/edit.html?id=" . uri_escape($id))
-		%>">Edit</a>
-      <br/>
-      <a href="<% xml_encode("/raw.html?id=" . uri_escape($id))
-		%>">XML</a>
-      <br/>
+      <a href="<% xml_encode("/edit.html?id=" . uri_escape($id)) . "&amp;copy=1" %>">Copy target</a>
+      <p>
+       <a href="<% xml_encode("/check.html?id=" . uri_escape($id)) . "&amp;test=Quick" %>">Quick Test</a>
+       <br/>
+       <a href="<% xml_encode("/check.html?id=" . uri_escape($id)) . "&amp;test=Main" %>">Full Test</a>
+      </p>
+      <p>
+       <a href="<% xml_encode("/raw.html?id=" . uri_escape($id)) %>">XML</a>
+      </p>
 <%doc><!-- Maybe this would be too heavyweight -->
       <br/>
 % my $host = "bagel.indexdata.dk";
