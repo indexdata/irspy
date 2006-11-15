@@ -1,4 +1,4 @@
-$Id: Changes,v 1.11 2006-11-13 17:00:03 mike Exp $
+$Id: Changes,v 1.12 2006-11-15 14:55:33 mike Exp $
 
 Revision history for Perl extension ZOOM::IRSpy.
 
@@ -13,7 +13,7 @@ TODO
 	DONE Proper HTML-quoting of all output.
 	DONE Capture YAZ logging output for web display.
 	DONE Add Dublin Core record format to Zebra configuration.
-	### Much better "Add a target" form, including:
+	DONE Much better "Add a target" form, including:
 		- Name
 		- URL to hosting organisation
 		- Email to technical contact
