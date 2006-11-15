@@ -1,4 +1,4 @@
-%# $Id: form.mc,v 1.4 2006-11-15 13:10:42 mike Exp $
+%# $Id: form.mc,v 1.5 2006-11-15 13:15:19 mike Exp $
 <%args>
 $id => undef
 $conn
@@ -18,7 +18,7 @@ my @fields =
        qw() ],
      [ password     => 0, "Password (if needed)", "e:serverInfo/e:authentication/e:password",
        qw(e:user) ],
-     [ title        => 0, "title", "e:databaseInfo/e:title",
+     [ title        => 0, "Title", "e:databaseInfo/e:title",
        qw() ],
      [ description  => 5, "Description", "e:databaseInfo/e:description",
        qw(e:title) ],
