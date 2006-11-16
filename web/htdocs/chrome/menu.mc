@@ -1,4 +1,4 @@
-%# $Id: menu.mc,v 1.14 2006-11-16 17:02:30 mike Exp $
+%# $Id: menu.mc,v 1.15 2006-11-16 17:03:11 mike Exp $
      <p>
       <a href="/"><b>Home</b></a><br/>
       <a href="/all.html">Test&nbsp;all&nbsp;targets</a><br/>
@@ -29,8 +29,6 @@ my $id = $r->param("id");
     if ((!defined $id || $id eq "") &&
 	defined $host && defined $port && defined $dbname) {
 	$id = "$host:$port/$dbname";
-#	$r->param(id => $id);
-#	$ARGS{id} = $id;
 	#warn "id set to '$id'";
     }
 }
