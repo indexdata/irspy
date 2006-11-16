@@ -1,4 +1,4 @@
-# $Id: Connection.pm,v 1.6 2006-10-25 15:43:43 mike Exp $
+# $Id: Connection.pm,v 1.7 2006-11-16 17:18:43 mike Exp $
 
 package ZOOM::IRSpy::Connection;
 
@@ -141,6 +141,14 @@ sub add_task {
     push @$tasks, $task;
     $this->log("irspy_task", "added task $task");
 }
+
+
+sub render {
+    my $this = shift();
+    return ref($this) . "(" . $this->option("host") . ")";
+}
+
+use overload '""' => \&render;
 
 
 =head1 SEE ALSO
