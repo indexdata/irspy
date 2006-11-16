@@ -1,16 +1,16 @@
-%# $Id: edit.mc,v 1.15 2006-11-16 12:26:26 mike Exp $
+%# $Id: edit.mc,v 1.16 2006-11-16 17:14:46 mike Exp $
 <%args>
 $id => undef
 </%args>
 <%perl>
 my $conn = new ZOOM::Connection("localhost:3313/IR-Explain---1", 0,
-				user => "admin", password => "fruitbat");
+				user => "admin", password => "fruitbat",
+				elementSetName => "zeerex");
 my $rec = '<explain xmlns="http://explain.z3950.org/dtd/2.0/"/>';
 if (defined $id && $id ne "") {
-    $conn->option(elementSetName => "zeerex");
-    my $qid = $id;
-    $qid =~ s/"/\\"/g;
-    my $query = qq[rec.id="$qid"];
+    print "Old record '$id'<br/>\n";
+    # Existing record
+    my $query = 'rec.id="' . cql_quote($id) . '"';
     my $rs = $conn->search(new ZOOM::Query::CQL($query));
     my $n = $rs->size();
     if ($n == 0) {
@@ -18,6 +18,21 @@ if (defined $id && $id ne "") {
     } else {
 	$rec = $rs->record(0);
     }
+
+} else {
+    # New record
+    print "New record<br/>\n";
+    my $host = $r->param("host");
+    my $port = $r->param("port");
+    my $dbname = $r->param("dbname");
+    if (!defined $host || $host eq "" ||
+	!defined $port || $port eq "" ||
+	!defined $dbname || $dbname eq "") {
+	print qq[<p class="error">You must specify host, port and database name</p>\n];
+	$r->param(update => 0);
+    }
+
+    my $query = cql_target($host, $port, $dbname);
 }
 
 my $xc = irspy_xpath_context($rec);
