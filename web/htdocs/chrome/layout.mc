@@ -1,4 +1,4 @@
-%# $Id: layout.mc,v 1.16 2006-11-14 16:21:08 mike Exp $
+%# $Id: layout.mc,v 1.17 2006-11-16 11:49:30 mike Exp $
 <%args>
 $debug => undef
 $title
@@ -27,6 +27,7 @@ $component
 </%perl>
 <%once>
 use URI::Escape;
+use ZOOM;
 use ZOOM::IRSpy::Web;
 use ZOOM::IRSpy::Utils qw(irspy_xpath_context xml_encode modify_xml_document);
 </%once>
