@@ -1,4 +1,4 @@
-# $Id: Search.pm,v 1.6 2006-11-02 16:11:44 mike Exp $
+# $Id: Search.pm,v 1.7 2006-11-16 14:58:55 mike Exp $
 
 package ZOOM::IRSpy::Task::Search;
 
@@ -60,7 +60,7 @@ sub run {
 
 sub render {
     my $this = shift();
-    return ref($this) . "(" . $this->{query}. ")";
+    return ref($this) . "(" . $this->{query} . ")";
 }
 
 use overload '""' => \&render;
