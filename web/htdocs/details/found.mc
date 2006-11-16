@@ -1,4 +1,4 @@
-%# $Id: found.mc,v 1.18 2006-11-14 16:23:11 mike Exp $
+%# $Id: found.mc,v 1.19 2006-11-16 12:17:02 mike Exp $
 <%once>
 sub print_navlink {
     my($params, $cond, $caption, $skip) = @_;
@@ -77,10 +77,10 @@ my $first = $skip+1;
 my $last = $first+$count-1;
 $last = $n if $last > $n;
 </%perl>
-     <form method="get" action="">
+     <form method="get" action=""><p>
       <input type="text" name="_query" size="60" value="<% xml_encode($query) %>"/>
       <input type="submit" name="_search" value="Search"/>
-     </form>
+     </p></form>
      <p>
 % if ($n == 0) {
       No matches

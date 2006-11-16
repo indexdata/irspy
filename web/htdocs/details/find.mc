@@ -1,4 +1,4 @@
-%# $Id: find.mc,v 1.5 2006-09-25 15:32:06 mike Exp $
+%# $Id: find.mc,v 1.6 2006-11-16 12:16:46 mike Exp $
 % if ($r->param("_search")) {
 %     $m->comp("found.mc");
 % } else {
@@ -59,7 +59,6 @@
        <tr>
         <th>Author</th>
 	<td><input type="text" name="dc.creator" size="40"/></td>
-       </tr>
        </tr>
        <tr><td colspan="2">&nbsp;</td></tr>
        <tr>
