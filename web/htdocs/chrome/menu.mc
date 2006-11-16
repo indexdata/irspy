@@ -1,4 +1,4 @@
-%# $Id: menu.mc,v 1.13 2006-11-15 17:44:35 mike Exp $
+%# $Id: menu.mc,v 1.14 2006-11-16 17:02:30 mike Exp $
      <p>
       <a href="/"><b>Home</b></a><br/>
       <a href="/all.html">Test&nbsp;all&nbsp;targets</a><br/>
@@ -12,8 +12,29 @@
       <a href="/find.html?dc.title=^<% $i %>*&amp;_sort=dc.title&amp;_count=9999&amp;_search=Search"><tt><% uc($i) %></tt></a>
 % }
      </p>
-% our $rec;
-% my $id = $r->param("id");
+<%perl>
+our $rec;
+my $id = $r->param("id");
+{
+    # Make up ID for newly created records.  It would be more
+    # rigorously correct, but insanely inefficient, to submit the
+    # record to Zebra and then search for it; but since we know the
+    # formula for IDs anyway, we just build one by hand.
+    my $id = $r->param("id");
+    my $host = $r->param("host");
+    my $port = $r->param("port");
+    my $dbname = $r->param("dbname");
+    #warn "id='$id', host='$host', port='$port', dbname='$dbname'";
+    #warn "%ARGS = {\n" . join("", map { "\t'$_' => '" . $ARGS{$_} . ",'\n" } sort keys %ARGS) . "}\n";
+    if ((!defined $id || $id eq "") &&
+	defined $host && defined $port && defined $dbname) {
+	$id = "$host:$port/$dbname";
+#	$r->param(id => $id);
+#	$ARGS{id} = $id;
+	#warn "id set to '$id'";
+    }
+}
+</%perl>
 % if (!defined $id) {
 %    $rec = undef;
 % } else {
