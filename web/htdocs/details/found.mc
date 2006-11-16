@@ -1,4 +1,4 @@
-%# $Id: found.mc,v 1.19 2006-11-16 12:17:02 mike Exp $
+%# $Id: found.mc,v 1.20 2006-11-16 17:10:30 mike Exp $
 <%once>
 sub print_navlink {
     my($params, $cond, $caption, $skip) = @_;
@@ -110,8 +110,7 @@ print_navlink(\%params, $last < $n, "Next", $skip+$count);
 % my @ids;
 % foreach my $i ($first .. $last) {
 <%perl>
-my $rec = $rs->record($i-1);
-my $xc = irspy_xpath_context($rec);
+my $xc = irspy_xpath_context($rs->record($i-1));
 my $title = $xc->find("e:databaseInfo/e:title");
 my $author = $xc->find("e:databaseInfo/e:author");
 my $host = $xc->find("e:serverInfo/e:host");

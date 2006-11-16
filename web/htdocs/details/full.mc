@@ -1,4 +1,4 @@
-%# $Id: full.mc,v 1.16 2006-11-16 11:48:49 mike Exp $
+%# $Id: full.mc,v 1.17 2006-11-16 17:12:30 mike Exp $
 <%args>
 $id
 </%args>
@@ -14,8 +14,7 @@ if ($n == 0) {
     $m->comp("/details/error.mc",
 	     title => "Error", message => "No such ID '$id'");
 } else {
-    my $rec = $rs->record(0);
-    my $xc = irspy_xpath_context($rec);
+    my $xc = irspy_xpath_context($rs->record(0));
     my @fields = (
 		  [ "Last Checked" => "i:status/i:probe[last()]" ],
 		  [ Protocol => "e:serverInfo/\@protocol" ],
