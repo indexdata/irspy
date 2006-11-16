@@ -1,10 +1,7 @@
-%# $Id: full.mc,v 1.15 2006-11-15 13:23:05 mike Exp $
+%# $Id: full.mc,v 1.16 2006-11-16 11:48:49 mike Exp $
 <%args>
 $id
 </%args>
-<%once>
-use ZOOM;
-</%once>
 <%perl>
 my $conn = new ZOOM::Connection("localhost:3313/IR-Explain---1");
 $conn->option(elementSetName => "zeerex");
