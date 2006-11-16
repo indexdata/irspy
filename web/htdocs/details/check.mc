@@ -1,4 +1,4 @@
-%# $Id: check.mc,v 1.11 2006-10-26 17:45:32 mike Exp $
+%# $Id: check.mc,v 1.12 2006-11-16 12:15:29 mike Exp $
 <%args>
 @id
 $test => "Quick"
@@ -21,7 +21,7 @@ if ($allTargets && !$really) {
 } else {
 
 print "<h2>Testing ...</h2>\n";
-print "     <ul>\n", join("", map { "      <li>$_\n" } @id), "</ul>\n"
+print "     <ul>\n", join("", map { "      <li>$_</li>\n" } @id), "</ul>\n"
     if !$allTargets;
 $m->flush_buffer();
 

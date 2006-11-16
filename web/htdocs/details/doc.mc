@@ -1,4 +1,4 @@
-%# $Id: doc.mc,v 1.2 2006-11-01 10:11:01 mike Exp $
+%# $Id: doc.mc,v 1.3 2006-11-16 12:16:18 mike Exp $
 <%once>
 use Pod::Html;
 use IO::Dir;
@@ -31,7 +31,7 @@ sub render_doc_links {
 	or die "can't open directory handle for '$base/$dir'";
 
     print " " x $level, "<li><b>$dir</b></li>\n";
-    print " " x $level, "<ul>\n";
+    print " " x $level, "<li><ul>\n";
 
     my(@files, @dirs);
     while (my $file = $dh->read()) {
@@ -53,7 +53,7 @@ sub render_doc_links {
 	render_doc_links($base, "$dir/$file", $level+1);
     }
 
-    print " " x $level, "</ul>\n";
+    print " " x $level, "</ul></li>\n";
     undef $dh;
 }
 </%perl>

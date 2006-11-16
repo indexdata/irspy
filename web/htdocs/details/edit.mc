@@ -1,4 +1,4 @@
-%# $Id: edit.mc,v 1.13 2006-11-16 11:53:33 mike Exp $
+%# $Id: edit.mc,v 1.14 2006-11-16 12:16:32 mike Exp $
 <%args>
 $id => undef
 </%args>
@@ -104,7 +104,7 @@ foreach my $ref (@fields) {
 % } elsif ($nlines) {
      <textarea name="<% $name %>" rows="<% $nlines %>" cols="55"><% $data %></textarea>
 % } else {
-     <input name="<% $name %>" type="text" size="60" value="<% $data %>">
+     <input name="<% $name %>" type="text" size="60" value="<% $data %>"/>
 % }
     </td>
    </tr>
