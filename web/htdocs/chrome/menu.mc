@@ -1,4 +1,4 @@
-%# $Id: menu.mc,v 1.15 2006-11-16 17:03:11 mike Exp $
+%# $Id: menu.mc,v 1.16 2006-11-16 17:07:01 mike Exp $
      <p>
       <a href="/"><b>Home</b></a><br/>
       <a href="/all.html">Test&nbsp;all&nbsp;targets</a><br/>
@@ -13,7 +13,6 @@
 % }
      </p>
 <%perl>
-our $rec;
 my $id = $r->param("id");
 {
     # Make up ID for newly created records.  It would be more
@@ -33,9 +32,7 @@ my $id = $r->param("id");
     }
 }
 </%perl>
-% if (!defined $id) {
-%    $rec = undef;
-% } else {
+% if (defined $id) {
      <div class="panel2">
       <b>This Target</b>
       <a href="<% xml_encode("/full.html?id=" . uri_escape($id)) %>">Show details</a>
