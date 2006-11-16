@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.14 2006-11-14 16:21:49 mike Exp $
+# $Id: Utils.pm,v 1.15 2006-11-16 17:18:14 mike Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -8,9 +8,10 @@ use warnings;
 
 use Exporter 'import';
 our @EXPORT_OK = qw(xml_encode 
+		    cql_quote
+		    cql_target
 		    irspy_xpath_context
-		    modify_xml_document
-		    inheritance_tree);
+		    modify_xml_document);
 
 use XML::LibXML;
 use XML::LibXML::XPathContext;
@@ -26,7 +27,7 @@ our $IRSPY_NS = 'http://indexdata.com/irspy/1.0';
 # Template::Plugin both roll their own.  So I will do likewise.  D'oh!
 #
 sub xml_encode {
-    my ($text, $fallback) = @_;
+    my($text, $fallback) = @_;
 
     $text = $fallback if !defined $text;
     use Carp;
@@ -39,6 +40,26 @@ sub xml_encode {
     $text =~ s/['']/&apos;/g;
     $text =~ s/[""]/&quot;/g;
     return $text;
+}
+
+
+# Quotes a term for use in a CQL query
+sub cql_quote {
+    my($term) = @_;
+
+    $term =~ s/([""\\])/\\$1/g;
+    $term = qq["$term"] if $term =~ /\s/;
+    return $term;
+}
+
+
+# Makes a CQL query that finds a specified target
+sub cql_target {
+    my($host, $port, $db) = @_;
+
+    return ("host=" . cql_quote($host) . " and " .
+	    "port=" . cql_quote($port) . " and " .
+	    "path=" . cql_quote($db));
 }
 
 
