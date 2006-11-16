@@ -1,4 +1,4 @@
-%# $Id: raw.html,v 1.4 2006-11-16 11:48:40 mike Exp $
+%# $Id: raw.html,v 1.5 2006-11-16 17:05:51 mike Exp $
 <%args>
 $id
 </%args>
@@ -14,8 +14,7 @@ if ($n == 0) {
     $m->comp("/chrome/layout.mc", component => "/details/error.mc",
 	     title => "Error", message => "No such ID '$id'");
 } else {
-    my $rec = $rs->record(0);
-    my $xml = $rec->render();
+    my $xml = $rs->record(0)->render();
     $r->content_type("text/xml");
     print $xml;
 }
