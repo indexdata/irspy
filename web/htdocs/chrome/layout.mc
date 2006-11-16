@@ -1,35 +1,15 @@
-%# $Id: layout.mc,v 1.17 2006-11-16 11:49:30 mike Exp $
+%# $Id: layout.mc,v 1.18 2006-11-16 17:02:30 mike Exp $
 <%args>
 $debug => undef
 $title
 $component
 </%args>
-<%perl>
-{
-    # Make up ID for newly created records.  It would be more
-    # rigorously correct, but insanely inefficient, to submit the
-    # record to Zebra and then search for it; but since we know the
-    # formula for IDs anyway, we just build one by hand.
-    my $id = $r->param("id");
-    my $host = $r->param("host");
-    my $port = $r->param("port");
-    my $dbname = $r->param("dbname");
-    #warn "id='$id', host='$host', port='$port', dbname='$dbname'";
-    #warn "%ARGS = {\n" . join("", map { "\t'$_' => '" . $ARGS{$_} . ",'\n" } sort keys %ARGS) . "}\n";
-    if ((!defined $id || $id eq "") &&
-	defined $host && defined $port && defined $dbname) {
-	$id = "$host:$port/$dbname";
-	$r->param(id => $id);
-	$ARGS{id} = $id;
-	#warn "id set to '$id'";
-    }
-}
-</%perl>
 <%once>
 use URI::Escape;
 use ZOOM;
 use ZOOM::IRSpy::Web;
-use ZOOM::IRSpy::Utils qw(irspy_xpath_context xml_encode modify_xml_document);
+use ZOOM::IRSpy::Utils qw(xml_encode cql_quote cql_target
+                          irspy_xpath_context modify_xml_document);
 </%once>
 <& /chrome/head.mc, title => $title &>
   <table border="0" cellpadding="0" cellspacing="0" width="100%">
