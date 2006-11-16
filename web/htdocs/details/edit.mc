@@ -1,4 +1,4 @@
-%# $Id: edit.mc,v 1.16 2006-11-16 17:14:46 mike Exp $
+%# $Id: edit.mc,v 1.17 2006-11-16 17:27:15 mike Exp $
 <%args>
 $id => undef
 </%args>
@@ -8,7 +8,6 @@ my $conn = new ZOOM::Connection("localhost:3313/IR-Explain---1", 0,
 				elementSetName => "zeerex");
 my $rec = '<explain xmlns="http://explain.z3950.org/dtd/2.0/"/>';
 if (defined $id && $id ne "") {
-    print "Old record '$id'<br/>\n";
     # Existing record
     my $query = 'rec.id="' . cql_quote($id) . '"';
     my $rs = $conn->search(new ZOOM::Query::CQL($query));
@@ -21,14 +20,13 @@ if (defined $id && $id ne "") {
 
 } else {
     # New record
-    print "New record<br/>\n";
     my $host = $r->param("host");
     my $port = $r->param("port");
     my $dbname = $r->param("dbname");
     if (!defined $host || $host eq "" ||
 	!defined $port || $port eq "" ||
 	!defined $dbname || $dbname eq "") {
-	print qq[<p class="error">You must specify host, port and database name</p>\n];
+	print qq[<p class="error">You must specify host, port and database name.</p>\n];
 	$r->param(update => 0);
     }
 
@@ -74,7 +72,7 @@ my @fields =
 
 my $nchanges = 0;
 my $update = $r->param("update");
-if (defined $update) {
+if ($update) {
     # Update record with submitted data
     my %fieldsByKey = map { ( $_->[0], $_) } @fields;
     my %data;
