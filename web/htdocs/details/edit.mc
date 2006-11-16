@@ -1,4 +1,4 @@
-%# $Id: edit.mc,v 1.17 2006-11-16 17:27:15 mike Exp $
+%# $Id: edit.mc,v 1.18 2006-11-16 17:30:25 mike Exp $
 <%args>
 $id => undef
 </%args>
@@ -11,11 +11,10 @@ if (defined $id && $id ne "") {
     # Existing record
     my $query = 'rec.id="' . cql_quote($id) . '"';
     my $rs = $conn->search(new ZOOM::Query::CQL($query));
-    my $n = $rs->size();
-    if ($n == 0) {
-	$id = undef;
-    } else {
+    if ($rs->size() > 0) {
 	$rec = $rs->record(0);
+    } else {
+	$id = undef;
     }
 
 } else {
