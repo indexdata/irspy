@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.48 2006-11-03 13:11:29 mike Exp $
+# $Id: IRSpy.pm,v 1.49 2006-11-16 17:19:28 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -16,7 +16,7 @@ use Net::Z3950::ZOOM 1.13;	# For the ZOOM version-check only
 use ZOOM::IRSpy::Node;
 use ZOOM::IRSpy::Connection;
 use ZOOM::IRSpy::Record;
-use ZOOM::IRSpy::Utils;
+use ZOOM::IRSpy::Utils qw(cql_target);
 
 our @ISA = qw();
 our $VERSION = '0.02';
@@ -117,7 +117,7 @@ sub targets {
 	    $this->log("irspy_debug", "rewriting '$target' to '$newtarget'");
 	    $target = $newtarget; # This is written through the ref
 	}
-	push @qlist, (qq[(host="$host" and port="$port" and path="$db")]);
+	push @qlist, cql_target($host, $port, $db);
     }
 
     $this->{targets} = \@targets;
