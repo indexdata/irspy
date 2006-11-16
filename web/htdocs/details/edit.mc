@@ -1,4 +1,4 @@
-%# $Id: edit.mc,v 1.18 2006-11-16 17:30:25 mike Exp $
+%# $Id: edit.mc,v 1.19 2006-11-16 17:52:06 mike Exp $
 <%args>
 $id => undef
 </%args>
@@ -25,11 +25,21 @@ if (defined $id && $id ne "") {
     if (!defined $host || $host eq "" ||
 	!defined $port || $port eq "" ||
 	!defined $dbname || $dbname eq "") {
-	print qq[<p class="error">You must specify host, port and database name.</p>\n];
+	print qq[<p class="error">
+You must specify host, port and database name.</p>\n];
 	$r->param(update => 0);
+    } else {
+	my $query = cql_target($host, $port, $dbname);
+	my $rs = $conn->search(new ZOOM::Query::CQL($query));
+	if ($rs->size() > 0) {
+	    my $fakeid = xml_encode(uri_escape("$host:$port/$dbname"));
+	    print qq[<p class="error">
+There is already
+<a href='?id=$fakeid'>a record</a>
+for this host, port and database name.
+</p>\n];
+	}
     }
-
-    my $query = cql_target($host, $port, $dbname);
 }
 
 my $xc = irspy_xpath_context($rec);
@@ -71,7 +81,7 @@ my @fields =
 
 my $nchanges = 0;
 my $update = $r->param("update");
-if ($update) {
+
     # Update record with submitted data
     my %fieldsByKey = map { ( $_->[0], $_) } @fields;
     my %data;
@@ -79,8 +89,10 @@ if ($update) {
 	next if grep { $key eq $_ } qw(id update new copy);
 	$data{$key} = $r->param($key);
     }
+    my $mynchanges = modify_xml_document($xc, \%fieldsByKey, \%data);
 
-    $nchanges = modify_xml_document($xc, \%fieldsByKey, \%data);
+if ($update) {
+    $nchanges = $mynchanges;
     if ($nchanges) {
 	### Set e:metaInfo/e:dateModified
     }
