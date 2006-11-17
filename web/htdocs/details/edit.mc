@@ -1,5 +1,24 @@
-%# $Id: edit.mc,v 1.19 2006-11-16 17:52:06 mike Exp $
+%# $Id: edit.mc,v 1.20 2006-11-17 22:39:17 mike Exp $
+<%doc>
+Since this form is used in many different situations, some care is
+merited in considering the possibilities:
+
+New?	Copy	ID?	Situation
+--------------------------------------------------------------------------
+Y			Blank form for adding a new target.
+Y			New target submitted successfully.
+Y			Partial new target submitted, requiring more
+
+		Y	Existing target to be edited.
+		Y	Existing target has been updated.
+
+	Y	Y	Existing target to be copied.
+	Y		New or copied target rejected due to duplicate ID.
+--------------------------------------------------------------------------
+</%doc>
 <%args>
+$new => undef
+$copy => undef
 $id => undef
 </%args>
 <%perl>
@@ -102,7 +121,7 @@ if ($update) {
  <h2><% xml_encode($xc->find("e:databaseInfo/e:title"), "[Untitled]") %></h2>
 % if ($nchanges) {
  <p style="font-weight: bold">
-  The record has been <% $r->param("new") ? "created" : "updated" %>.<br/>
+  The record has been <% $new ? "created" : "updated" %>.<br/>
   Changed <% $nchanges %> field<% $nchanges == 1 ? "" : "s" %>.
  </p>
 % }
@@ -140,6 +159,9 @@ foreach my $ref (@fields) {
      <input type="hidden" name="id" value="<% xml_encode($id) %>"/>
 % } else {
      <input type="hidden" name="new" value="1"/>
+% }
+% if (defined $copy) {
+     <input type="hidden" name="copy" value="<% xml_encode($copy) %>"/>
 % }
     </td>
    </tr>
