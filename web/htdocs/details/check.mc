@@ -1,4 +1,4 @@
-%# $Id: check.mc,v 1.12 2006-11-16 12:15:29 mike Exp $
+%# $Id: check.mc,v 1.13 2006-11-18 00:09:01 mike Exp $
 <%args>
 @id
 $test => "Quick"
@@ -27,7 +27,7 @@ $m->flush_buffer();
 
 # Turning on autoflush with $m->autoflush() doesn't seem to work if
 # even if the "MasonEnableAutoflush" configuration parameter is turned
-# on in the HTTP configuration, so we donb't even try -- instead,
+# on in the HTTP configuration, so we don't even try -- instead,
 # having ZOOM::IRSpy::Web::log() explicitly calling $m->flush_buffer()
 
 my $spy = new ZOOM::IRSpy::Web("localhost:3313/IR-Explain---1",
