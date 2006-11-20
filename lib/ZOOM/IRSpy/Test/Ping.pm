@@ -1,4 +1,4 @@
-# $Id: Ping.pm,v 1.14 2006-10-25 10:49:37 mike Exp $
+# $Id: Ping.pm,v 1.15 2006-11-20 15:05:53 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -32,8 +32,8 @@ sub maybe_connected {
     my $rec = $conn->record();
     $rec->append_entry("irspy:status", "<irspy:probe ok='$ok'>" .
 		       isodate(time()) . "</irspy:probe>");
-    $conn->option(pod_omit => 1) if !$ok;
-    return ZOOM::IRSpy::Status::TASK_DONE;
+    return $ok ? ZOOM::IRSpy::Status::TEST_GOOD :
+		 ZOOM::IRSpy::Status::TEST_BAD;
 }
 
 
