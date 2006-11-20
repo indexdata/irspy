@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.49 2006-11-16 17:19:28 mike Exp $
+# $Id: IRSpy.pm,v 1.50 2006-11-20 15:06:46 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -475,11 +475,20 @@ sub check {
 	    warn "$conn still has a queued task $task";
 	}
 	if (!$conn->is_idle()) {
-	    warn "$conn is not idle (still has ZOOM-C level tasks queued)";
+	    warn "$conn still has ZOOM-C level tasks queued: see below";
 	}
 	if (!$conn->option("rewrote_record")) {
 	    warn "$conn did not rewrite its ZeeRex record";
 	}
+    }
+
+    # This shouldn't happen emit anything either:
+    @conn = @{ $this->{connections} };
+    while (my $i1 = ZOOM::event(\@conn)) {
+	my $conn = $conn[$i1-1];
+	my $ev = $conn->last_event();
+	my $evstr = ZOOM::event_str($ev);
+	warn "$conn still has ZOOM-C level task queued: $ev ($evstr)";
     }
 
     return $nskipped;
