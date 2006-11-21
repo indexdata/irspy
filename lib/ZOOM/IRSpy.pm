@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.50 2006-11-20 15:06:46 mike Exp $
+# $Id: IRSpy.pm,v 1.51 2006-11-21 11:48:01 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -565,8 +565,8 @@ sub _last_sibling_test {
 	my $maybe = $this->_next_sibling_test($address);
 	last if !defined $maybe;
 	$nskipped++;
-	$this->log("irspy", "skipping $nskipped tests to '$address'");
 	$address = $maybe;
+	$this->log("irspy", "skipping $nskipped tests to '$address'");
     }
 
     return ($address, $nskipped);
