@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.16 2006-11-29 17:22:00 mike Exp $
+# $Id: Utils.pm,v 1.17 2006-11-29 18:15:10 mike Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -7,7 +7,8 @@ use strict;
 use warnings;
 
 use Exporter 'import';
-our @EXPORT_OK = qw(xml_encode 
+our @EXPORT_OK = qw(isodate
+		    xml_encode 
 		    cql_quote
 		    cql_target
 		    irspy_xpath_context
@@ -20,6 +21,14 @@ our $IRSPY_NS = 'http://indexdata.com/irspy/1.0';
 
 
 # Utility functions follow, exported for use of web UI
+sub isodate {
+    my($time) = @_;
+
+    my($sec, $min, $hour, $mday, $mon, $year) = localtime($time);
+    return sprintf("%04d-%02d-%02dT%02d:%02d:%02d",
+		   $year+1900, $mon+1, $mday, $hour, $min, $sec);
+}
+
 
 # I can't -- just can't, can't, can't -- believe that this function
 # isn't provided by one of the core XML modules.  But the evidence all
