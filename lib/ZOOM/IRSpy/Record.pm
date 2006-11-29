@@ -1,4 +1,4 @@
-# $Id: Record.pm,v 1.19 2006-11-01 10:14:56 mike Exp $
+# $Id: Record.pm,v 1.20 2006-11-29 18:17:16 mike Exp $
 
 package ZOOM::IRSpy::Record;
 
@@ -8,7 +8,7 @@ use warnings;
 
 use XML::LibXML;
 use XML::LibXML::XPathContext;
-use ZOOM::IRSpy::Utils qw(xml_encode);
+use ZOOM::IRSpy::Utils qw(xml_encode isodate);
 
 =head1 NAME
 
@@ -101,7 +101,7 @@ sub store_result {
         $xml .= " $key=\"" . $this->_string2cdata($info{$key}) . "\"";
     }
 
-    $xml .= ">" . $this->_isodate(time()) . "</irspy:$type>\n";
+    $xml .= ">" . isodate(time()) . "</irspy:$type>\n";
 
     $this->append_entry('irspy:status', $xml);
 }
@@ -170,12 +170,6 @@ sub _string2cdata {
     $buffer =~ s/'/&apos;/gs;
 
     return $buffer;
-}
-
-
-sub _isodate {
-    my ($this, $time) = @_;
-    return ZOOM::IRSpy::Test::isodate($time);
 }
 
 
