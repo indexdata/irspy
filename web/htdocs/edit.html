@@ -1,8 +1,9 @@
-%# $Id: edit.html,v 1.3 2006-11-15 17:43:50 mike Exp $
+%# $Id: edit.html,v 1.4 2006-11-29 14:57:31 mike Exp $
 <%args>
 $id => undef
+$copy => undef
 </%args>
 <& /chrome/layout.mc, %ARGS,
-    title => ($r->param("copy") ? "Copy" : defined $id ? "Edit" : "New") .
+    title => (!defined $id ? "New" : $copy ? "Copy" : "Edit") .
 	" target record",
     component => "/details/edit.mc" &>
