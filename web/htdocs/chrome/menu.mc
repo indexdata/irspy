@@ -1,9 +1,9 @@
-%# $Id: menu.mc,v 1.18 2006-11-24 18:01:51 mike Exp $
+%# $Id: menu.mc,v 1.19 2006-11-29 18:20:42 mike Exp $
      <p>
       <a href="/"><b>Home</b></a><br/>
       <a href="/all.html">Test&nbsp;all&nbsp;targets</a><br/>
       <a href="/find.html">Find a target</a><br/>
-      <a href="/edit.html?new=1">Add a target</a><br/>
+      <a href="/edit.html?op=new">Add a target</a><br/>
      </p>
      <p>
       <b>Show targets</b>
@@ -32,14 +32,14 @@ my $id = $r->param("id");
     }
 }
 </%perl>
-% if (defined $id) {
+% if (defined $id && $r->param("op") ne "copy") {
      <div class="panel2">
       <b>This Target</b>
       <a href="<% xml_encode("/full.html?id=" . uri_escape($id)) %>">Show details</a>
       <br/>
-      <a href="<% xml_encode("/edit.html?id=" . uri_escape($id)) %>">Edit details</a>
+      <a href="<% xml_encode("/edit.html?op=edit&id=" . uri_escape($id)) %>">Edit details</a>
       <br/>
-      <a href="<% xml_encode("/edit.html?id=" . uri_escape($id)) . "&amp;copy=1" %>">Copy target</a>
+      <a href="<% xml_encode("/edit.html?op=copy&id=" . uri_escape($id)) %>">Copy target</a>
       <p>
        <a href="<% xml_encode("/check.html?id=" . uri_escape($id)) . "&amp;test=Quick" %>">Quick Test</a>
        <br/>
