@@ -1,4 +1,4 @@
-# $Id: Ping.pm,v 1.15 2006-11-20 15:05:53 mike Exp $
+# $Id: Ping.pm,v 1.16 2006-11-29 18:18:37 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -10,6 +10,8 @@ use warnings;
 
 use ZOOM::IRSpy::Test;
 our @ISA = qw(ZOOM::IRSpy::Test);
+
+use ZOOM::IRSpy::Utils qw(isodate);
 
 
 sub start {
