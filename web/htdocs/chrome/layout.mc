@@ -1,4 +1,4 @@
-%# $Id: layout.mc,v 1.18 2006-11-16 17:02:30 mike Exp $
+%# $Id: layout.mc,v 1.19 2006-11-29 18:19:17 mike Exp $
 <%args>
 $debug => undef
 $title
@@ -8,7 +8,7 @@ $component
 use URI::Escape;
 use ZOOM;
 use ZOOM::IRSpy::Web;
-use ZOOM::IRSpy::Utils qw(xml_encode cql_quote cql_target
+use ZOOM::IRSpy::Utils qw(isodate xml_encode cql_quote cql_target
                           irspy_xpath_context modify_xml_document);
 </%once>
 <& /chrome/head.mc, title => $title &>
