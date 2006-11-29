@@ -1,4 +1,4 @@
-%# $Id: found.mc,v 1.20 2006-11-16 17:10:30 mike Exp $
+%# $Id: found.mc,v 1.21 2006-11-29 18:21:15 mike Exp $
 <%once>
 sub print_navlink {
     my($params, $cond, $caption, $skip) = @_;
@@ -132,7 +132,8 @@ push @ids, $id;
        <td>
 	<a href="<% xml_encode("/check.html?id=" . uri_escape($id))
 		%>" title="Test this target">Test</a
-	>&nbsp;<a href="<% xml_encode("/edit.html?id=" . uri_escape($id))
+	>&nbsp;<a href="<% xml_encode("/edit.html?op=edit&id=" .
+		uri_escape($id))
 		%>" title="Edit this target's record">Edit</a
 	>&nbsp;<a href="<% xml_encode("/raw.html?id=" . uri_escape($id))
 		%>" title="Raw XML record">XML</a>
