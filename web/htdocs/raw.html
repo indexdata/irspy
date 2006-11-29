@@ -1,7 +1,10 @@
-%# $Id: raw.html,v 1.5 2006-11-16 17:05:51 mike Exp $
+%# $Id: raw.html,v 1.6 2006-11-29 12:31:25 mike Exp $
 <%args>
 $id
 </%args>
+<%once>
+use ZOOM;
+</%once>
 <%perl>
 my $conn = new ZOOM::Connection("localhost:3313/IR-Explain---1");
 $conn->option(elementSetName => "zeerex");
