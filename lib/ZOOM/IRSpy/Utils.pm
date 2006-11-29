@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.15 2006-11-16 17:18:14 mike Exp $
+# $Id: Utils.pm,v 1.16 2006-11-29 17:22:00 mike Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -101,7 +101,7 @@ sub irspy_xpath_context {
 sub modify_xml_document {
     my($xc, $fieldsByKey, $data) = @_;
 
-    my $nchanges = 0;
+    my @changes = ();
     foreach my $key (keys %$data) {
 	my $value = $data->{$key};
 	my $ref = $fieldsByKey->{$key} or die "no field '$key'";
@@ -115,7 +115,7 @@ sub modify_xml_document {
 	    if ($node->isa("XML::LibXML::Attr")) {
 		if ($value ne $node->getValue()) {
 		    $node->setValue($value);
-		    $nchanges++;
+		    push @changes, $ref;
 		    #print "Attr $key: '", $node->getValue(), "' -> '$value' ($xpath)<br/>\n";
 		}
 	    } elsif ($node->isa("XML::LibXML::Element")) {
@@ -140,7 +140,7 @@ sub modify_xml_document {
 		$node->removeChildNodes();
 		my $child = new XML::LibXML::Text($value);
 		$node->appendChild($child);
-		$nchanges++;
+		push @changes, $ref;
 		#print "Elem $key: '$old' -> '$value' ($xpath)<br/>\n";
 	    } else {
 		warn "unexpected node type $node";
@@ -151,11 +151,11 @@ sub modify_xml_document {
 	    my($ppath, $selector) = $xpath =~ /(.*)\/(.*)/;
 	    dom_add_node($xc, $ppath, $selector, $value, @addAfter);
 	    #print "New $key ($xpath) = '$value'<br/>\n";
-	    $nchanges++;
+	    push @changes, $ref;
 	}
     }
 
-    return $nchanges;
+    return @changes;
 }
 
 
