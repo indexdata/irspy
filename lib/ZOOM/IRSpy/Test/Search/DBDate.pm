@@ -1,4 +1,4 @@
-# $Id: DBDate.pm,v 1.2 2006-10-25 10:49:51 mike Exp $
+# $Id: DBDate.pm,v 1.3 2006-11-29 18:18:38 mike Exp $
 
 # This plugin tests searching on BIB-1 access-point 1011 (Date/time
 # added to db), the significance of which is that this search
@@ -16,6 +16,8 @@ use warnings;
 
 use ZOOM::IRSpy::Test;
 our @ISA = qw(ZOOM::IRSpy::Test);
+
+use ZOOM::IRSpy::Utils qw(isodate);
 
 
 sub start {

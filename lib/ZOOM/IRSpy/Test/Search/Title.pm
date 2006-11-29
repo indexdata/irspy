@@ -1,4 +1,4 @@
-# $Id: Title.pm,v 1.8 2006-10-25 10:49:51 mike Exp $
+# $Id: Title.pm,v 1.9 2006-11-29 18:18:38 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -10,6 +10,8 @@ use warnings;
 
 use ZOOM::IRSpy::Test;
 our @ISA = qw(ZOOM::IRSpy::Test);
+
+use ZOOM::IRSpy::Utils qw(isodate);
 
 
 sub start {
