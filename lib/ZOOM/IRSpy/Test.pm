@@ -1,13 +1,10 @@
-# $Id: Test.pm,v 1.6 2006-10-13 10:08:57 sondberg Exp $
+# $Id: Test.pm,v 1.7 2006-11-29 18:16:21 mike Exp $
 
 package ZOOM::IRSpy::Test;
 
 use 5.008;
 use strict;
 use warnings;
-
-use Exporter 'import';
-our @EXPORT = qw(isodate);
 
 =head1 NAME
 
@@ -30,17 +27,6 @@ sub start {
     my($conn) = @_;
 
     die "can't start the base-class test";
-}
-
-
-
-# Utility function, really nothing to do with IRSpy
-sub isodate {
-    my($time) = @_;
-
-    my($sec, $min, $hour, $mday, $mon, $year) = localtime($time);
-    return sprintf("%04d-%02d-%02dT%02d:%02d:%02d",
-		   $year+1900, $mon+1, $mday, $hour, $min, $sec);
 }
 
 
