@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: test-xml-update.pl,v 1.6 2006-11-09 16:15:14 mike Exp $
+# $Id: test-xml-update.pl,v 1.7 2006-11-29 17:22:32 mike Exp $
 #
 # Run like this:
 #	perl -I ../lib ./test-xml-update.pl bagel.indexdata.dk:210/gils title "Test Database" author "Adam" description "This is a nice database"
@@ -24,7 +24,7 @@ my @fields =
        qw() ],
      [ password     => 0, "Password (if needed)", "e:serverInfo/e:authentication/e:password",
        qw(e:user) ],
-     [ title        => 0, "title", "e:databaseInfo/e:title",
+     [ title        => 0, "Title", "e:databaseInfo/e:title",
        qw() ],
      [ description  => 5, "Description", "e:databaseInfo/e:description",
        qw(e:title) ],
@@ -73,9 +73,11 @@ my $xc = irspy_xpath_context($rec);
 my %fieldsByKey = map { ( $_->[0], $_) } @fields;
 
 my $oldText = $xc->getContextNode()->toString();
-my $nchanges = modify_xml_document($xc, \%fieldsByKey, \%data);
+my @changedFields = modify_xml_document($xc, \%fieldsByKey, \%data);
+my $nchanges = @changedFields;
 my $newText = $xc->getContextNode()->toString();
-print "Document modified with $nchanges change", $nchanges==1?"":"s", "\n";
+print("Document modified with $nchanges change", $nchanges == 1 ? "" : "s",
+      ": ", join(", ", map { $_->[2] } @changedFields), "\n");
 
 if ($opts{w}) {
     ZOOM::IRSpy::_really_rewrite_record($conn, $xc->getContextNode());
