@@ -1,43 +1,55 @@
-%# $Id: edit.mc,v 1.20 2006-11-17 22:39:17 mike Exp $
+%# $Id: edit.mc,v 1.21 2006-11-29 18:22:08 mike Exp $
+<%args>
+$op
+$id => undef
+$update => undef
+</%args>
 <%doc>
 Since this form is used in many different situations, some care is
 merited in considering the possibilities:
 
-New?	Copy	ID?	Situation
---------------------------------------------------------------------------
-Y			Blank form for adding a new target.
-Y			New target submitted successfully.
-Y			Partial new target submitted, requiring more
+Situation					Op	ID	Update
+----------------------------------------------------------------------
+Blank form for adding a new target		new
+New target rejected, changes required		new		X
+New target accepted and added			new		X
+---------------------------------------------------------------------
+Existing target to be edited			edit	X
+Edit rejected, changes required			edit	X	X
+Target successfully updated			edit	X	X
+----------------------------------------------------------------------
+Existing target to be copied			copy	X
+New target rejected, changes required		copy	X	X
+New target accepted and added			copy	X	X
+----------------------------------------------------------------------
 
-		Y	Existing target to be edited.
-		Y	Existing target has been updated.
-
-	Y	Y	Existing target to be copied.
-	Y		New or copied target rejected due to duplicate ID.
---------------------------------------------------------------------------
+Submissions, whether of new targets, edits or copies, may be rejected
+due either to missing mandatory fields or host/name/port that form a
+duplicate ID.
 </%doc>
-<%args>
-$new => undef
-$copy => undef
-$id => undef
-</%args>
 <%perl>
+# Sanity checking
+die "op = new but id defined" if $op eq "new" && defined $id;
+die "op != new but id undefined" if $op ne "new" && !defined $id;
+
 my $conn = new ZOOM::Connection("localhost:3313/IR-Explain---1", 0,
 				user => "admin", password => "fruitbat",
 				elementSetName => "zeerex");
 my $rec = '<explain xmlns="http://explain.z3950.org/dtd/2.0/"/>';
-if (defined $id && $id ne "") {
+if (defined $id && ($op ne "copy" || !$update)) {
     # Existing record
     my $query = 'rec.id="' . cql_quote($id) . '"';
     my $rs = $conn->search(new ZOOM::Query::CQL($query));
     if ($rs->size() > 0) {
 	$rec = $rs->record(0);
     } else {
+	### Is this an error?  I don't think the UI will ever provoke it
+	print qq[<p class="error">(New ID specified.)</p>\n];
 	$id = undef;
     }
 
 } else {
-    # New record
+    # No ID supplied -- this is a brand new record
     my $host = $r->param("host");
     my $port = $r->param("port");
     my $dbname = $r->param("dbname");
@@ -45,8 +57,8 @@ if (defined $id && $id ne "") {
 	!defined $port || $port eq "" ||
 	!defined $dbname || $dbname eq "") {
 	print qq[<p class="error">
-You must specify host, port and database name.</p>\n];
-	$r->param(update => 0);
+You must specify host, port and database name.</p>\n] if $update;
+	undef $update;
     } else {
 	my $query = cql_target($host, $port, $dbname);
 	my $rs = $conn->search(new ZOOM::Query::CQL($query));
@@ -54,9 +66,10 @@ You must specify host, port and database name.</p>\n];
 	    my $fakeid = xml_encode(uri_escape("$host:$port/$dbname"));
 	    print qq[<p class="error">
 There is already
-<a href='?id=$fakeid'>a record</a>
+<a href='?op=edit&amp;id=$fakeid'>a record</a>
 for this host, port and database name.
 </p>\n];
+	    undef $update;
 	}
     }
 }
@@ -98,31 +111,32 @@ my @fields =
        qw(e:title e:description) ],
      );
 
-my $nchanges = 0;
-my $update = $r->param("update");
-
-    # Update record with submitted data
-    my %fieldsByKey = map { ( $_->[0], $_) } @fields;
-    my %data;
-    foreach my $key ($r->param()) {
-	next if grep { $key eq $_ } qw(id update new copy);
-	$data{$key} = $r->param($key);
-    }
-    my $mynchanges = modify_xml_document($xc, \%fieldsByKey, \%data);
-
-if ($update) {
-    $nchanges = $mynchanges;
-    if ($nchanges) {
-	### Set e:metaInfo/e:dateModified
-    }
+# Update record with submitted data
+my %fieldsByKey = map { ( $_->[0], $_) } @fields;
+my %data;
+foreach my $key ($r->param()) {
+    next if grep { $key eq $_ } qw(op id update);
+    $data{$key} = $r->param($key);
+}
+my @changedFields = modify_xml_document($xc, \%fieldsByKey, \%data);
+if ($update && @changedFields) {
+    my @x = modify_xml_document($xc, { dateModified =>
+					   [ dateModified => 0,
+					     "Data/time modified",
+					     "e:metaInfo/e:dateModified" ] },
+				{ dateModified => isodate(time()) });
+    die "Didn't set dateModified!" if !@x;
     ZOOM::IRSpy::_really_rewrite_record($conn, $xc->getContextNode());
 }
+
 </%perl>
  <h2><% xml_encode($xc->find("e:databaseInfo/e:title"), "[Untitled]") %></h2>
-% if ($nchanges) {
+% if ($update && @changedFields) {
+%     my $nchanges = @changedFields;
  <p style="font-weight: bold">
-  The record has been <% $new ? "created" : "updated" %>.<br/>
-  Changed <% $nchanges %> field<% $nchanges == 1 ? "" : "s" %>.
+  The record has been <% $op ne "edit" ? "created" : "updated" %>.<br/>
+  Changed <% $nchanges %> field<% $nchanges == 1 ? "" : "s" %>:
+  <% join(", ", map { xml_encode($_->[2]) } @changedFields) %>.
  </p>
 % }
  <form method="get" action="">
@@ -134,20 +148,20 @@ foreach my $ref (@fields) {
    <tr>
     <th><% $caption %></th>
     <td>
-% my $rawdata = $xc->findvalue($xpath);
-% my $data = xml_encode($rawdata, "");
+% my $rawval = $xc->findvalue($xpath);
+% my $val = xml_encode($rawval, "");
 % if (ref $nlines) {
      <select name="<% $name %>" size="1">
-%     foreach my $val (@$nlines) {
-      <option value="<% $val %>"
-% print ' selected="selected"' if $rawdata eq $val;
-	><% $val %></option>
+%     foreach my $option (@$nlines) {
+      <option value="<% xml_encode($option) %>"<%
+	($rawval eq $option ? ' selected="selected"' : "")
+	%>><% xml_encode($option) %></option>
 %     }
      </select>
 % } elsif ($nlines) {
-     <textarea name="<% $name %>" rows="<% $nlines %>" cols="51"><% $data %></textarea>
+     <textarea name="<% $name %>" rows="<% $nlines %>" cols="51"><% $val %></textarea>
 % } else {
-     <input name="<% $name %>" type="text" size="60" value="<% $data %>"/>
+     <input name="<% $name %>" type="text" size="60" value="<% $val %>"/>
 % }
     </td>
    </tr>
@@ -155,20 +169,16 @@ foreach my $ref (@fields) {
    <tr>
     <td align="right" colspan="2">
      <input type="submit" name="update" value="Update"/>
+     <input type="hidden" name="op" value="<% xml_encode($op) %>"/>
 % if (defined $id) {
      <input type="hidden" name="id" value="<% xml_encode($id) %>"/>
-% } else {
-     <input type="hidden" name="new" value="1"/>
-% }
-% if (defined $copy) {
-     <input type="hidden" name="copy" value="<% xml_encode($copy) %>"/>
 % }
     </td>
    </tr>
   </table>
  </form>
 <%perl>
-    if ($nchanges && 0) {
+    if (@changedFields && 0) {
 	my $x = $xc->getContextNode()->toString();
 	$x = xml_encode($x);
 	#$x =~ s/$/<br\/>/gm;
