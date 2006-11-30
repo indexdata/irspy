@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.17 2006-11-29 18:15:10 mike Exp $
+# $Id: Utils.pm,v 1.18 2006-11-30 12:02:26 mike Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -46,7 +46,8 @@ sub xml_encode {
     $text =~ s/&/&amp;/g;
     $text =~ s/</&lt;/g;
     $text =~ s/>/&gt;/g;
-    $text =~ s/['']/&apos;/g;
+    # Internet Explorer can't display &apos; (!) so don't create it
+    #$text =~ s/['']/&apos;/g;
     $text =~ s/[""]/&quot;/g;
     return $text;
 }
