@@ -1,7 +1,13 @@
-/* $Id: style.mc,v 1.11 2006-11-30 12:11:07 mike Exp $ */
+/* $Id: style.mc,v 1.12 2006-11-30 12:50:20 mike Exp $ */
 body {
   color: black;
   background: white;
+}
+
+blockquote {
+  background: #ffffc0;
+  margin: 1em 3em;
+  padding: 0.5em;
 }
 
 .banner { background: url(/beach.jpeg) }
