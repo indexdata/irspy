@@ -1,4 +1,4 @@
-%# $Id: check.mc,v 1.13 2006-11-18 00:09:01 mike Exp $
+%# $Id: check.mc,v 1.14 2006-11-30 10:53:27 mike Exp $
 <%args>
 @id
 $test => "Quick"
@@ -14,8 +14,9 @@ if ($allTargets && !$really) {
       Are you sure you want to do this?
      </p>
      <p>
-      <a href="?really=1">Yes</a>
-      <a href="/">No</a>
+      <a href="?really=1&amp;test=Quick">Yes: Quick Test</a><br/>
+      <a href="?really=1&amp;test=Main">Yes: Full Test</a><br/>
+      <a href="/">No</a><br/>
      </p>
 <%perl>
 } else {
