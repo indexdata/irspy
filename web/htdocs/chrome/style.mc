@@ -1,4 +1,4 @@
-/* $Id: style.mc,v 1.10 2006-10-31 16:19:39 mike Exp $ */
+/* $Id: style.mc,v 1.11 2006-11-30 12:11:07 mike Exp $ */
 body {
   color: black;
   background: white;
@@ -12,7 +12,7 @@ body {
 .panel3 { background: #b4c7d3 }
 
 <%doc>Fixing the layout</%doc>
-.panel1 { width: 100px }
+.panel1 { width: 9em }
 .spacer { width: 1em }
 
 .panel2 {
