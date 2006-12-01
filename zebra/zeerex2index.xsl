@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id: zeerex2index.xsl,v 1.7 2006-11-30 12:44:00 mike Exp $ -->
+<!-- $Id: zeerex2index.xsl,v 1.8 2006-12-01 10:04:18 mike Exp $ -->
 <!-- See the ZeeRex profile at http://srw.cheshire3.org/profiles/ZeeRex/ -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:z="http://indexdata.dk/zebra/xslt/1"
@@ -19,20 +19,15 @@
    <!-- Well, not quite _anywhere_.  Only textual fields are indexed -->
    <z:index name="cql:anywhere" type="w">
     <xsl:value-of select="e:serverInfo/e:host"/>
-   </z:index>
-   <z:index name="cql:anywhere" type="w">
+    <xsl:text> </xsl:text>
     <xsl:value-of select="e:serverInfo/e:port"/>
-   </z:index>
-   <z:index name="cql:anywhere" type="w">
+    <xsl:text> </xsl:text>
     <xsl:value-of select="e:serverInfo/e:database"/>
-   </z:index>
-   <z:index name="cql:anywhere" type="w">
+    <xsl:text> </xsl:text>
     <xsl:value-of select="e:databaseInfo/e:title"/>
-   </z:index>
-   <z:index name="cql:anywhere" type="w">
+    <xsl:text> </xsl:text>
     <xsl:value-of select="e:databaseInfo/e:description"/>
-   </z:index>
-   <z:index name="cql:anywhere" type="w">
+    <xsl:text> </xsl:text>
     <xsl:value-of select="e:databaseInfo/e:author"/>
    </z:index>
 
