@@ -1,11 +1,46 @@
-%# $Id: help.html,v 1.1 2006-12-01 16:51:32 mike Exp $
+%# $Id: help.html,v 1.2 2006-12-04 15:41:23 mike Exp $
 <%args>
 $help
 </%args>
+<%doc>
+For some totally irrational, retarded and undocumented reason, the <a>
+element in XHTML 1.0 Strict does not have the "target" element, so
+instead I have to use XHTML 1.0 Transitional.  Well, great.  If you
+enjoy reading TOTALLY unhelpful answers, try
+	http://www.w3.org/MarkUp/2004/xhtml-faq#target
+which says:
+
+	Why was the target attribute removed from XHTML 1.1?
+
+	It wasn't. XHTML 1.0 comes in three versions: strict,
+	transitional, and frameset. All three of these were
+	deliberately kept as close as possible to HTML 4.01 as
+	XML would allow. XHTML 1.1 is an updated version of
+	XHTML 1.0 strict, and no version of HTML strict has
+	ever included the target attribute. The other two
+	versions, transitional and frameset, were not updated,
+	because there was nothing to update. If you want to
+	use the target attribute, use XHTML 1.0 transitional.
+
+And, yes, this is the ONLY mention of "target" in the W3C's FAQ.
+
+If you want slightly more information, a thread at
+	http://www.thescripts.com/forum/thread96361.html
+asks and answers the question:
+
+	If this attribute is indeed deprecated, which seems to
+	be the case, is there an alternative to
+	target="_blank" to open hyperlinks in a new/blank
+	window?
+
+	Not that I know of, other than using javascript.
+
+Nice one, W3C!  Way to improve portability!
+</%doc>
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE html 
-     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
  <head>
   <title>IRSpy help: <% $help %></title>
@@ -23,5 +58,8 @@ $help
  <body>
   <h1>IRSpy help: <% $help %></h1>
 % $m->comp("/help/$help.html");
+  <p>
+   <input type="button" onclick="self.close()" value="OK"/>
+  </p>
  </body>
 </html>
