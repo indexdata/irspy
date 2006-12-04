@@ -1,4 +1,4 @@
-%# $Id: menu.mc,v 1.19 2006-11-29 18:20:42 mike Exp $
+%# $Id: menu.mc,v 1.20 2006-12-04 16:47:27 mike Exp $
      <p>
       <a href="/"><b>Home</b></a><br/>
       <a href="/all.html">Test&nbsp;all&nbsp;targets</a><br/>
@@ -35,6 +35,7 @@ my $id = $r->param("id");
 % if (defined $id && $r->param("op") ne "copy") {
      <div class="panel2">
       <b>This Target</b>
+      <br/>
       <a href="<% xml_encode("/full.html?id=" . uri_escape($id)) %>">Show details</a>
       <br/>
       <a href="<% xml_encode("/edit.html?op=edit&id=" . uri_escape($id)) %>">Edit details</a>
