@@ -1,4 +1,4 @@
-%# $Id: link.mc,v 1.3 2006-12-04 09:34:32 mike Exp $
+%# $Id: link.mc,v 1.4 2006-12-04 10:02:43 mike Exp $
 <%args>
 $help
 </%args>
@@ -6,7 +6,7 @@ $help
 	onclick="window.open('/help.html?help=<% $help %>', 'help',
 		'status=0,height=320,width=320')"
 	style="font-size: small; font-weight: bold; text-decoration: none;
-		color: black; background: #00ff00; 
+		color: white; background: #00c000; 
 		padding: 0.2em; margin: 0.2em;
-		border: 1px solid black"
+		border: 1px solid #008000"
 	>HELP</a>
