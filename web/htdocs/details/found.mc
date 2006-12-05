@@ -1,4 +1,4 @@
-%# $Id: found.mc,v 1.21 2006-11-29 18:21:15 mike Exp $
+%# $Id: found.mc,v 1.22 2006-12-05 17:18:30 mike Exp $
 <%once>
 sub print_navlink {
     my($params, $cond, $caption, $skip) = @_;
@@ -18,6 +18,21 @@ sub navlink {
     $url = xml_encode($url);
     return $url;
 }
+
+# Identical to the same-named function in full.mc
+# So maybe this should go into IRSpy::Utils.pm?
+#
+sub calc_reliability {
+    my($xc) = @_;
+
+    my @allpings = $xc->findnodes("i:status/i:probe");
+    my $nall = @allpings;
+    return "[untested]" if $nall == 0;
+    my @okpings = $xc->findnodes('i:status/i:probe[@ok = "1"]');
+    my $nok = @okpings;
+    return "$nok/$nall = " . int(100*$nok/$nall) . "%";
+}
+
 
 # Just make this once; forge the connection on first use
 our $conn = undef;
@@ -100,7 +115,7 @@ print_navlink(\%params, $last < $n, "Next", $skip+$count);
       <tr class="thleft">
        <th>#</th>
        <th>Title</th>
-       <th>Author</th>
+       <th>Reliability</th>
        <th>Host</th>
        <th>Port</th>
        <th>DB</th>
@@ -112,7 +127,7 @@ print_navlink(\%params, $last < $n, "Next", $skip+$count);
 <%perl>
 my $xc = irspy_xpath_context($rs->record($i-1));
 my $title = $xc->find("e:databaseInfo/e:title");
-my $author = $xc->find("e:databaseInfo/e:author");
+my $reliability = calc_reliability($xc);
 my $host = $xc->find("e:serverInfo/e:host");
 my $port = $xc->find("e:serverInfo/e:port");
 my $db = $xc->find("e:serverInfo/e:database");
@@ -125,7 +140,7 @@ push @ids, $id;
        <td><% $i %></td>
        <td><a href="<% xml_encode("/full.html?id=" . uri_escape($id))
 		%>"><% xml_encode($title, "[untitled]") %></a></td>
-       <td><% xml_encode($author, "") %></td>
+       <td><% xml_encode($reliability, "", { nbsp => 1 }) %></td>
        <td><% xml_encode($host, "") %></td>
        <td><% xml_encode($port, "") %></td>
        <td><% xml_encode($db, "") %></td>
