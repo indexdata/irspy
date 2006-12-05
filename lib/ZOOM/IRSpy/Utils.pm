@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.18 2006-11-30 12:02:26 mike Exp $
+# $Id: Utils.pm,v 1.19 2006-12-05 17:19:35 mike Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -36,7 +36,13 @@ sub isodate {
 # Template::Plugin both roll their own.  So I will do likewise.  D'oh!
 #
 sub xml_encode {
-    my($text, $fallback) = @_;
+    my($text, $fallback, $opts) = @_;
+    if (!defined $opts && ref $fallback) {
+	# The second and third arguments are both optional
+	$opts = $fallback;
+	$fallback = undef;
+    }
+    $opts = {} if !defined $opts;
 
     $text = $fallback if !defined $text;
     use Carp;
@@ -49,6 +55,8 @@ sub xml_encode {
     # Internet Explorer can't display &apos; (!) so don't create it
     #$text =~ s/['']/&apos;/g;
     $text =~ s/[""]/&quot;/g;
+    $text =~ s/ /&nbsp;/g if $opts->{nbsp};
+
     return $text;
 }
 
