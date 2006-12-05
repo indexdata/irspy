@@ -1,4 +1,4 @@
-%# $Id: edit.mc,v 1.21 2006-11-29 18:22:08 mike Exp $
+%# $Id: edit.mc,v 1.22 2006-12-05 12:21:39 mike Exp $
 <%args>
 $op
 $id => undef
@@ -163,6 +163,9 @@ foreach my $ref (@fields) {
 % } else {
      <input name="<% $name %>" type="text" size="60" value="<% $val %>"/>
 % }
+    </td>
+    <td>
+     <& /help/link.mc, help => "edit/$name" &>
     </td>
    </tr>
 %   }
