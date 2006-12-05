@@ -1,4 +1,4 @@
-%# $Id: edit.mc,v 1.22 2006-12-05 12:21:39 mike Exp $
+%# $Id: edit.mc,v 1.23 2006-12-05 17:37:18 mike Exp $
 <%args>
 $op
 $id => undef
@@ -77,21 +77,21 @@ for this host, port and database name.
 my $xc = irspy_xpath_context($rec);
 my @fields =
     (
+     [ title        => 0, "Name", "e:databaseInfo/e:title",
+       qw() ],
+     [ country      => 0, "Country", "i:status/i:country" ],
      [ protocol     => [ qw(Z39.50 SRW SRU SRW/U) ],
        "Protocol", "e:serverInfo/\@protocol" ],
      [ host         => 0, "Host", "e:serverInfo/e:host" ],
      [ port         => 0, "Port", "e:serverInfo/e:port" ],
      [ dbname       => 0, "Database Name", "e:serverInfo/e:database",
        qw(e:host e:port) ],
-     [ type         => [ qw(Academic Public Corporate Special National Education Other) ],
+     [ type         => [ "", qw(Academic Public Corporate Special National Education Other) ],
        "Type of Library", "i:status/i:libraryType" ],
-     [ country      => 0, "Country", "i:status/i:country" ],
      [ username     => 0, "Username (if needed)", "e:serverInfo/e:authentication/e:user",
        qw() ],
      [ password     => 0, "Password (if needed)", "e:serverInfo/e:authentication/e:password",
        qw(e:user) ],
-     [ title        => 0, "Title", "e:databaseInfo/e:title",
-       qw() ],
      [ description  => 5, "Description", "e:databaseInfo/e:description",
        qw(e:title) ],
      [ author       => 0, "Author", "e:databaseInfo/e:author",
