@@ -1,13 +1,8 @@
-%# $Id: link.mc,v 1.5 2006-12-04 17:28:34 mike Exp $
+%# $Id: link.mc,v 1.6 2006-12-05 12:22:01 mike Exp $
 <%args>
 $help
 </%args>
       <a title="Pops up in a new window" href="#"
 	onclick="window.open('/help.html?help=<% $help %>', 'help',
-		'status=0,height=320,width=320')"
-	style="font-size: small; font-weight: bold; text-decoration: none;
-		color: white; background: #00c000; 
-		padding: 0.2em; margin: 0.2em;
-		border: 1px solid #008000"
-	>?</a>
-%# <img alt="Help" height="16" width="16" src="/help-16px.png"/></a>
+		'status=0,scrollbars=1,height=320,width=320')"
+	><img alt="Help" height="16" width="16" src="/help-16px.png"/></a>
