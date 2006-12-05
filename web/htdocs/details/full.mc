@@ -1,4 +1,4 @@
-%# $Id: full.mc,v 1.17 2006-11-16 17:12:30 mike Exp $
+%# $Id: full.mc,v 1.18 2006-12-05 17:37:26 mike Exp $
 <%args>
 $id
 </%args>
@@ -16,19 +16,19 @@ if ($n == 0) {
 } else {
     my $xc = irspy_xpath_context($rs->record(0));
     my @fields = (
+		  [ Name => "e:databaseInfo/e:title",
+		    lang => "en", primary => "true" ],
+		  [ Country => "i:status/i:country" ],
 		  [ "Last Checked" => "i:status/i:probe[last()]" ],
 		  [ Protocol => "e:serverInfo/\@protocol" ],
 		  [ Host => "e:serverInfo/e:host" ],
 		  [ Port => "e:serverInfo/e:port" ],
 		  [ "Database Name" => "e:serverInfo/e:database" ],
 		  [ "Type of Library" => "i:status/i:libraryType" ],
-		  [ Country => "i:status/i:country" ],
 		  [ "Username (if needed)" =>
 		    "e:serverInfo/e:authentication/e:user" ],
 		  [ "Password (if needed)" =>
 		    "e:serverInfo/e:authentication/e:password" ],
-		  [ Title => "e:databaseInfo/e:title",
-		    lang => "en", primary => "true" ],
 		  [ Description => "e:databaseInfo/e:description",
 		    lang => "en", primary => "true" ],
 		  [ Author => "e:databaseInfo/e:author" ],
