@@ -12,11 +12,3 @@
  find any SRU or SRW target except the IRSspy own database. The
  Search:Title test was again a bib-1 search. We are confused.
 </blockquote>
-<blockquote>
- The [edit] labels are umbigous. How one can find out what the author means
- in the context of describing a Z39.50 service. Some explanation would
- be needed. I hesitated when I had to fill in these labels:
-</blockquote>
-<blockquote>
- It is not clear what does this [copy target] function do?
-</blockquote>
