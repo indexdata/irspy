@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-    $Id: irspy2zeerex.xsl,v 1.11 2006-11-02 11:46:41 sondberg Exp $
+    $Id: irspy2zeerex.xsl,v 1.12 2006-12-06 12:58:32 mike Exp $
 
     This stylesheet is used by IRSpy to map the internal mixed Zeerex/IRSpy
     record format into the Zeerex record which we store.
@@ -30,6 +30,7 @@
       <xsl:call-template name="insert-zeerexBase"/>
       <xsl:call-template name="insert-indexInfo"/>
       <xsl:call-template name="insert-recordInfo"/>
+      <xsl:call-template name="insert-configInfo"/>
       <xsl:call-template name="insert-irspySection"/>
     </explain>
   </xsl:template>
@@ -76,6 +77,15 @@
         </recordSyntax>
       </xsl:for-each>
     </recordInfo>
+  </xsl:template>
+
+
+  <xsl:template name="insert-configInfo">
+    <configInfo>
+      <xsl:for-each select="/*/irspy:status/irspy:init_opt">
+        <supports type="z3950_{@option}">1</supports>
+      </xsl:for-each>
+    </configInfo>
   </xsl:template>
 
 
