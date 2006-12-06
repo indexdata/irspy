@@ -24,6 +24,7 @@ zebra/db/shadow/.cvsignore
 zebra/db/shadow/CVS
 zebra/db/shadow/[a-z]*
 zebra/db/tmp/CVS
+zebra/log
 zebra/records
 zebra/terse.properties
 bin/.gdbinit
