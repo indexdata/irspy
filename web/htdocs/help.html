@@ -1,4 +1,4 @@
-%# $Id: help.html,v 1.4 2006-12-05 12:29:38 mike Exp $
+%# $Id: help.html,v 1.5 2006-12-06 14:07:17 mike Exp $
 <%args>
 $help
 </%args>
@@ -68,7 +68,7 @@ foreach my $i (0 .. $#path) {
     print "  <p>[No help for '$partialPath']</p>\n" if $@;
 }
 </%perl>
-  <p>
+  <p style="text-align: center">
    <input type="button" onclick="self.close()" value="OK"/>
   </p>
  </body>
