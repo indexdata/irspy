@@ -1,4 +1,4 @@
-%# $Id: full.mc,v 1.18 2006-12-05 17:37:26 mike Exp $
+%# $Id: full.mc,v 1.19 2006-12-06 13:00:40 mike Exp $
 <%args>
 $id
 </%args>
@@ -43,12 +43,7 @@ if ($n == 0) {
 		  [ "Implementation Name" => "i:status/i:implementationName" ],
 		  [ "Implementation Version" => "i:status/i:implementationVersion" ],
 		  [ "Reliability" => \&calc_reliability, $xc ],
-		  [ "Services" => sub { "
-### IRSpy does not yet check for search, present, delSet,
-concurrentOperations, namedResultSets, etc. and store the information
-is a usable form.  This information should probably be harvested from
-the Init Response.
-" } ],
+		  [ "Services" => \&calc_init_options, $xc ],
 		  [ "Bib-1 Use attributes" => \&calc_ap, $xc, "bib-1" ],
 		  [ "Dan-1 Use attributes" => \&calc_ap, $xc, "dan-1" ],
 		  [ "Operators" => \&calc_boolean, $xc ],
@@ -89,6 +84,21 @@ sub calc_reliability {
     my @okpings = $xc->findnodes('i:status/i:probe[@ok = "1"]');
     my $nok = @okpings;
     return "$nok/$nall = " . int(100*$nok/$nall) . "%";
+}
+
+sub calc_init_options {
+    my($xc) = @_;
+
+    my @ops;
+    my @nodes = $xc->findnodes('e:configInfo/e:supports/@type');
+    foreach my $node (@nodes) {
+	my $type = $node->value();
+	if ($type =~ s/^z3950_//) {
+	    push @ops, $type;
+	}
+    }
+
+    return join(", ", @ops);
 }
 
 sub calc_ap {
