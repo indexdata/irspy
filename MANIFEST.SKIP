@@ -1,6 +1,9 @@
 .cvsignore
 CVS
 archive
+bin/.gdbinit
+bin/find-different-access-point.pl
+bin/test-xml-update.pl
 bin/test-zoom-c
 lib/CVS
 lib/ZOOM/CVS
@@ -27,6 +30,3 @@ zebra/db/tmp/CVS
 zebra/log
 zebra/records
 zebra/terse.properties
-bin/.gdbinit
-bin/find-different-access-point.pl
-bin/test-xml-update.pl
