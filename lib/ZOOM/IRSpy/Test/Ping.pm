@@ -1,4 +1,4 @@
-# $Id: Ping.pm,v 1.16 2006-11-29 18:18:37 mike Exp $
+# $Id: Ping.pm,v 1.17 2006-12-06 12:58:06 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -19,7 +19,7 @@ sub start {
     my($conn) = @_;
 
     $conn->irspy_connect(undef, {},
-			 ZOOM::Event::CONNECT, \&connected,
+			 ZOOM::Event::RECV_APDU, \&connected,
 			 exception => \&not_connected);
 }
 
@@ -34,6 +34,21 @@ sub maybe_connected {
     my $rec = $conn->record();
     $rec->append_entry("irspy:status", "<irspy:probe ok='$ok'>" .
 		       isodate(time()) . "</irspy:probe>");
+
+    if ($ok) {
+	foreach my $opt (qw(search present delSet resourceReport
+			    triggerResourceCtrl resourceCtrl
+			    accessCtrl scan sort extendedServices
+			    level_1Segmentation level_2Segmentation
+			    concurrentOperations namedResultSets
+			    encapsulation resultCount negotiationModel
+			    duplicationDetection queryType104
+			    pQESCorrection stringSchema)) {
+	    $conn->record()->store_result('init_opt', option => $opt)
+		if $conn->option("init_opt_$opt");
+	}
+    }
+
     return $ok ? ZOOM::IRSpy::Status::TEST_GOOD :
 		 ZOOM::IRSpy::Status::TEST_BAD;
 }
