@@ -1,0 +1,49 @@
+#! /bin/sh
+
+# $Id: init-script,v 1.1 2006-12-08 13:50:13 mike Exp $
+#
+# This is a startup/shutdown script for IRSpy's Zebra server, suitable
+# for use in a SysV-style init directory such as /etc/init.d (on
+# Debian systems) and /etc/rc.d/init.d (on Red Hat systems), like this:
+#
+#	cd /etc/init.d/
+#	sudo ln -s /usr/local/src/cvs/irspy/zebra/init-script irspy-zebra
+#	sudo /etc/init.d/irspy-zebra start
+#
+# You may need to tweak it to suit your system's paths.
+
+
+# zebrasrv-2.0 may be in /usr/local/bin, hence this slight security hole
+PATH=/bin:/usr/bin:/usr/local/bin/
+logfile=/var/log/irspy-zebra
+pidfile=/var/run/irspy-zebra.pid
+
+case "$1" in
+  start)
+	if [ -f $pidfile ]; then
+		echo "IRSpy's Zebra seems to be already running"
+		exit 1
+	fi
+	echo "Starting IRSpy's Zebra"
+	test -f $logfile && mv $logfile $logfile.old
+	( cd /usr/local/src/cvs/irspy/zebra
+	  zebrasrv-2.0 -f yazserver.xml < /dev/null > $logfile 2>&1 &
+	  echo $! > $pidfile
+	)
+	;;
+  stop)
+	if [ ! -f $pidfile ]; then
+		echo "IRSpy's Zebra does not seem to be running"
+		exit 1
+	fi
+	echo "Stopping IRSpy's Zebra"
+	kill `cat $pidfile`
+	rm $pidfile
+	;;
+  restart)
+	$0 stop && $0 start
+	;;
+  *)
+	echo "Usage: $0 start|stop|restart" >&2
+        ;;
+esac
