@@ -1,4 +1,4 @@
-# $Id: Fetch.pm,v 1.16 2006-11-29 11:06:29 mike Exp $
+# $Id: Fetch.pm,v 1.17 2006-12-08 11:57:51 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -12,6 +12,14 @@ use ZOOM::IRSpy::Test;
 our @ISA = qw(ZOOM::IRSpy::Test);
 
 
+# These queries 
+my @queries = (
+	       "\@attr 1=4 mineral",
+	       "\@attr 1=4 computer",
+	       ### We can add more queries here
+	       );
+
+
 sub start {
     my $class = shift();
     my($conn) = @_;
@@ -19,7 +27,7 @@ sub start {
     # Here I want to get a use attribute from the session, which we've
     # managed to search for in the Search/Bib1 or Search/Dan1 tests.
     # But how?  So far we search for title: 1=4
-    $conn->irspy_search_pqf("\@attr 1=4 mineral", {}, {},	
+    $conn->irspy_search_pqf($queries[0], { queryindex => 0 }, {},
 			    ZOOM::Event::RECV_SEARCH, \&completed_search,
 			    exception => \&error);
 }
@@ -30,7 +38,19 @@ sub completed_search {
 
     my $n = $task->{rs}->size();
     $conn->log("irspy_test", "Fetch test search found $n records");
-    return ZOOM::IRSpy::Status::TEST_SKIPPED if $n == 0;
+    if ($n == 0) {
+	my $n = $udata->{queryindex}+1;
+	my $q = $queries[$n];
+	if (defined $q) {
+	    $conn->log("irspy_test", "Trying another search ...");
+	    $conn->irspy_search_pqf($queries[$n], { queryindex => $n }, {},
+				    ZOOM::Event::RECV_SEARCH, \&completed_search,
+				    exception => \&error);
+	    return ZOOM::IRSpy::Status::TASK_DONE;
+	} else {
+	    return ZOOM::IRSpy::Status::TEST_SKIPPED;
+	}
+    }
 
     my @syntax = (
                    'canmarc',
@@ -54,9 +74,11 @@ sub completed_search {
                    'xml'
                 );
     #@syntax = qw(grs-1 sutrs usmarc xml); # simplify for debugging
-    foreach my $syntax (@syntax) {
+    foreach my $i (0 ..$#syntax) {
+	my $syntax = $syntax[$i];
 	$conn->irspy_rs_record($task->{rs}, 0,
-			       { syntax => $syntax },
+			       { syntax => $syntax,
+			         last => ($i == $#syntax) },
 			       { start => 0, count => 1,
 				 preferredRecordSyntax => $syntax },
                                 ZOOM::Event::RECV_RECORD, \&record,
@@ -68,8 +90,8 @@ sub completed_search {
 
 
 sub record {
-    my($conn, $task, $test_args, $event) = @_;
-    my $syn = $test_args->{'syntax'};
+    my($conn, $task, $udata, $event) = @_;
+    my $syn = $udata->{'syntax'};
     my $rs = $task->{rs};
 
     my $record = _fetch_record($rs, 0, $syn);
@@ -92,7 +114,9 @@ sub record {
                                   'syntax'   => $syn,
                                   'ok'       => $ok);
 
-    return ZOOM::IRSpy::Status::TASK_DONE;
+    return ($udata->{last} ?
+	    ZOOM::IRSpy::Status::TEST_GOOD :
+	    ZOOM::IRSpy::Status::TASK_DONE);
 }
 
 
