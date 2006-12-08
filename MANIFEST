@@ -102,6 +102,7 @@ xsl/irspy2zeerex.xsl
 xsl/use-attr-names.xml
 zebra/Makefile
 zebra/README
+zebra/crontab
 zebra/ezeerex2pqfproperties.pl
 zebra/filterconf.xml
 zebra/form.html
