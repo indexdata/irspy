@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-    $Id: irspy2zeerex.xsl,v 1.12 2006-12-06 12:58:32 mike Exp $
+    $Id: irspy2zeerex.xsl,v 1.13 2006-12-11 11:01:14 sondberg Exp $
 
     This stylesheet is used by IRSpy to map the internal mixed Zeerex/IRSpy
     record format into the Zeerex record which we store.
@@ -48,43 +48,72 @@
 
   <xsl:template name="insert-indexInfo">
     <indexInfo>
-      <xsl:for-each select="/*/irspy:status/irspy:search">
-        <xsl:variable name="set" select="@set"/>
-        <xsl:variable name="ap" select="@ap"/>
-        <xsl:variable name="old"
-            select="$old_indexes[explain:map/explain:attr/@set = $set and
-                                 explain:map/explain:attr/text() = $ap]"/>
-        <xsl:choose>
-          <xsl:when test="$old">
-            <xsl:call-template name="insert-index-section">
-              <xsl:with-param name="title" select="$old/explain:title"/>
-            </xsl:call-template>
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:call-template name="insert-index-section"/>
-          </xsl:otherwise>
-        </xsl:choose>
-      </xsl:for-each>
+      <xsl:choose>
+
+        <!-- Check that search was actually probed -->
+        <xsl:when test="/*/irspy:status/irspy:search">
+          <xsl:for-each select="/*/irspy:status/irspy:search">
+            <xsl:variable name="set" select="@set"/>
+            <xsl:variable name="ap" select="@ap"/>
+            <xsl:variable name="old"
+                select="$old_indexes[explain:map/explain:attr/@set = $set and
+                                     explain:map/explain:attr/text() = $ap]"/>
+            <xsl:choose>
+              <xsl:when test="$old">
+                <xsl:call-template name="insert-index-section">
+                  <xsl:with-param name="title" select="$old/explain:title"/>
+                </xsl:call-template>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:call-template name="insert-index-section"/>
+              </xsl:otherwise>
+            </xsl:choose>
+          </xsl:for-each>
+        </xsl:when>
+
+        <!-- If not, insert what we already had... -->
+        <xsl:otherwise>
+          <xsl:copy-of select="explain:indexInfo/*"/>
+        </xsl:otherwise>
+      </xsl:choose>
     </indexInfo>
   </xsl:template>
 
 
   <xsl:template name="insert-recordInfo">
     <recordInfo>
-      <xsl:for-each select="/*/irspy:status/irspy:record_fetch[@ok = 1]">
-        <recordSyntax name="{@syntax}">
-          <elementSet name="F"/> <!-- FIXME: This should be probed too -->
-        </recordSyntax>
-      </xsl:for-each>
+      <xsl:choose>
+
+        <!-- Did we actually probe record syntaxes? -->
+        <xsl:when test="/*/irspy:status/irspy:record">
+          <xsl:for-each select="/*/irspy:status/irspy:record_fetch[@ok = 1]">
+            <recordSyntax name="{@syntax}">
+              <elementSet name="F"/> <!-- FIXME: This should be probed too -->
+            </recordSyntax>
+          </xsl:for-each>
+        </xsl:when>
+
+        <!-- If not, use the existing test report... -->
+        <xsl:otherwise>
+          <xsl:copy-of select="explain:recordInfo/*"/>
+        </xsl:otherwise>
+      </xsl:choose>
     </recordInfo>
   </xsl:template>
 
 
   <xsl:template name="insert-configInfo">
     <configInfo>
-      <xsl:for-each select="/*/irspy:status/irspy:init_opt">
-        <supports type="z3950_{@option}">1</supports>
-      </xsl:for-each>
+      <xsl:choose>
+        <xsl:when test="/*/irspy:status/irspy:init_opt">
+          <xsl:for-each select="/*/irspy:status/irspy:init_opt">
+            <supports type="z3950_{@option}">1</supports>
+          </xsl:for-each>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:copy-of select="explain:configInfo/*"/>
+        </xsl:otherwise>
+      </xsl:choose>
     </configInfo>
   </xsl:template>
 
