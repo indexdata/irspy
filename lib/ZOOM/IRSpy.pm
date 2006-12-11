@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.52 2006-12-06 11:26:52 mike Exp $
+# $Id: IRSpy.pm,v 1.53 2006-12-11 13:58:17 sondberg Exp $
 
 package ZOOM::IRSpy;
 
@@ -72,6 +72,10 @@ sub new {
 	or die "$0: can't connection to IRSpy database 'dbname'";
 
     my $xslt = new XML::LibXSLT;
+
+    $xslt->register_function($ZOOM::IRSpy::Utils::IRSPY_NS, 'strcmp',
+                             \&ZOOM::IRSpy::Utils::xslt_strcmp);
+
     my $libxml = new XML::LibXML;
     my $xsl_doc = $libxml->parse_file($irspy_to_zeerex_xsl);
     my $irspy_to_zeerex_style = $xslt->parse_stylesheet($xsl_doc);
@@ -241,8 +245,15 @@ sub _render_record {
 sub _irspy_to_zeerex {
     my ($this, $conn) = @_;
     my $irspy_doc = $conn->record()->{zeerex}->ownerDocument;
+    #open FH, '>/tmp/irspy_orig.xml';
+    #print FH $irspy_doc->toString();
+    #close FH;
     my %params = ();
     my $result = $this->{irspy_to_zeerex_style}->transform($irspy_doc, %params);
+
+    #open FH, '>/tmp/irspy_transformed.xml';
+    #print FH $result->toString();
+    #close FH;
 
     return $result->documentElement();
 }

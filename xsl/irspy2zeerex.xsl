@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-    $Id: irspy2zeerex.xsl,v 1.13 2006-12-11 11:01:14 sondberg Exp $
+    $Id: irspy2zeerex.xsl,v 1.14 2006-12-11 13:58:17 sondberg Exp $
 
     This stylesheet is used by IRSpy to map the internal mixed Zeerex/IRSpy
     record format into the Zeerex record which we store.
@@ -23,6 +23,7 @@
 
   <xsl:variable name="old_indexes" select="/*/explain:indexInfo/explain:index"/>
   <xsl:variable name="use_attr_names" select="document('use-attr-names.xml')"/>
+  <xsl:variable name="ping_date" select="/*/irspy:status/irspy:probe[last()]"/>
 
 
   <xsl:template match="/*">
@@ -40,8 +41,7 @@
     <xsl:copy-of select="explain:serverInfo"/>
     <xsl:copy-of select="explain:databaseInfo"/>
     <metaInfo>
-      <dateModified><xsl:value-of
-                    select="/*/irspy:status/*[last()]"/></dateModified>
+      <dateModified><xsl:value-of select="$ping_date"/></dateModified>
     </metaInfo>
   </xsl:template>
 
@@ -121,14 +121,14 @@
   <!-- 
        Here we list the bits and pieces of the irspy:status element which we
        want to keep in the persistent version of the zeerex record.
-       Simply add "| irspy:xxx" to the select attribute.
   -->
   <xsl:template name="insert-irspySection">
     <irspy:status>
-      <xsl:for-each select="*/irspy:probe   |
-                            */irspy:boolean |
-                            */irspy:named_resultset |
-                            */irspy:explain">
+      <xsl:for-each
+          select="*/irspy:probe   |
+                  */irspy:boolean[irspy:strcmp(text(), $ping_date) >= 0] |
+                  */irspy:named_resultset[irspy:strcmp(text(),$ping_date) >= 0]|
+                  */irspy:explain[irspy:strcmp(text(),$ping_date) >= 0]">
         <xsl:copy-of select="."/>
       </xsl:for-each>
     </irspy:status>
