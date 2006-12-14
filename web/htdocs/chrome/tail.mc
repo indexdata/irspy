@@ -1,3 +1,0 @@
-  <& poweredby.mc &>
- </body>
-</html>
