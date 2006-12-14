@@ -1,4 +1,4 @@
-%# $Id: found.mc,v 1.22 2006-12-05 17:18:30 mike Exp $
+%# $Id: found.mc,v 1.23 2006-12-14 16:41:06 mike Exp $
 <%once>
 sub print_navlink {
     my($params, $cond, $caption, $skip) = @_;
@@ -52,7 +52,7 @@ if ($params{_query}) {
 	$query .= "$key = ($val)";
     }
 }
-$query = 'cql.allRecords=x' if $query eq "";
+$query = 'cql.allRecords=1' if $query eq "";
 
 my $sort = $params{"_sort"};
 if ($sort) {
