@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.53 2006-12-11 13:58:17 sondberg Exp $
+# $Id: IRSpy.pm,v 1.54 2006-12-14 17:24:29 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -16,6 +16,7 @@ use Net::Z3950::ZOOM 1.13;	# For the ZOOM version-check only
 use ZOOM::IRSpy::Node;
 use ZOOM::IRSpy::Connection;
 use ZOOM::IRSpy::Record;
+use ZOOM::IRSpy::Stats;
 use ZOOM::IRSpy::Utils qw(cql_target);
 
 our @ISA = qw();
@@ -41,7 +42,9 @@ ZOOM::IRSpy - Perl extension for discovering and analysing IR services
 
  use ZOOM::IRSpy;
  $spy = new ZOOM::IRSpy("target/string/for/irspy/database");
- print $spy->report_status();
+ $spy->targets(@targets);
+ $spy->initialise();
+ $res = $spy->check("Main");
 
 =head1 DESCRIPTION
 
