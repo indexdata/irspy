@@ -12,7 +12,6 @@ lib/ZOOM/XML
 t/CVS
 web/data/cache/*
 web/data/obj/*
-web/htdocs/chrome/UNUSED
 web/logs/access.log
 web/logs/error.log
 zebra/.cvsignore
