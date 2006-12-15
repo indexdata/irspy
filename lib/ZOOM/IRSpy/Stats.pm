@@ -1,4 +1,4 @@
-# $Id: Stats.pm,v 1.3 2006-12-15 10:40:48 mike Exp $
+# $Id: Stats.pm,v 1.4 2006-12-15 17:24:59 mike Exp $
 
 package ZOOM::IRSpy::Stats;
 
@@ -104,9 +104,35 @@ sub _gather_stats {
 	my $rec = $this->{rs}->record($i);
 	my $xc = irspy_xpath_context($rec);
 
+	# The ten most commonly supported Bib-1 Use attributes
 	foreach my $node ($xc->findnodes('e:indexInfo/e:index[@search="true"]/e:map/e:attr[@type=1 and @set="bib-1"]')) {
 	    $this->{bib1AccessPoints}->{$node->findvalue(".")}++;
 	}
+
+	# Record syntax support by database
+	foreach my $node ($xc->findnodes('e:recordInfo/e:recordSyntax/@name')) {
+	    $this->{recordSyntaxes}->{$node->findvalue(".")}++;
+	}
+
+	# Explain support
+	foreach my $node ($xc->findnodes('i:status/i:explain[@ok="1"]/@category')) {
+	    print $node;
+	    $this->{explain}->{$node->findvalue(".")}++;
+	}
+
+	# Z39.50 Protocol Services Support
+	### Requires XSLT fix
+
+	# Z39.50 Server Atlas
+	### TODO -- awkward, should be considered an enhancement
+
+	# Top Domains
+	my $host = $xc->findvalue('e:serverInfo/e:host');
+	$host =~ s/.*\.//;
+	$this->{domains}->{$host}++;
+
+	# Implementation
+	### Requires XSLT fix
     }
 }
 
@@ -127,13 +153,38 @@ sub print {
     print "query = '", $this->{query}, "'\n";
     print "result set = '", $this->{rs}, "'\n";
     print "count = '", $this->{n}, "'\n";
-    print "\n";
-    print "BIB-1 ATTRIBUTES\n";
-    my $ap = $this->{bib1AccessPoints};
-    foreach my $attr (sort { $ap->{$b} <=> $ap->{$a} 
-			 || $a <=> $b } keys %$ap) {
-	print sprintf("%6d%20s%d (%d%%)\n",
-		      $attr, "", $ap->{$attr}, 100*$ap->{$attr}/$this->{n});
+    my $hr;
+
+    print "\nTOP 10 BIB-1 ATTRIBUTES\n";
+    $hr = $this->{bib1AccessPoints};
+    foreach my $key ((sort { $hr->{$b} <=> $hr->{$a} 
+			     || $a <=> $b } keys %$hr)[0..9]) {
+	print sprintf("%6d%20s%5d (%d%%)\n",
+		      $key, "", $hr->{$key}, 100*$hr->{$key}/$this->{n});
+    }
+
+    print "\nRECORD SYNTAXES\n";
+    $hr = $this->{recordSyntaxes};
+    foreach my $key (sort { $hr->{$b} <=> $hr->{$a} 
+			    || $a cmp $b } keys %$hr) {
+	print sprintf("%-26s%5d (%d%%)\n",
+		      $key, $hr->{$key}, 100*$hr->{$key}/$this->{n});
+    }
+
+    print "\nEXPLAIN SUPPORT\n";
+    $hr = $this->{explain};
+    foreach my $key (sort { $hr->{$b} <=> $hr->{$a} 
+			    || $a cmp $b } keys %$hr) {
+	print sprintf("%-26s%5d (%d%%)\n",
+		      $key, $hr->{$key}, 100*$hr->{$key}/$this->{n});
+    }
+
+    print "\nTOP-LEVEL DOMAINS\n";
+    $hr = $this->{domains};
+    foreach my $key (sort { $hr->{$b} <=> $hr->{$a} 
+			    || $a cmp $b } keys %$hr) {
+	print sprintf("%-26s%5d (%d%%)\n",
+		      $key, $hr->{$key}, 100*$hr->{$key}/$this->{n});
     }
 }
 
