@@ -1,4 +1,4 @@
-%# $Id: found.mc,v 1.23 2006-12-14 16:41:06 mike Exp $
+%# $Id: found.mc,v 1.24 2006-12-15 18:07:40 mike Exp $
 <%once>
 sub print_navlink {
     my($params, $cond, $caption, $skip) = @_;
@@ -164,5 +164,9 @@ print_navlink(\%params, $last < $n, "Next", $skip+$count);
       <a href="<% "/check.html?" .
 	xml_encode(join("&", map { "id=" . uri_escape($_) } @ids))
 	%>">[Test all targets on this list]</a>
+     </p>
+     <p>
+      <a href="<% "/stats.html?query=" . xml_encode(uri_escape($query))
+	%>">[Statistics for targets on this list]</a>
      </p>
 % }
