@@ -1,4 +1,4 @@
-# $Id: Stats.pm,v 1.2 2006-12-15 10:36:36 mike Exp $
+# $Id: Stats.pm,v 1.3 2006-12-15 10:40:48 mike Exp $
 
 package ZOOM::IRSpy::Stats;
 
@@ -76,7 +76,7 @@ sub new {
     my $oldPC = $conn->option("presentChunk");
     $conn->option(preferredRecordSyntax => "xml");
     $conn->option(elementSetName => "zeerex");
-    $conn->option(presentChunk => 10);
+#    $conn->option(presentChunk => 10);
 
     my $rs = $conn->search($query);
     my $n = $rs->size();
