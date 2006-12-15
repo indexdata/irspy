@@ -1,4 +1,4 @@
-%# $Id: stats.mc,v 1.1 2006-12-14 17:35:44 mike Exp $
+%# $Id: stats.mc,v 1.2 2006-12-15 10:37:29 mike Exp $
 <%doc>
 Here are the headings in the Z-Spy version:
 	The ten most commonly supported Bib-1 Use attributes
@@ -19,6 +19,7 @@ least resistance and look at all the records by hand.
 </%doc>
 <%perl>
 my $stats = new ZOOM::IRSpy::Stats("localhost:3313/IR-Explain---1");
-use Data::Dumper;
-print "<pre>", xml_encode(Dumper($stats)), "</pre>\n";
+print "<pre>";
+$stats->print();
+print "</pre>\n";
 </%perl>
