@@ -1,4 +1,4 @@
-%# $Id: stats.mc,v 1.2 2006-12-15 10:37:29 mike Exp $
+%# $Id: stats.mc,v 1.3 2006-12-15 14:37:03 mike Exp $
 <%doc>
 Here are the headings in the Z-Spy version:
 	The ten most commonly supported Bib-1 Use attributes
@@ -18,7 +18,15 @@ records in order to find all the results, so we just take the path of
 least resistance and look at all the records by hand.
 </%doc>
 <%perl>
-my $stats = new ZOOM::IRSpy::Stats("localhost:3313/IR-Explain---1");
+my $stats = $m->cache->get("stats");
+if (defined $stats) {
+    print "<h2>Reusing cached result</h2>\n";
+    print "stats=$stats\n";
+} else {
+    print "<h2>Recalculating stats</h2>\n";
+    $stats = new ZOOM::IRSpy::Stats("localhost:3313/IR-Explain---1");
+    $m->cache->set("stats", $stats, "1 minute");
+}
 print "<pre>";
 $stats->print();
 print "</pre>\n";
