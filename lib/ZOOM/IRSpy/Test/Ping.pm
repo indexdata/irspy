@@ -1,4 +1,4 @@
-# $Id: Ping.pm,v 1.17 2006-12-06 12:58:06 mike Exp $
+# $Id: Ping.pm,v 1.18 2006-12-15 17:23:27 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -47,7 +47,14 @@ sub maybe_connected {
 	    $conn->record()->store_result('init_opt', option => $opt)
 		if $conn->option("init_opt_$opt");
 	}
+
+	foreach my $opt (qw(serverImplementationId
+			    serverImplementationName
+			    serverImplementationVersion)) {
+	    $conn->record()->store_result($opt, value => $conn->option($opt));
+	}
     }
+
 
     return $ok ? ZOOM::IRSpy::Status::TEST_GOOD :
 		 ZOOM::IRSpy::Status::TEST_BAD;
