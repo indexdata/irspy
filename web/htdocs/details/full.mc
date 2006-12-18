@@ -1,4 +1,4 @@
-%# $Id: full.mc,v 1.19 2006-12-06 13:00:40 mike Exp $
+%# $Id: full.mc,v 1.20 2006-12-18 15:37:06 mike Exp $
 <%args>
 $id
 </%args>
@@ -29,6 +29,9 @@ if ($n == 0) {
 		    "e:serverInfo/e:authentication/e:user" ],
 		  [ "Password (if needed)" =>
 		    "e:serverInfo/e:authentication/e:password" ],
+		  [ "Server ID" => 'i:status/i:serverImplementationId/@value' ],
+		  [ "Server Name" => 'i:status/i:serverImplementationName/@value' ],
+		  [ "Server Version" => 'i:status/i:serverImplementationVersion/@value' ],
 		  [ Description => "e:databaseInfo/e:description",
 		    lang => "en", primary => "true" ],
 		  [ Author => "e:databaseInfo/e:author" ],
