@@ -1,4 +1,4 @@
-# $Id: Stats.pm,v 1.4 2006-12-15 17:24:59 mike Exp $
+# $Id: Stats.pm,v 1.5 2006-12-18 15:34:27 mike Exp $
 
 package ZOOM::IRSpy::Stats;
 
@@ -82,6 +82,7 @@ sub new {
     my $n = $rs->size();
 
     my $this = bless {
+	host => $conn->option("host"),
 	conn => $conn,
 	query => $query,
 	rs => $rs,
@@ -116,12 +117,16 @@ sub _gather_stats {
 
 	# Explain support
 	foreach my $node ($xc->findnodes('i:status/i:explain[@ok="1"]/@category')) {
-	    print $node;
 	    $this->{explain}->{$node->findvalue(".")}++;
 	}
 
 	# Z39.50 Protocol Services Support
-	### Requires XSLT fix
+	foreach my $node ($xc->findnodes('e:configInfo/e:supports')) {
+	    my $supports = $node->findvalue('@type');
+	    if ($node->findvalue(".") && $supports =~ s/^z3950_//) {
+		$this->{z3950_init_opt}->{$supports}++;
+	    }
+	}
 
 	# Z39.50 Server Atlas
 	### TODO -- awkward, should be considered an enhancement
@@ -173,6 +178,14 @@ sub print {
 
     print "\nEXPLAIN SUPPORT\n";
     $hr = $this->{explain};
+    foreach my $key (sort { $hr->{$b} <=> $hr->{$a} 
+			    || $a cmp $b } keys %$hr) {
+	print sprintf("%-26s%5d (%d%%)\n",
+		      $key, $hr->{$key}, 100*$hr->{$key}/$this->{n});
+    }
+
+    print "\nZ39.50 PROTOCOL SERVICES SUPPORT\n";
+    $hr = $this->{z3950_init_opt};
     foreach my $key (sort { $hr->{$b} <=> $hr->{$a} 
 			    || $a cmp $b } keys %$hr) {
 	print sprintf("%-26s%5d (%d%%)\n",
