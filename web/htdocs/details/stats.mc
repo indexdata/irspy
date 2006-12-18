@@ -1,4 +1,4 @@
-%# $Id: stats.mc,v 1.4 2006-12-15 18:18:46 mike Exp $
+%# $Id: stats.mc,v 1.5 2006-12-18 15:38:09 mike Exp $
 <%doc>
 Here are the headings in the Z-Spy version:
 	The ten most commonly supported Bib-1 Use attributes
@@ -19,19 +19,19 @@ least resistance and look at all the records by hand.
 </%doc>
 <%args>
 $query => undef
+$reload => 0
 </%args>
 <%perl>
 my $key = defined $query ? $query : "";
 my $from_cache = 1;
 my $stats = $m->cache->get($key);
-if (defined $stats) {
-} else {
+if (!defined $stats || $reload) {
     $from_cache = 0;
     $stats = new ZOOM::IRSpy::Stats("localhost:3313/IR-Explain---1", $query);
-    $m->cache->set($key, $stats, "1 minute");
+    $m->cache->set($key, $stats, "10 minutes");
 }
 </%perl>
-     <h2>Statistics for <% $stats->{conn}->option("host") %></h2>
+     <h2>Statistics for <% xml_encode($stats->{host}) %></h2>
      <h3><% $stats->{n} %> targets analysed
       <% defined $query ? "for '" . xml_encode($query) . "'" : "" %></h3>
 % if ($from_cache) {
@@ -39,51 +39,60 @@ if (defined $stats) {
 % } else {
      <p>Recalculating stats</p>
 % }
-
-     <h3>Top 10 Bib-1 Attributes</h3>
+<& table, stats => $stats, data => "bib1AccessPoints",
+	title => "The ten most commonly supported Bib-1 Use attributes",
+	headings => [ "Attribute", "Name"],
+	col3 => sub { bib1_access_point(@_) } &>
+<& table, stats => $stats, data => "recordSyntaxes",
+	title => "Record syntax support by database",
+	headings => [ "Record Syntax"] &>
+<& table, stats => $stats, data => "explain",
+	title => "Explain Support",
+	headings => [ "Explain Category"] &>
+<& table, stats => $stats, data => "z3950_init_opt",
+	title => "Z39.50 Protocol Services Support",
+	headings => [ "Service"] &>
+<& table, stats => $stats, data => "domains",
+	title => "Top Domains",
+	headings => [ "Top Domain"] &>
+%#
+%#
+<%def table>
+<%args>
+$stats
+$data
+$title
+@headings
+$col3 => undef
+</%args>
+     <h3><% $title %></h3>
      <table border="1">
-      <tr>
-       <th>Attribute</th>
-       <th>Name</th>
-       <th># Db</th>
-      </tr>
+      <thead>
+       <tr>
+% foreach my $heading ("#", @headings, "# Targets") {
+	<th><% xml_encode($heading) %></th>
+% }
+       </tr>
+      </thead>
+      <tbody>
 <%perl>
 my $hr;
-$hr = $stats->{bib1AccessPoints};
-foreach my $key ((sort { $hr->{$b} <=> $hr->{$a} 
-			 || $a <=> $b } keys %$hr)[0..9]) {
+$hr = $stats->{$data};
+my @sorted = sort { $hr->{$b} <=> $hr->{$a} || $a <=> $b } keys %$hr;
+my $n = @sorted; $n = 10 if @sorted > 10;
+foreach my $i (1..$n) {
+    my $key = $sorted[$i-1];
 </%perl>
       <tr>
-       <td><% xml_encode($key) %></td>
-       <td><i>unknown</i></td>
-       <td><% xml_encode($hr->{$key}) . " (" .
-	100*$hr->{$key}/$stats->{n} . "%)" %></td>
+       <td><% $i %></td>
+       <td><% xml_encode($key, "HUH?") %></td>
+% if (defined $col3) {
+       <td><% xml_encode(&$col3($key), "HUH2?") %></td>
+% }
+       <td><% xml_encode($hr->{$key}, "HUH3?") . " (" .
+	int(10000*$hr->{$key}/$stats->{n})/100 . "%)" %></td>
       </tr>
 % }
-</table>
-
-<%doc>
-    print "\nRECORD SYNTAXES\n";
-    $hr = $stats->{recordSyntaxes};
-    foreach my $key (sort { $hr->{$b} <=> $hr->{$a} 
-			    || $a cmp $b } keys %$hr) {
-	print sprintf("%-26s%5d (%d%%)\n",
-		      $key, $hr->{$key}, 100*$hr->{$key}/$stats->{n});
-    }
-
-    print "\nEXPLAIN SUPPORT\n";
-    $hr = $stats->{explain};
-    foreach my $key (sort { $hr->{$b} <=> $hr->{$a} 
-			    || $a cmp $b } keys %$hr) {
-	print sprintf("%-26s%5d (%d%%)\n",
-		      $key, $hr->{$key}, 100*$hr->{$key}/$stats->{n});
-    }
-
-    print "\nTOP-LEVEL DOMAINS\n";
-    $hr = $stats->{domains};
-    foreach my $key (sort { $hr->{$b} <=> $hr->{$a} 
-			    || $a cmp $b } keys %$hr) {
-	print sprintf("%-26s%5d (%d%%)\n",
-		      $key, $hr->{$key}, 100*$hr->{$key}/$stats->{n});
-    }
-</%doc>
+      </tbody>
+     </table>
+</%def>
