@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.54 2006-12-14 17:24:29 mike Exp $
+# $Id: IRSpy.pm,v 1.55 2006-12-18 15:32:32 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -334,6 +334,8 @@ sub check {
 
     my @conn = @{ $this->{connections} };
 
+    my $nruns = 0;
+  ROUND_AND_ROUND_WE_GO:
     while (1) {
 	my @copy_conn = @conn;	# avoid alias problems after splice()
 	my $nconn = scalar(@copy_conn);
@@ -464,7 +466,7 @@ sub check {
 	    }
 
 	} elsif ($res == ZOOM::IRSpy::Status::TEST_SKIPPED) {
-	    $conn->log("irspy_task", "test skipped during task $task");
+	    $conn->log("irspy_test", "test skipped during task $task");
 	    $conn->current_task(0);
 	    $conn->next_task(0);
 	    # I think that's all we need to do
@@ -476,23 +478,39 @@ sub check {
 
     $this->log("irspy", "exiting main loop");
     # Sanity checks: none of the following should ever happen
+    my $finished = 1;
     foreach my $conn (@{ $this->{connections} }) {
 	my $test = $conn->option("current_test_address");
 	my $next = $this->_next_test($test);
 	if (defined $next) {
-	    warn "$conn (in test '$test') has queued test '$next'";
+	    $this->log("irspy", "$conn (in test '$test') has queued test '$next'");
+	    $finished = 0;
 	}
 	if (my $task = $conn->current_task()) {
-	    warn "$conn still has an active task $task";
+	    $this->log("irspy", "$conn still has an active task $task");
+	    $finished = 0;
 	}
 	if (my $task = $conn->next_task()) {
-	    warn "$conn still has a queued task $task";
+	    $this->log("irspy", "$conn still has a queued task $task");
+	    $finished = 0;
 	}
 	if (!$conn->is_idle()) {
-	    warn "$conn still has ZOOM-C level tasks queued: see below";
+	    $this->log("irspy", "$conn still has ZOOM-C level tasks queued: see below");
+	    $finished = 0;
 	}
 	if (!$conn->option("rewrote_record")) {
-	    warn "$conn did not rewrite its ZeeRex record";
+	    $this->log("irspy", "$conn did not rewrite its ZeeRex record");
+	    $finished = 0;
+	}
+    }
+
+    # This really shouldn't be necessary, but it's belt and braces
+    if (!$finished) {
+	if (++$nruns < 10) {
+	    $this->log("irspy", "back into main loop, ${nruns}th time");
+	    goto ROUND_AND_ROUND_WE_GO;
+	} else {
+	    $this->log("irspy", "bailing after $nruns main-loop runs");
 	}
     }
 
