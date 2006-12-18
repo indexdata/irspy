@@ -1,4 +1,4 @@
-# $Id: Fetch.pm,v 1.17 2006-12-08 11:57:51 mike Exp $
+# $Id: Fetch.pm,v 1.18 2006-12-18 15:36:03 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -29,7 +29,7 @@ sub start {
     # But how?  So far we search for title: 1=4
     $conn->irspy_search_pqf($queries[0], { queryindex => 0 }, {},
 			    ZOOM::Event::RECV_SEARCH, \&completed_search,
-			    exception => \&error);
+			    exception => \&search_error);
 }
 
 
@@ -45,7 +45,7 @@ sub completed_search {
 	    $conn->log("irspy_test", "Trying another search ...");
 	    $conn->irspy_search_pqf($queries[$n], { queryindex => $n }, {},
 				    ZOOM::Event::RECV_SEARCH, \&completed_search,
-				    exception => \&error);
+				    exception => \&search_error);
 	    return ZOOM::IRSpy::Status::TASK_DONE;
 	} else {
 	    return ZOOM::IRSpy::Status::TEST_SKIPPED;
@@ -82,7 +82,7 @@ sub completed_search {
 			       { start => 0, count => 1,
 				 preferredRecordSyntax => $syntax },
                                 ZOOM::Event::RECV_RECORD, \&record,
-				exception => \&error);
+				exception => \&fetch_error);
     }
 
     return ZOOM::IRSpy::Status::TASK_DONE;
@@ -132,7 +132,15 @@ sub _fetch_record {
 }
 
 
-sub error {
+sub search_error {
+    my($conn, $task, $test_args, $exception) = @_;
+
+    $conn->log("irspy_test", "Initial search failed: ", $exception);
+    return ZOOM::IRSpy::Status::TEST_SKIPPED;
+}
+
+
+sub fetch_error {
     my($conn, $task, $test_args, $exception) = @_;
     my $syn = $test_args->{'syntax'};
 
