@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-    $Id: irspy2zeerex.xsl,v 1.16 2006-12-18 15:38:54 mike Exp $
+    $Id: irspy2zeerex.xsl,v 1.17 2006-12-19 12:54:38 sondberg Exp $
 
     This stylesheet is used by IRSpy to map the internal mixed Zeerex/IRSpy
     record format into the Zeerex record which we store.
@@ -128,24 +128,33 @@
 
       <xsl:call-template name="insert-latest-nodes">
         <xsl:with-param name="nodes" select="*/irspy:boolean"/>
+        <xsl:with-param name="what" select="'boolean'"/>
       </xsl:call-template>
       
       <xsl:call-template name="insert-latest-nodes">
         <xsl:with-param name="nodes" select="*/irspy:named_resultset"/>
+        <xsl:with-param name="what" select="'named_resultset'"/>
       </xsl:call-template>
       
       <xsl:call-template name="insert-latest-nodes">
         <xsl:with-param name="nodes" select="*/irspy:explain"/>
+        <xsl:with-param name="what" select="'explain'"/>
       </xsl:call-template>
 
       <xsl:call-template name="insert-latest-nodes">
         <xsl:with-param name="nodes" select="*/irspy:serverImplementationId"/>
+        <xsl:with-param name="what" select="'serverImplementationId'"/>
       </xsl:call-template>
+
       <xsl:call-template name="insert-latest-nodes">
         <xsl:with-param name="nodes" select="*/irspy:serverImplementationName"/>
+        <xsl:with-param name="what" select="'serverImplementationName'"/>
       </xsl:call-template>
+
       <xsl:call-template name="insert-latest-nodes">
-        <xsl:with-param name="nodes" select="*/irspy:serverImplementationVersion"/>
+        <xsl:with-param name="nodes"
+                    select="*/irspy:serverImplementationVersion"/>
+        <xsl:with-param name="what" select="'serverImplementationVersion'"/>
       </xsl:call-template>
     </irspy:status>
   </xsl:template>
@@ -160,6 +169,7 @@
   -->
   <xsl:template name="insert-latest-nodes">
     <xsl:param name="nodes"/>
+    <xsl:param name="what" select="'unspecified'"/>
     <xsl:param name="i" select="count(*/irspy:probe[@ok='1'])"/>
     <xsl:variable name="date"
         select="*/irspy:probe[@ok='1' and position() = $i]"/>
@@ -172,12 +182,13 @@
       </xsl:when>
       <xsl:when test="$i > 0">
         <xsl:call-template name="insert-latest-nodes">
+          <xsl:with-param name="what" select="$what"/>
           <xsl:with-param name="nodes" select="$nodes"/>
           <xsl:with-param name="i" select="$i - 1"/>
         </xsl:call-template>
       </xsl:when>
       <xsl:otherwise>
-        <irspy:missing/>
+        <irspy:missing what="{$what}" when="{$ping_date}"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
