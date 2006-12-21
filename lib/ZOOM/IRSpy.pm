@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.55 2006-12-18 15:32:32 mike Exp $
+# $Id: IRSpy.pm,v 1.56 2006-12-21 16:35:11 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -248,15 +248,22 @@ sub _render_record {
 sub _irspy_to_zeerex {
     my ($this, $conn) = @_;
     my $irspy_doc = $conn->record()->{zeerex}->ownerDocument;
-    #open FH, '>/tmp/irspy_orig.xml';
-    #print FH $irspy_doc->toString();
-    #close FH;
+    my $save_xml = 0;
+
+    if ($save_xml) {
+	unlink('/tmp/irspy_orig.xml');
+	open FH, '>/tmp/irspy_orig.xml';
+	print FH $irspy_doc->toString();
+	close FH;
+    }
     my %params = ();
     my $result = $this->{irspy_to_zeerex_style}->transform($irspy_doc, %params);
-
-    #open FH, '>/tmp/irspy_transformed.xml';
-    #print FH $result->toString();
-    #close FH;
+    if ($save_xml) {
+	unlink('/tmp/irspy_transformed.xml');
+	open FH, '>/tmp/irspy_transformed.xml';
+	print FH $result->toString();
+	close FH;
+    }
 
     return $result->documentElement();
 }
