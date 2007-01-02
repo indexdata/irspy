@@ -1,4 +1,4 @@
-%# $Id: layout.mc,v 1.21 2006-12-18 15:36:43 mike Exp $
+%# $Id: layout.mc,v 1.22 2007-01-02 17:26:40 mike Exp $
 <%args>
 $debug => undef
 $title
@@ -96,6 +96,8 @@ my $id = $r->param("id");
       <a href="<% xml_encode("/edit.html?op=edit&id=" . uri_escape($id)) %>">Edit details</a>
       <br/>
       <a href="<% xml_encode("/edit.html?op=copy&id=" . uri_escape($id)) %>">Copy target</a>
+      <br/>
+      <a href="<% xml_encode("/delete.html?id=" . uri_escape($id)) %>">Delete target</a>
       <p>
        <a href="<% xml_encode("/check.html?id=" . uri_escape($id)) . "&amp;test=Quick" %>">Quick Test</a>
        <br/>
