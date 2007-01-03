@@ -1,4 +1,4 @@
-%# $Id: delete.mc,v 1.1 2007-01-02 17:27:08 mike Exp $
+%# $Id: delete.mc,v 1.2 2007-01-03 10:38:15 mike Exp $
 <%args>
 $id
 $really => 0
@@ -22,6 +22,7 @@ $really => 0
     my $p = $conn->package();
     $p->option(action => "recordDelete");
     $p->option(recordIdOpaque => $id);
+    $p->option(record => "<dummy/>"); # Work around Zebra bug
     $p->send("update");
     $p->destroy();
 
