@@ -1,4 +1,4 @@
-# $Id: Ping.pm,v 1.18 2006-12-15 17:23:27 mike Exp $
+# $Id: Ping.pm,v 1.19 2007-01-20 09:53:40 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -44,6 +44,7 @@ sub maybe_connected {
 			    encapsulation resultCount negotiationModel
 			    duplicationDetection queryType104
 			    pQESCorrection stringSchema)) {
+	    #print STDERR "\$conn->option('init_opt_$opt') = '", $conn->option("init_opt_$opt"), "'\n";
 	    $conn->record()->store_result('init_opt', option => $opt)
 		if $conn->option("init_opt_$opt");
 	}
