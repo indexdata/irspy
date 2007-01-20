@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.56 2006-12-21 16:35:11 mike Exp $
+# $Id: IRSpy.pm,v 1.57 2007-01-20 09:53:20 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -505,6 +505,12 @@ sub check {
 	    $this->log("irspy", "$conn still has ZOOM-C level tasks queued: see below");
 	    $finished = 0;
 	}
+	my $ev = $conn->peek_event();
+	if ($ev != ZOOM::Event::ZEND) {
+	    my $evstr = ZOOM::event_str($ev);
+	    $this->log("irspy", "$conn has event $ev ($evstr) waiting");
+	    $finished = 0;
+	}
 	if (!$conn->option("rewrote_record")) {
 	    $this->log("irspy", "$conn did not rewrite its ZeeRex record");
 	    $finished = 0;
@@ -513,7 +519,7 @@ sub check {
 
     # This really shouldn't be necessary, but it's belt and braces
     if (!$finished) {
-	if (++$nruns < 10) {
+	if (++$nruns < 3) {
 	    $this->log("irspy", "back into main loop, ${nruns}th time");
 	    goto ROUND_AND_ROUND_WE_GO;
 	} else {
