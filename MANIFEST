@@ -50,8 +50,10 @@ web/htdocs/all.html
 web/htdocs/beach.jpeg
 web/htdocs/check.html
 web/htdocs/chrome/layout.mc
+web/htdocs/delete.html
 web/htdocs/details/add.mc
 web/htdocs/details/check.mc
+web/htdocs/details/delete.mc
 web/htdocs/details/doc.mc
 web/htdocs/details/edit.mc
 web/htdocs/details/error.mc
