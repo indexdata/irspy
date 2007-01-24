@@ -5,6 +5,7 @@ bin/.gdbinit
 bin/find-different-access-point.pl
 bin/test-xml-update.pl
 bin/test-zoom-c
+debug
 lib/CVS
 lib/ZOOM/CVS
 lib/ZOOM/IRSpy/CVS
