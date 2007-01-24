@@ -1,4 +1,4 @@
-%# $Id: check.mc,v 1.14 2006-11-30 10:53:27 mike Exp $
+%# $Id: check.mc,v 1.15 2007-01-24 09:28:02 mike Exp $
 <%args>
 @id
 $test => "Quick"
@@ -31,7 +31,7 @@ $m->flush_buffer();
 # on in the HTTP configuration, so we don't even try -- instead,
 # having ZOOM::IRSpy::Web::log() explicitly calling $m->flush_buffer()
 
-my $spy = new ZOOM::IRSpy::Web("localhost:3313/IR-Explain---1",
+my $spy = new ZOOM::IRSpy::Web("localhost:8018/IR-Explain---1",
 			       admin => "fruitbat");
 $spy->log_init_level("irspy,irspy_test");
 $spy->targets(@id) if !$allTargets;

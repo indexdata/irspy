@@ -1,4 +1,4 @@
-%# $Id: stats.mc,v 1.5 2006-12-18 15:38:09 mike Exp $
+%# $Id: stats.mc,v 1.6 2007-01-24 09:28:02 mike Exp $
 <%doc>
 Here are the headings in the Z-Spy version:
 	The ten most commonly supported Bib-1 Use attributes
@@ -27,7 +27,7 @@ my $from_cache = 1;
 my $stats = $m->cache->get($key);
 if (!defined $stats || $reload) {
     $from_cache = 0;
-    $stats = new ZOOM::IRSpy::Stats("localhost:3313/IR-Explain---1", $query);
+    $stats = new ZOOM::IRSpy::Stats("localhost:8018/IR-Explain---1", $query);
     $m->cache->set($key, $stats, "10 minutes");
 }
 </%perl>

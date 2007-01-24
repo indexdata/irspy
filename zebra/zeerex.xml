@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id: zeerex.xml,v 1.14 2006-10-27 00:44:36 mike Exp $ -->
+<!-- $Id: zeerex.xml,v 1.15 2007-01-24 09:28:03 mike Exp $ -->
 <explain xmlns="http://explain.z3950.org/dtd/2.0/">
 
  <serverInfo protocol="SRW/SRU/Z39.50" version="1.1" method="GET/POST">
   <host>localhost</host>
-  <port>3313</port>
+  <port>8018</port>
   <database>IR-Explain---1</database>
  </serverInfo>
 

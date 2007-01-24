@@ -1,8 +1,8 @@
 #!/usr/bin/perl -w
 
-# $Id: irspy-stats.pl,v 1.3 2006-12-18 15:31:39 mike Exp $
+# $Id: irspy-stats.pl,v 1.4 2007-01-24 09:28:02 mike Exp $
 #
-#	perl -I ../lib irspy-stats.pl localhost:3313/IR-Explain---1 "net.host=*indexdata*"
+#	perl -I ../lib irspy-stats.pl localhost:8018/IR-Explain---1 "net.host=*indexdata*"
 
 use strict;
 use warnings;

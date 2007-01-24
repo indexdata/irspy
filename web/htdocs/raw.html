@@ -1,4 +1,4 @@
-%# $Id: raw.html,v 1.6 2006-11-29 12:31:25 mike Exp $
+%# $Id: raw.html,v 1.7 2007-01-24 09:28:02 mike Exp $
 <%args>
 $id
 </%args>
@@ -6,7 +6,7 @@ $id
 use ZOOM;
 </%once>
 <%perl>
-my $conn = new ZOOM::Connection("localhost:3313/IR-Explain---1");
+my $conn = new ZOOM::Connection("localhost:8018/IR-Explain---1");
 $conn->option(elementSetName => "zeerex");
 my $qid = $id;
 $qid =~ s/"/\\"/g;

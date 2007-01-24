@@ -1,4 +1,4 @@
-%# $Id: found.mc,v 1.24 2006-12-15 18:07:40 mike Exp $
+%# $Id: found.mc,v 1.25 2007-01-24 09:28:02 mike Exp $
 <%once>
 sub print_navlink {
     my($params, $cond, $caption, $skip) = @_;
@@ -69,7 +69,7 @@ if ($sort) {
 my $tried_to_open = 0;
 if (!defined $conn) {
   OPEN:
-    $conn = new ZOOM::Connection("localhost:3313/IR-Explain---1");
+    $conn = new ZOOM::Connection("localhost:8018/IR-Explain---1");
     $conn->option(elementSetName => "zeerex");
 }
 
