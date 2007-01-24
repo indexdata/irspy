@@ -1,4 +1,4 @@
-%# $Id: delete.mc,v 1.3 2007-01-03 10:41:07 mike Exp $
+%# $Id: delete.mc,v 1.4 2007-01-24 09:28:02 mike Exp $
 <%args>
 $id
 $really => 0
@@ -15,7 +15,7 @@ $really => 0
      </p>
 % } else {
 <%perl>
-    my $conn = new ZOOM::Connection("localhost:3313/IR-Explain---1", 0,
+    my $conn = new ZOOM::Connection("localhost:8018/IR-Explain---1", 0,
 				    user => "admin", password => "fruitbat",
 				    elementSetName => "zeerex");
     # I am thinking that ZOOM should provide delete(), update(), etc.

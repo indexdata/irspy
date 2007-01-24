@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: test-xml-update.pl,v 1.7 2006-11-29 17:22:32 mike Exp $
+# $Id: test-xml-update.pl,v 1.8 2007-01-24 09:28:02 mike Exp $
 #
 # Run like this:
 #	perl -I ../lib ./test-xml-update.pl bagel.indexdata.dk:210/gils title "Test Database" author "Adam" description "This is a nice database"
@@ -55,7 +55,7 @@ if (!getopts('wnxd', \%opts) || @ARGV % 2 == 0) {
 }
 my($id, %data) = @ARGV;
 
-my $conn = new ZOOM::Connection("localhost:3313/IR-Explain---1", 0,
+my $conn = new ZOOM::Connection("localhost:8018/IR-Explain---1", 0,
 				user => "admin", password => "fruitbat");
 $conn->option(elementSetName => "zeerex");
 my $qid = $id;

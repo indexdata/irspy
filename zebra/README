@@ -1,4 +1,4 @@
-$Id: README,v 1.16 2006-12-13 12:02:52 mike Exp $
+$Id: README,v 1.17 2007-01-24 09:28:03 mike Exp $
 
 What's what in this directory:
 
@@ -79,7 +79,7 @@ db -- A subdirectory containing the actual database: register files,
 	dictionaries and suchlike.
 
 form.html -- A simple HTML search form that submits SRU queries to a
-	server running on local port 3313.
+	server running on local port 8018.
 
 init-script -- A startup/shutdown script for controlling the zebra
 	server according to "System V init" rules.  Instructions can
@@ -104,5 +104,5 @@ To run all these commands, use:
 sed -n '/^zebraidx/,+3p' README | while read line; do eval $line; done
 
 Then interrogate the database with SRU URLs such as:
-	http://localhost:3313/IR-Explain---1?version=1.1&operation=searchRetrieve&maximumRecords=10&recordSchema=zeerex&query=net.protocol=sru
+	http://localhost:8018/IR-Explain---1?version=1.1&operation=searchRetrieve&maximumRecords=10&recordSchema=zeerex&query=net.protocol=sru
 

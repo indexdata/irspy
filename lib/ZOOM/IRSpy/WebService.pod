@@ -1,4 +1,4 @@
-# $Id: WebService.pod,v 1.4 2006-11-02 15:01:10 mike Exp $
+# $Id: WebService.pod,v 1.5 2007-01-24 09:28:02 mike Exp $
 
 package ZOOM::IRSpy::WebService;
 
@@ -24,7 +24,7 @@ Here is a example SRU URL that accesses the IRSpy database of the live
 system (although it will not be accessible to most clients due to
 firewall issues.  It is broken across lines for clarity:
 
-	http://irspy.indexdata.com:3313/IR-Explain---1?
+	http://irspy.indexdata.com:8018/IR-Explain---1?
 		version=1.1&
 		operation=searchRetrieve&
 		query=net.port=3950&
@@ -33,7 +33,7 @@ firewall issues.  It is broken across lines for clarity:
 
 =cut
 
-# http://irspy.indexdata.com:3313/IR-Explain---1?version=1.1&operation=searchRetrieve&query=net.port=3950&maximumRecords=10&recordSchema=zeerex
+# http://irspy.indexdata.com:8018/IR-Explain---1?version=1.1&operation=searchRetrieve&query=net.port=3950&maximumRecords=10&recordSchema=zeerex
 
 =pod
 
@@ -42,7 +42,7 @@ tutorial, but briefly, the URL above consists of the following parts:
 
 =over 4
 
-=item http://irspy.indexdata.com:3313
+=item http://irspy.indexdata.com:8018
 
 The base-URL of the SRU server.
 
@@ -120,7 +120,7 @@ also by C<maximumTerms> and C<responsePosition>.
 
 Here is an example SRU Scan URL:
 
-	http://irspy.indexdata.com:3313/IR-Explain---1?
+	http://irspy.indexdata.com:8018/IR-Explain---1?
 		version=1.1&
 		operation=scan&
 		scanClause=dc.title=fish

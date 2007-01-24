@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: xslt_process.pl,v 1.1 2006-12-12 10:45:04 sondberg Exp $
+# $Id: xslt_process.pl,v 1.2 2007-01-24 09:28:02 mike Exp $
 
 use strict;
 use warnings;
@@ -11,7 +11,7 @@ use XML::LibXSLT;
 
 XML::LibXSLT->debug_callback(\&xslt_debug);
 
-my $dbname = 'localhost:3313/IR-Explain---1';
+my $dbname = 'localhost:8018/IR-Explain---1';
 my $spy = new ZOOM::IRSpy($dbname, "admin", "fruitbat");
 my $source_file = shift || die("$0: Please specify xml instance file");
 my $source_doc = $spy->libxml->parse_file($source_file);

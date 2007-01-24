@@ -1,4 +1,4 @@
-# $Id: Stats.pm,v 1.5 2006-12-18 15:34:27 mike Exp $
+# $Id: Stats.pm,v 1.6 2007-01-24 09:28:02 mike Exp $
 
 package ZOOM::IRSpy::Stats;
 
@@ -49,7 +49,7 @@ Either one or two arguments are required:
 
 An indication of the IRSpy database that statistics are required for.
 This may be in the form of a C<ZOOM::Connection> object or a
-database-name string such as C<localhost:3313/IR-Explain---1>.
+database-name string such as C<localhost:8018/IR-Explain---1>.
 
 =item $query (optional)
 

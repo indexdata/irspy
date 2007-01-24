@@ -1,4 +1,4 @@
-%# $Id: edit.mc,v 1.25 2006-12-06 10:47:27 mike Exp $
+%# $Id: edit.mc,v 1.26 2007-01-24 09:28:02 mike Exp $
 <%args>
 $op
 $id => undef
@@ -32,7 +32,7 @@ duplicate ID.
 die "op = new but id defined" if $op eq "new" && defined $id;
 die "op != new but id undefined" if $op ne "new" && !defined $id;
 
-my $conn = new ZOOM::Connection("localhost:3313/IR-Explain---1", 0,
+my $conn = new ZOOM::Connection("localhost:8018/IR-Explain---1", 0,
 				user => "admin", password => "fruitbat",
 				elementSetName => "zeerex");
 my $rec = '<explain xmlns="http://explain.z3950.org/dtd/2.0/"/>';
