@@ -1,4 +1,4 @@
-# $Id: Main.pm,v 1.6 2006-10-25 12:44:55 sondberg Exp $
+# $Id: Main.pm,v 1.7 2007-01-29 17:12:54 mike Exp $
 
 package ZOOM::IRSpy::Test::Search::Main;
 
@@ -9,7 +9,7 @@ use warnings;
 use ZOOM::IRSpy::Test;
 our @ISA = qw(ZOOM::IRSpy::Test);
 
-sub subtests { qw(Search::Title Search::Bib1 Search::Dan1 Search::Boolean
+sub subtests { qw(Search::Bib1 Search::Dan1 Search::Boolean
                   Search::Explain) }
 
 sub start {
