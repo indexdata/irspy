@@ -1,4 +1,4 @@
-# $Id: Fetch.pm,v 1.19 2007-01-29 17:24:51 mike Exp $
+# $Id: Fetch.pm,v 1.20 2007-01-29 17:32:57 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -30,7 +30,7 @@ sub start {
     # But how?  So far we search for title: 1=4
     $conn->irspy_search_pqf($queries[0], { queryindex => 0 }, {},
 			    ZOOM::Event::RECV_SEARCH, \&completed_search,
-			    exception => \&search_error);
+			    exception => \&completed_search);
 }
 
 
@@ -46,7 +46,7 @@ sub completed_search {
 	    $conn->log("irspy_test", "Trying another search ...");
 	    $conn->irspy_search_pqf($queries[$n], { queryindex => $n }, {},
 				    ZOOM::Event::RECV_SEARCH, \&completed_search,
-				    exception => \&search_error);
+				    exception => \&completed_search);
 	    return ZOOM::IRSpy::Status::TASK_DONE;
 	} else {
 	    return ZOOM::IRSpy::Status::TEST_SKIPPED;
@@ -133,7 +133,7 @@ sub _fetch_record {
 }
 
 
-sub search_error {
+sub __UNUSED_search_error {
     my($conn, $task, $test_args, $exception) = @_;
 
     $conn->log("irspy_test", "Initial search failed: ", $exception);
