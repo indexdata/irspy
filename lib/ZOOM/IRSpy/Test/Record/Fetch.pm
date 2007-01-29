@@ -1,4 +1,4 @@
-# $Id: Fetch.pm,v 1.18 2006-12-18 15:36:03 mike Exp $
+# $Id: Fetch.pm,v 1.19 2007-01-29 17:24:51 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -16,6 +16,7 @@ our @ISA = qw(ZOOM::IRSpy::Test);
 my @queries = (
 	       "\@attr 1=4 mineral",
 	       "\@attr 1=4 computer",
+	       "\@attr 1=44 mineral", # Smithsonian doesn't support AP 4!
 	       ### We can add more queries here
 	       );
 
