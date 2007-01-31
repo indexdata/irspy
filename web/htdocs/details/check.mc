@@ -1,4 +1,4 @@
-%# $Id: check.mc,v 1.15 2007-01-24 09:28:02 mike Exp $
+%# $Id: check.mc,v 1.16 2007-01-31 16:50:38 mike Exp $
 <%args>
 @id
 $test => "Quick"
@@ -39,7 +39,7 @@ $spy->initialise();
 my $res = $spy->check($test);
 print "<p>\n";
 if ($res == 0) {
-    print "<b>All tests were run</b>\n";
+    print "<b>All tests were attempted</b>\n";
 } else {
     print "<b>$res tests were skipped</b>\n";
 }
