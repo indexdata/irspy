@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: irspy.pl,v 1.18 2007-01-24 09:28:02 mike Exp $
+# $Id: irspy.pl,v 1.19 2007-01-31 16:50:10 mike Exp $
 #
 # Run like this:
 #	YAZ_LOG=irspy,irspy_test perl -I ../lib irspy.pl -t Quick localhost:8018/IR-Explain---1 bagel.indexdata.dk/gils z3950.loc.gov:7090/Voyager bagel.indexdata.dk:210/marc
@@ -37,7 +37,7 @@ $spy->targets(@targets) if @targets;
 $spy->initialise();
 my $res = $spy->check($opts{t});
 if ($res == 0) {
-    print "All tests were run\n";
+    print "All tests were attempted\n";
 } else {
     print "$res tests were skipped\n";
 }
