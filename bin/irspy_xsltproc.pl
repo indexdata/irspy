@@ -1,6 +1,13 @@
 #!/usr/bin/perl -w
 
-# $Id: irspy_xsltproc.pl,v 1.2 2007-02-02 12:40:51 sondberg Exp $
+# $Id: irspy_xsltproc.pl,v 1.3 2007-02-02 12:44:43 sondberg Exp $
+# ------------------------------------------------------------------
+# This script is only for debugging purposes - it takes a raw IRspy
+# xml output document as argument and executes the irspy2zeerex.xsl
+# transformation right in front of you:
+#
+# ./irspy_xsltproc.pl irspy_output_raw.xml
+#
 
 use strict;
 use warnings;
