@@ -1,4 +1,4 @@
-%# $Id: full.mc,v 1.21 2007-01-24 09:28:02 mike Exp $
+%# $Id: full.mc,v 1.22 2007-02-02 11:31:30 mike Exp $
 <%args>
 $id
 </%args>
@@ -107,28 +107,27 @@ sub calc_init_options {
 sub calc_ap {
     my($xc, $set) = @_;
 
-    my $expr = 'e:indexInfo/e:index/e:map/e:attr[
+    my $expr = 'e:indexInfo/e:index[@search = "true"]/e:map/e:attr[
 	@set = "'.$set.'" and @type = "1"]';
-    my @bib1nodes = $xc->findnodes($expr);
-    my $nbib1 = @bib1nodes;
-    return "[none]" if $nbib1 == 0;
+    my @nodes = $xc->findnodes($expr);
+    my $n = @nodes;
+    return "[none]" if $n == 0;
 
     my $res = "";
     my($first, $last);
-    @bib1nodes = sort { $a->findvalue(".") <=> $b->findvalue(".") } @bib1nodes;
-    foreach my $node (@bib1nodes) {
+    @nodes = sort { $a->findvalue(".") <=> $b->findvalue(".") } @nodes;
+    foreach my $node (@nodes) {
 	my $ap .= $node->findvalue(".");
 	if (!defined $first) {
-	    $first = $ap;
-	} elsif (!defined $last || $last == $ap-1) {
-	    $last = $ap;
+	    $first = $last = $ap;
+	} elsif ($ap == $last+1) {
+	    $last++;
 	} else {
 	    # Got a complete range
 	    $res .= ", " if $res ne "";
 	    $res .= "$first";
-	    $res .= "-$last" if defined $last;
-	    $first = $ap;
-	    $last = undef;
+	    $res .= "-$last" if $last > $first;
+	    $first = $last = $ap;
 	}
     }
 
@@ -136,10 +135,10 @@ sub calc_ap {
     if (defined $first) {
 	$res .= ", " if $res ne "";
 	$res .= "$first";
-	$res .= "-$last" if defined $last;
+	$res .= "-$last" if $last > $first;
     }
 
-    return "$nbib1 access points: $res";
+    return "$n access points: $res";
 }
 
 sub calc_boolean {
