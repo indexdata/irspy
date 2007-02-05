@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.57 2007-01-20 09:53:20 mike Exp $
+# $Id: IRSpy.pm,v 1.58 2007-02-05 13:28:51 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -404,7 +404,11 @@ sub check {
 	my $i0 = ZOOM::event(\@conn);
 	$this->log("irspy_event",
 		   "ZOOM_event(", scalar(@conn), " connections) = $i0");
-	last if $i0 == 0 || $i0 == -3; # no events or no connections
+	if ($i0 == -3 || $i0 == 0) {
+	    # no connections left, or no events on those that remain
+	    $this->log("irspy", "no events remain");
+	    last;
+	}
 	my $conn = $conn[$i0-1];
 	my $ev = $conn->last_event();
 	my $evstr = ZOOM::event_str($ev);
@@ -506,7 +510,7 @@ sub check {
 	    $finished = 0;
 	}
 	my $ev = $conn->peek_event();
-	if ($ev != ZOOM::Event::ZEND) {
+	if ($ev != 0) { # Or ZOOM::Event::ZEND?
 	    my $evstr = ZOOM::event_str($ev);
 	    $this->log("irspy", "$conn has event $ev ($evstr) waiting");
 	    $finished = 0;
@@ -517,7 +521,8 @@ sub check {
 	}
     }
 
-    # This really shouldn't be necessary, but it's belt and braces
+    # This really shouldn't be necessary, and in practice it rarely
+    # helps, but it's belt and braces
     if (!$finished) {
 	if (++$nruns < 3) {
 	    $this->log("irspy", "back into main loop, ${nruns}th time");
