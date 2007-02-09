@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.58 2007-02-05 13:28:51 mike Exp $
+# $Id: IRSpy.pm,v 1.59 2007-02-09 10:44:25 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -419,7 +419,6 @@ sub check {
 	eval { $conn->_check() };
 	if ($@ &&
 	    ($ev == ZOOM::Event::RECV_DATA ||
-	     $ev == ZOOM::Event::RECV_APDU ||
 	     $ev == ZOOM::Event::ZEND)) {
 	    # An error in, say, a search response, becomes visible to
 	    # ZOOM before the Receive Data event is sent and persists
@@ -427,7 +426,7 @@ sub check {
 	    # each report the same error.  So we just ignore errors on
 	    # "unimportant" events.  ### But this doesn't work for,
 	    # say, a Connection Refused, as the only event that shows
-	    # us this error is the End.
+	    # us this error is the ZEND.
 	    $conn->log("irspy_event", "ignoring error ",
 		       "on event $ev ($evstr): $@");
 	    next;
