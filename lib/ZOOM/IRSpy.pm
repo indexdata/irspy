@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.59 2007-02-09 10:44:25 mike Exp $
+# $Id: IRSpy.pm,v 1.60 2007-02-13 15:02:35 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -509,7 +509,7 @@ sub check {
 	    $finished = 0;
 	}
 	my $ev = $conn->peek_event();
-	if ($ev != 0) { # Or ZOOM::Event::ZEND?
+	if ($ev != 0 && $ev != ZOOM::Event::ZEND) {
 	    my $evstr = ZOOM::event_str($ev);
 	    $this->log("irspy", "$conn has event $ev ($evstr) waiting");
 	    $finished = 0;
