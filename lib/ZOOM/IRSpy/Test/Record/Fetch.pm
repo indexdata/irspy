@@ -1,4 +1,4 @@
-# $Id: Fetch.pm,v 1.21 2007-02-13 14:35:04 mike Exp $
+# $Id: Fetch.pm,v 1.22 2007-02-13 15:04:08 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -62,7 +62,7 @@ sub completed_search {
                    'librismarc',
                    'mab',
                    'normarc',
-                   'opac',
+#                   'opac',
                    'picamarc',
                    'rusmarc',
                    'summary',
