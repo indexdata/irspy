@@ -1,4 +1,4 @@
-# $Id: Fetch.pm,v 1.20 2007-01-29 17:32:57 mike Exp $
+# $Id: Fetch.pm,v 1.21 2007-02-13 14:35:04 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -40,17 +40,16 @@ sub completed_search {
     my $n = $task->{rs}->size();
     $conn->log("irspy_test", "Fetch test search found $n records");
     if ($n == 0) {
-	my $n = $udata->{queryindex}+1;
-	my $q = $queries[$n];
-	if (defined $q) {
-	    $conn->log("irspy_test", "Trying another search ...");
-	    $conn->irspy_search_pqf($queries[$n], { queryindex => $n }, {},
-				    ZOOM::Event::RECV_SEARCH, \&completed_search,
-				    exception => \&completed_search);
-	    return ZOOM::IRSpy::Status::TASK_DONE;
-	} else {
-	    return ZOOM::IRSpy::Status::TEST_SKIPPED;
-	}
+	my $qindex = $udata->{queryindex}+1;
+	my $q = $queries[$qindex];
+	return ZOOM::IRSpy::Status::TEST_SKIPPED
+	    if !defined $q;
+
+	$conn->log("irspy_test", "Trying another search ...");
+	$conn->irspy_search_pqf($queries[$qindex], { queryindex => $n }, {},
+				ZOOM::Event::RECV_SEARCH, \&completed_search,
+				exception => \&completed_search);
+	return ZOOM::IRSpy::Status::TASK_DONE;
     }
 
     my @syntax = (
