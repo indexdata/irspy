@@ -1,4 +1,4 @@
-# $Id: Fetch.pm,v 1.22 2007-02-13 15:04:08 mike Exp $
+# $Id: Fetch.pm,v 1.23 2007-02-13 16:49:14 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -46,7 +46,7 @@ sub completed_search {
 	    if !defined $q;
 
 	$conn->log("irspy_test", "Trying another search ...");
-	$conn->irspy_search_pqf($queries[$qindex], { queryindex => $n }, {},
+	$conn->irspy_search_pqf($queries[$qindex], { queryindex => $qindex }, {},
 				ZOOM::Event::RECV_SEARCH, \&completed_search,
 				exception => \&completed_search);
 	return ZOOM::IRSpy::Status::TASK_DONE;
