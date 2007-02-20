@@ -1,4 +1,4 @@
-%# $Id: layout.mc,v 1.22 2007-01-02 17:26:40 mike Exp $
+%# $Id: layout.mc,v 1.23 2007-02-20 19:20:23 mike Exp $
 <%args>
 $debug => undef
 $title
@@ -55,9 +55,9 @@ use ZOOM::IRSpy::Utils qw(isodate xml_encode cql_quote cql_target
     <td valign="top" class="panel1">
      <p>
       <a href="/"><b>Home</b></a><br/>
-      <a href="/all.html">Test&nbsp;all&nbsp;targets</a><br/>
+      <a href="/admin/all.html">Test&nbsp;all&nbsp;targets</a><br/>
       <a href="/find.html">Find a target</a><br/>
-      <a href="/edit.html?op=new">Add a target</a><br/>
+      <a href="/admin/edit.html?op=new">Add a target</a><br/>
       <a href="/stats.html">Statistics</a><br/>
      </p>
      <p>
@@ -93,15 +93,15 @@ my $id = $r->param("id");
       <br/>
       <a href="<% xml_encode("/full.html?id=" . uri_escape($id)) %>">Show details</a>
       <br/>
-      <a href="<% xml_encode("/edit.html?op=edit&id=" . uri_escape($id)) %>">Edit details</a>
+      <a href="<% xml_encode("/admin/edit.html?op=edit&id=" . uri_escape($id)) %>">Edit details</a>
       <br/>
-      <a href="<% xml_encode("/edit.html?op=copy&id=" . uri_escape($id)) %>">Copy target</a>
+      <a href="<% xml_encode("/admin/edit.html?op=copy&id=" . uri_escape($id)) %>">Copy target</a>
       <br/>
-      <a href="<% xml_encode("/delete.html?id=" . uri_escape($id)) %>">Delete target</a>
+      <a href="<% xml_encode("/admin/delete.html?id=" . uri_escape($id)) %>">Delete target</a>
       <p>
-       <a href="<% xml_encode("/check.html?id=" . uri_escape($id)) . "&amp;test=Quick" %>">Quick Test</a>
+       <a href="<% xml_encode("/admin/check.html?id=" . uri_escape($id)) . "&amp;test=Quick" %>">Quick Test</a>
        <br/>
-       <a href="<% xml_encode("/check.html?id=" . uri_escape($id)) . "&amp;test=Main" %>">Full Test</a>
+       <a href="<% xml_encode("/admin/check.html?id=" . uri_escape($id)) . "&amp;test=Main" %>">Full Test</a>
       </p>
       <p>
        <a href="<% xml_encode("/raw.html?id=" . uri_escape($id)) %>">XML</a>

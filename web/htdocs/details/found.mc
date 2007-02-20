@@ -1,4 +1,4 @@
-%# $Id: found.mc,v 1.25 2007-01-24 09:28:02 mike Exp $
+%# $Id: found.mc,v 1.26 2007-02-20 19:20:23 mike Exp $
 <%once>
 sub print_navlink {
     my($params, $cond, $caption, $skip) = @_;
@@ -145,9 +145,9 @@ push @ids, $id;
        <td><% xml_encode($port, "") %></td>
        <td><% xml_encode($db, "") %></td>
        <td>
-	<a href="<% xml_encode("/check.html?id=" . uri_escape($id))
+	<a href="<% xml_encode("/admin/check.html?id=" . uri_escape($id))
 		%>" title="Test this target">Test</a
-	>&nbsp;<a href="<% xml_encode("/edit.html?op=edit&id=" .
+	>&nbsp;<a href="<% xml_encode("/admin/edit.html?op=edit&id=" .
 		uri_escape($id))
 		%>" title="Edit this target's record">Edit</a
 	>&nbsp;<a href="<% xml_encode("/raw.html?id=" . uri_escape($id))
@@ -161,7 +161,7 @@ print_navlink(\%params, $skip > 0, "Prev", $count < $skip ? $skip-$count : 0);
 print_navlink(\%params, $last < $n, "Next", $skip+$count);
 </%perl>
      <p>
-      <a href="<% "/check.html?" .
+      <a href="<% "/admin/check.html?" .
 	xml_encode(join("&", map { "id=" . uri_escape($_) } @ids))
 	%>">[Test all targets on this list]</a>
      </p>
