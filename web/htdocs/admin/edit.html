@@ -1,0 +1,8 @@
+%# $Id: edit.html,v 1.1 2007-02-20 19:17:14 mike Exp $
+<%args>
+$op
+$id => undef
+</%args>
+<& /chrome/layout.mc, %ARGS,
+    title => ucfirst($op) . " target record",
+    component => "/details/edit.mc" &>
