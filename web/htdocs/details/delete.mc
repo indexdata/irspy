@@ -1,4 +1,4 @@
-%# $Id: delete.mc,v 1.4 2007-01-24 09:28:02 mike Exp $
+%# $Id: delete.mc,v 1.5 2007-02-20 19:21:26 mike Exp $
 <%args>
 $id
 $really => 0
@@ -11,7 +11,7 @@ $really => 0
      </p>
      <p>
       <a href="?really=1&amp;id=<% xml_encode(uri_escape($id)) %>">Yes</a><br/>
-      <a href="full.html?id=<% xml_encode(uri_escape($id)) %>">No</a><br/>
+      <a href="/full.html?id=<% xml_encode(uri_escape($id)) %>">No</a><br/>
      </p>
 % } else {
 <%perl>
