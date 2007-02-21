@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.60 2007-02-13 15:02:35 mike Exp $
+# $Id: IRSpy.pm,v 1.61 2007-02-21 17:57:59 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -246,9 +246,9 @@ sub _render_record {
 
 
 sub _irspy_to_zeerex {
-    my ($this, $conn) = @_;
+    my $this = shift();
+    my($conn, $save_xml) = @_;
     my $irspy_doc = $conn->record()->{zeerex}->ownerDocument;
-    my $save_xml = 0;
 
     if ($save_xml) {
 	unlink('/tmp/irspy_orig.xml');
@@ -274,7 +274,7 @@ sub _rewrite_record {
     my($conn) = @_;
 
     $conn->log("irspy", "rewriting XML record");
-    my $rec = $this->_irspy_to_zeerex($conn);
+    my $rec = $this->_irspy_to_zeerex($conn, $ENV{IRSPY_SAVE_XML});
     _really_rewrite_record($this->{conn}, $rec);
 }
 
