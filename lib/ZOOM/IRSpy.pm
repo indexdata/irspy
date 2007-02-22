@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.62 2007-02-22 11:51:58 mike Exp $
+# $Id: IRSpy.pm,v 1.63 2007-02-22 15:43:13 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -546,7 +546,8 @@ sub check {
 	my $conn = $conn[$i1-1];
 	my $ev = $conn->last_event();
 	my $evstr = ZOOM::event_str($ev);
-	warn "$conn still has ZOOM-C level task queued: $ev ($evstr)"
+	$this->log("irspy",
+		   "$conn still has ZOOM-C level task queued: $ev ($evstr)")
 	    if $ev != ZOOM::Event::ZEND;
     }
 
