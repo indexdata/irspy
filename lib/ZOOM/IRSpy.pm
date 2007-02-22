@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.61 2007-02-21 17:57:59 mike Exp $
+# $Id: IRSpy.pm,v 1.62 2007-02-22 11:51:58 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -404,11 +404,19 @@ sub check {
 	my $i0 = ZOOM::event(\@conn);
 	$this->log("irspy_event",
 		   "ZOOM_event(", scalar(@conn), " connections) = $i0");
-	if ($i0 == -3 || $i0 == 0) {
-	    # no connections left, or no events on those that remain
-	    $this->log("irspy", "no events remain");
+	if ($i0 < 1) {
+	    my %messages = (
+			    0 => "no events remain",
+			    -1 => "ZOOM::event() argument not a reference",
+			    -2 => "ZOOM::event() reference not an array",
+			    -3 => "no connections remain",
+			    -4 => "too many connections for ZOOM::event()",
+			    );
+	    my $message = $messages{$i0} || "ZOOM::event() returned $i0";
+	    $this->log("irspy", $message);
 	    last;
 	}
+
 	my $conn = $conn[$i0-1];
 	my $ev = $conn->last_event();
 	my $evstr = ZOOM::event_str($ev);
@@ -521,9 +529,10 @@ sub check {
     }
 
     # This really shouldn't be necessary, and in practice it rarely
-    # helps, but it's belt and braces
+    # helps, but it's belt and braces.  For now, we don't do this
+    # (hence the zero in the $nruns check).
     if (!$finished) {
-	if (++$nruns < 3) {
+	if (++$nruns < 0) {
 	    $this->log("irspy", "back into main loop, ${nruns}th time");
 	    goto ROUND_AND_ROUND_WE_GO;
 	} else {
@@ -533,7 +542,7 @@ sub check {
 
     # This shouldn't happen emit anything either:
     @conn = @{ $this->{connections} };
-    while (my $i1 = ZOOM::event(\@conn)) {
+    while ((my $i1 = ZOOM::event(\@conn)) > 0) {
 	my $conn = $conn[$i1-1];
 	my $ev = $conn->last_event();
 	my $evstr = ZOOM::event_str($ev);
