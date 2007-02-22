@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-# $Id: irspy.pl,v 1.20 2007-02-06 13:22:16 mike Exp $
+# $Id: irspy.pl,v 1.21 2007-02-22 11:49:13 mike Exp $
 #
 # Run like this:
-#	YAZ_LOG=irspy,irspy_test perl -I../lib irspy.pl -t Quick localhost:8018/IR-Explain---1 z3950.loc.gov:7090/Voyager bagel.indexdata.dk/gils bagel.indexdata.dk:210/marc
+#	YAZ_LOG=irspy,irspy_test IRSPY_SAVE_XML=1 perl -I../lib irspy.pl -t Quick localhost:8018/IR-Explain---1 z3950.loc.gov:7090/Voyager bagel.indexdata.dk/gils bagel.indexdata.dk:210/marc
 # Available log-levels are as follows:
 #	irspy -- high-level application logging
 #	irspy_debug -- low-level debugging (not very interesting)
