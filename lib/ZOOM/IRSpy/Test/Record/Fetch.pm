@@ -1,4 +1,4 @@
-# $Id: Fetch.pm,v 1.23 2007-02-13 16:49:14 mike Exp $
+# $Id: Fetch.pm,v 1.24 2007-02-22 17:45:43 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -38,7 +38,9 @@ sub completed_search {
     my($conn, $task, $udata, $event) = @_;
 
     my $n = $task->{rs}->size();
-    $conn->log("irspy_test", "Fetch test search found $n records");
+    $conn->log("irspy_test", "Fetch test search (", $task->{query}, ") ",
+	       ref $event && $event->isa("ZOOM::Exception") ?
+	       "failed: $event" : "found $n records (event=$event)");
     if ($n == 0) {
 	my $qindex = $udata->{queryindex}+1;
 	my $q = $queries[$qindex];
