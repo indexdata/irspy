@@ -1,4 +1,4 @@
-%# $Id: found.mc,v 1.26 2007-02-20 19:20:23 mike Exp $
+%# $Id: found.mc,v 1.27 2007-02-22 11:49:46 mike Exp $
 <%once>
 sub print_navlink {
     my($params, $cond, $caption, $skip) = @_;
@@ -126,7 +126,7 @@ print_navlink(\%params, $last < $n, "Next", $skip+$count);
 % foreach my $i ($first .. $last) {
 <%perl>
 my $xc = irspy_xpath_context($rs->record($i-1));
-my $title = $xc->find("e:databaseInfo/e:title");
+my $title = $xc->find("e:databaseInfo/e:title") || "[UNTITLED]";
 my $reliability = calc_reliability($xc);
 my $host = $xc->find("e:serverInfo/e:host");
 my $port = $xc->find("e:serverInfo/e:port");
@@ -139,7 +139,7 @@ push @ids, $id;
       <tr style="background: <% ($i % 2) ? '#ffffc0' : 'white' %>">
        <td><% $i %></td>
        <td><a href="<% xml_encode("/full.html?id=" . uri_escape($id))
-		%>"><% xml_encode($title, "[untitled]") %></a></td>
+		%>"><% xml_encode($title) %></a></td>
        <td><% xml_encode($reliability, "", { nbsp => 1 }) %></td>
        <td><% xml_encode($host, "") %></td>
        <td><% xml_encode($port, "") %></td>
