@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.63 2007-02-22 15:43:13 mike Exp $
+# $Id: IRSpy.pm,v 1.64 2007-02-22 17:46:23 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -427,14 +427,19 @@ sub check {
 	eval { $conn->_check() };
 	if ($@ &&
 	    ($ev == ZOOM::Event::RECV_DATA ||
-	     $ev == ZOOM::Event::ZEND)) {
+	     $ev == ZOOM::Event::ZEND ||
+	     ($ev == ZOOM::Event::RECV_APDU &&
+	      !$task->isa("ZOOM::IRSpy::Task::Connect")))) {
 	    # An error in, say, a search response, becomes visible to
 	    # ZOOM before the Receive Data event is sent and persists
 	    # until after the End, which means that successive events
 	    # each report the same error.  So we just ignore errors on
-	    # "unimportant" events.  ### But this doesn't work for,
-	    # say, a Connection Refused, as the only event that shows
-	    # us this error is the ZEND.
+	    # "unimportant" events.  We can also ignore errors on
+	    # RECV_APDU in most cases, but since there is no RECV_INIT
+	    # event, we need to avoid doing this if the task is
+	    # Connect.  Yuck -- special cases.
+	    # ### But this doesn't work for, say, a Connection Refused,
+	    # as the only event that shows us this error is the ZEND.
 	    $conn->log("irspy_event", "ignoring error ",
 		       "on event $ev ($evstr): $@");
 	    next;
