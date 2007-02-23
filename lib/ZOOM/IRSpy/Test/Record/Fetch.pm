@@ -1,4 +1,4 @@
-# $Id: Fetch.pm,v 1.24 2007-02-22 17:45:43 mike Exp $
+# $Id: Fetch.pm,v 1.25 2007-02-23 15:03:44 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -29,7 +29,7 @@ sub start {
     # managed to search for in the Search/Bib1 or Search/Dan1 tests.
     # But how?  So far we search for title: 1=4
     $conn->irspy_search_pqf($queries[0], { queryindex => 0 }, {},
-			    ZOOM::Event::RECV_SEARCH, \&completed_search,
+			    ZOOM::Event::ZEND, \&completed_search,
 			    exception => \&completed_search);
 }
 
@@ -49,7 +49,7 @@ sub completed_search {
 
 	$conn->log("irspy_test", "Trying another search ...");
 	$conn->irspy_search_pqf($queries[$qindex], { queryindex => $qindex }, {},
-				ZOOM::Event::RECV_SEARCH, \&completed_search,
+				ZOOM::Event::ZEND, \&completed_search,
 				exception => \&completed_search);
 	return ZOOM::IRSpy::Status::TASK_DONE;
     }
@@ -83,7 +83,7 @@ sub completed_search {
 			         last => ($i == $#syntax) },
 			       { start => 0, count => 1,
 				 preferredRecordSyntax => $syntax },
-                                ZOOM::Event::RECV_RECORD, \&record,
+                                ZOOM::Event::ZEND, \&record,
 				exception => \&fetch_error);
     }
 

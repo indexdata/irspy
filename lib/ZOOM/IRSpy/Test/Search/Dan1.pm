@@ -1,4 +1,4 @@
-# $Id: Dan1.pm,v 1.5 2006-10-27 09:56:07 sondberg Exp $
+# $Id: Dan1.pm,v 1.6 2007-02-23 15:03:44 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -21,7 +21,7 @@ sub start {
     foreach my $attr (@attrs) {
 	$conn->irspy_search_pqf("\@attr dan1 1=$attr mineral",
                                 {'attr' => $attr}, {},
-				ZOOM::Event::RECV_SEARCH, \&found,
+				ZOOM::Event::ZEND, \&found,
 				exception => \&error);
     }
 }
@@ -48,6 +48,7 @@ sub error {
 	       $exception);
     update($conn, $attr, 0);
 
+    ### How about TEST_BAD if $exception->code() == 121?
     return ZOOM::IRSpy::Status::TASK_DONE;
 }
 

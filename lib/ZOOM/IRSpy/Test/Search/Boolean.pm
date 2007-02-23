@@ -1,4 +1,4 @@
-# $Id: Boolean.pm,v 1.3 2006-10-26 10:24:20 sondberg Exp $
+# $Id: Boolean.pm,v 1.4 2007-02-23 15:03:44 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -25,7 +25,7 @@ sub start {
     foreach my $operator (keys %pqfs) {
 	$conn->irspy_search_pqf($pqfs{$operator},
                                 {'operator' => $operator}, {},
-				ZOOM::Event::RECV_SEARCH, \&found,
+				ZOOM::Event::ZEND, \&found,
 				exception => \&error);
     }
 }

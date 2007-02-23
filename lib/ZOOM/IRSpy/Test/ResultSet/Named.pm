@@ -1,4 +1,4 @@
-# $Id: Named.pm,v 1.1 2006-11-02 11:46:40 sondberg Exp $
+# $Id: Named.pm,v 1.2 2007-02-23 15:03:44 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -20,7 +20,7 @@ sub start {
 
     $conn->irspy_search_pqf("\@attr 1=4 mineral", {},
                             {'setname' => 'a', 'start' => 0, 'count' => 0},	
-			    ZOOM::Event::RECV_SEARCH, \&completed_search_a,
+			    ZOOM::Event::ZEND, \&completed_search_a,
 			    exception => \&error);
 }
 
@@ -40,7 +40,7 @@ sub completed_search_a {
                             {'record_a' => $record, 'hits_a' => $hits,
                              'rs_a' => $rs},
                             {'setname' => 'b'},	
-			    ZOOM::Event::RECV_SEARCH, \&completed_search_b,
+			    ZOOM::Event::ZEND, \&completed_search_b,
 			    exception => \&error);
 
     return ZOOM::IRSpy::Status::TASK_DONE;

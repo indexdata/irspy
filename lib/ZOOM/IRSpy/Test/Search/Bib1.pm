@@ -1,4 +1,4 @@
-# $Id: Bib1.pm,v 1.14 2006-10-27 09:56:07 sondberg Exp $
+# $Id: Bib1.pm,v 1.15 2007-02-23 15:03:44 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -24,7 +24,7 @@ sub start {
     foreach my $attr (@attrs) {
 	$conn->irspy_search_pqf("\@attr 1=$attr mineral",
                                 {'attr' => $attr}, {},
-				ZOOM::Event::RECV_SEARCH, \&found,
+				ZOOM::Event::ZEND, \&found,
 				exception => \&error);
     }
 }
