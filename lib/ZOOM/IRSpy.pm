@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.65 2007-02-23 13:14:13 mike Exp $
+# $Id: IRSpy.pm,v 1.66 2007-02-23 13:18:43 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -364,6 +364,7 @@ sub check {
 		    }
 		    if (!defined $nextaddr) {
 			$conn->log("irspy", "has no more tests: removing");
+			### Does this go wrong if two connections are exhausted?
 			splice @conn, $i0, 1;
 			$this->_rewrite_record($conn);
 			$conn->option(rewrote_record => 1);
@@ -397,8 +398,6 @@ sub check {
 		$conn->current_task($task);
 		$task->run();
 	    }
-
-	    # Do we need to test $conn->is_idle()?  I don't think so!
 	}
 
 	my $i0 = ZOOM::event(\@conn);
