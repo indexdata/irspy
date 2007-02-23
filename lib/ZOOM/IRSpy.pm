@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.66 2007-02-23 13:18:43 mike Exp $
+# $Id: IRSpy.pm,v 1.67 2007-02-23 15:01:48 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -400,6 +400,7 @@ sub check {
 	    }
 	}
 
+      NEXT_EVENT:
 	my $i0 = ZOOM::event(\@conn);
 	$this->log("irspy_event",
 		   "ZOOM_event(", scalar(@conn), " connections) = $i0");
@@ -420,31 +421,13 @@ sub check {
 	my $ev = $conn->last_event();
 	my $evstr = ZOOM::event_str($ev);
 	$conn->log("irspy_event", "event $ev ($evstr)");
+	goto NEXT_EVENT if $ev != ZOOM::Event::ZEND;
 
 	my $task = $conn->current_task();
 	die "$conn has no current task for event $ev ($evstr)" if !$task;
-	eval { $conn->_check() };
-	if ($@ &&
-	    ($ev == ZOOM::Event::RECV_DATA ||
-	     $ev == ZOOM::Event::ZEND ||
-	     ($ev == ZOOM::Event::RECV_APDU &&
-	      !$task->isa("ZOOM::IRSpy::Task::Connect")))) {
-	    # An error in, say, a search response, becomes visible to
-	    # ZOOM before the Receive Data event is sent and persists
-	    # until after the End, which means that successive events
-	    # each report the same error.  So we just ignore errors on
-	    # "unimportant" events.  We can also ignore errors on
-	    # RECV_APDU in most cases, but since there is no RECV_INIT
-	    # event, we need to avoid doing this if the task is
-	    # Connect.  Yuck -- special cases.
-	    # ### But this doesn't work for, say, a Connection Refused,
-	    # as the only event that shows us this error is the ZEND.
-	    $conn->log("irspy_event", "ignoring error ",
-		       "on event $ev ($evstr): $@");
-	    next;
-	}
 
 	my $res;
+	eval { $conn->_check() };
 	if ($@) {
 	    my $sub = $task->{cb}->{exception};
 	    die $@ if !defined $sub;
@@ -491,7 +474,7 @@ sub check {
 	    $conn->log("irspy_test", "test skipped during task $task");
 	    $conn->current_task(0);
 	    $conn->next_task(0);
-	    # I think that's all we need to do
+	    $nskipped++;
 
 	} else {
 	    die "unknown callback return-value '$res'";
