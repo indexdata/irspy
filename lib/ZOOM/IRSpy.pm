@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.67 2007-02-23 15:01:48 mike Exp $
+# $Id: IRSpy.pm,v 1.68 2007-02-23 16:45:55 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -132,6 +132,15 @@ sub targets {
 }
 
 
+sub find_targets {
+    my $this = shift();
+    my($query) = @_;
+
+    $this->{allrecords} = 0;    
+    $this->{query} = $query;
+}
+
+
 # Also used by ZOOM::IRSpy::Record
 sub _parse_target_string {
     my($target) = @_;
@@ -179,7 +188,7 @@ sub initialise {
 	# access point -- not even 1035 "everywhere" -- so instead we
 	# hack together a search that we know will find all records.
 	$this->{query} = "port=?*";
-    } else {
+    } elsif ($this->{targets}) {
 	# Prepopulate the target map with nulls so that after we fill
 	# in what we can from the database query, we know which target
 	# IDs we need new records for.
@@ -192,6 +201,7 @@ sub initialise {
     my $rs = $this->{conn}->search(new ZOOM::Query::CQL($this->{query}));
     delete $this->{query};	# No longer needed at all
     $this->log("irspy_debug", "found ", $rs->size(), " target records");
+    my $gatherTargets = !$this->{targets};
     foreach my $i (1 .. $rs->size()) {
 	my $target = _render_record($rs, $i-1, "id");
 	my $zeerex = _render_record($rs, $i-1, "zeerex");
@@ -199,7 +209,7 @@ sub initialise {
 	$target2record{lc($target)} =
 	    new ZOOM::IRSpy::Record($this, $target, $zeerex);
 	push @{ $this->{targets} }, $target
-	    if $this->{allrecords};
+	    if $gatherTargets;
     }
 
     # Make records for targets not previously in the database
