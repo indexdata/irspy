@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.64 2007-02-22 17:46:23 mike Exp $
+# $Id: IRSpy.pm,v 1.65 2007-02-23 13:14:13 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -502,11 +502,13 @@ sub check {
     $this->log("irspy", "exiting main loop");
     # Sanity checks: none of the following should ever happen
     my $finished = 1;
-    foreach my $conn (@{ $this->{connections} }) {
+    @conn = @{ $this->{connections} };
+    foreach my $conn (@conn) {
 	my $test = $conn->option("current_test_address");
 	my $next = $this->_next_test($test);
 	if (defined $next) {
-	    $this->log("irspy", "$conn (in test '$test') has queued test '$next'");
+	    $this->log("irspy",
+		       "$conn (in test '$test') has queued test '$next'");
 	    $finished = 0;
 	}
 	if (my $task = $conn->current_task()) {
@@ -518,7 +520,8 @@ sub check {
 	    $finished = 0;
 	}
 	if (!$conn->is_idle()) {
-	    $this->log("irspy", "$conn still has ZOOM-C level tasks queued: see below");
+	    $this->log("irspy",
+		       "$conn still has ZOOM-C level tasks queued: see below");
 	    $finished = 0;
 	}
 	my $ev = $conn->peek_event();
@@ -534,8 +537,8 @@ sub check {
     }
 
     # This really shouldn't be necessary, and in practice it rarely
-    # helps, but it's belt and braces.  For now, we don't do this
-    # (hence the zero in the $nruns check).
+    # helps, but it's belt and braces.  (For now, we don't do this
+    # hence the zero in the $nruns check).
     if (!$finished) {
 	if (++$nruns < 0) {
 	    $this->log("irspy", "back into main loop, ${nruns}th time");
@@ -546,7 +549,6 @@ sub check {
     }
 
     # This shouldn't happen emit anything either:
-    @conn = @{ $this->{connections} };
     while ((my $i1 = ZOOM::event(\@conn)) > 0) {
 	my $conn = $conn[$i1-1];
 	my $ev = $conn->last_event();
