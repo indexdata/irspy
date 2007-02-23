@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: irspy.pl,v 1.21 2007-02-22 11:49:13 mike Exp $
+# $Id: irspy.pl,v 1.22 2007-02-23 16:44:50 mike Exp $
 #
 # Run like this:
 #	YAZ_LOG=irspy,irspy_test IRSPY_SAVE_XML=1 perl -I../lib irspy.pl -t Quick localhost:8018/IR-Explain---1 z3950.loc.gov:7090/Voyager bagel.indexdata.dk/gils bagel.indexdata.dk:210/marc
@@ -18,12 +18,13 @@ use Getopt::Std;
 use ZOOM::IRSpy::Web;
 
 my %opts;
-if (!getopts('wt:', \%opts) || @ARGV < 1) {
+if (!getopts('wt:af:', \%opts) || @ARGV < 1) {
     print STDERR "\
 Usage $0: [options] <IRSpy-database> [<target> ...]
-If no targets are specified, all targets in DB are tested.
 	-w		Use ZOOM::IRSpy::Web subclass
 	-t <test>	Run the specified <test> [default: all tests]
+	-a		Test all targets (slow!)
+	-f <query>	Test targets found by the specified query
 ";
     exit 1;
 }
@@ -33,7 +34,15 @@ my $class = "ZOOM::IRSpy";
 $class .= "::Web" if $opts{w};
 
 my $spy = $class->new($dbname, "admin", "fruitbat");
-$spy->targets(@targets) if @targets;
+if (@targets) {
+    $spy->targets(@targets);
+} elsif ($opts{f}) {
+    $spy->find_targets($opts{f});
+} elsif (!$opts{a}) {
+    print STDERR "$0: specify -a, -f <query> or list of targets\n";
+    exit 1;
+}
+
 $spy->initialise();
 my $res = $spy->check($opts{t});
 if ($res == 0) {
