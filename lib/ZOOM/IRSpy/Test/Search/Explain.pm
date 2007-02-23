@@ -1,4 +1,4 @@
-# $Id: Explain.pm,v 1.3 2006-10-26 12:55:35 mike Exp $
+# $Id: Explain.pm,v 1.4 2007-02-23 15:03:44 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -25,7 +25,7 @@ sub start {
 	$conn->irspy_search_pqf('@attr exp-1 1=1 ' . $category,
                                 {'category' => $category},
 				{ databaseName => 'IR-Explain-1' },
-				ZOOM::Event::RECV_SEARCH, \&found,
+				ZOOM::Event::ZEND, \&found,
 				exception => \&error);
     }
 }

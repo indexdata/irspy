@@ -1,4 +1,4 @@
-# $Id: Title.pm,v 1.9 2006-11-29 18:18:38 mike Exp $
+# $Id: Title.pm,v 1.10 2007-02-23 15:03:44 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -19,7 +19,7 @@ sub start {
     my($conn) = @_;
 
     $conn->irspy_search_pqf('@attr 1=4 mineral', undef, {},
-			    ZOOM::Event::RECV_SEARCH, \&found,
+			    ZOOM::Event::ZEND, \&found,
 			    "exception", \&error);
 }
 
