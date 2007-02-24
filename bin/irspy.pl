@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: irspy.pl,v 1.22 2007-02-23 16:44:50 mike Exp $
+# $Id: irspy.pl,v 1.23 2007-02-24 01:26:32 mike Exp $
 #
 # Run like this:
 #	YAZ_LOG=irspy,irspy_test IRSPY_SAVE_XML=1 perl -I../lib irspy.pl -t Quick localhost:8018/IR-Explain---1 z3950.loc.gov:7090/Voyager bagel.indexdata.dk/gils bagel.indexdata.dk:210/marc
@@ -16,6 +16,12 @@ use strict;
 use warnings;
 use Getopt::Std;
 use ZOOM::IRSpy::Web;
+use Carp;
+
+local $SIG{__DIE__} = sub {
+    my($msg) = @_;
+    confess($msg);
+};
 
 my %opts;
 if (!getopts('wt:af:', \%opts) || @ARGV < 1) {
