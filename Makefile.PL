@@ -1,4 +1,4 @@
-# $Id: Makefile.PL,v 1.10 2006-12-11 11:05:00 sondberg Exp $
+# $Id: Makefile.PL,v 1.11 2007-02-26 14:47:35 mike Exp $
 
 use 5.008;
 use ExtUtils::MakeMaker;
@@ -8,7 +8,7 @@ WriteMakefile(
     NAME              => 'ZOOM::IRSpy',
     VERSION_FROM      => 'lib/ZOOM/IRSpy.pm', # finds $VERSION
     PREREQ_PM         => {
-	Net::Z3950::ZOOM => 1.16,
+	Net::Z3950::ZOOM => 1.18,
 	XML::LibXML::XPathContext => 0.07, # For Web UI
         XML::LibXML => 1.58,
         XML::LibXSLT => 1.57,
