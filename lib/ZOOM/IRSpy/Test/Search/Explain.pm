@@ -1,4 +1,4 @@
-# $Id: Explain.pm,v 1.4 2007-02-23 15:03:44 mike Exp $
+# $Id: Explain.pm,v 1.5 2007-02-26 18:48:50 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -55,6 +55,9 @@ sub error {
 
     $conn->log("irspy_test", "Explain category lookup failed: ", $exception);
     update($conn, $category, 0);
+
+    return ZOOM::IRSpy::Status::TEST_BAD
+	if $exception->code() == 109; # Database unavailable
 
     return ZOOM::IRSpy::Status::TASK_DONE;
 }
