@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.68 2007-02-23 16:45:55 mike Exp $
+# $Id: IRSpy.pm,v 1.69 2007-02-26 14:49:23 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -437,11 +437,13 @@ sub check {
 	die "$conn has no current task for event $ev ($evstr)" if !$task;
 
 	my $res;
-	eval { $conn->_check() };
-	if ($@) {
+	eval { $conn->check() };
+	if ($@ && ref $@ && $@->isa("ZOOM::Exception")) {
 	    my $sub = $task->{cb}->{exception};
 	    die $@ if !defined $sub;
 	    $res = &$sub($conn, $task, $task->udata(), $@);
+	} elsif ($@) {
+	    die "Unexpected non-ZOOM exception: " . ref($@) . " ($@)";
 	} else {
 	    my $sub = $task->{cb}->{$ev};
 	    if (!defined $sub) {
