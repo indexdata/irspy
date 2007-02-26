@@ -1,4 +1,4 @@
-# $Id: Bib1.pm,v 1.15 2007-02-23 15:03:44 mike Exp $
+# $Id: Bib1.pm,v 1.16 2007-02-26 17:32:13 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -50,6 +50,9 @@ sub error {
     $conn->log("irspy_test", "search on access-point $attr had error: ",
 	       $exception);
     update($conn, $attr, 0);
+
+    return ZOOM::IRSpy::Status::TEST_BAD
+	if $exception->code() == 1; # permanent system error
 
     return ZOOM::IRSpy::Status::TASK_DONE;
 }
