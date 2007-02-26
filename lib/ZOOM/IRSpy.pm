@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.69 2007-02-26 14:49:23 mike Exp $
+# $Id: IRSpy.pm,v 1.70 2007-02-26 22:20:08 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -199,8 +199,9 @@ sub initialise {
 
     $this->log("irspy_debug", "query '", $this->{query}, "'");
     my $rs = $this->{conn}->search(new ZOOM::Query::CQL($this->{query}));
+    $this->log("irspy", "'", $this->{query}, "' found ",
+	       $rs->size(), " target records");
     delete $this->{query};	# No longer needed at all
-    $this->log("irspy_debug", "found ", $rs->size(), " target records");
     my $gatherTargets = !$this->{targets};
     foreach my $i (1 .. $rs->size()) {
 	my $target = _render_record($rs, $i-1, "id");
