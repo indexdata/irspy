@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: test-zoom.pl,v 1.1 2006-07-19 11:40:26 mike Exp $
+# $Id: test-zoom.pl,v 1.2 2007-02-26 14:48:52 mike Exp $
 #
 # Run the same way as "test-pod.pl".  This is supposed to be an
 # exactly equivalent program but written using the ZOOM-Perl
@@ -34,7 +34,7 @@ while ((my $i = ZOOM::event(\@conn)) != 0) {
     my $ev = $conn->last_event();
     my $evstr = ZOOM::event_str($ev);
     ZOOM::Log::log("pod", "connection ", $i-1, ": event $ev ($evstr)");
-    $conn->_check();		# die if any errors occur
+    $conn->check();		# die if any errors occur
 
     if ($ev == ZOOM::Event::RECV_SEARCH) {
 	$res = completed_search($conn, \%state, $rs{$conn}, $ev);
