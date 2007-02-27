@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.70 2007-02-26 22:20:08 mike Exp $
+# $Id: IRSpy.pm,v 1.71 2007-02-27 14:51:10 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -263,7 +263,8 @@ sub _irspy_to_zeerex {
 
     if ($save_xml) {
 	unlink('/tmp/irspy_orig.xml');
-	open FH, '>/tmp/irspy_orig.xml';
+	open FH, '>/tmp/irspy_orig.xml'
+	    or die "can't write irspy_orig.xml: $!";
 	print FH $irspy_doc->toString();
 	close FH;
     }
@@ -271,7 +272,8 @@ sub _irspy_to_zeerex {
     my $result = $this->{irspy_to_zeerex_style}->transform($irspy_doc, %params);
     if ($save_xml) {
 	unlink('/tmp/irspy_transformed.xml');
-	open FH, '>/tmp/irspy_transformed.xml';
+	open FH, '>/tmp/irspy_transformed.xml'
+	    or die "can't write irspy_transformed.xml: $!";
 	print FH $result->toString();
 	close FH;
     }
