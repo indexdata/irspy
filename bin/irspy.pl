@@ -1,9 +1,10 @@
 #!/usr/bin/perl -w
 
-# $Id: irspy.pl,v 1.23 2007-02-24 01:26:32 mike Exp $
+# $Id: irspy.pl,v 1.24 2007-02-27 15:01:40 mike Exp $
 #
 # Run like this:
 #	YAZ_LOG=irspy,irspy_test IRSPY_SAVE_XML=1 perl -I../lib irspy.pl -t Quick localhost:8018/IR-Explain---1 z3950.loc.gov:7090/Voyager bagel.indexdata.dk/gils bagel.indexdata.dk:210/marc
+#	YAZ_LOG=irspy,irspy_test sudo ./setrlimit -n 3000 -u mike -- perl -I../lib irspy.pl -t Main -a localhost:8018/IR-Explain---1
 # Available log-levels are as follows:
 #	irspy -- high-level application logging
 #	irspy_debug -- low-level debugging (not very interesting)
@@ -11,6 +12,13 @@
 #	irspy_unhandled -- unhandled events (not very interesting)
 #	irspy_test -- adding, queueing and running tests
 #	irspy_task -- adding, queueing and running tasks
+
+# I have no idea why this directory is not in Ubuntu's default Perl
+# path, but we need it because just occasionally overload.pm:88
+# requires Scalar::Util, which is in this directory.
+
+use lib '/usr/share/perl/5.8.7';
+use Scalar::Util;
 
 use strict;
 use warnings;
