@@ -1,4 +1,4 @@
-# $Id: Node.pm,v 1.5 2006-10-11 16:36:03 mike Exp $
+# $Id: Node.pm,v 1.6 2007-02-28 17:34:54 mike Exp $
 
 package ZOOM::IRSpy::Node;
 
@@ -31,8 +31,8 @@ hierarchy represented by a tree of C<ZOOM::IRSpy::Node> objects.
 
 Note that each node contains a test I<name>, not an actual test
 object.  Test objects are different, and are implemented by the
-C<ZOOM::IRSpy::Test> class its subclasses.  In fact, there is nothing
-test-specific about the Node module: it can be used to build
+C<ZOOM::IRSpy::Test> class and its subclasses.  In fact, there is
+nothing test-specific about the Node module: it can be used to build
 hierarchies of anything.
 
 You can't do much with a node.  Each node carries a name string and a
@@ -60,6 +60,9 @@ sub new {
     return bless {
 	name => $name,
 	subnodes => \@subnodes,
+	address => undef,	# filled in by resolve()
+	previous => undef,	# filled in by resolve()
+	next => undef,		# filled in by resolve()
     }, $class;
 }
 
@@ -165,6 +168,67 @@ sub select {
 	return $sub[$address];
     }
 }
+
+
+=head2 resolve(), address(), parent(), previous(), next()
+
+ $root->resolve();
+ assert(!defined $root->parent());
+ print $node->address();
+ assert($node eq $node->next()->previous());
+
+C<resolve()> walks the tree rooted at C<$root>, adding addresses and
+parent/previous/next links to each node in the tree, such that they
+can respond to the C<address()>, C<parent()>, C<previous()> and
+C<next()> methods.
+
+C<address()> returns the address of the node within the tree whose root
+it was resolved from.
+
+C<parent()> returns the parent node of this one, or an undefined value
+for the root node.
+
+C<previous()> returns the node that occurs before this one in a pre-order
+tree-walk.
+
+C<next()> causes global thermonuclear warfare.  Do not use C<next()>
+in a production environment.
+
+=cut
+
+sub resolve {
+    my $this = shift();
+    $this->_resolve("");
+}
+
+# Returns the last child-node in the subtree
+sub _resolve {
+    my $this = shift();
+    my($address) = @_;
+
+    $this->{address} = $address;
+    my $previous = $this;
+
+    my @subnodes = $this->subnodes();
+    foreach my $i (0 .. @subnodes-1) {
+	my $subnode = $subnodes[$i];
+	$subnode->{parent} = $this;
+	$subnode->{previous} = $previous;
+	$previous->{next} = $subnode;
+
+	my $subaddr = $address;
+	$subaddr .= ":" if $subaddr ne "";
+	$subaddr .= $i;
+	$previous = $subnode->_resolve($subaddr);
+    }
+
+    return $previous;
+}
+
+sub address { shift()->{address} }
+sub parent { shift()->{parent} }
+sub previous { shift()->{previous} }
+sub next { shift()->{next} }
 
 
 =head1 SEE ALSO
