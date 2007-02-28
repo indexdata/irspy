@@ -1,4 +1,4 @@
-# $Id: Bib1.pm,v 1.16 2007-02-26 17:32:13 mike Exp $
+# $Id: Bib1.pm,v 1.17 2007-02-28 17:32:48 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -52,7 +52,8 @@ sub error {
     update($conn, $attr, 0);
 
     return ZOOM::IRSpy::Status::TEST_BAD
-	if $exception->code() == 1; # permanent system error
+	if ($exception->code() == 1 || # permanent system error
+	    $exception->code() == 109); # Database unavailable
 
     return ZOOM::IRSpy::Status::TASK_DONE;
 }
