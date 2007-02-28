@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id: zeerex2index.xsl,v 1.8 2006-12-01 10:04:18 mike Exp $ -->
+<!-- $Id: zeerex2index.xsl,v 1.9 2007-02-28 17:51:31 mike Exp $ -->
 <!-- See the ZeeRex profile at http://srw.cheshire3.org/profiles/ZeeRex/ -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:z="http://indexdata.dk/zebra/xslt/1"
@@ -107,7 +107,7 @@
 
    <!-- recordInfo -->
    <z:index name="zeerex:recordSyntax" type="0">
-    <xsl:value-of select="e:recordInfo/e:recordSyntax/@identifier"/>
+    <xsl:value-of select="e:recordInfo/e:recordSyntax/@name"/>
     <!-- ### But @identifier is an OID for Z39.50 -->
    </z:index>
 
