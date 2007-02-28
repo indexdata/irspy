@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.71 2007-02-27 14:51:10 mike Exp $
+# $Id: IRSpy.pm,v 1.72 2007-02-28 17:36:00 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -349,6 +349,7 @@ sub check {
     $tname = "Main" if !defined $tname;
     $this->{tree} = $this->_gather_tests($tname)
 	or die "No tests defined for '$tname'";
+    $this->{tree}->resolve();
     #$this->{tree}->print(0);
     my $nskipped = 0;
 
@@ -477,12 +478,22 @@ sub check {
 	    $conn->next_task(0);
 	    if ($res == ZOOM::IRSpy::Status::TEST_BAD) {
 		my $address = $conn->option('current_test_address');
-		($address, my $n) = $this->_last_sibling_test($address);
-		if (defined $address) {
-		    $conn->log("irspy_test", "skipped $n tests");
-		    $conn->option(current_test_address => $address);
-		    $nskipped += $n;
+		$conn->log("irspy", "top-level test failed!")
+		    if $address eq "";
+		my $node = $this->{tree}->select($address);
+		my $skipcount = 0;
+		while (defined $node->next() &&
+		       length($node->next()->address()) >= length($address)) {
+		    $conn->log("irspy_debug", "skipping from '",
+			       $node->address(), "' to '",
+			       $node->next()->address(), "'");
+		    $node = $node->next();
+		    $skipcount++;
 		}
+
+		$conn->option(current_test_address => $node->address());
+		$conn->log("irspy_test", "skipped $skipcount tests");
+		$nskipped += $skipcount;
 	    }
 
 	} elsif ($res == ZOOM::IRSpy::Status::TEST_SKIPPED) {
