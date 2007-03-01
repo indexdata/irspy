@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.72 2007-02-28 17:36:00 mike Exp $
+# $Id: IRSpy.pm,v 1.73 2007-03-01 14:00:50 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -85,8 +85,7 @@ sub new {
 
     my $this = bless {
 	conn => $conn,
-	allrecords => 1,	# unless overridden by targets()
-	query => undef,		# filled in later
+	query => "cql.allRecords=1", # unless overridden
 	targets => undef,	# filled in later
 	connections => undef,	# filled in later
         libxml => $libxml,
@@ -105,6 +104,14 @@ sub log {
 }
 
 
+sub find_targets {
+    my $this = shift();
+    my($query) = @_;
+
+    $this->{query} = $query;
+}
+
+
 # Explicitly nominate a set of targets to check, overriding the
 # default which is to re-check everything in the database.  Each
 # target already in the database results in the existing record being
@@ -116,7 +123,6 @@ sub targets {
 
     $this->log("irspy", "setting explicit list of targets ",
 	       join(", ", map { "'$_'" } @targets));
-    $this->{allrecords} = 0;
     my @qlist;
     foreach my $target (@targets) {
 	my($host, $port, $db, $newtarget) = _parse_target_string($target);
@@ -129,15 +135,6 @@ sub targets {
 
     $this->{targets} = \@targets;
     $this->{query} = join(" or ", @qlist);
-}
-
-
-sub find_targets {
-    my $this = shift();
-    my($query) = @_;
-
-    $this->{allrecords} = 0;    
-    $this->{query} = $query;
 }
 
 
@@ -158,37 +155,16 @@ sub _parse_target_string {
 }
 
 
-# There are two cases.
-#
-# 1. A specific set of targets is nominated on the command line.
-#	- Records must be fetched for those targets that are in the DB
-#	- New, empty records must be made for those that are not.
-#	- Updated records written to the DB may or may not be new.
-#
-# 2. All records in the database are to be checked.
-#	- Records must be fetched for all targets in the DB
-#	- Updated records written to the DB may not be new.
-#
-# That's all -- what could be simpler?
+# Records must be fetched for all records satisfying $this->{query} If
+# $this->{targets} is already set (i.e. a specific list of targets to
+# check was specified by a call to targets()), then new, empty records
+# must be made for any targets that are not already in the database.
 #
 sub initialise {
     my $this = shift();
 
     my %target2record;
-    if ($this->{allrecords}) {
-	# We need to check on every target in the database, which
-	# means we need to do a "find all".  According to the BIB-1
-	# semantics document at
-	#	http://www.loc.gov/z3950/agency/bib1.html
-	# the query
-	#	@attr 2=103 @attr 1=1035 x
-	# should find all records, but it seems that Zebra doesn't
-	# support this.  Furthermore, when using the "alvis" filter
-	# (as we do for IRSpy) it doesn't support the use of any BIB-1
-	# access point -- not even 1035 "everywhere" -- so instead we
-	# hack together a search that we know will find all records.
-	$this->{query} = "port=?*";
-    } elsif ($this->{targets}) {
+    if ($this->{targets}) {
 	# Prepopulate the target map with nulls so that after we fill
 	# in what we can from the database query, we know which target
 	# IDs we need new records for.
@@ -196,39 +172,37 @@ sub initialise {
 	    $target2record{lc($target)} = undef;
 	}
     }
+    delete $this->{targets};	# Information now in keys of %target2record
 
-    $this->log("irspy_debug", "query '", $this->{query}, "'");
     my $rs = $this->{conn}->search(new ZOOM::Query::CQL($this->{query}));
     $this->log("irspy", "'", $this->{query}, "' found ",
 	       $rs->size(), " target records");
-    delete $this->{query};	# No longer needed at all
-    my $gatherTargets = !$this->{targets};
+    delete $this->{query};	# Information now in  $rs
+
     foreach my $i (1 .. $rs->size()) {
 	my $target = _render_record($rs, $i-1, "id");
 	my $zeerex = _render_record($rs, $i-1, "zeerex");
-	#print STDERR "making '$target' record with '$zeerex'\n";
 	$target2record{lc($target)} =
 	    new ZOOM::IRSpy::Record($this, $target, $zeerex);
-	push @{ $this->{targets} }, $target
-	    if $gatherTargets;
     }
 
     # Make records for targets not previously in the database
     foreach my $target (keys %target2record) {
-	my $record = $target2record{$target};
-	if (!defined $record) {
-	    $this->log("irspy_debug", "made new record for '$target'");
+	if (!defined $target2record{$target}) {
 	    $target2record{$target} = new ZOOM::IRSpy::Record($this, $target);
+	    $this->log("irspy_debug", "made new record for '$target'");
 	} else {
 	    $this->log("irspy_debug", "using existing record for '$target'");
 	}
     }
 
     my @connections;
-    foreach my $target (@{ $this->{targets} }) {
+    my @targets = sort keys %target2record;
+    foreach my $target (@targets) {
 	my $conn = create ZOOM::IRSpy::Connection($this, async => 1);
 	$conn->option(host => $target);
 	my $record = delete $target2record{lc($target)};
+	die "record undefined for '$target'" if !defined $record;
 	$conn->record($record);
 	push @connections, $conn;
     }
@@ -238,7 +212,6 @@ sub initialise {
 	if %target2record;
 
     $this->{connections} = \@connections;
-    delete $this->{targets};	# The information is now in {connections}
 }
 
 
