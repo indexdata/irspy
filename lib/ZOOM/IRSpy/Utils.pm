@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.22 2007-03-01 13:51:18 mike Exp $
+# $Id: Utils.pm,v 1.23 2007-03-01 13:52:54 mike Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -10,6 +10,7 @@ use Exporter 'import';
 our @EXPORT_OK = qw(isodate
 		    xml_encode 
 		    cql_quote
+		    cql_target
 		    irspy_xpath_context
 		    modify_xml_document
 		    bib1_access_point);
@@ -68,6 +69,16 @@ sub cql_quote {
     $term =~ s/([""\\])/\\$1/g;
     $term = qq["$term"] if $term =~ /\s/;
     return $term;
+}
+
+
+# Makes a CQL query that finds a specified target
+sub cql_target {
+    my($host, $port, $db) = @_;
+
+    return ("host=" . cql_quote($host) . " and " .
+	    "port=" . cql_quote($port) . " and " .
+	    "path=" . cql_quote($db));
 }
 
 
