@@ -1,4 +1,4 @@
-# $Id: Record.pm,v 1.21 2006-11-30 12:01:23 mike Exp $
+# $Id: Record.pm,v 1.22 2007-03-01 13:21:05 mike Exp $
 
 package ZOOM::IRSpy::Record;
 
@@ -32,6 +32,7 @@ sub new {
 	$zeerex = _empty_zeerex_record($target);
     }
 
+    ### Parser should be in the IRSpy object
     my $parser = new XML::LibXML();
     return bless {
 	irspy => $irspy,
