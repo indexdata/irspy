@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.23 2007-03-01 13:52:54 mike Exp $
+# $Id: Utils.pm,v 1.24 2007-03-01 13:59:45 mike Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -67,7 +67,7 @@ sub cql_quote {
     my($term) = @_;
 
     $term =~ s/([""\\])/\\$1/g;
-    $term = qq["$term"] if $term =~ /\s/;
+    $term = qq["$term"] if $term =~ /[\s""\/]/;
     return $term;
 }
 
@@ -76,9 +76,7 @@ sub cql_quote {
 sub cql_target {
     my($host, $port, $db) = @_;
 
-    return ("host=" . cql_quote($host) . " and " .
-	    "port=" . cql_quote($port) . " and " .
-	    "path=" . cql_quote($db));
+    return "rec.id=" . cql_quote("$host:$port/$db");
 }
 
 
