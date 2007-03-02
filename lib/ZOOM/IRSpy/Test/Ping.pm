@@ -1,4 +1,4 @@
-# $Id: Ping.pm,v 1.20 2007-02-23 15:03:44 mike Exp $
+# $Id: Ping.pm,v 1.21 2007-03-02 11:56:15 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -12,6 +12,9 @@ use ZOOM::IRSpy::Test;
 our @ISA = qw(ZOOM::IRSpy::Test);
 
 use ZOOM::IRSpy::Utils qw(isodate);
+
+use Text::Iconv;
+my $conv = new Text::Iconv("LATIN1", "UTF8");
 
 
 sub start {
@@ -52,7 +55,25 @@ sub maybe_connected {
 	foreach my $opt (qw(serverImplementationId
 			    serverImplementationName
 			    serverImplementationVersion)) {
-	    $conn->record()->store_result($opt, value => $conn->option($opt));
+	    # There doesn't seem to be a reliable way to tell what
+	    # character set the server uses for these.  At least one
+	    # server (z3950.bcl.jcyl.es:210/AbsysCCFL) returns an ISO
+	    # 8859-1 string containing an o-acute, which breaks the
+	    # XML parser if we just insert it naively.  It seems
+	    # reasonable, though, to guess that the great majority of
+	    # servers will use ASCII, Latin-1 or Unicode.  The first
+	    # of these is a subset of the second, so that brings it to
+	    # down to two.  The strategy is simply this: assume it's
+	    # ASCII-Latin-1, and try to convert to UTF-8.  If that
+	    # conversion works, fine; if not, assume it's because the
+	    # string was already UTF-8, so use it as is.
+	    my $val = $conn->option($opt);
+	    my $maybe = $conv->convert($val);
+	    if (defined $conv->retval() && $maybe ne $val) {
+		$conn->log("irspy", "converted '$val' from Latin-1 to UTF-8");
+		$val = $maybe;
+	    }
+	    $conn->record()->store_result($opt, value => $val);
 	}
     }
 
