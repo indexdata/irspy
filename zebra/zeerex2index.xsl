@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id: zeerex2index.xsl,v 1.11 2007-03-02 14:27:53 mike Exp $ -->
+<!-- $Id: zeerex2index.xsl,v 1.12 2007-03-02 15:50:09 mike Exp $ -->
 <!-- See the ZeeRex profile at http://srw.cheshire3.org/profiles/ZeeRex/ -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:z="http://indexdata.dk/zebra/xslt/1"
@@ -12,10 +12,10 @@
  <xsl:template match="text()"/>
  <!-- Match on ZeeRex XML record -->
  <xsl:template match="//e:explain">
-  <xsl:variable name="id"><xsl:value-of select="translate(concat(
+  <xsl:variable name="id"><xsl:value-of select="concat(
 	e:serverInfo/e:host, ':',
 	e:serverInfo/e:port, '/',
-	e:serverInfo/e:database), $ucletters, $lcletters)"/></xsl:variable>
+	e:serverInfo/e:database)"/></xsl:variable>
   <z:record id="{$id}" type="update">
 
    <!-- Well, not quite _anywhere_.  Only textual fields are indexed -->
