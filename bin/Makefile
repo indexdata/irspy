@@ -1,12 +1,12 @@
-# $Id: Makefile,v 1.2 2007-02-27 14:52:40 mike Exp $
+# $Id: Makefile,v 1.3 2007-03-02 12:02:16 mike Exp $
 
 LIBS = -lyaz -lxml2 -lssl	# Ubuntu Linux 6.06
 
 setrlimit: setrlimit.c
-	$(CC) -g -O0 -Wall -Wdeclaration-after-statement -ansi -pedantic -o $@ $?
+	$(CC) -g -O0 -Wall -ansi -pedantic -o $@ $?
 
 test-zoom-c: test-zoom-c.c
-	$(CC) -g -O0 -Wall -Wdeclaration-after-statement -o $@ $? $(LIBS)
+	$(CC) -g -O0 -Wall -o $@ $? $(LIBS)
 
 clean:
 	rm -f test-zoom-c
