@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id: zeerex2index.xsl,v 1.10 2007-03-02 11:04:10 mike Exp $ -->
+<!-- $Id: zeerex2index.xsl,v 1.11 2007-03-02 14:27:53 mike Exp $ -->
 <!-- See the ZeeRex profile at http://srw.cheshire3.org/profiles/ZeeRex/ -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:z="http://indexdata.dk/zebra/xslt/1"
@@ -37,7 +37,7 @@
     <xsl:value-of select="@authoritative"/>
    </z:index>
 
-   <z:index name="rec:id" type="0">
+   <z:index name="rec:id" type="u">
     <xsl:value-of select="$id"/>
    </z:index>
 
