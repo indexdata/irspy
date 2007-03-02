@@ -1,4 +1,4 @@
-# $Id: Ping.pm,v 1.21 2007-03-02 11:56:15 mike Exp $
+# $Id: Ping.pm,v 1.22 2007-03-02 12:17:33 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -68,8 +68,11 @@ sub maybe_connected {
 	    # conversion works, fine; if not, assume it's because the
 	    # string was already UTF-8, so use it as is.
 	    my $val = $conn->option($opt);
-	    my $maybe = $conv->convert($val);
-	    if (defined $conv->retval() && $maybe ne $val) {
+	    Text::Iconv->raise_error(1);
+	    my $maybe;
+	    eval {
+		$maybe = $conv->convert($val);
+	    }; if (!$@ && $maybe ne $val) {
 		$conn->log("irspy", "converted '$val' from Latin-1 to UTF-8");
 		$val = $maybe;
 	    }
