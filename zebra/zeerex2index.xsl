@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id: zeerex2index.xsl,v 1.9 2007-02-28 17:51:31 mike Exp $ -->
+<!-- $Id: zeerex2index.xsl,v 1.10 2007-03-02 11:04:10 mike Exp $ -->
 <!-- See the ZeeRex profile at http://srw.cheshire3.org/profiles/ZeeRex/ -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:z="http://indexdata.dk/zebra/xslt/1"
                 xmlns:e="http://explain.z3950.org/dtd/2.0/"
                 version="1.0">
+ <xsl:variable name="lcletters">abcdefghijklmnopqrstuvwxyz</xsl:variable>
+ <xsl:variable name="ucletters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</xsl:variable>
  <xsl:output indent="yes" method="xml" version="1.0" encoding="UTF-8"/>
  <!-- Disable all default text node output -->
  <xsl:template match="text()"/>
  <!-- Match on ZeeRex XML record -->
  <xsl:template match="//e:explain">
-  <z:record id="{concat(
-		e:serverInfo/e:host, ':',
-		e:serverInfo/e:port, '/',
-		e:serverInfo/e:database)}"
-	    type="update">
+  <xsl:variable name="id"><xsl:value-of select="translate(concat(
+	e:serverInfo/e:host, ':',
+	e:serverInfo/e:port, '/',
+	e:serverInfo/e:database), $ucletters, $lcletters)"/></xsl:variable>
+  <z:record id="{$id}" type="update">
 
    <!-- Well, not quite _anywhere_.  Only textual fields are indexed -->
    <z:index name="cql:anywhere" type="w">
@@ -36,10 +38,7 @@
    </z:index>
 
    <z:index name="rec:id" type="0">
-    <xsl:value-of select="concat(
-			  e:serverInfo/e:host, ':',
-			  e:serverInfo/e:port, '/',
-			  e:serverInfo/e:database)"/>
+    <xsl:value-of select="$id"/>
    </z:index>
 
    <!-- serverInfo -->
