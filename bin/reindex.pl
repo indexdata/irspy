@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: reindex.pl,v 1.1 2007-03-02 15:14:13 mike Exp $
+# $Id: reindex.pl,v 1.2 2007-03-02 16:12:39 mike Exp $
 
 use strict;
 use warnings;
@@ -23,7 +23,10 @@ foreach my $i (1..$n) {
     print " $i/$n (", int($i*100/$n), "%)\n" if $i % 50 == 0;
     my $rec = $rs->record($i-1);
     my $xml = $rec->render();
-    update($conn, $xml);
+    open F, ">$i.xml" or die "can't open\n";
+    print F $xml;
+    close F;
+    #update($conn, $xml);
 }
 print " $n/$n (100%)\n" if $n % 50 != 0;
 commit($conn);
