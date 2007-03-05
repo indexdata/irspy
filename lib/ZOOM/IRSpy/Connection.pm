@@ -1,4 +1,4 @@
-# $Id: Connection.pm,v 1.7 2006-11-16 17:18:43 mike Exp $
+# $Id: Connection.pm,v 1.8 2007-03-05 19:43:10 mike Exp $
 
 package ZOOM::IRSpy::Connection;
 
@@ -8,6 +8,9 @@ use warnings;
 
 use ZOOM;
 our @ISA = qw(ZOOM::Connection);
+
+use ZOOM::IRSpy::Record;
+use ZOOM::IRSpy::Utils qw(cql_target render_record);
 
 use ZOOM::IRSpy::Task::Connect;
 use ZOOM::IRSpy::Task::Search;
@@ -26,19 +29,29 @@ Keeping the private data in these objects removes the need for ugly
 mappings in the IRSpy object itself; adding the methods makes the
 application code cleaner.
 
-The constructor takes an additional first argument, a reference to the
-IRSpy object that it is associated with.
+The constructor takes an two additional leading arguments: a reference
+to the IRSpy object that it is associated with, and the target ID of
+the connection.
 
 =cut
 
 sub create {
     my $class = shift();
     my $irspy = shift();
+    my $target = shift();
 
     my $this = $class->SUPER::create(@_);
+    $this->option(host => $target);
     $this->{irspy} = $irspy;
-    $this->{record} = undef;
     $this->{tasks} = [];
+
+    my $query = cql_target($target);
+    my $rs = $irspy->{conn}->search(new ZOOM::Query::CQL($query));
+    my $n = $rs->size();
+    $this->log("irspy", "query '$query' found $n records");
+    my $zeerex;
+    $zeerex = render_record($rs, 0, "zeerex") if $n > 0;
+    $this->{record} = new ZOOM::IRSpy::Record($this, $target, $zeerex);
 
     return $this;
 }
