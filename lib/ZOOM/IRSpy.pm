@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.73 2007-03-01 14:00:50 mike Exp $
+# $Id: IRSpy.pm,v 1.74 2007-03-05 19:45:54 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -15,9 +15,8 @@ use ZOOM;
 use Net::Z3950::ZOOM 1.13;	# For the ZOOM version-check only
 use ZOOM::IRSpy::Node;
 use ZOOM::IRSpy::Connection;
-use ZOOM::IRSpy::Record;
 use ZOOM::IRSpy::Stats;
-use ZOOM::IRSpy::Utils qw(cql_target);
+use ZOOM::IRSpy::Utils qw(cql_target render_record);
 
 our @ISA = qw();
 our $VERSION = '0.02';
@@ -65,7 +64,7 @@ BEGIN {
 
 sub new {
     my $class = shift();
-    my($dbname, $user, $password) = @_;
+    my($dbname, $user, $password, $activeSetSize) = @_;
 
     my @options;
     push @options, (user => $user, password => $password)
@@ -86,11 +85,16 @@ sub new {
     my $this = bless {
 	conn => $conn,
 	query => "cql.allRecords=1", # unless overridden
-	targets => undef,	# filled in later
-	connections => undef,	# filled in later
+	targets => undef,	# Filled in later if targets() is
+				# called; used only to keep state from
+				# targets() until initialise() is
+				# called.
+	connections => undef,	# Filled in by initialise()
+	queue => undef,		# Filled in by initialise()
         libxml => $libxml,
         irspy_to_zeerex_style => $irspy_to_zeerex_style,
-	tests => [],		# stack of tests currently being executed
+	tests => undef,		# Tree of tests to be executed
+	activeSetSize => defined $activeSetSize ? $activeSetSize : 10,
     }, $class;
     $this->log("irspy", "starting up with database '$dbname'");
 
@@ -158,74 +162,39 @@ sub _parse_target_string {
 # Records must be fetched for all records satisfying $this->{query} If
 # $this->{targets} is already set (i.e. a specific list of targets to
 # check was specified by a call to targets()), then new, empty records
-# must be made for any targets that are not already in the database.
+# will be made for any targets that are not already in the database.
 #
 sub initialise {
     my $this = shift();
 
-    my %target2record;
-    if ($this->{targets}) {
-	# Prepopulate the target map with nulls so that after we fill
-	# in what we can from the database query, we know which target
-	# IDs we need new records for.
-	foreach my $target (@{ $this->{targets} }) {
-	    $target2record{lc($target)} = undef;
+    my @targets;
+    my $targets = $this->{targets};
+    if (defined $targets) {
+	@targets = @$targets;
+	delete $this->{targets};
+    } else {
+	my $rs = $this->{conn}->search(new ZOOM::Query::CQL($this->{query}));
+	$this->log("irspy", "'", $this->{query}, "' found ",
+		   $rs->size(), " target records");
+	delete $this->{query};
+
+	foreach my $i (1 .. $rs->size()) {
+	    push @targets, render_record($rs, $i-1, "id");
 	}
     }
-    delete $this->{targets};	# Information now in keys of %target2record
 
-    my $rs = $this->{conn}->search(new ZOOM::Query::CQL($this->{query}));
-    $this->log("irspy", "'", $this->{query}, "' found ",
-	       $rs->size(), " target records");
-    delete $this->{query};	# Information now in  $rs
-
-    foreach my $i (1 .. $rs->size()) {
-	my $target = _render_record($rs, $i-1, "id");
-	my $zeerex = _render_record($rs, $i-1, "zeerex");
-	$target2record{lc($target)} =
-	    new ZOOM::IRSpy::Record($this, $target, $zeerex);
-    }
-
-    # Make records for targets not previously in the database
-    foreach my $target (keys %target2record) {
-	if (!defined $target2record{$target}) {
-	    $target2record{$target} = new ZOOM::IRSpy::Record($this, $target);
-	    $this->log("irspy_debug", "made new record for '$target'");
-	} else {
-	    $this->log("irspy_debug", "using existing record for '$target'");
-	}
-    }
+    my $n = $this->{activeSetSize};
+    $n = @targets if $n == 0 || $n > @targets;
 
     my @connections;
-    my @targets = sort keys %target2record;
-    foreach my $target (@targets) {
-	my $conn = create ZOOM::IRSpy::Connection($this, async => 1);
-	$conn->option(host => $target);
-	my $record = delete $target2record{lc($target)};
-	die "record undefined for '$target'" if !defined $record;
-	$conn->record($record);
-	push @connections, $conn;
+    foreach my $i (1..$n) {
+	push @connections, create ZOOM::IRSpy::Connection($this,
+							  shift @targets,
+							  async => 1);
     }
-    die("remaining target2record = { " .
-	join(", ", map { "$_ ->'" . $target2record{$_}. "'" }
-	     sort keys %target2record) . " }")
-	if %target2record;
 
     $this->{connections} = \@connections;
-}
-
-
-sub _render_record {
-    my($rs, $which, $elementSetName) = @_;
-
-    # There is a slight race condition here on the element-set name,
-    # but it shouldn't be a problem as this is (currently) only called
-    # from parts of the program that run single-threaded.
-    my $old = $rs->option(elementSetName => $elementSetName);
-    my $rec = $rs->record($which);
-    $rs->option(elementSetName => $old);
-
-    return $rec->render();
+    $this->{queue} = \@targets;
 }
 
 
@@ -261,7 +230,14 @@ sub _rewrite_record {
 
     $conn->log("irspy", "rewriting XML record");
     my $rec = $this->_irspy_to_zeerex($conn, $ENV{IRSPY_SAVE_XML});
+
+    # Since IRSpy can run for a long time between writes back to the
+    # database, it's quite possible for the server to have closed the
+    # connection as idle.  So re-establish it if necessary.
+    $conn->connect($conn->option("host"));
+
     _really_rewrite_record($this->{conn}, $rec);
+    $conn->log("irspy", "rewrote XML record");
 }
 
 
@@ -336,6 +312,7 @@ sub check {
 	foreach my $i0 (0 .. $#copy_conn) {
 	    my $conn = $copy_conn[$i0];
 	    #print "connection $i0 of $nconn/", scalar(@conn), " is $conn\n";
+	    next if !defined $conn;
 	    if (!$conn->current_task()) {
 		if (!$conn->next_task()) {
 		    # Out of tasks: we need a new test
@@ -345,16 +322,25 @@ sub check {
 		    if (!defined $address) {
 			$nextaddr = "";
 		    } else {
-			$this->log("irspy_test",
+			$conn->log("irspy_test",
 				   "checking for next test after '$address'");
 			$nextaddr = $this->_next_test($address);
 		    }
 		    if (!defined $nextaddr) {
 			$conn->log("irspy", "has no more tests: removing");
-			### Does this go wrong if two connections are exhausted?
-			splice @conn, $i0, 1;
 			$this->_rewrite_record($conn);
 			$conn->option(rewrote_record => 1);
+			if (@{ $this->{queue} } == 0) {
+			    splice @conn, $i0, 1;
+			} else {
+			    $conn[$i0] = create
+				ZOOM::IRSpy::Connection($this,
+					shift @{ $this->{queue} }, async => 1);
+			    $conn[$i0]->option(current_test_address => "");
+			    $conn[$i0]->log("irspy", "entering active pool - ",
+					    scalar(@{ $this->{queue} }),
+					    " targets remain in queue");
+			}
 			next;
 		    }
 
@@ -540,6 +526,29 @@ sub check {
     }
 
     return $nskipped;
+}
+
+
+# Exactly equivalent to ZOOM::event() except that it is tolerant to
+# undefined values in the array being passed in.
+#
+sub __UNUSED_tolerant_ZOOM_event {
+    my($connref) = @_;
+
+    my(@conn, @map);
+    foreach my $i (0 .. @$connref-1) {
+	my $conn = $connref->[$i];
+	if (defined $conn) {
+	    push @conn, $conn;
+	    push @map, $i;
+	}
+    }
+
+    my $res = ZOOM::event(\@conn);
+    return $res if $res <= 0;
+    my $res2 = $map[$res-1] + 1;
+    print STDERR "*** tolerant_ZOOM_event() returns $res->$res2\n";
+    return $res2;
 }
 
 
