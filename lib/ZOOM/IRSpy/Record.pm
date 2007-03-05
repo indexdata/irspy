@@ -1,6 +1,8 @@
-# $Id: Record.pm,v 1.22 2007-03-01 13:21:05 mike Exp $
+# $Id: Record.pm,v 1.23 2007-03-05 19:42:13 mike Exp $
 
 package ZOOM::IRSpy::Record;
+### I don't think there's any reason for this to be separate from
+#   ZOOM::IRSpy::Connection, now that the correspondence is always 1:1
 
 use 5.008;
 use strict;
