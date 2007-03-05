@@ -1,4 +1,4 @@
-# $Id: Named.pm,v 1.2 2007-02-23 15:03:44 mike Exp $
+# $Id: Named.pm,v 1.3 2007-03-05 12:53:57 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -31,9 +31,17 @@ sub completed_search_a {
     my $record = '';
     my $hits = $rs->size();
 
-    ## How should be handle the situation when there is 0 hits?
+    ## How should we handle the situation when there is 0 hits?
     if ($hits > 0) {
-        $record = $rs->record(0)->raw(); 
+	my $rsrec = $rs->record(0);
+	if (!defined $rsrec) {
+	    # I thought this was a "can't happen", but it sometimes
+	    # does, as for example documented for
+	    # kat.vkol.cz:9909/svk02 at ../../../../../tmp/bad-run-1
+	    eval { $conn->check() };
+	    return error($conn, $task, $test_args, $@);
+	}
+        $record = $rsrec->raw(); 
     } 
 
     $conn->irspy_search_pqf("\@attr 1=4 4ds9da94",
