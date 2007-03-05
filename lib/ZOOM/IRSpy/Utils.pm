@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.24 2007-03-01 13:59:45 mike Exp $
+# $Id: Utils.pm,v 1.25 2007-03-05 19:41:57 mike Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -13,7 +13,8 @@ our @EXPORT_OK = qw(isodate
 		    cql_target
 		    irspy_xpath_context
 		    modify_xml_document
-		    bib1_access_point);
+		    bib1_access_point
+		    render_record);
 
 use XML::LibXML;
 use XML::LibXML::XPathContext;
@@ -72,11 +73,13 @@ sub cql_quote {
 }
 
 
-# Makes a CQL query that finds a specified target
+# Makes a CQL query that finds a specified target.  Arguments may be
+# either an ID alone, or a (host, port, db) triple.
 sub cql_target {
     my($host, $port, $db) = @_;
 
-    return "rec.id=" . cql_quote("$host:$port/$db");
+    $host .= ":$port/$db" if defined $port;
+    return "rec.id=" . cql_quote($host);
 }
 
 
@@ -587,6 +590,20 @@ sub bib1_access_point {
 
     return $_bib1_access_point{$ap} ||
 	"unknown BIB-1 attribute '$ap'";
+}
+
+
+sub render_record {
+    my($rs, $which, $elementSetName) = @_;
+
+    # There is a slight race condition here on the element-set name,
+    # but it shouldn't be a problem as this is (currently) only called
+    # from parts of the program that run single-threaded.
+    my $old = $rs->option(elementSetName => $elementSetName);
+    my $rec = $rs->record($which);
+    $rs->option(elementSetName => $old);
+
+    return $rec->render();
 }
 
 
