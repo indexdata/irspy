@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: irspy.pl,v 1.24 2007-02-27 15:01:40 mike Exp $
+# $Id: irspy.pl,v 1.25 2007-03-05 19:40:20 mike Exp $
 #
 # Run like this:
 #	YAZ_LOG=irspy,irspy_test IRSPY_SAVE_XML=1 perl -I../lib irspy.pl -t Quick localhost:8018/IR-Explain---1 z3950.loc.gov:7090/Voyager bagel.indexdata.dk/gils bagel.indexdata.dk:210/marc
@@ -26,19 +26,20 @@ use Getopt::Std;
 use ZOOM::IRSpy::Web;
 use Carp;
 
-local $SIG{__DIE__} = sub {
+$SIG{__DIE__} = sub {
     my($msg) = @_;
     confess($msg);
 };
 
 my %opts;
-if (!getopts('wt:af:', \%opts) || @ARGV < 1) {
+if (!getopts('wt:af:n:', \%opts) || @ARGV < 1) {
     print STDERR "\
 Usage $0: [options] <IRSpy-database> [<target> ...]
 	-w		Use ZOOM::IRSpy::Web subclass
 	-t <test>	Run the specified <test> [default: all tests]
 	-a		Test all targets (slow!)
 	-f <query>	Test targets found by the specified query
+	-n <number>	Number of connection to keep in active set
 ";
     exit 1;
 }
@@ -47,7 +48,7 @@ my($dbname, @targets) = @ARGV;
 my $class = "ZOOM::IRSpy";
 $class .= "::Web" if $opts{w};
 
-my $spy = $class->new($dbname, "admin", "fruitbat");
+my $spy = $class->new($dbname, "admin", "fruitbat", $opts{n});
 if (@targets) {
     $spy->targets(@targets);
 } elsif ($opts{f}) {
