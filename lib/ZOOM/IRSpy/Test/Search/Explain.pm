@@ -1,4 +1,4 @@
-# $Id: Explain.pm,v 1.5 2007-02-26 18:48:50 mike Exp $
+# $Id: Explain.pm,v 1.6 2007-03-05 12:15:11 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -57,7 +57,8 @@ sub error {
     update($conn, $category, 0);
 
     return ZOOM::IRSpy::Status::TEST_BAD
-	if $exception->code() == 109; # Database unavailable
+	if ($exception->code() == 109 || # Database unavailable
+	    $exception->code() == 235); # Database does not exist
 
     return ZOOM::IRSpy::Status::TASK_DONE;
 }
