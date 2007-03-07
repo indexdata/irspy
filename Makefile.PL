@@ -1,4 +1,4 @@
-# $Id: Makefile.PL,v 1.12 2007-02-27 18:16:26 mike Exp $
+# $Id: Makefile.PL,v 1.13 2007-03-07 22:15:39 mike Exp $
 
 use 5.008;
 use strict;
@@ -15,11 +15,9 @@ will also need to install "libyaz-dev" in order to build this module.
 }
 
 chomp($yazver);
-# 2.1.51 is the first version with support for polling arbitrarily
-# many file descriptors: earlier YAZ versions had a hardwired
-# 1024-element array so that working with more file descriptors than
-# this would cause a segmentation fault.
-check_version($yazver, "2.1.51");
+# 2.1.53 is the first version with ZOOM-C fixed to properly support
+# reconnection in asynchronous mode.
+check_version($yazver, "2.1.53");
 
 # See lib/ExtUtils/MakeMaker.pm for details of how to influence
 # the contents of the Makefile that is written.
