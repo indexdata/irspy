@@ -1,4 +1,4 @@
-# $Id: Retrieve.pm,v 1.3 2006-11-02 16:11:44 mike Exp $
+# $Id: Retrieve.pm,v 1.4 2007-03-07 18:00:15 mike Exp $
 
 package ZOOM::IRSpy::Task::Retrieve;
 
@@ -40,6 +40,8 @@ sub run {
     $this->set_options();
 
     my $conn = $this->conn();
+    $conn->connect($conn->option("host"));
+
     my $rs = $this->{rs};
     my $index0 = $this->{index0};
     $this->irspy()->log("irspy_task", $conn->option("host"),
