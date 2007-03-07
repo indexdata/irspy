@@ -1,4 +1,4 @@
-# $Id: Search.pm,v 1.8 2007-02-26 14:27:50 mike Exp $
+# $Id: Search.pm,v 1.9 2007-03-07 11:41:01 mike Exp $
 
 package ZOOM::IRSpy::Task::Search;
 
@@ -39,6 +39,10 @@ sub run {
     $this->set_options();
 
     my $conn = $this->conn();
+    ### Note that adding this next line DOES NOT HELP at the moment --
+    #   perhaps because of a ZOOM-C bug?
+    $conn->connect($conn->option("host"));
+
     my $query = $this->{query};
     $this->irspy()->log("irspy_task", $conn->option("host"),
 			" searching for '$query'");
