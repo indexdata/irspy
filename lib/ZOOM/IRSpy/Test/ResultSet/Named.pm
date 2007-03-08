@@ -1,4 +1,4 @@
-# $Id: Named.pm,v 1.3 2007-03-05 12:53:57 mike Exp $
+# $Id: Named.pm,v 1.4 2007-03-08 14:51:01 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -65,7 +65,12 @@ sub completed_search_b {
 
     if ($test_args->{'hits_a'} > 0) {
         my $hits = $rs->size();
-        my $record = $rs->record(0)->raw();
+	my $rsrec = $rs->record(0);
+	if (!defined $rsrec) {
+	    eval { $conn->check() };
+	    return error($conn, $task, $test_args, $@);
+	}
+        my $record = $rsrec->raw(); 
 
         if ($hits != $test_args->{'hits_a'}) {
             $conn->log('irspy_test', 'Named result set not supported: ',
