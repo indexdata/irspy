@@ -1,4 +1,4 @@
-# $Id: Connection.pm,v 1.9 2007-03-07 10:26:50 mike Exp $
+# $Id: Connection.pm,v 1.10 2007-03-09 08:57:12 mike Exp $
 
 package ZOOM::IRSpy::Connection;
 
@@ -54,6 +54,13 @@ sub create {
     $this->{record} = new ZOOM::IRSpy::Record($this, $target, $zeerex);
 
     return $this;
+}
+
+
+sub destroy {
+    my $this = shift();
+    $this->SUPER::destroy(@_);
+    $this->{rs}->destroy() if defined $this->{rs};
 }
 
 
