@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.74 2007-03-05 19:45:54 mike Exp $
+# $Id: IRSpy.pm,v 1.75 2007-03-09 08:56:37 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -330,6 +330,7 @@ sub check {
 			$conn->log("irspy", "has no more tests: removing");
 			$this->_rewrite_record($conn);
 			$conn->option(rewrote_record => 1);
+			$conn->destroy();
 			if (@{ $this->{queue} } == 0) {
 			    splice @conn, $i0, 1;
 			} else {
