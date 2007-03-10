@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.75 2007-03-09 08:56:37 mike Exp $
+# $Id: IRSpy.pm,v 1.76 2007-03-10 13:02:36 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -330,10 +330,11 @@ sub check {
 			$conn->log("irspy", "has no more tests: removing");
 			$this->_rewrite_record($conn);
 			$conn->option(rewrote_record => 1);
-			$conn->destroy();
 			if (@{ $this->{queue} } == 0) {
+			    # Do not destroy: we need this for later sanity checks
 			    splice @conn, $i0, 1;
 			} else {
+			    $conn->destroy();
 			    $conn[$i0] = create
 				ZOOM::IRSpy::Connection($this,
 					shift @{ $this->{queue} }, async => 1);
@@ -468,6 +469,8 @@ sub check {
     }
 
     $this->log("irspy", "exiting main loop");
+    return $nskipped;		# Sanity-checks don't work if conns are closed
+
     # Sanity checks: none of the following should ever happen
     my $finished = 1;
     @conn = @{ $this->{connections} };
