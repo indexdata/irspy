@@ -1,4 +1,4 @@
-# $Id: Search.pm,v 1.11 2007-03-09 08:57:34 mike Exp $
+# $Id: Search.pm,v 1.12 2007-03-13 16:12:38 mike Exp $
 
 package ZOOM::IRSpy::Task::Search;
 
@@ -44,7 +44,14 @@ sub run {
     my $query = $this->{query};
     $this->irspy()->log("irspy_task", $conn->option("host"),
 			" searching for '$query'");
-    $this->{rs}->destroy() if defined $this->{rs};
+    die "task $this has resultset?!" if defined $this->{rs};
+
+    ### NOTE WELL that when this task runs, it creates a result-set
+    #	object which MUST BE DESTROYED in order to prevent large-scale
+    #	memory leakage.  So when creating a Task::Search, it is the
+    #	APPLICATION'S RESPONSIBILITY to ensure that the callback
+    #	invoked on success makes arrangements for the set to be
+    #	destroyed.
     $this->{rs} = $conn->search_pqf($query);
     warn "no ZOOM-C level events queued by $this"
 	if $conn->is_idle();
