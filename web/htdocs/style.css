@@ -1,4 +1,4 @@
-/* $Id: style.css,v 1.1 2006-12-14 15:37:41 mike Exp $ */
+/* $Id: style.css,v 1.2 2007-03-14 17:27:46 mike Exp $ */
 body {
   color: black;
   background: white;
@@ -46,3 +46,6 @@ img { border: 0 }
 
 .disabled { color: grey }
 .error { color: red; font-weight: bold }
+
+.essay { margin: 1em 10em 1em 1em }
+.essay a { text-decoration: none }
