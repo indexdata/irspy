@@ -1,4 +1,5 @@
-%# $Id: home.mc,v 1.5 2007-03-14 17:24:11 mike Exp $
+%# $Id: home.mc,v 1.6 2007-03-14 17:25:53 mike Exp $
+     <div class="essay">
      <p>
       <b>IRSpy</b> maintains a registry of information retrieval
       targets supporting standard IR protocols such as
@@ -65,3 +66,4 @@
 	>Dublin Core</a>
       summary format.
      </p>
+     </div>
