@@ -1,4 +1,4 @@
-# $Id: Dan1.pm,v 1.6 2007-02-23 15:03:44 mike Exp $
+# $Id: Dan1.pm,v 1.7 2007-03-15 11:40:52 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -30,8 +30,9 @@ sub start {
 sub found {
     my($conn, $task, $test_args, $event) = @_;
     my $attr = $test_args->{'attr'};
-    my $n = $task->{rs}->size();
 
+    my $n = $task->{rs}->size();
+    $task->{rs}->destroy();
     $conn->log("irspy_test", "search on access-point $attr found $n record",
 	       $n==1 ? "" : "s");
     update($conn, $attr, 1);
@@ -44,6 +45,7 @@ sub error {
     my($conn, $task, $test_args, $exception) = @_;
     my $attr = $test_args->{'attr'};
 
+    $task->{rs}->destroy();
     $conn->log("irspy_test", "search on access-point $attr had error: ",
 	       $exception);
     update($conn, $attr, 0);

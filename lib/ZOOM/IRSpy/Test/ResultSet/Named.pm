@@ -1,4 +1,4 @@
-# $Id: Named.pm,v 1.4 2007-03-08 14:51:01 mike Exp $
+# $Id: Named.pm,v 1.5 2007-03-15 11:38:53 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -19,7 +19,7 @@ sub start {
     $conn->log('irspy_test', 'Testing for named resultset support');
 
     $conn->irspy_search_pqf("\@attr 1=4 mineral", {},
-                            {'setname' => 'a', 'start' => 0, 'count' => 0},	
+                            {'setname' => 'a', 'start' => 0, 'count' => 0},
 			    ZOOM::Event::ZEND, \&completed_search_a,
 			    exception => \&error);
 }
@@ -31,13 +31,17 @@ sub completed_search_a {
     my $record = '';
     my $hits = $rs->size();
 
-    ## How should we handle the situation when there is 0 hits?
-    if ($hits > 0) {
+    if ($hits == 0) {
+	### We should try other searches as in Record::Fetch
+	$rs->destroy();
+	return ZOOM::IRSpy::Status::TEST_BAD;	
+    } else {
 	my $rsrec = $rs->record(0);
 	if (!defined $rsrec) {
 	    # I thought this was a "can't happen", but it sometimes
 	    # does, as for example documented for
 	    # kat.vkol.cz:9909/svk02 at ../../../../../tmp/bad-run-1
+	    $rs->destroy();
 	    eval { $conn->check() };
 	    return error($conn, $task, $test_args, $@);
 	}
@@ -61,12 +65,16 @@ sub completed_search_b {
     my $record = '';
     my $error = '';
 
+    $task->{rs}->destroy();	# We only care about the original search
     $rs->cache_reset();
 
-    if ($test_args->{'hits_a'} > 0) {
+    if ($test_args->{'hits_a'} == 0) {
+	die "can't happen: hits_a == 0";
+    } else {
         my $hits = $rs->size();
 	my $rsrec = $rs->record(0);
 	if (!defined $rsrec) {
+	    $rs->destroy();
 	    eval { $conn->check() };
 	    return error($conn, $task, $test_args, $@);
 	}
@@ -87,6 +95,7 @@ sub completed_search_b {
 
     update($conn, $error eq '' ? 1 : 0, $error);
 
+    $rs->destroy();
     return ZOOM::IRSpy::Status::TASK_DONE;
 }
 

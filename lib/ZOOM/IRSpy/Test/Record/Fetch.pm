@@ -1,4 +1,4 @@
-# $Id: Fetch.pm,v 1.26 2007-02-24 01:27:20 mike Exp $
+# $Id: Fetch.pm,v 1.27 2007-03-15 11:38:14 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -42,6 +42,7 @@ sub completed_search {
 	       ref $event && $event->isa("ZOOM::Exception") ?
 	       "failed: $event" : "found $n records (event=$event)");
     if ($n == 0) {
+	$task->{rs}->destroy();
 	my $qindex = $udata->{queryindex}+1;
 	my $q = $queries[$qindex];
 	return ZOOM::IRSpy::Status::TEST_SKIPPED
@@ -116,6 +117,7 @@ sub record {
                                   'syntax'   => $syn,
                                   'ok'       => $ok);
 
+    $rs->destroy() if $udata->{last};
     return ($udata->{last} ?
 	    ZOOM::IRSpy::Status::TEST_GOOD :
 	    ZOOM::IRSpy::Status::TASK_DONE);
@@ -143,13 +145,14 @@ sub __UNUSED_search_error {
 
 
 sub fetch_error {
-    my($conn, $task, $test_args, $exception) = @_;
-    my $syn = $test_args->{'syntax'};
+    my($conn, $task, $udata, $exception) = @_;
+    my $syn = $udata->{'syntax'};
 
     $conn->log("irspy_test", "Retrieval of $syn record failed: ", $exception);
     $conn->record()->store_result('record_fetch',
                                   'syntax'       => $syn,
                                   'ok'        => 0);
+    $task->{rs}->destroy() if $udata->{last};
     return ZOOM::IRSpy::Status::TASK_DONE;
 }
 
