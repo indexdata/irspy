@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.76 2007-03-10 13:02:36 mike Exp $
+# $Id: IRSpy.pm,v 1.77 2007-03-15 11:36:58 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -234,7 +234,7 @@ sub _rewrite_record {
     # Since IRSpy can run for a long time between writes back to the
     # database, it's quite possible for the server to have closed the
     # connection as idle.  So re-establish it if necessary.
-    $conn->connect($conn->option("host"));
+    $this->{conn}->connect($conn->option("host"));
 
     _really_rewrite_record($this->{conn}, $rec);
     $conn->log("irspy", "rewrote XML record");
@@ -469,11 +469,10 @@ sub check {
     }
 
     $this->log("irspy", "exiting main loop");
-    return $nskipped;		# Sanity-checks don't work if conns are closed
 
     # Sanity checks: none of the following should ever happen
     my $finished = 1;
-    @conn = @{ $this->{connections} };
+    $this->log("irspy", "performing end-of-run sanity-checks");
     foreach my $conn (@conn) {
 	my $test = $conn->option("current_test_address");
 	my $next = $this->_next_test($test);
