@@ -1,4 +1,4 @@
-# $Id: Boolean.pm,v 1.4 2007-02-23 15:03:44 mike Exp $
+# $Id: Boolean.pm,v 1.5 2007-03-15 11:40:39 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -34,8 +34,9 @@ sub start {
 sub found {
     my($conn, $task, $test_args, $event) = @_;
     my $operator = $test_args->{'operator'};
-    my $n = $task->{rs}->size();
 
+    my $n = $task->{rs}->size();
+    $task->{rs}->destroy();
     $conn->log("irspy_test", "search using boolean operator ", $operator,
                              " found $n record", $n==1 ? "" : "s");
     update($conn, $operator, 1);
@@ -48,6 +49,7 @@ sub error {
     my($conn, $task, $test_args, $exception) = @_;
     my $operator = $test_args->{'operator'};
 
+    $task->{rs}->destroy();
     $conn->log("irspy_test", "search using boolean operator ", $operator,
                              " had error: ", $exception);
     update($conn, $operator, 0);

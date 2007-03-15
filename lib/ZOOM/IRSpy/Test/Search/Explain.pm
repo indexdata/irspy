@@ -1,4 +1,4 @@
-# $Id: Explain.pm,v 1.6 2007-03-05 12:15:11 mike Exp $
+# $Id: Explain.pm,v 1.7 2007-03-15 11:41:24 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -34,14 +34,12 @@ sub start {
 sub found {
     my($conn, $task, $test_args, $event) = @_;
     my $category = $test_args->{'category'};
-    my $n = $task->{rs}->size();
-    my $ok = 0;
 
+    my $n = $task->{rs}->size();
+    $task->{rs}->destroy();
+    my $ok = ($n > 0);
     $conn->log("irspy_test", "Explain category ", $category, " gave ", $n,
                " hit(s).");
-    if ($n > 0) {
-        $ok = 1;
-    }
 
     update($conn, $category, $ok);
 
@@ -53,6 +51,7 @@ sub error {
     my($conn, $task, $test_args, $exception) = @_;
     my $category = $test_args->{'category'};
 
+    $task->{rs}->destroy();
     $conn->log("irspy_test", "Explain category lookup failed: ", $exception);
     update($conn, $category, 0);
 
