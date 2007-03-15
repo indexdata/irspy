@@ -1,13 +1,13 @@
 #! /bin/sh
 
-# $Id: init-script,v 1.4 2007-02-28 17:50:22 mike Exp $
+# $Id: init-script,v 1.5 2007-03-15 16:00:31 mike Exp $
 #
 # This is a startup/shutdown script for IRSpy's Zebra server, suitable
 # for use in a SysV-style init directory such as /etc/init.d (on
 # Debian systems) and /etc/rc.d/init.d (on Red Hat systems), like this:
 #
 #	cd /etc/init.d
-#	sudo ln -s /usr/local/src/cvs/irspy/zebra/init-script irspy-zebra
+#	sudo ln -s .../irspy/zebra/init-script irspy-zebra
 #	sudo /etc/init.d/irspy-zebra start
 #
 # You may need to tweak it to suit your system's paths.
@@ -18,6 +18,13 @@ PATH=/bin:/usr/bin:/usr/local/bin/
 logfile=/var/log/irspy-zebra
 pidfile=/var/run/irspy-zebra.pid
 
+case "`hostname`" in
+    xeno|test) IRSPYDIR=/usr/local/src/cvs/irspy/;;
+    shawarma) IRSPYDIR=/home/mike/cvs/irspy/;;
+    *) echo "$0: unsupported host `hostname`" >&2
+	exit 1;;
+esac
+
 case "$1" in
   start)
 	if [ -f $pidfile ]; then
@@ -27,7 +34,7 @@ case "$1" in
 	echo "Starting IRSpy's Zebra"
 	# Let log rotation take care of backups
 	#test -f $logfile && mv -f $logfile $logfile.old
-	( cd /usr/local/src/cvs/irspy/zebra
+	( cd $IRSPYDIR/zebra
 	  zebrasrv-2.0 -f yazserver.xml < /dev/null >> $logfile 2>&1 &
 	  echo $! > $pidfile
 	)
