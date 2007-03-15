@@ -1,4 +1,4 @@
-# $Id: Bib1.pm,v 1.17 2007-02-28 17:32:48 mike Exp $
+# $Id: Bib1.pm,v 1.18 2007-03-15 11:40:27 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -33,8 +33,9 @@ sub start {
 sub found {
     my($conn, $task, $test_args, $event) = @_;
     my $attr = $test_args->{'attr'};
-    my $n = $task->{rs}->size();
 
+    my $n = $task->{rs}->size();
+    $task->{rs}->destroy();
     $conn->log("irspy_test", "search on access-point $attr found $n record",
 	       $n==1 ? "" : "s");
     update($conn, $attr, 1);
@@ -47,12 +48,14 @@ sub error {
     my($conn, $task, $test_args, $exception) = @_;
     my $attr = $test_args->{'attr'};
 
+    $task->{rs}->destroy();
     $conn->log("irspy_test", "search on access-point $attr had error: ",
 	       $exception);
     update($conn, $attr, 0);
 
     return ZOOM::IRSpy::Status::TEST_BAD
 	if ($exception->code() == 1 || # permanent system error
+	    $exception->code() == 235 || # Database does not exist
 	    $exception->code() == 109); # Database unavailable
 
     return ZOOM::IRSpy::Status::TASK_DONE;
