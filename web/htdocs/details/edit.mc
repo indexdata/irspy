@@ -1,4 +1,4 @@
-%# $Id: edit.mc,v 1.26 2007-01-24 09:28:02 mike Exp $
+%# $Id: edit.mc,v 1.27 2007-03-19 13:36:51 mike Exp $
 <%args>
 $op
 $id => undef
@@ -38,7 +38,7 @@ my $conn = new ZOOM::Connection("localhost:8018/IR-Explain---1", 0,
 my $rec = '<explain xmlns="http://explain.z3950.org/dtd/2.0/"/>';
 if (defined $id && ($op ne "copy" || !$update)) {
     # Existing record
-    my $query = 'rec.id="' . cql_quote($id) . '"';
+    my $query = cql_target($id);
     my $rs = $conn->search(new ZOOM::Query::CQL($query));
     if ($rs->size() > 0) {
 	$rec = $rs->record(0);
@@ -81,6 +81,7 @@ my @fields =
        qw() ],
      [ country      => [
 			"",
+			"United States",
 			"Afghanistan",
 			"Albania",
 			"Algeria",
@@ -304,7 +305,6 @@ my @fields =
 			"Ukraine",
 			"United Arab Emirates",
 			"United Kingdom",
-			"United States",
 			"Uruguay",
 			"Uzbekistan",
 			"Vanuatu",
@@ -352,6 +352,7 @@ my @fields =
 #	awk -F'|' '$3 {print$4}'
 # and shortening some of the longer names by hand
 			"",
+			"English",
 			"Afar",
 			"Abkhazian",
 			"Afrikaans",
@@ -391,7 +392,6 @@ my @fields =
 			"Divehi; Dhivehi; Maldivian",
 			"Dutch; Flemish",
 			"Dzongkha",
-			"English",
 			"Esperanto",
 			"Estonian",
 			"Ewe",
