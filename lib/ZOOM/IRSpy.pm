@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.77 2007-03-15 11:36:58 mike Exp $
+# $Id: IRSpy.pm,v 1.78 2007-03-19 18:52:20 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -16,7 +16,7 @@ use Net::Z3950::ZOOM 1.13;	# For the ZOOM version-check only
 use ZOOM::IRSpy::Node;
 use ZOOM::IRSpy::Connection;
 use ZOOM::IRSpy::Stats;
-use ZOOM::IRSpy::Utils qw(cql_target render_record);
+use ZOOM::IRSpy::Utils qw(cql_target render_record irspy_xpath_context);
 
 our @ISA = qw();
 our $VERSION = '0.02';
@@ -242,7 +242,7 @@ sub _rewrite_record {
 
 
 sub _really_rewrite_record {
-    my($conn, $rec) = @_;
+    my($conn, $rec, $oldid) = @_;
 
     my $p = $conn->package();
     $p->option(action => "specialUpdate");
@@ -250,6 +250,22 @@ sub _really_rewrite_record {
     $p->option(record => $xml);
     $p->send("update");
     $p->destroy();
+
+    # This is the expression in the ID-making stylesheet
+    # ../../zebra/zeerex2id.xsl
+    my $xc = irspy_xpath_context($rec);
+    my $id = $xc->find("concat(e:serverInfo/e:host, ':',
+                               e:serverInfo/e:port, '/',
+                               e:serverInfo/e:database)");
+    if (0 && $id ne $oldid) {
+	# Delete old record;
+	warn "IDs differ (old='$oldid' new='$id')";
+	my $p = $conn->package();
+	$p->option(action => "recordDelete");
+	$p->option(recordIdOpaque => $oldid);
+	$p->send("update");
+	$p->destroy();
+    }
 
     $p = $conn->package();
     $p->send("commit");
