@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: test-xml-update.pl,v 1.8 2007-01-24 09:28:02 mike Exp $
+# $Id: test-xml-update.pl,v 1.9 2007-03-19 18:50:22 mike Exp $
 #
 # Run like this:
 #	perl -I ../lib ./test-xml-update.pl bagel.indexdata.dk:210/gils title "Test Database" author "Adam" description "This is a nice database"
@@ -80,7 +80,7 @@ print("Document modified with $nchanges change", $nchanges == 1 ? "" : "s",
       ": ", join(", ", map { $_->[2] } @changedFields), "\n");
 
 if ($opts{w}) {
-    ZOOM::IRSpy::_really_rewrite_record($conn, $xc->getContextNode());
+    ZOOM::IRSpy::_really_rewrite_record($conn, $xc->getContextNode(), $id);
     print "Rewrote record '$id'\n";
 }
 

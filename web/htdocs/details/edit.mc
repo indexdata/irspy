@@ -1,4 +1,4 @@
-%# $Id: edit.mc,v 1.27 2007-03-19 13:36:51 mike Exp $
+%# $Id: edit.mc,v 1.28 2007-03-19 18:51:18 mike Exp $
 <%args>
 $op
 $id => undef
@@ -561,7 +561,7 @@ if ($update && @changedFields) {
 					     "e:metaInfo/e:dateModified" ] },
 				{ dateModified => isodate(time()) });
     die "Didn't set dateModified!" if !@x;
-    ZOOM::IRSpy::_really_rewrite_record($conn, $xc->getContextNode());
+    ZOOM::IRSpy::_really_rewrite_record($conn, $xc->getContextNode(), $id);
 }
 
 </%perl>
