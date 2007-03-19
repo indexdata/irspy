@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.25 2007-03-05 19:41:57 mike Exp $
+# $Id: Utils.pm,v 1.26 2007-03-19 18:51:03 mike Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -106,10 +106,19 @@ sub irspy_namespace {
 sub irspy_xpath_context {
     my($record) = @_;
 
-    my $xml = ref $record ? $record->render() : $record;
-    my $parser = new XML::LibXML();
-    my $doc = $parser->parse_string($xml);
-    my $root = $doc->getDocumentElement();
+    if (ref $record && $record->isa("ZOOM::Record")) {
+	$record = $record->render();
+    }
+
+    my $root;
+    if (ref $record) {
+	$root = $record;
+    } else {
+	my $parser = new XML::LibXML();
+	my $doc = $parser->parse_string($record);
+	$root = $doc->getDocumentElement();
+    }
+
     my $xc = XML::LibXML::XPathContext->new($root);
     foreach my $prefix (keys %_namespaces) {
 	$xc->registerNs($prefix, $_namespaces{$prefix});
