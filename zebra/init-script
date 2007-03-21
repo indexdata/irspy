@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# $Id: init-script,v 1.5 2007-03-15 16:00:31 mike Exp $
+# $Id: init-script,v 1.6 2007-03-21 13:30:41 mike Exp $
 #
 # This is a startup/shutdown script for IRSpy's Zebra server, suitable
 # for use in a SysV-style init directory such as /etc/init.d (on
@@ -19,7 +19,7 @@ logfile=/var/log/irspy-zebra
 pidfile=/var/run/irspy-zebra.pid
 
 case "`hostname`" in
-    xeno|test) IRSPYDIR=/usr/local/src/cvs/irspy/;;
+    xeno|rafa|test) IRSPYDIR=/usr/local/src/cvs/irspy/;;
     shawarma) IRSPYDIR=/home/mike/cvs/irspy/;;
     *) echo "$0: unsupported host `hostname`" >&2
 	exit 1;;
