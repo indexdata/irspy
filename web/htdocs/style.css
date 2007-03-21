@@ -1,4 +1,4 @@
-/* $Id: style.css,v 1.2 2007-03-14 17:27:46 mike Exp $ */
+/* $Id: style.css,v 1.3 2007-03-21 13:33:09 mike Exp $ */
 body {
   color: black;
   background: white;
@@ -15,7 +15,7 @@ blockquote {
 .title { color: black; margin-right: 1em }
 .panel1 { background: #d4e7f3; padding: 0em 1em; }
 .panel1 a { text-decoration: none }
-.panel3 { background: #b4c7d3 }
+.panel3 { background: #ffcc66 }
 
 /* Fixing the layout */
 .panel1 { width: 9em }
