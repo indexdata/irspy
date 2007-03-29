@@ -1,4 +1,4 @@
-%# $Id: layout.mc,v 1.24 2007-03-19 13:35:59 mike Exp $
+%# $Id: layout.mc,v 1.25 2007-03-29 11:20:56 mike Exp $
 <%args>
 $debug => undef
 $title
@@ -66,6 +66,7 @@ use ZOOM::IRSpy::Utils qw(isodate xml_encode cql_target
 % foreach my $i ('a' .. 'z') {
       <a href="/find.html?dc.title=^<% $i %>*&amp;_sort=dc.title&amp;_count=9999&amp;_search=Search"><tt><% uc($i) %></tt></a>
 % }
+      <a href="/find.html?cql.allRecords=1+not+dc.title+=/regexp/firstInField+[a-z].*&amp;_sort=dc.title&amp;_count=9999&amp;_search=Search"">[Others]</a>
      </p>
 <%perl>
 my $id = $r->param("id");
