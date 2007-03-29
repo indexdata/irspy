@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id: zeerex2index.xsl,v 1.12 2007-03-02 15:50:09 mike Exp $ -->
+<!-- $Id: zeerex2index.xsl,v 1.13 2007-03-29 17:13:45 mike Exp $ -->
 <!-- See the ZeeRex profile at http://srw.cheshire3.org/profiles/ZeeRex/ -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:z="http://indexdata.dk/zebra/xslt/1"
                 xmlns:e="http://explain.z3950.org/dtd/2.0/"
+                xmlns:i="http://indexdata.com/irspy/1.0"
                 version="1.0">
  <xsl:variable name="lcletters">abcdefghijklmnopqrstuvwxyz</xsl:variable>
  <xsl:variable name="ucletters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</xsl:variable>
@@ -133,6 +134,14 @@
     </z:index>
    </xsl:for-each>
    <!-- Many more could be added as required -->
+
+   <!-- extensions -->
+   <z:index name="zeerex:libType" type="0">
+    <xsl:value-of select="i:status/i:libraryType"/>
+   </z:index>
+   <z:index name="zeerex:country" type="0">
+    <xsl:value-of select="i:status/i:country"/>
+   </z:index>
 
   </z:record>
  </xsl:template>
