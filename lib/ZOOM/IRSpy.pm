@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.78 2007-03-19 18:52:20 mike Exp $
+# $Id: IRSpy.pm,v 1.79 2007-03-29 11:54:53 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -257,12 +257,13 @@ sub _really_rewrite_record {
     my $id = $xc->find("concat(e:serverInfo/e:host, ':',
                                e:serverInfo/e:port, '/',
                                e:serverInfo/e:database)");
-    if (0 && $id ne $oldid) {
+    if ($id ne $oldid) {
 	# Delete old record;
 	warn "IDs differ (old='$oldid' new='$id')";
 	my $p = $conn->package();
 	$p->option(action => "recordDelete");
 	$p->option(recordIdOpaque => $oldid);
+	$p->option(record => "<dummy/>"); # Work around Zebra bug
 	$p->send("update");
 	$p->destroy();
     }
