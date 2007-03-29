@@ -1,4 +1,4 @@
-%# $Id: find.mc,v 1.10 2007-03-29 15:49:52 mike Exp $
+%# $Id: find.mc,v 1.11 2007-03-29 17:14:47 mike Exp $
 % if ($r->param("_search")) {
 %     $m->comp("found.mc");
 % } else {
@@ -21,11 +21,12 @@
        <tr>
         <th>Country</th>
 	<td>
-         <select name="net.protocol" size="1">
-	  <option value="">[No preference]</option>
-	  <option value="z39.50">Z39.50</option>
-	  <option value="sru">SRU</option>
-	  <option value="srw">SRW</option>
+         <select name="zeerex.country" size="1">
+% my $options = $m->comp("country-list.mc");
+% foreach my $option (@$options) {
+	  <option value="<% xml_encode(cql_quote($option)) %>"><%
+		xml_encode($option) %></option>
+% }
 	 </select>
         </td>
        </tr>
@@ -74,11 +75,12 @@
        <tr>
         <th>Type of Library</th>
 	<td>
-         <select name="net.protocol" size="1">
-	  <option value="">[No preference]</option>
-	  <option value="z39.50">Z39.50</option>
-	  <option value="sru">SRU</option>
-	  <option value="srw">SRW</option>
+         <select name="zeerex.libType" size="1">
+% $options = $m->comp("libtype-list.mc");
+% foreach my $option (@$options) {
+	  <option value="<% xml_encode($option) %>"><%
+		xml_encode($option) %></option>
+% }
 	 </select>
         </td>
        </tr>
