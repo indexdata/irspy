@@ -1,4 +1,4 @@
-%# $Id: find.mc,v 1.9 2006-12-01 16:49:43 mike Exp $
+%# $Id: find.mc,v 1.10 2007-03-29 15:49:52 mike Exp $
 % if ($r->param("_search")) {
 %     $m->comp("found.mc");
 % } else {
@@ -15,6 +15,22 @@
        </tr>
        <tr><td colspan="2">&nbsp;</td></tr>
        <tr>
+        <th>Name</th>
+	<td><input type="text" name="dc.title" size="40"/></td>
+       </tr>
+       <tr>
+        <th>Country</th>
+	<td>
+         <select name="net.protocol" size="1">
+	  <option value="">[No preference]</option>
+	  <option value="z39.50">Z39.50</option>
+	  <option value="sru">SRU</option>
+	  <option value="srw">SRW</option>
+	 </select>
+        </td>
+       </tr>
+       <tr><td colspan="2">&nbsp;</td></tr>
+       <tr>
         <th>Protocol</th>
 	<td>
          <select name="net.protocol" size="1">
@@ -25,6 +41,20 @@
 	 </select>
         </td>
        </tr>
+       <tr>
+        <th>Host</th>
+	<td><input type="text" name="net.host" size="40"/></td>
+       </tr>
+       <tr>
+        <th>Port</th>
+	<td><input type="text" name="net.port" size="5"/></td>
+       </tr>
+       <tr>
+        <th>Database Name</th>
+	<td><input type="text" name="net.path" size="20"/></td>
+       </tr>
+<%doc>
+       <tr><td colspan="2">&nbsp;</td></tr>
        <tr>
         <th>Version</th>
 	<td><input type="text" name="net.version" size="5"/></td>
@@ -39,31 +69,26 @@
 	 </select>
         </td>
        </tr>
+</%doc>
        <tr><td colspan="2">&nbsp;</td></tr>
        <tr>
-        <th>Host</th>
-	<td><input type="text" name="net.host" size="40"/></td>
-       </tr>
-       <tr>
-        <th>Port</th>
-	<td><input type="text" name="net.port" size="5"/></td>
-       </tr>
-       <tr>
-        <th>Database</th>
-	<td><input type="text" name="net.path" size="20"/></td>
-       </tr>
-       <tr><td colspan="2">&nbsp;</td></tr>
-       <tr>
-        <th>Title</th>
-	<td><input type="text" name="dc.title" size="40"/></td>
-       </tr>
-       <tr>
-        <th>Author</th>
-	<td><input type="text" name="dc.creator" size="40"/></td>
+        <th>Type of Library</th>
+	<td>
+         <select name="net.protocol" size="1">
+	  <option value="">[No preference]</option>
+	  <option value="z39.50">Z39.50</option>
+	  <option value="sru">SRU</option>
+	  <option value="srw">SRW</option>
+	 </select>
+        </td>
        </tr>
        <tr>
         <th>Description</th>
 	<td><input type="text" name="dc.description" size="40"/></td>
+       </tr>
+       <tr>
+        <th>Author</th>
+	<td><input type="text" name="dc.creator" size="40"/></td>
        </tr>
        <tr><td colspan="2">&nbsp;</td></tr>
        <tr>
