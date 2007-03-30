@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.79 2007-03-29 11:54:53 mike Exp $
+# $Id: IRSpy.pm,v 1.80 2007-03-30 09:50:55 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -257,7 +257,7 @@ sub _really_rewrite_record {
     my $id = $xc->find("concat(e:serverInfo/e:host, ':',
                                e:serverInfo/e:port, '/',
                                e:serverInfo/e:database)");
-    if ($id ne $oldid) {
+    if (defined $oldid && $id ne $oldid) {
 	# Delete old record;
 	warn "IDs differ (old='$oldid' new='$id')";
 	my $p = $conn->package();
