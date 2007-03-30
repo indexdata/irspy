@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-    $Id: irspy2zeerex.xsl,v 1.17 2006-12-19 12:54:38 sondberg Exp $
+    $Id: irspy2zeerex.xsl,v 1.18 2007-03-30 12:48:36 sondberg Exp $
 
     This stylesheet is used by IRSpy to map the internal mixed Zeerex/IRSpy
     record format into the Zeerex record which we store.
@@ -85,7 +85,7 @@
       <xsl:choose>
 
         <!-- Did we actually probe record syntaxes? -->
-        <xsl:when test="/*/irspy:status/irspy:record">
+        <xsl:when test="/*/irspy:status/irspy:record_fetch">
           <xsl:for-each select="/*/irspy:status/irspy:record_fetch[@ok = 1]">
             <recordSyntax name="{@syntax}">
               <elementSet name="F"/> <!-- FIXME: This should be probed too -->
