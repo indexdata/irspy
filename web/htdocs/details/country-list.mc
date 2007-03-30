@@ -1,4 +1,4 @@
-%# $Id: country-list.mc,v 1.1 2007-03-29 16:19:58 mike Exp $
+%# $Id: country-list.mc,v 1.2 2007-03-30 11:14:56 mike Exp $
 <%perl>
 return [
 	"",
@@ -241,5 +241,5 @@ return [
 	"Zaire",
 	"Zambia",
 	"Zimbabwe",
-]
+];
 </%perl>
