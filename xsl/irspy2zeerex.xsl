@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-    $Id: irspy2zeerex.xsl,v 1.18 2007-03-30 12:48:36 sondberg Exp $
+    $Id: irspy2zeerex.xsl,v 1.19 2007-03-30 17:17:44 sondberg Exp $
 
     This stylesheet is used by IRSpy to map the internal mixed Zeerex/IRSpy
     record format into the Zeerex record which we store.
@@ -124,6 +124,8 @@
   -->
   <xsl:template name="insert-irspySection">
     <irspy:status>
+      <xsl:copy-of select="*/irspy:libraryType"/>
+      <xsl:copy-of select="*/irspy:country"/>
       <xsl:copy-of select="*/irspy:probe"/>
 
       <xsl:call-template name="insert-latest-nodes">
