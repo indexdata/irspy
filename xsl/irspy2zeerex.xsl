@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-    $Id: irspy2zeerex.xsl,v 1.19 2007-03-30 17:17:44 sondberg Exp $
+    $Id: irspy2zeerex.xsl,v 1.20 2007-04-02 10:11:17 sondberg Exp $
 
     This stylesheet is used by IRSpy to map the internal mixed Zeerex/IRSpy
     record format into the Zeerex record which we store.
@@ -73,7 +73,8 @@
 
         <!-- If not, insert what we already had... -->
         <xsl:otherwise>
-          <xsl:copy-of select="explain:indexInfo/*"/>
+          <xsl:copy-of
+                select="explain:indexInfo/explain:index[@search='true']"/>
         </xsl:otherwise>
       </xsl:choose>
     </indexInfo>
@@ -211,22 +212,16 @@
       </xsl:call-template>
     </xsl:param>
 
-    <index>
-      <xsl:attribute name="search">
-        <xsl:choose>
-          <xsl:when test="$update/@ok = 1">true</xsl:when>
-          <xsl:otherwise>false</xsl:otherwise>
-        </xsl:choose>
-      </xsl:attribute>
-      <title primary="true" lang="en">
-        <xsl:value-of select="$title"/>
-      </title>
-      <map primary="true">
-        <attr type="1" set="{$update/@set}">
-          <xsl:value-of select="$update/@ap"/>
-        </attr>
-      </map>
-    </index>
+    <xsl:if test="$update/@ok = 1">
+      <index search="true">
+        <title primary="true" lang="en"><xsl:value-of select="$title"/></title>
+        <map primary="true">
+          <attr type="1" set="{$update/@set}">
+            <xsl:value-of select="$update/@ap"/>
+          </attr>
+        </map>
+      </index>
+    </xsl:if>
   </xsl:template>
 
 
