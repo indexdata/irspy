@@ -1,4 +1,4 @@
-%# $Id: full.mc,v 1.22 2007-02-02 11:31:30 mike Exp $
+%# $Id: full.mc,v 1.23 2007-04-16 10:37:05 mike Exp $
 <%args>
 $id
 </%args>
@@ -54,8 +54,9 @@ if ($n == 0) {
 		  [ "Record syntaxes" => \&calc_recsyn, $xc ],
 		  [ "Explain" => \&calc_explain, $xc ],
 		  );
+    my $title = $xc->find("e:databaseInfo/e:title");
 </%perl>
-     <h2><% xml_encode($xc->find("e:databaseInfo/e:title"), "") %></h2>
+     <h2><% xml_encode($title, "") %></h2>
      <table class="fullrecord" border="1" cellspacing="0" cellpadding="5" width="100%">
 <%perl>
     foreach my $ref (@fields) {
@@ -75,6 +76,15 @@ if ($n == 0) {
 %	}
 %   }
      </table>
+     <p>
+      <a href="<% xml_encode("http://targettest.indexdata.com/targettest/search/index.zap?" .
+	join("&",
+	     "target=" . uri_escape($id),
+	     "name=" . uri_escape($title),
+	     "attr=" . join(" ", list_ap($xc, "bib-1")),
+	     "formats=" . calc_recsyn($xc, " ")))
+	%>">Search this target.</a>
+     </p>
 % }
 <%perl>
 
@@ -107,17 +117,13 @@ sub calc_init_options {
 sub calc_ap {
     my($xc, $set) = @_;
 
-    my $expr = 'e:indexInfo/e:index[@search = "true"]/e:map/e:attr[
-	@set = "'.$set.'" and @type = "1"]';
-    my @nodes = $xc->findnodes($expr);
-    my $n = @nodes;
+    my @aps = list_ap($xc, $set);
+    my $n = @aps;
     return "[none]" if $n == 0;
 
     my $res = "";
     my($first, $last);
-    @nodes = sort { $a->findvalue(".") <=> $b->findvalue(".") } @nodes;
-    foreach my $node (@nodes) {
-	my $ap .= $node->findvalue(".");
+    foreach my $ap (@aps) {
 	if (!defined $first) {
 	    $first = $last = $ap;
 	} elsif ($ap == $last+1) {
@@ -141,6 +147,15 @@ sub calc_ap {
     return "$n access points: $res";
 }
 
+sub list_ap {
+    my($xc, $set) = @_;
+
+    my $expr = 'e:indexInfo/e:index[@search = "true"]/e:map/e:attr[
+	@set = "'.$set.'" and @type = "1"]';
+    my @nodes = $xc->findnodes($expr);
+    return sort { $a <=> $b } map { $_->findvalue(".") } @nodes;
+}
+
 sub calc_boolean {
     my($xc) = @_;
 
@@ -161,10 +176,11 @@ sub calc_nrs {
 }
 
 sub calc_recsyn {
-    my($xc) = @_;
+    my($xc, $sep) = @_;
+    $sep = ", " if !defined $sep;
 
     my @nodes = $xc->findnodes('e:recordInfo/e:recordSyntax');
-    my $res = join(", ", map { $_->findvalue('@name') } @nodes);
+    my $res = join($sep, map { $_->findvalue('@name') } @nodes);
     $res = "[none]" if $res eq "";
     return $res;
 }
@@ -177,5 +193,4 @@ sub calc_explain {
     $res = "[none]" if $res eq "";
     return $res;
 }
-
 </%perl>
