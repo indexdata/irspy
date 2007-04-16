@@ -1,11 +1,11 @@
-%# $Id: layout.mc,v 1.26 2007-03-29 17:14:30 mike Exp $
+%# $Id: layout.mc,v 1.27 2007-04-16 12:26:11 mike Exp $
 <%args>
 $debug => undef
 $title
 $component
 </%args>
 <%once>
-use URI::Escape;
+use URI::Escape qw(uri_escape_utf8);
 use ZOOM;
 use ZOOM::IRSpy::Web;
 use ZOOM::IRSpy::Utils qw(isodate xml_encode cql_target cql_quote
