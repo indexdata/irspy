@@ -1,4 +1,4 @@
-%# $Id: software.mc,v 1.1 2007-03-30 11:43:59 mike Exp $
+%# $Id: software.mc,v 1.2 2007-04-17 16:39:26 mike Exp $
      <div class="essay">
      <p>
       <b>IRSpy</b> maintains a registry of information retrieval
@@ -35,7 +35,7 @@
       and
       <a href="/find.html?dc.title=^a*&amp;_sort=dc.title&amp;_count=9999&amp;_search=Search">browse</a>
       the registry, and to view
-      <a href="http://x.irspy.indexdata.com/stats.html">statistics</a>.
+      <a href="/stats.html">statistics</a>.
       Authenticated users may also edit target data, run tests and add
       new targets from the Web UI.  A set of command-line tools is
       also provided, together with facilities for re-running the tests
