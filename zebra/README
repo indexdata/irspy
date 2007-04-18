@@ -1,4 +1,4 @@
-$Id: README,v 1.19 2007-04-18 20:36:24 mike Exp $
+$Id: README,v 1.20 2007-04-18 20:36:36 mike Exp $
 
 What's what in this directory:
 
@@ -97,6 +97,7 @@ The database can be interrogated with SRU URLs such as:
 
 To create the database:
 
+tar xzf records-2007-04-18.tar.gz
 zebraidx-2.0 init
 zebraidx-2.0 update records-2007-04-18
 zebraidx-2.0 commit
