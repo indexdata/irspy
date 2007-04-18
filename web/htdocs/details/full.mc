@@ -1,4 +1,4 @@
-%# $Id: full.mc,v 1.24 2007-04-16 12:23:46 mike Exp $
+%# $Id: full.mc,v 1.25 2007-04-18 12:06:25 mike Exp $
 <%args>
 $id
 </%args>
@@ -25,10 +25,8 @@ if ($n == 0) {
 		  [ Port => "e:serverInfo/e:port" ],
 		  [ "Database Name" => "e:serverInfo/e:database" ],
 		  [ "Type of Library" => "i:status/i:libraryType" ],
-		  [ "Username (if needed)" =>
-		    "e:serverInfo/e:authentication/e:user" ],
-		  [ "Password (if needed)" =>
-		    "e:serverInfo/e:authentication/e:password" ],
+#		  [ "Username (if needed)" => "e:serverInfo/e:authentication/e:user" ],
+#		  [ "Password (if needed)" => "e:serverInfo/e:authentication/e:password" ],
 		  [ "Server ID" => 'i:status/i:serverImplementationId/@value' ],
 		  [ "Server Name" => 'i:status/i:serverImplementationName/@value' ],
 		  [ "Server Version" => 'i:status/i:serverImplementationVersion/@value' ],
