@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.80 2007-03-30 09:50:55 mike Exp $
+# $Id: IRSpy.pm,v 1.81 2007-04-18 15:23:41 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -317,8 +317,12 @@ sub check {
 	or die "No tests defined for '$tname'";
     $this->{tree}->resolve();
     #$this->{tree}->print(0);
-    my $nskipped = 0;
 
+    my $topname = $this->{tree}->name();
+    my $timeout = "ZOOM::IRSpy::Test::$topname"->timeout();
+    $this->log("irspy", "beginnning with test '$topname' (timeout $timeout)");
+
+    my $nskipped = 0;
     my @conn = @{ $this->{connections} };
 
     my $nruns = 0;
@@ -354,7 +358,8 @@ sub check {
 			    $conn->destroy();
 			    $conn[$i0] = create
 				ZOOM::IRSpy::Connection($this,
-					shift @{ $this->{queue} }, async => 1);
+					shift @{ $this->{queue} }, async => 1,
+							timeout => $timeout);
 			    $conn[$i0]->option(current_test_address => "");
 			    $conn[$i0]->log("irspy", "entering active pool - ",
 					    scalar(@{ $this->{queue} }),
