@@ -1,4 +1,4 @@
-%# $Id: home.mc,v 1.8 2007-04-17 12:51:16 mike Exp $
+%# $Id: home.mc,v 1.9 2007-04-18 12:05:45 mike Exp $
      <div class="essay">
      <h2>The Z39.50 Target Directory</h2>
      <p>
@@ -8,27 +8,36 @@
       and
       <a href="http://www.loc.gov/sru"
 	>the SRU/SRW</a>.
-      targets known to us. The tables shows the name, address, port,
-      reliability info, search attributes and many other useful data,
-      that eases interoperability.
-     <p>
+      targets known to us. The tables show the name, address, port,
+      reliability info, search attributes and other data useful
+      for achieving interoperability.
      </p>
-      If you are aware of a target that is not represented in our
-      directory, please add it or send us a mail with the details.
-      Also, if you should happen to find an error in our data or have
-      additional information, please don't hesitate to contact us so
-      that we can make the directory as comprehensive as possible.
      <p>
+      We at Index Data know that the records currently in this
+      directory represent only a fraction of the Z39.50/SRU/SRW
+      compliant databases that exist.  Our aim is to make this
+      directory as comprehensive as possible.  To that end, we ask
+      your help.  If you are aware of a Z39.50 compliant target that
+      is not represented in our directory, please add it or send us
+      email with the details. Also, if you should happen to find an
+      error in our data or have additional information, please don't
+      hesitate to contact us so that we can make the target
+      information as accurate and comprehensive as possible.
      </p>
-      <b>DISCLAIMER</b>: The systems listed are generally made
-      available without charge for testing or general use. Additional
-      functionality may be available to registered users of each
-      system. The information presented here should not be considered
-      indicative of the general functionality of any given software
-      system or installation. This information is made available for
-      recreational purposes only, and Index Data assumes no
-      responsibility or warranty for its correctness. Use at your own
-      discretion.
+     <p>
+      <b>DISCLAIMERS</b>: Most of the systems listed are generally
+      made available without charge for testing or general use, but
+      many require authorization, either for access or additional
+      functionality.  The Target Directory does not contain
+      authentication information, and it is not meant to be a
+      substitute for authentication/authorization procedures many
+      targets require. In addition, the information presented here
+      should not be considered indicative either of the functionality
+      of the native interface of the target, or of the functionality
+      of any given software system or installation. This directory is
+      made available for evaluation purposes only.  Although we try to
+      make it as accurate as we can, Index Data assumes no
+      responsibility or warranty for its correctness.
      </p>
      <p>
       <small>
