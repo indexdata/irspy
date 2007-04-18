@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: irspy.pl,v 1.26 2007-03-07 18:02:00 mike Exp $
+# $Id: irspy.pl,v 1.27 2007-04-18 15:32:32 mike Exp $
 #
 # Run like this:
 #	YAZ_LOG=irspy,irspy_test IRSPY_SAVE_XML=1 perl -I../lib irspy.pl -t Quick localhost:8018/IR-Explain---1 z3950.loc.gov:7090/Voyager bagel.indexdata.dk/gils bagel.indexdata.dk:210/marc
@@ -60,8 +60,8 @@ if (@targets) {
     exit 1;
 }
 
-$spy->initialise();
-my $res = $spy->check($opts{t});
+$spy->initialise($opts{t});
+my $res = $spy->check();
 if ($res == 0) {
     print "All tests were attempted\n";
 } else {

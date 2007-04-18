@@ -1,4 +1,4 @@
-%# $Id: check.mc,v 1.16 2007-01-31 16:50:38 mike Exp $
+%# $Id: check.mc,v 1.17 2007-04-18 15:32:43 mike Exp $
 <%args>
 @id
 $test => "Quick"
@@ -35,8 +35,8 @@ my $spy = new ZOOM::IRSpy::Web("localhost:8018/IR-Explain---1",
 			       admin => "fruitbat");
 $spy->log_init_level("irspy,irspy_test");
 $spy->targets(@id) if !$allTargets;
-$spy->initialise();
-my $res = $spy->check($test);
+$spy->initialise($test);
+my $res = $spy->check();
 print "<p>\n";
 if ($res == 0) {
     print "<b>All tests were attempted</b>\n";
