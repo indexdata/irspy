@@ -1,4 +1,4 @@
-$Id: README,v 1.18 2007-03-29 17:13:23 mike Exp $
+$Id: README,v 1.19 2007-04-18 20:36:24 mike Exp $
 
 What's what in this directory:
 
@@ -92,17 +92,11 @@ crontab -- An example file that can be used to automate periodic
 
 --
 
-To create the database and start the server:
-
-zebraidx-2.0 init # Remove any existing database records
-zebraidx-2.0 update records2 # The many records harvested from Index Data
-zebraidx-2.0 update records3 # Extra records supplied by Per
-zebraidx-2.0 commit
-zebrasrv-2.0 -f yazserver.xml
-
-To run all these commands, use:
-sed -n '/^zebraidx/,+3p' README | while read line; do eval $line; done
-
-Then interrogate the database with SRU URLs such as:
+The database can be interrogated with SRU URLs such as:
 	http://localhost:8018/IR-Explain---1?version=1.1&operation=searchRetrieve&maximumRecords=10&recordSchema=zeerex&query=net.protocol=sru
 
+To create the database:
+
+zebraidx-2.0 init
+zebraidx-2.0 update records-2007-04-18
+zebraidx-2.0 commit
