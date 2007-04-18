@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.81 2007-04-18 15:23:41 mike Exp $
+# $Id: IRSpy.pm,v 1.82 2007-04-18 15:35:51 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -42,8 +42,8 @@ ZOOM::IRSpy - Perl extension for discovering and analysing IR services
  use ZOOM::IRSpy;
  $spy = new ZOOM::IRSpy("target/string/for/irspy/database");
  $spy->targets(@targets);
- $spy->initialise();
- $res = $spy->check("Main");
+ $spy->initialise("Main");
+ $res = $spy->check();
 
 =head1 DESCRIPTION
 
@@ -93,6 +93,7 @@ sub new {
 	queue => undef,		# Filled in by initialise()
         libxml => $libxml,
         irspy_to_zeerex_style => $irspy_to_zeerex_style,
+	test => undef,		# Filled in by initialise()
 	tests => undef,		# Tree of tests to be executed
 	activeSetSize => defined $activeSetSize ? $activeSetSize : 10,
     }, $class;
@@ -166,6 +167,16 @@ sub _parse_target_string {
 #
 sub initialise {
     my $this = shift();
+    my($tname) = @_;
+
+    $tname = "Main" if !defined $tname;
+    $this->{test} = $tname;
+    $this->{tree} = $this->_gather_tests($tname)
+	or die "No tests defined for '$tname'";
+    $this->{tree}->resolve();
+    $this->{tree}->print(0);
+
+    my $timeout = "ZOOM::IRSpy::Test::$tname"->timeout();
 
     my @targets;
     my $targets = $this->{targets};
@@ -190,7 +201,8 @@ sub initialise {
     foreach my $i (1..$n) {
 	push @connections, create ZOOM::IRSpy::Connection($this,
 							  shift @targets,
-							  async => 1);
+							  async => 1,
+							  timeout => $timeout);
     }
 
     $this->{connections} = \@connections;
@@ -310,13 +322,6 @@ sub _really_rewrite_record {
 #
 sub check {
     my $this = shift();
-    my($tname) = @_;
-
-    $tname = "Main" if !defined $tname;
-    $this->{tree} = $this->_gather_tests($tname)
-	or die "No tests defined for '$tname'";
-    $this->{tree}->resolve();
-    #$this->{tree}->print(0);
 
     my $topname = $this->{tree}->name();
     my $timeout = "ZOOM::IRSpy::Test::$topname"->timeout();
