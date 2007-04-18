@@ -1,22 +1,24 @@
-%# $Id: software.mc,v 1.2 2007-04-17 16:39:26 mike Exp $
+%# $Id: software.mc,v 1.3 2007-04-18 12:13:01 mike Exp $
      <div class="essay">
      <p>
-      <b>IRSpy</b> maintains a registry of information retrieval
-      targets supporting standard IR protocols such as
+      Index Data uses
+      <b>IRSpy</b> to maintain a registry of information retrieval
+      targets supporting the standard IR protocol
       <a href="http://lcweb.loc.gov/z3950/agency/"
 	>ANSI/NISO Z39.50 (ISO 23950)</a>
       and
       <a href="http://www.loc.gov/sru"
 	>the SRU/SRW web services</a>.
-      Each registry entry consists of both mechanical information,
+      Each registry entry consists of both database level information,
       such as the indexes supported for searching and the record
-      syntax and schemas supported for retrievel, and metadata such as
-      database titles, authors and descriptions.
+      syntax and schemas supported for retrieval, and record level
+      metadata such as titles, authors and descriptions.
      </p>
      <p>
-      IRSpy supports editing of the metadata, and automatically
-      discovers mechanical information by probing the registered
-      targets using a set of feature-tests.  Tests are implemented by
+      IRSpy supports editing of record level metadata, and
+      automatically discovers database level information by probing
+      the registered targets using a set of feature-tests.  Tests are
+      implemented by
 %# Link to /doc.html?module=ZOOM/IRSpy/Test.pm is not ready yet
       individual plugins,
       so new tests can be added without changing the core code.
