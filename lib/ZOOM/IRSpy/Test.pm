@@ -1,4 +1,4 @@
-# $Id: Test.pm,v 1.7 2006-11-29 18:16:21 mike Exp $
+# $Id: Test.pm,v 1.8 2007-04-18 15:24:45 mike Exp $
 
 package ZOOM::IRSpy::Test;
 
@@ -21,6 +21,8 @@ I<## To follow>
 =cut
 
 sub subtests { () }
+
+sub timeout { undef }
 
 sub start {
     my $class = shift();
