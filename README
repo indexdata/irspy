@@ -1,4 +1,4 @@
-$Id: README,v 1.4 2007-01-24 09:28:02 mike Exp $
+$Id: README,v 1.5 2007-04-18 11:20:29 mike Exp $
 
 Net-Z3950-IRSpy
 ===============
@@ -33,6 +33,10 @@ at your option, any later version of Perl 5 you may have available.
 
 --
 
-Note to self: everyone else please ignore this.
+Notes to self: everyone else please ignore these
+
 $ cd /usr/local/src/cvs/irspy && YAZ_LOG=irspy,irspy_test,irspy_debug,pod perl -I lib bin/irspy.pl -t "bagel.indexdata.dk/gils foo.bar.baz:12345/fish z3950.loc.gov:7090/Voyager" localhost:8018/IR-Explain---1
+
+To get a list of all Danish domains in the database:
+.../ZOOM-Perl/samples/zoom/zselect -t q localhost:8018/IR-Explain---1 'net.host = *.dk' //zeerex:host
 
