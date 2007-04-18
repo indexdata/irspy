@@ -1,4 +1,4 @@
-# $Id: Quick.pm,v 1.3 2006-10-25 10:48:34 mike Exp $
+# $Id: Quick.pm,v 1.4 2007-04-18 15:25:07 mike Exp $
 
 package ZOOM::IRSpy::Test::Quick;
 
@@ -10,6 +10,8 @@ use ZOOM::IRSpy::Test;
 our @ISA = qw(ZOOM::IRSpy::Test);
 
 sub subtests { qw(Ping Record::Fetch) }
+
+sub timeout { 20 }
 
 sub start {
     my $class = shift();

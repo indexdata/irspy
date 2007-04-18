@@ -1,4 +1,4 @@
-# $Id: Main.pm,v 1.13 2006-11-02 11:46:40 sondberg Exp $
+# $Id: Main.pm,v 1.14 2007-04-18 15:24:55 mike Exp $
 
 package ZOOM::IRSpy::Test::Main;
 
@@ -25,6 +25,8 @@ I<## To follow>
 =cut
 
 sub subtests { qw(Ping Search::Main Record::Main ResultSet::Main) }
+
+sub timeout { 90 }
 
 sub start {
     my $class = shift();
