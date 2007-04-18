@@ -46,3 +46,706 @@ here on everything will speed up dramatically.
 )_v__/\  "Keep an open mind, but not so open that your brain falls out"
 	 -- attributed to Carl Sagan.
 
+From mike  Wed Apr 18 09:17:34 2007
+X-VM-v5-Data: ([nil nil nil nil t nil t nil nil]
+	["2909" "Wednesday" "18" "April" "2007" "10:19:29" "+0300" "Juha Hakala" "juha.hakala@helsinki.fi" "<4625C681.10007@helsinki.fi>" "68" "IRSpy testing in Helsinki" "^X-Spam-Status:" nil nil "4" nil nil nil nil nil nil nil nil nil]
+	nil)
+Return-path: <juha.hakala@helsinki.fi>
+Envelope-to: mike@indexdata.com
+Delivery-date: Wed, 18 Apr 2007 10:09:57 +0200
+Received: from bagel.indexdata.dk [213.150.43.11]
+	by localhost.localdomain with POP3 (fetchmail-6.3.2)
+	for <mike@localhost> (single-drop); Wed, 18 Apr 2007 09:17:34 +0100 (BST)
+Received: from sender-02.it.helsinki.fi ([128.214.205.137])
+	by bagel.indexdata.dk with esmtp (Exim 4.50)
+	id 1He5Ef-00062G-4z; Wed, 18 Apr 2007 10:09:57 +0200
+Received: from orm6.lib.helsinki.fi (orm6.lib.helsinki.fi [128.214.91.244])
+	by sender-02.it.helsinki.fi (8.13.8/8.13.8) with ESMTP id l3I7J0Kh002108
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+	Wed, 18 Apr 2007 10:19:00 +0300
+Received: from [128.214.91.248] (oktas-2.lib.helsinki.fi [128.214.91.248])
+	(authenticated bits=0)
+	by orm6.lib.helsinki.fi (8.12.11.20060308/8.12.11) with ESMTP id l3I7IxNC000394
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 18 Apr 2007 10:18:59 +0300
+Message-ID: <4625C681.10007@helsinki.fi>
+User-Agent: Thunderbird 1.5.0.10 (Windows/20070221)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 128.214.205.137
+X-SA-Exim-Rcpt-To: mike@indexdata.com, quinn@indexdata.com
+X-SA-Exim-Mail-From: juha.hakala@helsinki.fi
+X-Spam-Checker-Version: SpamAssassin 3.0.3 (2005-04-27) on bagel.indexdata.dk
+X-Spam-Level: 
+X-SA-Exim-Version: 4.2 (built Thu, 03 Mar 2005 10:44:12 +0100)
+X-SA-Exim-Scanned: Yes (on bagel.indexdata.dk)
+X-UIDL: =U8"!:1(!!Y23"!U6i!!
+X-Spam-Status: No, score=-2.3 required=4.0 tests=AWL,BAYES_00 autolearn=ham 
+	version=3.0.3
+From: Juha Hakala <juha.hakala@helsinki.fi>
+To: Mike Taylor <mike@indexdata.com>
+CC: Ere Maijala <ere.maijala@helsinki.fi>,
+        Katri Kananen <katri.kananen@helsinki.fi>,
+        Kristiina Hormia <kristiina.hormia@helsinki.fi>,
+        Ari Rouvari <ari.rouvari@helsinki.fi>,
+        "Adam Horvath (adam@oszk.hu)" <adam@oszk.hu>,
+        Esa Kurki <esa.kurki@helsinki.fi>,
+        Sebastian Hammer <quinn@indexdata.com>
+Subject: IRSpy testing in Helsinki
+Date: Wed, 18 Apr 2007 10:19:29 +0300
+
+Hello Mike,
+
+After some internal discussions we have decided to proceed with the 
+IRSpy testing in the following manner:
+
+1. Initial testing, to be carried out by Ms. Katri Kananen, will 
+concentrate on end user point of view. Katri is very experienced copy 
+cataloger who is familiar with both Z39.50 and BookWhere. Comparing the 
+target data in BookWhere (which has been manually produced) and in IRSpy 
+will provide some views on how reliable automatically generated data is. 
+Since IRSpy contains more targets than BookWhere (2600 to about 2000) 
+Katri will also be able to add new targets to BookWhere and see how they 
+"work".
+
+2. After Katri has finished her part of the work in late May / early 
+June we'll proceed to technical testing, to be carried out by Ere 
+Maijala whose background is in programming. Since Ere's schedule is 
+tight (his main responsibility is our MetaLib/SFX portal) I am not sure 
+how much time he'll be able to spend on testing, but we'll see what 
+happens. Implementation of the new MetaLib version keeps Ere and his 
+colleagues busy for the time being. But we wish to complete testing 
+before summer vacations; I hope this is OK for ID.
+
+It is our belief that IRSpy will help us in two areas, BookWhere-based 
+copy cataloguing and MetaLib portal maintenance. The testers represent 
+these two areas, and the outcome of the test will already provide some 
+insights of how useful the tool will be, for the national library and 
+for the (Finnish) library network in general.
+
+If Adam and his colleagues are able to test this version of the 
+application (like they have tested earlier releases), we would like to 
+receive a report of the results too, in order to avoid re-inventing the 
+same wheels.
+
+I have taken a short look at IRSpy. One feature I missed was geographic 
+location (country) of the server, which in many cases could be easily 
+derived from the host name. Browsing an alphabetical list for Finnish 
+servers was rather frustrating, and a copy cataloguer would prefer a 
+country-based representation of servers. Moreover, there are quite a lot 
+of servers with 0 % reliability, eventually some kind of weeding  
+process should be implemented for the servers which obviously are no 
+longer functional at all or have moved to some other place. Presentation 
+of the supported attributes is as compact as it gets; lay users might 
+prefer a more verbose option should one be available.
+
+But in spite of these critical comments, I am quite happy with what I've 
+seen. The number of target systems is already quite impressive and is 
+likely to grow when IRSpy goes live. The system works fast enough, and I 
+like the looks of it.
+
+Best regards,
+
+Juha
+
+-- 
+
+--
+
+ Juha Hakala
+ Director, Information Technology
+
+ The National Library of Finland 
+ P.O.Box 15 (Unioninkatu 36, room 503), FIN-00014 Helsinki University
+ Email juha.hakala@helsinki.fi, tel +358 50 382 7678
+ 
+
+
+
+
+From mike@miketaylor.org.uk  Wed Apr 18 12:42:50 2007
+X-VM-v5-Data: ([nil nil nil nil nil nil nil nil nil]
+	["4695" "Wednesday" "18" "April" "2007" "12:42:50" "+0100" "Mike Taylor" "mike@indexdata.com" nil "110" "IRSpy testing in Helsinki" "^From:" nil nil "4" nil nil nil nil nil nil nil nil nil]
+	nil)
+Return-Path: <mike@miketaylor.org.uk>
+X-Original-To: mike
+Delivered-To: mike@miketaylor.org.uk
+Received: by localhost.localdomain (Postfix, from userid 1000)
+	id C1D79AC0F7; Wed, 18 Apr 2007 12:42:50 +0100 (BST)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Message-ID: <17958.1082.518813.567339@localhost.localdomain>
+In-Reply-To: <4625C681.10007@helsinki.fi>
+References: <4625C681.10007@helsinki.fi>
+X-Mailer: VM 7.19 under Emacs 21.4.1
+From: Mike Taylor <mike@indexdata.com>
+To: Juha Hakala <juha.hakala@helsinki.fi>
+Cc: Ere Maijala <ere.maijala@helsinki.fi>,
+    Katri Kananen <katri.kananen@helsinki.fi>,
+    Kristiina Hormia <kristiina.hormia@helsinki.fi>,
+    Ari Rouvari <ari.rouvari@helsinki.fi>,
+    "Adam Horvath (adam@oszk.hu)" <adam@oszk.hu>,
+    Esa Kurki <esa.kurki@helsinki.fi>,
+    Sebastian Hammer <quinn@indexdata.com>, perhans@indexdata.dk
+Subject: IRSpy testing in Helsinki
+Date: Wed, 18 Apr 2007 12:42:50 +0100
+
+Juha Hakala writes:
+ > Hello Mike,
+ > 
+ > After some internal discussions we have decided to proceed with the 
+ > IRSpy testing in the following manner:
+ > 
+ > 1. Initial testing, to be carried out by Ms. Katri Kananen, will
+ > concentrate on end user point of view. Katri is very experienced
+ > copy cataloger who is familiar with both Z39.50 and
+ > BookWhere. Comparing the target data in BookWhere (which has been
+ > manually produced) and in IRSpy will provide some views on how
+ > reliable automatically generated data is.  Since IRSpy contains
+ > more targets than BookWhere (2600 to about 2000) Katri will also be
+ > able to add new targets to BookWhere and see how they "work".
+
+OK, sounds good.
+
+ > 2. After Katri has finished her part of the work in late May /
+ > early June we'll proceed to technical testing, to be carried out by
+ > Ere Maijala whose background is in programming.
+
+This seems an awfully long way into the future.
+
+ > Since Ere's schedule is tight (his main responsibility is our
+ > MetaLib/SFX portal) I am not sure how much time he'll be able to
+ > spend on testing, but we'll see what happens. Implementation of the
+ > new MetaLib version keeps Ere and his colleagues busy for the time
+ > being. But we wish to complete testing before summer vacations; I
+ > hope this is OK for ID.
+
+I'll leave Per or Seb to comment on that.
+
+ > It is our belief that IRSpy will help us in two areas,
+ > BookWhere-based copy cataloguing and MetaLib portal
+ > maintenance. The testers represent these two areas, and the outcome
+ > of the test will already provide some insights of how useful the
+ > tool will be, for the national library and for the (Finnish)
+ > library network in general.
+ > 
+ > If Adam and his colleagues are able to test this version of the
+ > application (like they have tested earlier releases), we would like
+ > to receive a report of the results too, in order to avoid
+ > re-inventing the same wheels.
+
+Certainly.  May we once more invite you to register all bugs, change
+requests, etc. in the Bugzilla area?  That way everyone can see
+what everyone else has found and we can be sure that nothing gets forgotten.
+	http://bugzilla.indexdata.dk/buglist.cgi?query_format=specific&order=relevance+desc&bug_status=__open__&product=IR-Spy&content=
+
+ > I have taken a short look at IRSpy. One feature I missed was
+ > geographic location (country) of the server, which in many cases
+ > could be easily derived from the host name.
+
+The problem is that "in many cases" is not really good enough.  You'll
+have seen that there is indeed a Country field in the records, but we
+feel that it is better to edit these by hand than to have a computer
+make guesses.  However --
+
+ > Browsing an alphabetical list for Finnish servers was rather
+ > frustrating, and a copy cataloguer would prefer a country-based
+ > representation of servers.
+
+Well, that's what searching is for!  :-)
+
+If you want to narrow by domain-name, try this.  Go to:
+	http://irspy.indexdata.com/find.html
+In the "Host" field, enter
+	*.fi
+Set the "Sort by" dropdown to
+	Title
+And press the Search button.
+
+At the moment, there seems to be only one matching entry (which makes
+the sorting criterion a bit irrelevant :-)  This was a surprise to me,
+but does seem to be correct.
+
+ > Moreover, there are quite a lot of servers with 0 % reliability,
+ > eventually some kind of weeding process should be implemented for
+ > the servers which obviously are no longer functional at all or have
+ > moved to some other place.
+
+Yes.  Someone will have to come up with heuristics -- I suppose
+something simple such as "no successful connections in six months"
+would be about right.
+
+ > Presentation of the supported attributes is as compact as it gets;
+ > lay users might prefer a more verbose option should one be
+ > available.
+
+You mean this?
+
+	Bib-1 Use attributes  	36 access points: 1-9, 12-13, 16-19,
+	                        21, 25, 28, 33-44, 47, 1003, 1007,
+	                        1016, 1035-1036
+
+You're thinking that users might prefer to see "33, 34, 35, 36, 37,
+38, 39, 40, 41, 42, 43, 44" rather than "33-44"?  I have to say that
+does not seem likely to me.
+
+ > But in spite of these critical comments, I am quite happy with what
+ > I've seen. The number of target systems is already quite impressive
+ > and is likely to grow when IRSpy goes live. The system works fast
+ > enough, and I like the looks of it.
+
+Thanks, that's good to hear!
+
+ _/|_	 ___________________________________________________________________
+/o ) \/  Mike Taylor    <mike@indexdata.com>    http://www.miketaylor.org.uk
+)_v__/\  "When a man is tired of Ankh Morpork, he is tired of ankle-deep
+	 slurry" -- Terry Pratchett, "Mort"
+
+From mike  Wed Apr 18 14:25:27 2007
+X-VM-v5-Data: ([nil nil nil t t nil nil nil nil]
+	["5865" "Wednesday" "18" "April" "2007" "16:25:09" "+0300" "Juha Hakala" "juha.hakala@helsinki.fi" "<46261C35.6040402@helsinki.fi>" "137" "Re: IRSpy testing in Helsinki" "^X-Spam-Status:" nil nil "4" nil nil nil nil nil nil nil nil nil]
+	nil)
+Return-path: <juha.hakala@helsinki.fi>
+Envelope-to: mike@indexdata.com
+Delivery-date: Wed, 18 Apr 2007 15:24:50 +0200
+Received: from bagel.indexdata.dk [213.150.43.11]
+	by localhost.localdomain with POP3 (fetchmail-6.3.2)
+	for <mike@localhost> (single-drop); Wed, 18 Apr 2007 14:25:27 +0100 (BST)
+Received: from sender-02.it.helsinki.fi ([128.214.205.137])
+	by bagel.indexdata.dk with esmtp (Exim 4.50)
+	id 1HeA9F-0002xX-WF; Wed, 18 Apr 2007 15:24:50 +0200
+Received: from orm6.lib.helsinki.fi (orm6.lib.helsinki.fi [128.214.91.244])
+	by sender-02.it.helsinki.fi (8.13.8/8.13.8) with ESMTP id l3IDOacL003964
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+	Wed, 18 Apr 2007 16:24:36 +0300
+Received: from [128.214.91.248] (oktas-2.lib.helsinki.fi [128.214.91.248])
+	(authenticated bits=0)
+	by orm6.lib.helsinki.fi (8.12.11.20060308/8.12.11) with ESMTP id l3IDOZkA005626
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 18 Apr 2007 16:24:36 +0300
+Message-ID: <46261C35.6040402@helsinki.fi>
+User-Agent: Thunderbird 1.5.0.10 (Windows/20070221)
+MIME-Version: 1.0
+References: <46261259.5020700@indexdata.dk>
+In-Reply-To: <46261259.5020700@indexdata.dk>
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by sender-02.it.helsinki.fi id l3IDOacL003964
+X-SA-Exim-Connect-IP: 128.214.205.137
+X-SA-Exim-Rcpt-To: mike@indexdata.com, quinn@indexdata.com
+X-SA-Exim-Mail-From: juha.hakala@helsinki.fi
+X-Spam-Checker-Version: SpamAssassin 3.0.3 (2005-04-27) on bagel.indexdata.dk
+X-Spam-Level: 
+X-SA-Exim-Version: 4.2 (built Thu, 03 Mar 2005 10:44:12 +0100)
+X-SA-Exim-Scanned: Yes (on bagel.indexdata.dk)
+X-UIDL: a9Z!!L?D"!:?R"!V%7"!
+X-Spam-Status: No, score=-2.2 required=4.0 tests=AWL,BAYES_00 autolearn=ham 
+	version=3.0.3
+From: Juha Hakala <juha.hakala@helsinki.fi>
+To: "Per M. Hansen" <perhans@indexdata.dk>
+CC: Mike Taylor <mike@indexdata.com>, Sebastian Hammer <quinn@indexdata.com>,
+        Kristiina Hormia <kristiina.hormia@helsinki.fi>,
+        Dorrit Gustafsson <Dorrit.Gustafsson@helsinki.fi>
+Subject: Re: IRSpy testing in Helsinki
+Date: Wed, 18 Apr 2007 16:25:09 +0300
+
+Dear Per,
+
+We did not want to spend much time on testing the application until it=20
+was declared to be ready by Index Data. Any testing done on earlier=20
+versions must be repeated with the final release, and the time spent on=20
+testing would increase accordingly.
+
+We assumed that testing would take place late 2006, and we had a=20
+seasoned programmer who would have been able to take care of the task.=20
+He left us in the end of December as planned, so at the moment we do not=20
+have a technical expert available for testing on short notice. Please=20
+keep in mind that we could not prepare ourselves properly for testing in=20
+2007 also because we did not know exactly when ID will be able to=20
+complete the IRSpy development. Once Mike's note about IRSpy being=20
+available for testing arrived, following discussions with other=20
+directors and experts within the library, I came up with the plan sent=20
+to Mike Taylor earlier today.
+
+Paying the entire invoice before the testing is completed is not what we=20
+normally do, even with good partners such as ID. Your proposal will be=20
+discussed in the library board, but I must admit that my gut feeling is=20
+that the answer will be negative. From our point of view it is not=20
+entirely our fault that we can not complete the testing fast. I do not=20
+remember if our contract says anything about how fast we are assumed to=20
+carry out the testing; if it does, then we have to reconsider the=20
+testing proposal I have drafted.
+
+I'm sorry for being a bit negative this time. But we have bought a lot=20
+of software from various vendors, and there are some principles we=20
+always stick to. What you propose would be against some of them.
+
+Best regards,
+
+Juha Hakala
+
+
+Per M. Hansen wrote:
+> Dear Juha,
+>
+> Thank you for your mail.
+>
+> This project has been in progress for quite some time now, and this is=20
+> unfortunately entirely our fault and we are very sorry about that. The=20
+> long development time has however also given you a very long time to=20
+> conduct you testing of the software. On this basis I don't understand=20
+> why it has to take so long time before you can perform the final=20
+> testing of the system. I would therefor like to be able to invoice you=20
+> now, with the clause that we of course will fix any problem in the=20
+> software that you may find, that is included in the requirements.=20
+> Would that work for you?
+>
+> Regards,
+>
+> Per M=F8rkegaard Hansen, COO
+> Index Data
+>> Hello Mike,
+>>
+>> After some internal discussions we have decided to proceed with the=20
+>> IRSpy testing in the following manner:
+>>
+>> 1. Initial testing, to be carried out by Ms. Katri Kananen, will=20
+>> concentrate on end user point of view. Katri is very experienced copy=20
+>> cataloger who is familiar with both Z39.50 and BookWhere. Comparing=20
+>> the target data in BookWhere (which has been manually produced) and=20
+>> in IRSpy will provide some views on how reliable automatically=20
+>> generated data is. Since IRSpy contains more targets than BookWhere=20
+>> (2600 to about 2000) Katri will also be able to add new targets to=20
+>> BookWhere and see how they "work".
+>>
+>> 2. After Katri has finished her part of the work in late May / early=20
+>> June we'll proceed to technical testing, to be carried out by Ere=20
+>> Maijala whose background is in programming. Since Ere's schedule is=20
+>> tight (his main responsibility is our MetaLib/SFX portal) I am not=20
+>> sure how much time he'll be able to spend on testing, but we'll see=20
+>> what happens. Implementation of the new MetaLib version keeps Ere and=20
+>> his colleagues busy for the time being. But we wish to complete=20
+>> testing before summer vacations; I hope this is OK for ID.
+>>
+>> It is our belief that IRSpy will help us in two areas,=20
+>> BookWhere-based copy cataloguing and MetaLib portal maintenance. The=20
+>> testers represent these two areas, and the outcome of the test will=20
+>> already provide some insights of how useful the tool will be, for the=20
+>> national library and for the (Finnish) library network in general.
+>>
+>> If Adam and his colleagues are able to test this version of the=20
+>> application (like they have tested earlier releases), we would like=20
+>> to receive a report of the results too, in order to avoid=20
+>> re-inventing the same wheels.
+>>
+>> I have taken a short look at IRSpy. One feature I missed was=20
+>> geographic location (country) of the server, which in many cases=20
+>> could be easily derived from the host name. Browsing an alphabetical=20
+>> list for Finnish servers was rather frustrating, and a copy=20
+>> cataloguer would prefer a country-based representation of servers.=20
+>> Moreover, there are quite a lot of servers with 0 % reliability,=20
+>> eventually some kind of weeding  process should be implemented for=20
+>> the servers which obviously are no longer functional at all or have=20
+>> moved to some other place. Presentation of the supported attributes=20
+>> is as compact as it gets; lay users might prefer a more verbose=20
+>> option should one be available.
+>>
+>> But in spite of these critical comments, I am quite happy with what=20
+>> I've seen. The number of target systems is already quite impressive=20
+>> and is likely to grow when IRSpy goes live. The system works fast=20
+>> enough, and I like the looks of it.
+>>
+>> Best regards,
+>>
+>> Juha
+>>
+>> --=20
+>>
+>> --=20
+>>
+>> Juha Hakala
+>> Director, Information Technology
+>>
+>> The National Library of Finland P.O.Box 15 (Unioninkatu 36, room=20
+>> 503), FIN-00014 Helsinki University
+>> Email juha.hakala@helsinki.fi, tel +358 50 382 7678 =20
+>
+
+
+--=20
+
+--
+
+ Juha Hakala
+ Director, Information Technology
+
+ The National Library of Finland=20
+ P.O.Box 15 (Unioninkatu 36, room 503), FIN-00014 Helsinki University
+ Email juha.hakala@helsinki.fi, tel +358 50 382 7678
+=20
+
+
+
+
+From mike  Wed Apr 18 14:25:25 2007
+X-VM-v5-Data: ([nil nil nil nil nil nil nil nil nil]
+	["3501" "Wednesday" "18" "April" "2007" "15:21:01" "+0300" "Juha Hakala" "juha.hakala@helsinki.fi" nil "92" "Re: IRSpy testing in Helsinki" "^X-Spam-Status:" nil nil "4" nil nil nil nil nil nil nil nil nil]
+	nil)
+Return-path: <juha.hakala@helsinki.fi>
+Envelope-to: mike@indexdata.com
+Delivery-date: Wed, 18 Apr 2007 15:12:04 +0200
+Received: from bagel.indexdata.dk [213.150.43.11]
+	by localhost.localdomain with POP3 (fetchmail-6.3.2)
+	for <mike@localhost> (single-drop); Wed, 18 Apr 2007 14:25:25 +0100 (BST)
+Received: from sender-01.it.helsinki.fi ([128.214.205.139])
+	by bagel.indexdata.dk with esmtp (Exim 4.50)
+	id 1He9x3-0002La-Si; Wed, 18 Apr 2007 15:12:04 +0200
+Received: from orm6.lib.helsinki.fi (orm6.lib.helsinki.fi [128.214.91.244])
+	by sender-01.it.helsinki.fi (8.13.8/8.13.8) with ESMTP id l3ICKTrq022473
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+	Wed, 18 Apr 2007 15:20:30 +0300
+Received: from [128.214.91.248] (oktas-2.lib.helsinki.fi [128.214.91.248])
+	(authenticated bits=0)
+	by orm6.lib.helsinki.fi (8.12.11.20060308/8.12.11) with ESMTP id l3ICKT8J031907
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 18 Apr 2007 15:20:29 +0300
+Message-ID: <46260D2D.3010200@helsinki.fi>
+User-Agent: Thunderbird 1.5.0.10 (Windows/20070221)
+MIME-Version: 1.0
+References: <4625C681.10007@helsinki.fi> <17958.1082.518813.567339@localhost.localdomain>
+In-Reply-To: <17958.1082.518813.567339@localhost.localdomain>
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 128.214.205.139
+X-SA-Exim-Rcpt-To: mike@indexdata.com, quinn@indexdata.com
+X-SA-Exim-Mail-From: juha.hakala@helsinki.fi
+X-Spam-Checker-Version: SpamAssassin 3.0.3 (2005-04-27) on bagel.indexdata.dk
+X-Spam-Level: 
+X-SA-Exim-Version: 4.2 (built Thu, 03 Mar 2005 10:44:12 +0100)
+X-SA-Exim-Scanned: Yes (on bagel.indexdata.dk)
+X-UIDL: pfK!!M7c"!>f~"!"8#"!
+X-Spam-Status: No, score=-1.6 required=4.0 tests=AWL,BAYES_00,
+	RAZOR2_CF_RANGE_51_100,RAZOR2_CHECK autolearn=no version=3.0.3
+From: Juha Hakala <juha.hakala@helsinki.fi>
+To: Mike Taylor <mike@indexdata.com>
+CC: Ere Maijala <ere.maijala@helsinki.fi>,
+        Katri Kananen <katri.kananen@helsinki.fi>,
+        Kristiina Hormia <kristiina.hormia@helsinki.fi>,
+        Ari Rouvari <ari.rouvari@helsinki.fi>,
+        "Adam Horvath (adam@oszk.hu)" <adam@oszk.hu>,
+        Esa Kurki <esa.kurki@helsinki.fi>,
+        Sebastian Hammer <quinn@indexdata.com>, perhans@indexdata.dk
+Subject: Re: IRSpy testing in Helsinki
+Date: Wed, 18 Apr 2007 15:21:01 +0300
+
+Hello Mike,
+
+See comments below. There are not many of them.
+
+As regards the timing of the test over here: I am sorry that we can not 
+start the technical testing any faster. Late last year - when IRSpy was 
+supposed to be available for testing - we did have a qualified person, 
+but he is no longer with us.
+
+Mike Taylor wrote:
+>
+> If you want to narrow by domain-name, try this.  Go to:
+> 	http://irspy.indexdata.com/find.html
+> In the "Host" field, enter
+> 	*.fi
+> Set the "Sort by" dropdown to
+> 	Title
+> And press the Search button.
+>
+> At the moment, there seems to be only one matching entry (which makes
+> the sorting criterion a bit irrelevant :-)  This was a surprise to me,
+> but does seem to be correct.
+>   
+I was not able to find a single Finnish server via browsing; my patience 
+ran out first. Many Finnish sites that are definitely free (like most 
+OPACs in university libraries) are missing from the IRSpy server list, 
+although it is probably the most complete one in existence. This shows 
+only that there are a lot more Z & SRU servers out there than we know, 
+and the fact that the libraries have not been able to share this 
+information efficiently between themselves keeps many useful services 
+hidden from users such as copy cataloguers or patrons with specific 
+regional interests. Patrons with specific topical interests would of 
+course need collection descriptions, but that is a different story.
+>  > Presentation of the supported attributes is as compact as it gets;
+>  > lay users might prefer a more verbose option should one be
+>  > available.
+>
+> You mean this?
+>
+> 	Bib-1 Use attributes  	36 access points: 1-9, 12-13, 16-19,
+> 	                        21, 25, 28, 33-44, 47, 1003, 1007,
+> 	                        1016, 1035-1036
+>
+> You're thinking that users might prefer to see "33, 34, 35, 36, 37,
+> 38, 39, 40, 41, 42, 43, 44" rather than "33-44"?  I have to say that
+> does not seem likely to me.
+>   
+That would not seem likely to me either :-).
+
+Instead of verbose I should have said human readable (sorry, I am not a 
+native English speaker and sometimes pick a wrong term or make a mess of 
+the grammar). Especially if you don't have Z39.50 readily at hand it may 
+be a bit difficult to find out what f.ex. Use attribute 7 means. Most 
+human users (especially those who are not system analysts but e.g. 
+cataloguers) might well prefer a display stating "ISBN" instead of "7", 
+especially if they only want to see if ISBN searching is possible. Of 
+course it is possible to check from Bib-1 the meaning of the codes, and 
+eventually one memorizes quite a few of them, but why should we make it 
+necessary to the users to take that extra step?
+
+Best regards,
+
+Juha
+>  > But in spite of these critical comments, I am quite happy with what
+>  > I've seen. The number of target systems is already quite impressive
+>  > and is likely to grow when IRSpy goes live. The system works fast
+>  > enough, and I like the looks of it.
+>
+> Thanks, that's good to hear!
+>
+>  _/|_	 ___________________________________________________________________
+> /o ) \/  Mike Taylor    <mike@indexdata.com>    http://www.miketaylor.org.uk
+> )_v__/\  "When a man is tired of Ankh Morpork, he is tired of ankle-deep
+> 	 slurry" -- Terry Pratchett, "Mort"
+>
+>   
+
+
+-- 
+
+--
+
+ Juha Hakala
+ Director, Information Technology
+
+ The National Library of Finland 
+ P.O.Box 15 (Unioninkatu 36, room 503), FIN-00014 Helsinki University
+ Email juha.hakala@helsinki.fi, tel +358 50 382 7678
+ 
+
+
+
+
+From mike@miketaylor.org.uk  Wed Apr 18 15:12:21 2007
+X-VM-v5-Data: ([nil nil nil nil nil nil nil nil nil]
+	["3482" "Wednesday" "18" "April" "2007" "15:12:20" "+0100" "Mike Taylor" "mike@indexdata.com" nil "84" "Re: IRSpy testing in Helsinki" "^From:" nil nil "4" nil nil nil nil nil nil nil nil nil]
+	nil)
+Return-Path: <mike@miketaylor.org.uk>
+X-Original-To: mike
+Delivered-To: mike@miketaylor.org.uk
+Received: by localhost.localdomain (Postfix, from userid 1000)
+	id 1B25DAC0F7; Wed, 18 Apr 2007 15:12:21 +0100 (BST)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Message-ID: <17958.10052.988213.697561@localhost.localdomain>
+In-Reply-To: <46260D2D.3010200@helsinki.fi>
+References: <4625C681.10007@helsinki.fi>
+	<17958.1082.518813.567339@localhost.localdomain>
+	<46260D2D.3010200@helsinki.fi>
+X-Mailer: VM 7.19 under Emacs 21.4.1
+From: Mike Taylor <mike@indexdata.com>
+To: Juha Hakala <juha.hakala@helsinki.fi>
+Cc: Ere Maijala <ere.maijala@helsinki.fi>,
+    Katri Kananen <katri.kananen@helsinki.fi>,
+    Kristiina Hormia <kristiina.hormia@helsinki.fi>,
+    Ari Rouvari <ari.rouvari@helsinki.fi>,
+    "Adam Horvath (adam@oszk.hu)" <adam@oszk.hu>,
+    Esa Kurki <esa.kurki@helsinki.fi>,
+    Sebastian Hammer <quinn@indexdata.com>,
+    perhans@indexdata.dk
+Subject: Re: IRSpy testing in Helsinki
+Date: Wed, 18 Apr 2007 15:12:20 +0100
+
+Juha Hakala writes:
+ > As regards the timing of the test over here: I am sorry that we can
+ > not start the technical testing any faster. Late last year - when
+ > IRSpy was supposed to be available for testing - we did have a
+ > qualified person, but he is no longer with us.
+
+I do take your point.
+
+ > > If you want to narrow by domain-name, try this.  Go to:
+ > > 	http://irspy.indexdata.com/find.html
+ > > In the "Host" field, enter
+ > > 	*.fi
+ > > Set the "Sort by" dropdown to
+ > > 	Title
+ > > And press the Search button.
+ > >
+ > > At the moment, there seems to be only one matching entry (which
+ > > makes the sorting criterion a bit irrelevant :-) This was a
+ > > surprise to me, but does seem to be correct.
+ >
+ > I was not able to find a single Finnish server via browsing; my
+ > patience ran out first.
+
+Probably because there is only the one!  But of course you are very
+welcome to add more.
+
+ > Many Finnish sites that are definitely free (like most OPACs in
+ > university libraries) are missing from the IRSpy server list,
+ > although it is probably the most complete one in existence. This
+ > shows only that there are a lot more Z & SRU servers out there than
+ > we know, and the fact that the libraries have not been able to
+ > share this information efficiently between themselves keeps many
+ > useful services hidden from users such as copy cataloguers or
+ > patrons with specific regional interests.
+
+All true.  Please help to fix this problem!  :-)
+
+ > >  > Presentation of the supported attributes is as compact as it gets;
+ > >  > lay users might prefer a more verbose option should one be
+ > >  > available.
+ > >
+ > > You mean this?
+ > >
+ > > 	Bib-1 Use attributes  	36 access points: 1-9, 12-13, 16-19,
+ > > 	                        21, 25, 28, 33-44, 47, 1003, 1007,
+ > > 	                        1016, 1035-1036
+ > >
+ > > You're thinking that users might prefer to see "33, 34, 35, 36, 37,
+ > > 38, 39, 40, 41, 42, 43, 44" rather than "33-44"?  I have to say that
+ > > does not seem likely to me.
+ >
+ > That would not seem likely to me either :-).
+
+:-)
+
+ > Instead of verbose I should have said human readable (sorry, I am
+ > not a native English speaker and sometimes pick a wrong term or
+ > make a mess of the grammar).
+
+You _are_ joking here, right?  Like most Scandivians, your written
+English is _far_ better than that of most native Brits.
+
+ > Especially if you don't have Z39.50 readily at hand it may be a bit
+ > difficult to find out what f.ex. Use attribute 7 means. Most human
+ > users (especially those who are not system analysts but e.g.
+ > cataloguers) might well prefer a display stating "ISBN" instead of
+ > "7", especially if they only want to see if ISBN searching is
+ > possible. Of course it is possible to check from Bib-1 the meaning
+ > of the codes, and eventually one memorizes quite a few of them, but
+ > why should we make it necessary to the users to take that extra
+ > step?
+
+Gotcha.  I agree that it would be a nice enhancement to be able to see
+the codes interpreted.
+
+Would you please add this feature request using Bugzilla?  Not only
+will that make sure it gets done, but it will also reassure us at ID
+that you are comfortable using the system.  Thanks.
+
+ _/|_	 ___________________________________________________________________
+/o ) \/  Mike Taylor    <mike@indexdata.com>    http://www.miketaylor.org.uk
+)_v__/\  "Don't ask what you can do for your country.  Ask what you can
+	 do for your mother" -- Joe Lieberman.
+
+
