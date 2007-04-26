@@ -1,4 +1,4 @@
-%# $Id: full.mc,v 1.25 2007-04-18 12:06:25 mike Exp $
+%# $Id: full.mc,v 1.26 2007-04-26 14:00:33 mike Exp $
 <%args>
 $id
 </%args>
@@ -43,7 +43,7 @@ if ($n == 0) {
 		  [ "Implementation ID" => "i:status/i:implementationId" ],
 		  [ "Implementation Name" => "i:status/i:implementationName" ],
 		  [ "Implementation Version" => "i:status/i:implementationVersion" ],
-		  [ "Reliability" => \&calc_reliability, $xc ],
+		  [ "Reliability/reliability" => \&calc_reliability, $xc ],
 		  [ "Services" => \&calc_init_options, $xc ],
 		  [ "Bib-1 Use attributes" => \&calc_ap, $xc, "bib-1" ],
 		  [ "Dan-1 Use attributes" => \&calc_ap, $xc, "dan-1" ],
@@ -68,7 +68,11 @@ if ($n == 0) {
 	if ($data) {
 </%perl>
       <tr>
-       <th><% xml_encode($caption) %></th>
+% $caption =~ s/\/(.*)//;
+% my $help = $1;
+       <th><% xml_encode($caption) %><%
+	!defined $help ? "" : $m->comp("/help/link.mc", help =>"info/$help")
+	%></th>
        <td><% xml_encode($data) %></td>
       </tr>
 %	}
