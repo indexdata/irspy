@@ -1,4 +1,4 @@
-%# $Id: layout.mc,v 1.28 2007-04-17 08:41:07 mike Exp $
+%# $Id: layout.mc,v 1.29 2007-04-26 14:38:37 mike Exp $
 <%args>
 $debug => undef
 $title
@@ -25,6 +25,9 @@ use ZOOM::IRSpy::Utils qw(isodate xml_encode cql_target cql_quote
  <body>
   <table border="0" cellpadding="0" cellspacing="0" width="100%">
    <tr class="banner">
+    <td>
+     <table width="100%">
+      <tr>
     <td align="left">
      <br/>
      <h1><a class="logo" href="/">IRSpy</a></h1>
@@ -32,6 +35,9 @@ use ZOOM::IRSpy::Utils qw(isodate xml_encode cql_target cql_quote
     <td align="right">
      <br/>
      <h1 class="title"><% xml_encode($title) %></h1>
+    </td>
+      </table>
+     </tr>
     </td>
    </tr>
   </table>
