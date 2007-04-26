@@ -749,3 +749,163 @@ that you are comfortable using the system.  Thanks.
 	 do for your mother" -- Joe Lieberman.
 
 
+From mike  Wed Apr 25 18:36:49 2007
+X-VM-v5-Data: ([nil nil nil nil nil nil nil t nil]
+	["2516" "Wednesday" "25" "April" "2007" "19:09:55" "+0200" "HORVATH Adam" "adam@oszk.hu" nil "72" "Re: IRSpy Acceptance Testing" "^From:" nil nil "4" nil nil nil nil nil nil nil nil nil]
+	nil)
+Return-path: <adam@oszk.hu>
+Envelope-to: mike@indexdata.com
+Delivery-date: Wed, 25 Apr 2007 19:33:37 +0200
+Received: from bagel.indexdata.dk [213.150.43.11]
+	by localhost.localdomain with POP3 (fetchmail-6.3.2)
+	for <mike@localhost> (single-drop); Wed, 25 Apr 2007 18:36:49 +0100 (BST)
+Received: from mail.oszk.hu ([193.6.201.194])
+	by bagel.indexdata.dk with esmtp (Exim 4.50)
+	id 1HglN1-0003ji-Ms
+	for mike@indexdata.com; Wed, 25 Apr 2007 19:33:37 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by mail.oszk.hu (Postfix) with ESMTP id D964C206E15;
+	Wed, 25 Apr 2007 19:09:55 +0200 (CEST)
+Received: from mail.oszk.hu ([127.0.0.1])
+	by localhost (mail.oszk.hu [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 09408-04; Wed, 25 Apr 2007 19:09:54 +0200 (CEST)
+Received: from [192.168.42.122] (unknown [192.168.42.122])
+	by mail.oszk.hu (Postfix) with ESMTP id 5924C206DFA;
+	Wed, 25 Apr 2007 19:09:54 +0200 (CEST)
+Organization: OSZK - National Szechenyi Library
+MIME-Version: 1.0
+Message-ID: <462FA783.17971.225752EB@adam.oszk.hu>
+Priority: normal
+In-reply-to: <20070330232512.C62C4ABC71@localhost.localdomain>
+References: <20070330232512.C62C4ABC71@localhost.localdomain>
+X-mailer: Pegasus Mail for Windows (4.41)
+X-Virus-Scanned: by amavisd-new-20030616-p10 (Debian) at oszk.hu
+X-SA-Exim-Connect-IP: 193.6.201.194
+X-SA-Exim-Rcpt-To: mike@indexdata.com
+X-SA-Exim-Mail-From: adam@oszk.hu
+X-SA-Exim-Scanned: No (on bagel.indexdata.dk); Message bigger than SAmaxbody (256000)
+X-UIDL: +Tm"!WS!#!!`@"!Md@"!
+X-StripMime: Non-text section removed by stripmime
+Content-type: text/plain; charset=US-ASCII
+From: "HORVATH Adam" <adam@oszk.hu>
+To: Mike Taylor <mike@indexdata.com>
+Cc: perhans@indexdata.dk, juha.hakala@helsinki.fi
+Subject: Re: IRSpy Acceptance Testing
+Date: Wed, 25 Apr 2007 19:09:55 +0200
+
+Kjaere Mike,
+
+I added a couple of bug reports, comments, questions to bugzilla. I 
+also amended a previous bug report of someone else. I wanted to 
+attach a screenshot to one of the report (1093) but I did not find an 
+attach button, so I'm attaching that to this letter.
+
+I think we have already finished the test. I'm looking forward to 
+your answers.
+
+
+Med vennlig hilsen
+Adam
+
+
+> Hi, Juha and Adam,
+> 
+> We would like to invite you now to play with the IRSpy installation at
+> 	http://irspy.indexdata.com/
+> with a view to acceptance-testing.  As you will quickly see, all the
+> functionality is now there.  To perform some of the administrative
+> functions, you will need to log in -- use username "admin", password
+> "admin".  (We'll want to change that at some point!)
+> 
+> We have a register of known issues at:
+> 	http://bugzilla.indexdata.dk/buglist.cgi?query_format=specific&order=relevance+desc&bug_status=__open__&product=IR-Spy&content=
+> Please don't be put off by the length: these are mostly either
+> suggestions for enhancement or straighforward tweaks.
+> 
+> If you run into additional problems, please register them in Bugzilla.
+> 
+> Thanks for your patience as we've put this together.
+> 
+>  _/|_	 ___________________________________________________________________
+> /o ) \/  Mike Taylor    <mike@indexdata.com>    http://www.miketaylor.org.uk
+> )_v__/\  "Nobody really knows what the Bourne shell's grammar is" --
+> 	 Tom Duff, "Rc: A Shell for Plan 9"
+> 
+
+================================================
+Adam HORVATH
+Director of Informatics
+------------------------------------------------
+NATIONAL SZECHENYI LIBRARY
+Information Technology Department
+Budapest, Budavari Palota F epulet, H-1827
+ Tel.: +36-1-224-3737  Fax: +36-1-224-3705
+-Email: adam@oszk.hu    WWW: http://www.oszk.hu
+================================================
+
+
+The following section of this message contains a file attachment
+prepared for transmission using the Internet MIME message format.
+If you are using Pegasus Mail, or any other MIME-compliant system,
+you should be able to save it or view it from within your mailer.
+If you cannot, please ask your system administrator for assistance.
+
+   ---- File information -----------
+     File:  IRSpyHeader_BugReport_1093.doc
+     Date:  25 Apr 2007, 19:00
+     Size:  365568 bytes.
+     Type:  Unknown
+
+
+--- StripMime Report -- processed MIME parts ---
+multipart/mixed
+  text/plain (text body -- kept)
+  text/plain (text body -- kept)
+  application/octet-stream
+---
+
+
+
+From mike@miketaylor.org.uk  Thu Apr 26 12:57:22 2007
+X-VM-v5-Data: ([nil nil nil nil nil nil nil nil nil]
+	["803" "Thursday" "26" "April" "2007" "12:57:22" "+0100" "Mike Taylor" "mike@indexdata.com" nil "18" "Re: IRSpy Acceptance Testing" "^From:" nil nil "4" nil nil nil nil nil nil nil nil nil]
+	nil)
+Return-Path: <mike@miketaylor.org.uk>
+X-Original-To: mike
+Delivered-To: mike@miketaylor.org.uk
+Received: by localhost.localdomain (Postfix, from userid 1000)
+	id CBDF6AC0F6; Thu, 26 Apr 2007 12:57:22 +0100 (BST)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Message-ID: <17968.37794.713293.251594@localhost.localdomain>
+In-Reply-To: <462FA783.17971.225752EB@adam.oszk.hu>
+References: <20070330232512.C62C4ABC71@localhost.localdomain>
+	<462FA783.17971.225752EB@adam.oszk.hu>
+X-Mailer: VM 7.19 under Emacs 21.4.1
+From: Mike Taylor <mike@indexdata.com>
+To: "HORVATH Adam" <adam@oszk.hu>
+Cc: perhans@indexdata.dk,
+    juha.hakala@helsinki.fi
+Subject: Re: IRSpy Acceptance Testing
+Date: Thu, 26 Apr 2007 12:57:22 +0100
+
+HORVATH Adam writes:
+ > I added a couple of bug reports, comments, questions to bugzilla. I
+ > also amended a previous bug report of someone else.
+
+Thanks for these reports.
+
+ > I wanted to attach a screenshot to one of the report (1093) but I
+ > did not find an attach button, so I'm attaching that to this
+ > letter.
+
+I've attached it to the bug for you.  (It's the "Create a New
+Attachment" link -- I agree that the Bugzilla UI is pretty horrible.
+On the positive side, it makes IRSpy look good in comparison :-)
+
+ _/|_	 ___________________________________________________________________
+/o ) \/  Mike Taylor    <mike@indexdata.com>    http://www.miketaylor.org.uk
+)_v__/\  "It became necessary to destroy the village in order to save it"
+	 -- Attributed to an anonymous senior US military officer.
+
