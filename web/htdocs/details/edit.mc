@@ -1,4 +1,4 @@
-%# $Id: edit.mc,v 1.30 2007-04-27 14:04:40 mike Exp $
+%# $Id: edit.mc,v 1.31 2007-04-27 14:32:09 mike Exp $
 <%args>
 $op
 $id => undef
@@ -86,7 +86,7 @@ my @fields =
        qw() ],
      [ country      => $m->comp("country-list.mc"),
        "Country", "i:status/i:country" ],
-     [ protocol     => [ qw(Z39.50 SRW SRU SRW/U) ],
+     [ protocol     => [ qw(Z39.50 SRW SRU) ],
        "Protocol", "e:serverInfo/\@protocol" ],
      [ host         => 0, "Host", "e:serverInfo/e:host" ],
      [ port         => 0, "Port", "e:serverInfo/e:port" ],
