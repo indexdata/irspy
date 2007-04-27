@@ -1,4 +1,4 @@
-%# $Id: layout.mc,v 1.29 2007-04-26 14:38:37 mike Exp $
+%# $Id: layout.mc,v 1.30 2007-04-27 14:04:40 mike Exp $
 <%args>
 $debug => undef
 $title
@@ -9,7 +9,9 @@ use URI::Escape qw(uri_escape uri_escape_utf8);
 use ZOOM;
 use ZOOM::IRSpy::Web;
 use ZOOM::IRSpy::Utils qw(isodate xml_encode cql_target cql_quote
-                          irspy_xpath_context modify_xml_document
+                          irspy_xpath_context irspy_make_identifier
+			  irspy_record2identifier
+			  irspy_identifier2target modify_xml_document
 			  bib1_access_point);
 </%once>
 % $r->content_type("text/html; charset=utf-8");
@@ -72,24 +74,22 @@ use ZOOM::IRSpy::Utils qw(isodate xml_encode cql_target cql_quote
 % foreach my $i ('a' .. 'z') {
       <a href="/find.html?dc.title=^<% $i %>*&amp;_sort=dc.title&amp;_count=9999&amp;_search=Search"><tt><% uc($i) %></tt></a>
 % }
-      <a href="/find.html?cql.allRecords=1+not+dc.title+=/regexp/firstInField+[a-z].*&amp;_sort=dc.title&amp;_count=9999&amp;_search=Search"">[Others]</a>
+      <a href="/find.html?cql.allRecords=1+not+dc.title+=/regexp/firstInField+[a-z].*&amp;_sort=dc.title&amp;_count=9999&amp;_search=Search">[Others]</a>
      </p>
 <%perl>
 my $id = $r->param("id");
 {
-    # Make up ID for newly created records.  It would be more
-    # rigorously correct, but insanely inefficient, to submit the
-    # record to Zebra and then search for it; but since we know the
-    # formula for IDs anyway, we just build one by hand.
-    my $id = $r->param("id");
+    # Make up ID for newly created records.
+    my $protocol = $r->param("protocol");
     my $host = $r->param("host");
     my $port = $r->param("port");
     my $dbname = $r->param("dbname");
-    #warn "id='$id', host='$host', port='$port', dbname='$dbname'";
+    #warn "id='$id', protocol='$protocol' host='$host', port='$port', dbname='$dbname'";
     #warn "%ARGS = {\n" . join("", map { "\t'$_' => '" . $ARGS{$_} . ",'\n" } sort keys %ARGS) . "}\n";
     if ((!defined $id || $id eq "") &&
-	defined $host && defined $port && defined $dbname) {
-	$id = "$host:$port/$dbname";
+	defined $protocol && defined $host &&
+	defined $port && defined $dbname) {
+	$id = irspy_make_identifier($protocol, $host, $port, $dbname);
 	#warn "id set to '$id'";
     }
 }

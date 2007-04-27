@@ -1,4 +1,4 @@
-%# $Id: full.mc,v 1.26 2007-04-26 14:00:33 mike Exp $
+%# $Id: full.mc,v 1.27 2007-04-27 14:04:40 mike Exp $
 <%args>
 $id
 </%args>
@@ -81,7 +81,7 @@ if ($n == 0) {
      <p>
       <a href="<% xml_encode("http://targettest.indexdata.com/targettest/search/index.zap?" .
 	join("&",
-	     "target=" . uri_escape_utf8($id),
+	     "target=" . uri_escape_utf8(irspy_identifier2target($id)),
 	     "name=" . uri_escape_utf8($title),
 	     "attr=" . join(" ", list_ap($xc, "bib-1")),
 	     "formats=" . calc_recsyn($xc, " ")))

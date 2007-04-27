@@ -1,4 +1,4 @@
-%# $Id: found.mc,v 1.28 2007-04-26 13:57:17 mike Exp $
+%# $Id: found.mc,v 1.29 2007-04-27 14:04:40 mike Exp $
 <%once>
 sub print_navlink {
     my($params, $cond, $caption, $skip) = @_;
@@ -132,9 +132,7 @@ my $reliability = calc_reliability($xc);
 my $host = $xc->find("e:serverInfo/e:host");
 my $port = $xc->find("e:serverInfo/e:port");
 my $db = $xc->find("e:serverInfo/e:database");
-my $id = $xc->find("concat(e:serverInfo/e:host, ':',
-                           e:serverInfo/e:port, '/',
-                           e:serverInfo/e:database)");
+my $id = irspy_record2identifier($xc);
 push @ids, $id;
 </%perl>
       <tr style="background: <% ($i % 2) ? '#ffffc0' : 'white' %>">

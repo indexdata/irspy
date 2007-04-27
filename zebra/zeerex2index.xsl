@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id: zeerex2index.xsl,v 1.13 2007-03-29 17:13:45 mike Exp $ -->
+<!-- $Id: zeerex2index.xsl,v 1.14 2007-04-27 14:04:40 mike Exp $ -->
 <!-- See the ZeeRex profile at http://srw.cheshire3.org/profiles/ZeeRex/ -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:z="http://indexdata.dk/zebra/xslt/1"
@@ -14,6 +14,7 @@
  <!-- Match on ZeeRex XML record -->
  <xsl:template match="//e:explain">
   <xsl:variable name="id"><xsl:value-of select="concat(
+	e:serverInfo/@protocol, ':',
 	e:serverInfo/e:host, ':',
 	e:serverInfo/e:port, '/',
 	e:serverInfo/e:database)"/></xsl:variable>

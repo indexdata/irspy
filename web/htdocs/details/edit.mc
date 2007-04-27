@@ -1,4 +1,4 @@
-%# $Id: edit.mc,v 1.29 2007-03-29 16:19:39 mike Exp $
+%# $Id: edit.mc,v 1.30 2007-04-27 14:04:40 mike Exp $
 <%args>
 $op
 $id => undef
@@ -50,20 +50,25 @@ if (defined $id && ($op ne "copy" || !$update)) {
 
 } else {
     # No ID supplied -- this is a brand new record
+    my $protocol = $r->param("protocol");
     my $host = $r->param("host");
     my $port = $r->param("port");
     my $dbname = $r->param("dbname");
-    if (!defined $host || $host eq "" ||
+    if (!defined $protocol || $protocol eq "" ||
+	!defined $host || $host eq "" ||
 	!defined $port || $port eq "" ||
 	!defined $dbname || $dbname eq "") {
 	print qq[<p class="error">
-You must specify host, port and database name.</p>\n] if $update;
+You must specify protocol, host, port and database name.</p>\n] if $update;
 	undef $update;
     } else {
-	my $query = cql_target($host, $port, $dbname);
+	### Should use a utility function for this
+	my $query = cql_target($protocol, $host, $port, $dbname);
 	my $rs = $conn->search(new ZOOM::Query::CQL($query));
 	if ($rs->size() > 0) {
-	    my $fakeid = xml_encode(uri_escape("$host:$port/$dbname"));
+	    my $fakeid =
+		xml_encode(uri_escape(irspy_make_identifier($protocol, $host,
+							    $port, $dbname)));
 	    print qq[<p class="error">
 There is already
 <a href='?op=edit&amp;id=$fakeid'>a record</a>

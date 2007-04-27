@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.26 2007-03-19 18:51:03 mike Exp $
+# $Id: Utils.pm,v 1.27 2007-04-27 14:04:40 mike Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -12,6 +12,9 @@ our @EXPORT_OK = qw(isodate
 		    cql_quote
 		    cql_target
 		    irspy_xpath_context
+		    irspy_make_identifier
+		    irspy_record2identifier
+		    irspy_identifier2target
 		    modify_xml_document
 		    bib1_access_point
 		    render_record);
@@ -76,10 +79,16 @@ sub cql_quote {
 # Makes a CQL query that finds a specified target.  Arguments may be
 # either an ID alone, or a (host, port, db) triple.
 sub cql_target {
-    my($host, $port, $db) = @_;
+    my($protocol, $host, $port, $db) = @_;
 
-    $host .= ":$port/$db" if defined $port;
-    return "rec.id=" . cql_quote($host);
+    my $id;
+    if (defined $host) {
+	$id = irspy_make_identifier($protocol, $host, $port, $db);
+    } else {
+	$id = $protocol;
+    }
+
+    return "rec.id=" . cql_quote($id);
 }
 
 
@@ -124,6 +133,60 @@ sub irspy_xpath_context {
 	$xc->registerNs($prefix, $_namespaces{$prefix});
     }
     return $xc;
+}
+
+
+# Construct an opaque identifier from its components.  Although it's
+# trivial, this is needed in so many places that it really needs to be
+# factored out.
+#
+# This is the converse of _parse_target_string() in IRSpy.pm, which
+# should be renamed and moved into this package.
+#
+sub irspy_make_identifier {
+    my($protocol, $host, $port, $dbname) = @_;
+
+    die "irspy_make_identifier(" . join(", ", map { "'$_'" } @_).
+	"): wrong number of arguments" if @_ != 4;
+
+    die "irspy_make_identifier(): protocol undefined" if !defined $protocol;
+    die "irspy_make_identifier(): host undefined" if !defined $host;
+    die "irspy_make_identifier(): port undefined" if !defined $port;
+    die "irspy_make_identifier(): dbname undefined" if !defined $dbname;
+
+    return "$protocol:$host:$port/$dbname";
+}
+
+
+# Returns the opaque identifier of an IRSpy record based on the
+# XPathContext'ed DOM object, as returned by irspy_xpath_context().
+# This is doing the same thing as irspy_make_identifier() but from a
+# record rather than a set of parameters.
+#
+sub irspy_record2identifier {
+    my($xc) = @_;
+
+    ### Must be kept the same as is used in ../../../zebra/*.xsl
+    return $xc->find("concat(e:serverInfo/\@protocol, ':',
+			     e:serverInfo/e:host, ':',
+			     e:serverInfo/e:port, '/',
+			     e:serverInfo/e:database)");
+}
+
+
+# Transforms an IRSpy opqaue identifier, as returned from
+# irspy_make_identifier() or irspy_record2identifier(), into a YAZ
+# target-string suitable for feeding to ZOOM.  Before we introduced
+# the protocol element at the start of the identifier string, this was
+# a null transform; now we have to be a bit cleverer.
+#
+sub irspy_identifier2target {
+    my($id) = @_;
+
+    my($protocol, $target) = ($id =~ /(.*?):(.*)/);
+    print STDERR "protocol='$protocol', target='$target'\n";
+    ### This assumes everything is Z39.50
+    return $target;
 }
 
 

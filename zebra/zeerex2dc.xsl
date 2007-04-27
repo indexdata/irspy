@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id: zeerex2dc.xsl,v 1.1 2006-09-26 14:37:41 mike Exp $ -->
+<!-- $Id: zeerex2dc.xsl,v 1.2 2007-04-27 14:04:40 mike Exp $ -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:z="http://indexdata.dk/zebra/xslt/1"
                 xmlns:e="http://explain.z3950.org/dtd/2.0/"
@@ -12,7 +12,8 @@
 
  <xsl:template match="//e:explain">
   <metadata xmlns:dc="http://purl.org/dc/elements/1.1/"
-	z:id="{concat(e:serverInfo/e:host, ':',
+	z:id="{concat(e:serverInfo/@protocol, ':',
+		      e:serverInfo/e:host, ':',
 		      e:serverInfo/e:port, '/',
 		      e:serverInfo/e:database)}">
    <dc:title>

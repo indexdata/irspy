@@ -1,4 +1,4 @@
-# $Id: Record.pm,v 1.23 2007-03-05 19:42:13 mike Exp $
+# $Id: Record.pm,v 1.24 2007-04-27 14:04:40 mike Exp $
 
 package ZOOM::IRSpy::Record;
 ### I don't think there's any reason for this to be separate from
@@ -48,15 +48,16 @@ sub new {
 sub _empty_zeerex_record {
     my($target) = @_;
 
-    ### Doesn't recognise SRU/SRW URLs
-    my($host, $port, $db) = ZOOM::IRSpy::_parse_target_string($target);
+    my($protocol, $host, $port, $db) =
+	ZOOM::IRSpy::_parse_target_string($target);
 
+    my $xprotocol = xml_encode($protocol);
     my $xhost = xml_encode($host);
     my $xport = xml_encode($port);
     my $xdb = xml_encode($db);
     return <<__EOT__;
 <explain xmlns="http://explain.z3950.org/dtd/2.0/">
- <serverInfo protocol="Z39.50" version="1995">
+ <serverInfo protocol="$xprotocol">
   <host>$xhost</host>
   <port>$xport</port>
   <database>$xdb</database>

@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.82 2007-04-18 15:35:51 mike Exp $
+# $Id: IRSpy.pm,v 1.83 2007-04-27 14:04:40 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -16,7 +16,9 @@ use Net::Z3950::ZOOM 1.13;	# For the ZOOM version-check only
 use ZOOM::IRSpy::Node;
 use ZOOM::IRSpy::Connection;
 use ZOOM::IRSpy::Stats;
-use ZOOM::IRSpy::Utils qw(cql_target render_record irspy_xpath_context);
+use ZOOM::IRSpy::Utils qw(cql_target render_record
+			  irspy_xpath_context irspy_make_identifier
+			  irspy_record2identifier);
 
 our @ISA = qw();
 our $VERSION = '0.02';
@@ -130,12 +132,13 @@ sub targets {
 	       join(", ", map { "'$_'" } @targets));
     my @qlist;
     foreach my $target (@targets) {
-	my($host, $port, $db, $newtarget) = _parse_target_string($target);
+	my($protocol, $host, $port, $db, $newtarget) =
+	    _parse_target_string($target);
 	if ($newtarget ne $target) {
 	    $this->log("irspy_debug", "rewriting '$target' to '$newtarget'");
 	    $target = $newtarget; # This is written through the ref
 	}
-	push @qlist, cql_target($host, $port, $db);
+	push @qlist, cql_target($protocol, $host, $port, $db);
     }
 
     $this->{targets} = \@targets;
@@ -147,16 +150,16 @@ sub targets {
 sub _parse_target_string {
     my($target) = @_;
 
-    my($host, $port, $db) = ($target =~ /(.*?):(.*?)\/(.*)/);
+    my($protocol, $host, $port, $db) = ($target =~ /(.*?):(.*?):(.*?)\/(.*)/);
     if (!defined $host) {
 	$port = 210;
-	($host, $db) = ($target =~ /(.*?)\/(.*)/);
-	$target = "$host:$port/$db";
+	($protocol, $host, $db) = ($target =~ /(.*?):(.*?)\/(.*)/);
+	$target = irspy_make_identifier($protocol, $host, $port, $db);
     }
     die "$0: invalid target string '$target'"
 	if !defined $host;
 
-    return ($host, $port, $db, $target);
+    return ($protocol, $host, $port, $db, $target);
 }
 
 
@@ -266,12 +269,11 @@ sub _really_rewrite_record {
     # This is the expression in the ID-making stylesheet
     # ../../zebra/zeerex2id.xsl
     my $xc = irspy_xpath_context($rec);
-    my $id = $xc->find("concat(e:serverInfo/e:host, ':',
-                               e:serverInfo/e:port, '/',
-                               e:serverInfo/e:database)");
+    my $id = irspy_record2identifier($xc);
     if (defined $oldid && $id ne $oldid) {
-	# Delete old record;
 	warn "IDs differ (old='$oldid' new='$id')";
+	# Delete old record;
+	### Should use same mechanism as delete.mc
 	my $p = $conn->package();
 	$p->option(action => "recordDelete");
 	$p->option(recordIdOpaque => $oldid);
