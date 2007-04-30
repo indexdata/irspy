@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.27 2007-04-27 14:04:40 mike Exp $
+# $Id: Utils.pm,v 1.28 2007-04-30 11:27:39 mike Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -181,11 +181,24 @@ sub irspy_record2identifier {
 # a null transform; now we have to be a bit cleverer.
 #
 sub irspy_identifier2target {
+    my $res = _irspy_identifier2target(@_);
+    carp "converted ID '@_' to target '$res'";
+    return $res;
+}
+
+sub _irspy_identifier2target {
     my($id) = @_;
 
     my($protocol, $target) = ($id =~ /(.*?):(.*)/);
-    print STDERR "protocol='$protocol', target='$target'\n";
-    ### This assumes everything is Z39.50
+    if (uc($protocol) eq "Z39.50") {
+	return "tcp:$target";
+    } elsif (uc($protocol) eq "SRU") {
+	return "sru=get,http:$target";
+    } elsif (uc($protocol) eq "SRW") {
+	return "sru=srw,http:$target";
+    }
+
+    warn "unrecognised protocol '$protocol' in ID $id";
     return $target;
 }
 
