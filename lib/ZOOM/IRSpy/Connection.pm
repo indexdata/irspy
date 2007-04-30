@@ -1,4 +1,4 @@
-# $Id: Connection.pm,v 1.12 2007-04-27 14:04:40 mike Exp $
+# $Id: Connection.pm,v 1.13 2007-04-30 11:28:04 mike Exp $
 
 package ZOOM::IRSpy::Connection;
 
@@ -38,21 +38,21 @@ the connection.
 sub create {
     my $class = shift();
     my $irspy = shift();
-    my $target = shift();
+    my $id = shift();
 
     my $this = $class->SUPER::create(@_);
-    $this->option(host => irspy_identifier2target($target));
+    my $target = irspy_identifier2target($id);
+    $this->option(host => $target);
     $this->{irspy} = $irspy;
     $this->{tasks} = [];
 
-    my $query = cql_target($target);
+    my $query = cql_target($id);
     my $rs = $irspy->{conn}->search(new ZOOM::Query::CQL($query));
     my $n = $rs->size();
     $this->log("irspy", "query '$query' found $n records");
     my $zeerex;
     $zeerex = render_record($rs, 0, "zeerex") if $n > 0;
-    $this->{record} = new ZOOM::IRSpy::Record($this,
-	irspy_identifier2target($target), $zeerex);
+    $this->{record} = new ZOOM::IRSpy::Record($this, $target, $zeerex);
 
     return $this;
 }
