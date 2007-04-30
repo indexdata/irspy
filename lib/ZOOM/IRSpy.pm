@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.83 2007-04-27 14:04:40 mike Exp $
+# $Id: IRSpy.pm,v 1.84 2007-04-30 11:28:37 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -177,7 +177,7 @@ sub initialise {
     $this->{tree} = $this->_gather_tests($tname)
 	or die "No tests defined for '$tname'";
     $this->{tree}->resolve();
-    $this->{tree}->print(0);
+    #$this->{tree}->print(0);
 
     my $timeout = "ZOOM::IRSpy::Test::$tname"->timeout();
 
@@ -598,7 +598,6 @@ sub _gather_tests {
 
     eval {
 	require $fullName;
-	$this->log("irspy", "successfully required '$fullName'");
     }; if ($@) {
 	$this->log("irspy", "couldn't require '$fullName': $@");
 	$this->log("warn", "can't load test '$tname': skipping",
