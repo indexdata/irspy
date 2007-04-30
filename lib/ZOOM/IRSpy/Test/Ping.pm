@@ -1,4 +1,4 @@
-# $Id: Ping.pm,v 1.22 2007-03-02 12:17:33 mike Exp $
+# $Id: Ping.pm,v 1.23 2007-04-30 11:26:57 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -55,6 +55,9 @@ sub maybe_connected {
 	foreach my $opt (qw(serverImplementationId
 			    serverImplementationName
 			    serverImplementationVersion)) {
+	    my $val = $conn->option($opt);
+	    next if !defined $val; # not defined for SRU, for example
+
 	    # There doesn't seem to be a reliable way to tell what
 	    # character set the server uses for these.  At least one
 	    # server (z3950.bcl.jcyl.es:210/AbsysCCFL) returns an ISO
@@ -67,7 +70,6 @@ sub maybe_connected {
 	    # ASCII-Latin-1, and try to convert to UTF-8.  If that
 	    # conversion works, fine; if not, assume it's because the
 	    # string was already UTF-8, so use it as is.
-	    my $val = $conn->option($opt);
 	    Text::Iconv->raise_error(1);
 	    my $maybe;
 	    eval {
