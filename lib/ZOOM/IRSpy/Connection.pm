@@ -1,4 +1,4 @@
-# $Id: Connection.pm,v 1.15 2007-05-01 15:33:30 mike Exp $
+# $Id: Connection.pm,v 1.16 2007-05-01 16:30:17 mike Exp $
 
 package ZOOM::IRSpy::Connection;
 
@@ -136,6 +136,7 @@ sub irspy_search {
     my $this = shift();
     my($qtype, $qstr, $udata, $options, %cb) = @_;
 
+    #warn "calling $this->irspy_search(", join(", ", @_), ")\n";
     $this->add_task(new ZOOM::IRSpy::Task::Search
 		    ($qtype, $qstr, $this, $udata, $options, %cb));
 }
