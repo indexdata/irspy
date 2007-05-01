@@ -1,4 +1,4 @@
-# $Id: Connection.pm,v 1.14 2007-05-01 15:32:51 mike Exp $
+# $Id: Connection.pm,v 1.15 2007-05-01 15:33:30 mike Exp $
 
 package ZOOM::IRSpy::Connection;
 
@@ -142,7 +142,7 @@ sub irspy_search {
 
 
 # Wrapper for backwards compatibility
-sub irspy_search_cql {
+sub irspy_search_pqf {
     my $this = shift();
     return $this->irspy_search("pqf", @_);
 }
