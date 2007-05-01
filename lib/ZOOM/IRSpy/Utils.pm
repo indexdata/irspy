@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.28 2007-04-30 11:27:39 mike Exp $
+# $Id: Utils.pm,v 1.29 2007-05-01 15:29:36 mike Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -182,7 +182,7 @@ sub irspy_record2identifier {
 #
 sub irspy_identifier2target {
     my $res = _irspy_identifier2target(@_);
-    carp "converted ID '@_' to target '$res'";
+    #carp "converted ID '@_' to target '$res'";
     return $res;
 }
 
