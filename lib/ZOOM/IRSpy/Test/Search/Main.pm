@@ -1,4 +1,4 @@
-# $Id: Main.pm,v 1.7 2007-01-29 17:12:54 mike Exp $
+# $Id: Main.pm,v 1.8 2007-05-01 15:30:38 mike Exp $
 
 package ZOOM::IRSpy::Test::Search::Main;
 
@@ -10,7 +10,7 @@ use ZOOM::IRSpy::Test;
 our @ISA = qw(ZOOM::IRSpy::Test);
 
 sub subtests { qw(Search::Bib1 Search::Dan1 Search::Boolean
-                  Search::Explain) }
+                  Search::Explain Search::CQL) }
 
 sub start {
     my $class = shift();
