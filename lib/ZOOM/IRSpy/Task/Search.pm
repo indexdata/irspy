@@ -1,4 +1,4 @@
-# $Id: Search.pm,v 1.13 2007-03-14 11:56:35 mike Exp $
+# $Id: Search.pm,v 1.14 2007-05-01 15:32:06 mike Exp $
 
 package ZOOM::IRSpy::Task::Search;
 
@@ -25,10 +25,14 @@ ZOOM::IRSpy::Task::Search - a searching task for IRSpy
 
 sub new {
     my $class = shift();
-    my($query) = shift();
+    my $qtype = shift();
+    my $qstr = shift();
+    die "$class: unrecognised query type '$qtype'"
+	if !grep { $qtype eq $_ } qw(pqf cql);
 
     my $this = $class->SUPER::new(@_);
-    $this->{query} = $query;
+    $this->{qtype} = $qtype;
+    $this->{qstr} = $qstr;
     $this->{rs} = undef;
     return $this;
 }
@@ -41,10 +45,20 @@ sub run {
     my $conn = $this->conn();
     $conn->connect($conn->option("host"));
 
-    my $query = $this->{query};
+    my $qtype = $this->{qtype};
+    my $qstr = $this->{qstr};
     $this->irspy()->log("irspy_task", $conn->option("host"),
-			" searching for '$query'");
+			" searching for '$qtype:$qstr'");
     die "task $this has resultset?!" if defined $this->{rs};
+
+    my $query;
+    if ($qtype eq "pqf") {
+	$query = new ZOOM::Query::Prefix($qstr);
+    } elsif ($qtype eq "cql") {
+	$query = new ZOOM::Query::CQL($qstr);
+    } else {
+	die "Huh?!";
+    }
 
     ### Note well that when this task runs, it creates a result-set
     #	object which MUST BE DESTROYED in order to prevent large-scale
@@ -52,7 +66,7 @@ sub run {
     #	APPLICATION'S RESPONSIBILITY to ensure that the callback
     #	invoked on success OR FAILURE makes arrangements for the set
     #	to be destroyed.
-    $this->{rs} = $conn->search_pqf($query);
+    $this->{rs} = $conn->search($query);
     warn "no ZOOM-C level events queued by $this"
 	if $conn->is_idle();
 
@@ -61,7 +75,7 @@ sub run {
 
 sub render {
     my $this = shift();
-    return ref($this) . "(" . $this->{query} . ")";
+    return ref($this) . "(" . $this->{qtype} . ":" . $this->{qstr} . ")";
 }
 
 use overload '""' => \&render;
