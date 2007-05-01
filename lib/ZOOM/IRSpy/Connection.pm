@@ -1,4 +1,4 @@
-# $Id: Connection.pm,v 1.13 2007-04-30 11:28:04 mike Exp $
+# $Id: Connection.pm,v 1.14 2007-05-01 15:32:51 mike Exp $
 
 package ZOOM::IRSpy::Connection;
 
@@ -132,12 +132,19 @@ sub irspy_connect {
 }
 
 
-sub irspy_search_pqf {
+sub irspy_search {
     my $this = shift();
-    my($query, $udata, $options, %cb) = @_;
+    my($qtype, $qstr, $udata, $options, %cb) = @_;
 
     $this->add_task(new ZOOM::IRSpy::Task::Search
-		    ($query, $this, $udata, $options, %cb));
+		    ($qtype, $qstr, $this, $udata, $options, %cb));
+}
+
+
+# Wrapper for backwards compatibility
+sub irspy_search_cql {
+    my $this = shift();
+    return $this->irspy_search("pqf", @_);
 }
 
 
