@@ -1,4 +1,4 @@
-# $Id: Search.pm,v 1.14 2007-05-01 15:32:06 mike Exp $
+# $Id: Search.pm,v 1.15 2007-05-01 16:30:42 mike Exp $
 
 package ZOOM::IRSpy::Task::Search;
 
@@ -53,7 +53,7 @@ sub run {
 
     my $query;
     if ($qtype eq "pqf") {
-	$query = new ZOOM::Query::Prefix($qstr);
+	$query = new ZOOM::Query::PQF($qstr);
     } elsif ($qtype eq "cql") {
 	$query = new ZOOM::Query::CQL($qstr);
     } else {
@@ -73,9 +73,15 @@ sub run {
     $this->set_options();
 }
 
+# Unique to Task::Search, used only for logging
+sub render_query {
+    my $this = shift();
+    return $this->{qtype} . ":" . $this->{qstr}    
+}
+
 sub render {
     my $this = shift();
-    return ref($this) . "(" . $this->{qtype} . ":" . $this->{qstr} . ")";
+    return ref($this) . "(" . $this->render_query() . ")";
 }
 
 use overload '""' => \&render;
