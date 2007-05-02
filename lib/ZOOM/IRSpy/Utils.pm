@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.29 2007-05-01 15:29:36 mike Exp $
+# $Id: Utils.pm,v 1.30 2007-05-02 13:52:54 mike Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -232,21 +232,21 @@ sub modify_xml_document {
 		# we'll check whether the element is already
 		# canonical, to determine whether our change is a
 		# no-op.
-		my $old = "???";
+		my $old = "";
 		my @children = $node->childNodes();
 		if (@children == 1) {
 		    my $child = $node->firstChild();
 		    if (ref $child && ref $child eq "XML::LibXML::Text") {
 			$old = $child->getData();
-			next if $value eq $old;
 		    }
 		}
+		next if $value eq $old;
 
 		$node->removeChildNodes();
 		my $child = new XML::LibXML::Text($value);
 		$node->appendChild($child);
 		push @changes, $ref;
-		#print "Elem $key: '$old' -> '$value' ($xpath)<br/>\n";
+		print STDERR "Elem $key: '$old' -> '$value' ($xpath)<br/>\n";
 	    } else {
 		warn "unexpected node type $node";
 	    }
