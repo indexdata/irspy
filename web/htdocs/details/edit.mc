@@ -1,7 +1,7 @@
-%# $Id: edit.mc,v 1.32 2007-05-03 09:33:29 mike Exp $
+%# $Id: edit.mc,v 1.33 2007-05-03 12:43:04 mike Exp $
 <%args>
 $op
-$id => undef
+$id => undef ### should be extracted using utf8param()
 $update => undef
 </%args>
 <%doc>
@@ -36,10 +36,10 @@ my $conn = new ZOOM::Connection("localhost:8018/IR-Explain---1", 0,
 				user => "admin", password => "fruitbat",
 				elementSetName => "zeerex");
 
-my $protocol = $r->param("protocol");
-my $host = $r->param("host");
-my $port = $r->param("port");
-my $dbname = $r->param("dbname");
+my $protocol = utf8param($r, "protocol");
+my $host = utf8param($r, "host");
+my $port = utf8param($r, "port");
+my $dbname = utf8param($r, "dbname");
 my $newid;
 if (defined $protocol && $protocol ne "" &&
     defined $host && $host ne "" &&
@@ -323,7 +323,7 @@ my %fieldsByKey = map { ( $_->[0], $_) } @fields;
 my %data;
 foreach my $key ($r->param()) {
     next if grep { $key eq $_ } qw(op id update);
-    $data{$key} = $r->param($key);
+    $data{$key} = utf8param($r, $key);
 }
 my @changedFields = modify_xml_document($xc, \%fieldsByKey, \%data);
 if ($update && @changedFields) {
