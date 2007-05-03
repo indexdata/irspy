@@ -1,4 +1,4 @@
-# $Id: Ping.pm,v 1.23 2007-04-30 11:26:57 mike Exp $
+# $Id: Ping.pm,v 1.24 2007-05-03 14:43:31 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -27,64 +27,70 @@ sub start {
 }
 
 
-sub connected { maybe_connected(@_, 1) }
-sub not_connected { maybe_connected(@_, 0) }
+sub connected {
+    my($conn, $__UNUSED_task, $__UNUSED_udata, $__UNUSED_event) = @_;
 
-sub maybe_connected {
-    my($conn, $task, $__UNUSED_udata, $event, $ok) = @_;
+    $conn->log("irspy_test", "connected");
+    $conn->record()->store_result("probe", ok => 1);
 
-    $conn->log("irspy_test", ($ok ? "" : "not "), "connected");
-    my $rec = $conn->record();
-    $rec->append_entry("irspy:status", "<irspy:probe ok='$ok'>" .
-		       isodate(time()) . "</irspy:probe>");
-
-    if ($ok) {
-	foreach my $opt (qw(search present delSet resourceReport
-			    triggerResourceCtrl resourceCtrl
-			    accessCtrl scan sort extendedServices
-			    level_1Segmentation level_2Segmentation
-			    concurrentOperations namedResultSets
-			    encapsulation resultCount negotiationModel
-			    duplicationDetection queryType104
-			    pQESCorrection stringSchema)) {
-	    #print STDERR "\$conn->option('init_opt_$opt') = '", $conn->option("init_opt_$opt"), "'\n";
-	    $conn->record()->store_result('init_opt', option => $opt)
-		if $conn->option("init_opt_$opt");
-	}
-
-	foreach my $opt (qw(serverImplementationId
-			    serverImplementationName
-			    serverImplementationVersion)) {
-	    my $val = $conn->option($opt);
-	    next if !defined $val; # not defined for SRU, for example
-
-	    # There doesn't seem to be a reliable way to tell what
-	    # character set the server uses for these.  At least one
-	    # server (z3950.bcl.jcyl.es:210/AbsysCCFL) returns an ISO
-	    # 8859-1 string containing an o-acute, which breaks the
-	    # XML parser if we just insert it naively.  It seems
-	    # reasonable, though, to guess that the great majority of
-	    # servers will use ASCII, Latin-1 or Unicode.  The first
-	    # of these is a subset of the second, so that brings it to
-	    # down to two.  The strategy is simply this: assume it's
-	    # ASCII-Latin-1, and try to convert to UTF-8.  If that
-	    # conversion works, fine; if not, assume it's because the
-	    # string was already UTF-8, so use it as is.
-	    Text::Iconv->raise_error(1);
-	    my $maybe;
-	    eval {
-		$maybe = $conv->convert($val);
-	    }; if (!$@ && $maybe ne $val) {
-		$conn->log("irspy", "converted '$val' from Latin-1 to UTF-8");
-		$val = $maybe;
-	    }
-	    $conn->record()->store_result($opt, value => $val);
-	}
+    foreach my $opt (qw(search present delSet resourceReport
+			triggerResourceCtrl resourceCtrl
+			accessCtrl scan sort extendedServices
+			level_1Segmentation level_2Segmentation
+			concurrentOperations namedResultSets
+			encapsulation resultCount negotiationModel
+			duplicationDetection queryType104
+			pQESCorrection stringSchema)) {
+	#print STDERR "\$conn->option('init_opt_$opt') = '", $conn->option("init_opt_$opt"), "'\n";
+	$conn->record()->store_result('init_opt', option => $opt)
+	    if $conn->option("init_opt_$opt");
     }
 
+    foreach my $opt (qw(serverImplementationId
+			serverImplementationName
+			serverImplementationVersion)) {
+	my $val = $conn->option($opt);
+	next if !defined $val; # not defined for SRU, for example
 
-    return $ok ? ZOOM::IRSpy::Status::TEST_GOOD :
-		 ZOOM::IRSpy::Status::TEST_BAD;
+	# There doesn't seem to be a reliable way to tell what
+	# character set the server uses for these.  At least one
+	# server (z3950.bcl.jcyl.es:210/AbsysCCFL) returns an ISO
+	# 8859-1 string containing an o-acute, which breaks the XML
+	# parser if we just insert it naively.  It seems reasonable,
+	# though, to guess that the great majority of servers will use
+	# ASCII, Latin-1 or Unicode.  The first of these is a subset
+	# of the second, so that brings it to down to two.  The
+	# strategy is simply this: assume it's ASCII-Latin-1, and try
+	# to convert to UTF-8.  If that conversion works, fine; if
+	# not, assume it's because the string was already UTF-8, so
+	# use it as is.
+	Text::Iconv->raise_error(1);
+	my $maybe;
+	eval {
+	    $maybe = $conv->convert($val);
+	}; if (!$@ && $maybe ne $val) {
+	    $conn->log("irspy", "converted '$val' from Latin-1 to UTF-8");
+	    $val = $maybe;
+	}
+	$conn->record()->store_result($opt, value => $val);
+    }
+
+    return ZOOM::IRSpy::Status::TEST_GOOD;
+}
+
+
+sub not_connected {
+    my($conn, $__UNUSED_task, $__UNUSED_udata, $exception) = @_;
+
+    $conn->log("irspy_test", "not connected: $exception");
+    $conn->record()->store_result("probe",
+				  ok => 0,
+				  errcode => $exception->code(),
+				  errmsg => $exception->message(),
+				  addinfo => $exception->addinfo(),
+				  diagset => $exception->diagset());
+
+    return ZOOM::IRSpy::Status::TEST_BAD;
 }
 
 
