@@ -1,4 +1,4 @@
-%# $Id: edit.mc,v 1.33 2007-05-03 12:43:04 mike Exp $
+%# $Id: edit.mc,v 1.34 2007-05-03 12:54:18 mike Exp $
 <%args>
 $op
 $id => undef ### should be extracted using utf8param()
@@ -380,6 +380,7 @@ foreach my $ref (@fields) {
    <tr>
     <td align="right" colspan="2">
      <input type="submit" name="update" value="Update"/>
+% $op = "edit" if $op eq "new" && defined $update;
      <input type="hidden" name="op" value="<% xml_encode($op) %>"/>
 % $id = $newid if defined $newid;
 % if (defined $id) {
