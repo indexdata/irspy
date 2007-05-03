@@ -1,11 +1,11 @@
-%# $Id: doc.mc,v 1.3 2006-11-16 12:16:18 mike Exp $
+%# $Id: doc.mc,v 1.4 2007-05-03 14:13:19 mike Exp $
 <%once>
 use Pod::Html;
 use IO::Dir;
 </%once>
 <%perl>
 my $libdir = $r->dir_config("IRSpyLibDir");
-my $module = $r->param("module");
+my $module = utf8param($r, "module");
 if (!defined $module) {
     print "     <ul>\n";
     render_doc_links($libdir, "ZOOM", 6);

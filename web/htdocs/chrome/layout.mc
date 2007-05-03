@@ -1,4 +1,4 @@
-%# $Id: layout.mc,v 1.32 2007-05-03 12:42:32 mike Exp $
+%# $Id: layout.mc,v 1.33 2007-05-03 14:13:44 mike Exp $
 <%args>
 $debug => undef
 $title
@@ -81,13 +81,13 @@ use ZOOM::IRSpy::Utils qw(utf8param isodate xml_encode cql_target cql_quote
 # the identifier components are all present (e.g. because a record has
 # just been edited or copied) we make an ID from those; otherwise we
 # use the "id" parameter, if specified.
-my $id = $r->param("id");
+my $id = utf8param($r, "id");
 {
     # Make up ID for newly created records.
-    my $protocol = $r->param("protocol");
-    my $host = $r->param("host");
-    my $port = $r->param("port");
-    my $dbname = $r->param("dbname");
+    my $protocol = utf8param($r, "protocol");
+    my $host = utf8param($r, "host");
+    my $port = utf8param($r, "port");
+    my $dbname = utf8param($r, "dbname");
     #warn "id='$id', protocol='$protocol' host='$host', port='$port', dbname='$dbname'";
     #warn "%ARGS = {\n" . join("", map { "\t'$_' => '" . $ARGS{$_} . ",'\n" } sort keys %ARGS) . "}\n";
     if (defined $protocol && defined $host &&
