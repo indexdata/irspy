@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.30 2007-05-02 13:52:54 mike Exp $
+# $Id: Utils.pm,v 1.31 2007-05-03 12:41:58 mike Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -7,7 +7,8 @@ use strict;
 use warnings;
 
 use Exporter 'import';
-our @EXPORT_OK = qw(isodate
+our @EXPORT_OK = qw(utf8param
+		    isodate
 		    xml_encode 
 		    cql_quote
 		    cql_target
@@ -21,11 +22,25 @@ our @EXPORT_OK = qw(isodate
 
 use XML::LibXML;
 use XML::LibXML::XPathContext;
+use Encode;
+use Encode qw(is_utf8);
+
 
 our $IRSPY_NS = 'http://indexdata.com/irspy/1.0';
 
 
 # Utility functions follow, exported for use of web UI
+sub utf8param {
+    my($r, $key, $value) = @_;
+    die "utf8param() called with value '$value'" if defined $value;
+
+    my $raw = $r->param($key);
+    my $cooked = decode_utf8($raw);
+    warn "converted '$raw' to '", $cooked, "'\n" if $cooked ne $raw;
+    return $cooked;
+}
+
+
 sub isodate {
     my($time) = @_;
 
@@ -238,6 +253,8 @@ sub modify_xml_document {
 		    my $child = $node->firstChild();
 		    if (ref $child && ref $child eq "XML::LibXML::Text") {
 			$old = $child->getData();
+			print STDERR "child='$child', old=", _renderchars($old), "\n"
+			    if $key eq "title";
 		    }
 		}
 		next if $value eq $old;
@@ -246,7 +263,7 @@ sub modify_xml_document {
 		my $child = new XML::LibXML::Text($value);
 		$node->appendChild($child);
 		push @changes, $ref;
-		print STDERR "Elem $key: '$old' -> '$value' ($xpath)<br/>\n";
+		print STDERR "Elem $key ($xpath): ", _renderchars($old), " -> '", _renderchars($value), "\n";
 	    } else {
 		warn "unexpected node type $node";
 	    }
@@ -261,6 +278,13 @@ sub modify_xml_document {
     }
 
     return @changes;
+}
+
+
+sub _renderchars {
+    my($text) = @_;
+
+    return "'" . $text . "'", " (", join(" ", map {ord($_)} split //, $text), "), is_utf8=" , is_utf8($text);
 }
 
 
