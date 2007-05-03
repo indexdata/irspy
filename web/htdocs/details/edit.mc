@@ -1,4 +1,4 @@
-%# $Id: edit.mc,v 1.31 2007-04-27 14:32:09 mike Exp $
+%# $Id: edit.mc,v 1.32 2007-05-03 09:33:29 mike Exp $
 <%args>
 $op
 $id => undef
@@ -35,9 +35,47 @@ die "op != new but id undefined" if $op ne "new" && !defined $id;
 my $conn = new ZOOM::Connection("localhost:8018/IR-Explain---1", 0,
 				user => "admin", password => "fruitbat",
 				elementSetName => "zeerex");
+
+my $protocol = $r->param("protocol");
+my $host = $r->param("host");
+my $port = $r->param("port");
+my $dbname = $r->param("dbname");
+my $newid;
+if (defined $protocol && $protocol ne "" &&
+    defined $host && $host ne "" &&
+    defined $port && $port ne "" &&
+    defined $dbname && $dbname ne "") {
+    $newid = irspy_make_identifier($protocol, $host, $port, $dbname);
+}
+
 my $rec = '<explain xmlns="http://explain.z3950.org/dtd/2.0/"/>';
-if (defined $id && ($op ne "copy" || !$update)) {
-    # Existing record
+
+if (!defined $id) {
+    if (!$update) {
+	# About to enter data for a new record
+	# Nothing to do at this stage
+    } elsif (!defined $newid) {
+	# Tried to create new record but data is insufficient
+	print qq[<p class="error">
+		Please specify protocol, host, port and database name.</p>\n];
+	undef $update;
+    } else {
+	# Creating new record, all necessary data is present.  Check
+	# that the new record is not a duplicate of an existing one.
+	my $rs = $conn->search(new ZOOM::Query::CQL(cql_target($newid)));
+	if ($rs->size() > 0) {
+	    my $qnewid = xml_encode(uri_escape($newid));
+	    print qq[<p class="error">
+		There is already
+		<a href='?op=edit&amp;id=$newid'>a record</a>
+		for this protocol, host, port and database name.
+		</p>\n];
+	    undef $update;
+	}
+    }
+} else {
+    # assert(defined $id);
+    # Copying or editing an existing record: fetch it for editing
     my $query = cql_target($id);
     my $rs = $conn->search(new ZOOM::Query::CQL($query));
     if ($rs->size() > 0) {
@@ -46,36 +84,6 @@ if (defined $id && ($op ne "copy" || !$update)) {
 	### Is this an error?  I don't think the UI will ever provoke it
 	print qq[<p class="error">(New ID specified.)</p>\n];
 	$id = undef;
-    }
-
-} else {
-    # No ID supplied -- this is a brand new record
-    my $protocol = $r->param("protocol");
-    my $host = $r->param("host");
-    my $port = $r->param("port");
-    my $dbname = $r->param("dbname");
-    if (!defined $protocol || $protocol eq "" ||
-	!defined $host || $host eq "" ||
-	!defined $port || $port eq "" ||
-	!defined $dbname || $dbname eq "") {
-	print qq[<p class="error">
-You must specify protocol, host, port and database name.</p>\n] if $update;
-	undef $update;
-    } else {
-	### Should use a utility function for this
-	my $query = cql_target($protocol, $host, $port, $dbname);
-	my $rs = $conn->search(new ZOOM::Query::CQL($query));
-	if ($rs->size() > 0) {
-	    my $fakeid =
-		xml_encode(uri_escape(irspy_make_identifier($protocol, $host,
-							    $port, $dbname)));
-	    print qq[<p class="error">
-There is already
-<a href='?op=edit&amp;id=$fakeid'>a record</a>
-for this host, port and database name.
-</p>\n];
-	    undef $update;
-	}
     }
 }
 
@@ -325,7 +333,8 @@ if ($update && @changedFields) {
 					     "e:metaInfo/e:dateModified" ] },
 				{ dateModified => isodate(time()) });
     die "Didn't set dateModified!" if !@x;
-    ZOOM::IRSpy::_really_rewrite_record($conn, $xc->getContextNode(), $id);
+    ZOOM::IRSpy::_really_rewrite_record($conn, $xc->getContextNode(),
+					$op eq "edit" ? $id : undef);
 }
 
 </%perl>
@@ -372,6 +381,7 @@ foreach my $ref (@fields) {
     <td align="right" colspan="2">
      <input type="submit" name="update" value="Update"/>
      <input type="hidden" name="op" value="<% xml_encode($op) %>"/>
+% $id = $newid if defined $newid;
 % if (defined $id) {
      <input type="hidden" name="id" value="<% xml_encode($id) %>"/>
 % }
