@@ -1,4 +1,4 @@
-%# $Id: layout.mc,v 1.30 2007-04-27 14:04:40 mike Exp $
+%# $Id: layout.mc,v 1.31 2007-05-03 09:33:10 mike Exp $
 <%args>
 $debug => undef
 $title
@@ -77,6 +77,10 @@ use ZOOM::IRSpy::Utils qw(isodate xml_encode cql_target cql_quote
       <a href="/find.html?cql.allRecords=1+not+dc.title+=/regexp/firstInField+[a-z].*&amp;_sort=dc.title&amp;_count=9999&amp;_search=Search">[Others]</a>
      </p>
 <%perl>
+# Find the identifier to use in the record-specific menu, if any.  If
+# the identifier components are all present (e.g. because a record has
+# just been edited or copied) we make an ID from those; otherwise we
+# use the "id" parameter, if specified.
 my $id = $r->param("id");
 {
     # Make up ID for newly created records.
@@ -86,15 +90,14 @@ my $id = $r->param("id");
     my $dbname = $r->param("dbname");
     #warn "id='$id', protocol='$protocol' host='$host', port='$port', dbname='$dbname'";
     #warn "%ARGS = {\n" . join("", map { "\t'$_' => '" . $ARGS{$_} . ",'\n" } sort keys %ARGS) . "}\n";
-    if ((!defined $id || $id eq "") &&
-	defined $protocol && defined $host &&
+    if (defined $protocol && defined $host &&
 	defined $port && defined $dbname) {
 	$id = irspy_make_identifier($protocol, $host, $port, $dbname);
 	#warn "id set to '$id'";
     }
 }
 </%perl>
-% if (defined $id && $r->param("op") ne "copy") {
+% if (defined $id) {
      <div class="panel2">
       <b>This Target</b>
       <br/>
