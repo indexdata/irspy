@@ -1,4 +1,4 @@
-# $Id: Ping.pm,v 1.24 2007-05-03 14:43:31 mike Exp $
+# $Id: Ping.pm,v 1.25 2007-05-04 12:09:58 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -21,7 +21,15 @@ sub start {
     my $class = shift();
     my($conn) = @_;
 
-    $conn->irspy_connect(undef, {},
+    my %options = ();
+    my $xc = $conn->record()->xpath_context();
+    my $user = $xc->find("e:serverInfo/e:authentication/e:user");
+    my $password = $xc->find("e:serverInfo/e:authentication/e:password");
+    warn "user='$user', password='$password'\n";
+    $options{user} = $user if $user;
+    $options{password} = $password if $password;
+
+    $conn->irspy_connect(undef, \%options,
 			 ZOOM::Event::ZEND, \&connected,
 			 exception => \&not_connected);
 }
