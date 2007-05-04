@@ -1,4 +1,4 @@
-# $Id: Record.pm,v 1.24 2007-04-27 14:04:40 mike Exp $
+# $Id: Record.pm,v 1.25 2007-05-04 12:09:24 mike Exp $
 
 package ZOOM::IRSpy::Record;
 ### I don't think there's any reason for this to be separate from
@@ -10,7 +10,7 @@ use warnings;
 
 use XML::LibXML;
 use XML::LibXML::XPathContext;
-use ZOOM::IRSpy::Utils qw(xml_encode isodate);
+use ZOOM::IRSpy::Utils qw(xml_encode isodate irspy_xpath_context);
 
 =head1 NAME
 
@@ -72,8 +72,7 @@ sub append_entry {
     my($xpath, $frag) = @_;
 
     #print STDERR "this=$this, xpath='$xpath', frag='$frag'\n";
-    my $root = $this->{zeerex}; # XML::LibXML::Element ISA XML::LibXML::Node
-    my $xc = XML::LibXML::XPathContext->new($root);
+    my $xc = $this->xpath_context();
     $xc->registerNs(zeerex => "http://explain.z3950.org/dtd/2.0/");
     $xc->registerNs(irspy => $ZOOM::IRSpy::Utils::IRSPY_NS);
 
@@ -83,8 +82,7 @@ sub append_entry {
 	# fully general version would work its way through each
 	# component of the XPath, but for now we just treat it as a
 	# single chunk to go inside the top-level node.
-	$this->_half_decent_appendWellBalancedChunk($root,
-						    "<$xpath></$xpath>");
+	$this->_half_decent_appendWellBalancedChunk($xc, "<$xpath></$xpath>");
 	@nodes = $xc->findnodes($xpath);
 	die("still no matches for '$xpath' after creating: can't append")
 	    if @nodes == 0;
@@ -95,6 +93,12 @@ sub append_entry {
 	if @nodes > 1;
 
     $this->_half_decent_appendWellBalancedChunk($nodes[0], $frag);
+}
+
+sub xpath_context {
+    my $this = shift();
+
+    return irspy_xpath_context($this->{zeerex});
 }
 
 sub store_result {
