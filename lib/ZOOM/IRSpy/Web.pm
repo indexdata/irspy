@@ -1,4 +1,4 @@
-# $Id: Web.pm,v 1.4 2006-10-31 15:22:31 mike Exp $
+# $Id: Web.pm,v 1.5 2007-05-08 16:20:04 mike Exp $
 
 package ZOOM::IRSpy::Web;
 
@@ -22,7 +22,8 @@ This behaves exactly the same as the base C<ZOOM::IRSpy> class except
 that the Clog()> method does not call YAZ log, but outputs
 HTML-formatted messages on standard output.  The additional function
 log_init_level() controls what log-levels are to be included in the
-output.
+output.  Note that this arrangement only allows IRSpy-specific logging
+to be generated, not underlying ZOOM logging.
 
 =cut
 
