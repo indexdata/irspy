@@ -1,4 +1,4 @@
-# $Id: Ping.pm,v 1.25 2007-05-04 12:09:58 mike Exp $
+# $Id: Ping.pm,v 1.26 2007-05-08 12:18:59 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -25,7 +25,6 @@ sub start {
     my $xc = $conn->record()->xpath_context();
     my $user = $xc->find("e:serverInfo/e:authentication/e:user");
     my $password = $xc->find("e:serverInfo/e:authentication/e:password");
-    warn "user='$user', password='$password'\n";
     $options{user} = $user if $user;
     $options{password} = $password if $password;
 
