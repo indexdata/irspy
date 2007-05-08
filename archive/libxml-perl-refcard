@@ -1,0 +1,34 @@
+From mike  Thu May  3 12:33:12 2007
+X-VM-v5-Data: ([nil nil nil nil nil nil nil nil nil]
+	["86" "Thursday" "3" "May" "2007" "12:02:13" "+0200" "Adam Dickmeiss" "adam@indexdata.dk" nil "3" "libxml perl refcard" "^From:" nil nil "5" nil nil nil nil nil nil nil nil nil]
+	nil)
+Return-path: <adam@indexdata.dk>
+Envelope-to: mike@indexdata.com
+Delivery-date: Thu, 03 May 2007 12:02:13 +0200
+Received: from bagel [213.150.43.11]
+	by localhost.localdomain with POP3 (fetchmail-6.3.2)
+	for <mike@localhost> (single-drop); Thu, 03 May 2007 12:33:12 +0100 (BST)
+Received: from user.indexdata.dk ([213.150.43.10] helo=[10.0.1.68])
+	by bagel.indexdata.dk with esmtp (Exim 4.50)
+	id 1HjY8b-0000lo-N3
+	for mike@indexdata.com; Thu, 03 May 2007 12:02:13 +0200
+Message-ID: <4639B325.5000100@indexdata.dk>
+User-Agent: Icedove 1.5.0.10 (X11/20070329)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Do-Not-Run: Yes
+X-SA-Exim-Connect-IP: 213.150.43.10
+X-SA-Exim-Rcpt-To: mike@indexdata.com
+X-SA-Exim-Mail-From: adam@indexdata.dk
+X-SA-Exim-Scanned: No (on bagel.indexdata.dk); SAEximRunCond expanded to false
+X-UIDL: f4G!!HM#"!""j"!e(6"!
+From: Adam Dickmeiss <adam@indexdata.dk>
+To: Mike Taylor <mike@indexdata.com>
+Subject: libxml perl refcard
+Date: Thu, 03 May 2007 12:02:13 +0200
+
+http://refcards.com/docs/forda/perl-xml-libxml/perl-xml-libxml-refcard-a4.pdf
+
+/ Adam
+
