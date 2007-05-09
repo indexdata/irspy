@@ -12,7 +12,6 @@ bin/reindex.pl
 bin/setrlimit.c
 bin/test-net-z3950-zoom.pl
 bin/test-pod.pl
-bin/test-zoom-c.c
 bin/test-zoom.pl
 lib/ZOOM/IRSpy.pm
 lib/ZOOM/IRSpy/Connection.pm
