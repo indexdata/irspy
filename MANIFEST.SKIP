@@ -5,9 +5,12 @@ bin/.gdbinit
 bin/.perldb
 bin/find-different-access-point.pl
 bin/setrlimit
+bin/test-net-z3950-zoom.pl
+bin/test-pod.pl
 bin/test-xml-update.pl
 bin/test-zoom-c
 bin/test-zoom-c.c
+bin/test-zoom.pl
 debug
 lib/CVS
 lib/ZOOM/CVS
