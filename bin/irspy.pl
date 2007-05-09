@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 
-# $Id: irspy.pl,v 1.27 2007-04-18 15:32:32 mike Exp $
+# $Id: irspy.pl,v 1.28 2007-05-09 11:07:03 mike Exp $
 #
 # Run like this:
-#	YAZ_LOG=irspy,irspy_test IRSPY_SAVE_XML=1 perl -I../lib irspy.pl -t Quick localhost:8018/IR-Explain---1 z3950.loc.gov:7090/Voyager bagel.indexdata.dk/gils bagel.indexdata.dk:210/marc
+#	YAZ_LOG=irspy,irspy_test IRSPY_SAVE_XML=1 perl -I../lib irspy.pl -t Quick localhost:8018/IR-Explain---1 Z39.50:amicus.oszk.hu:1616/ANY
 #	YAZ_LOG=irspy,irspy_test sudo ./setrlimit -n 3000 -u mike -- perl -I../lib irspy.pl -t Main -a localhost:8018/IR-Explain---1
 #	YAZ_LOG=irspy,irspy_test perl -I../lib irspy.pl -t Main -a -n 100 localhost:8018/IR-Explain---1
 #
