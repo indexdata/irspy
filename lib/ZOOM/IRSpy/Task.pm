@@ -1,4 +1,4 @@
-# $Id: Task.pm,v 1.4 2006-10-25 13:34:56 mike Exp $
+# $Id: Task.pm,v 1.5 2007-05-09 11:19:20 mike Exp $
 
 package ZOOM::IRSpy::Task;
 
@@ -65,16 +65,34 @@ sub run {
     die "can't run base-class task $this";
 }
 
+# In general, this sets the Connection's options to what is in the
+# task's option hash and sets the option-hash entry to the
+# Connection's old value of the option: this means that calling this
+# twice restores the state to how it was before.  (That's not quite
+# true as its impossible to unset an option that was previously set:
+# such options are instead set to the empty string.)
+#
+# As a special case, options in the task's option-hash whose names
+# begin with an asterisk are taken to be persistent: they are set into
+# the Connection (with the leading hash removed) and deleted from the
+# task's option-hash so that they will NOT be reset the next time this
+# function is called.
+#
 sub set_options {
     my $this = shift();
 
     foreach my $key (sort keys %{ $this->{options} }) {
 	my $value = $this->{options}->{$key};
+	my $persistent = ($key =~ s/^\*//);
 	$value = "" if !defined $value;
 	$this->conn()->log("irspy_debug", "$this setting option '$key' -> ",
 			   defined $value ? "'$value'" : "undefined");
-	$this->{options}->{$key} = $this->conn()->option($key, $value);
-	#Net::Z3950::ZOOM::connection_option_set($this->conn()->_conn(), $key, $value);
+	if ($persistent) {
+	    print "deleting '*$key'<br/>\n";
+	    delete $this->{options}->{"*$key"}
+	} else {
+	    $this->{options}->{$key} = $this->conn()->option($key, $value);
+	}
     }
 }
 
