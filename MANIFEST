@@ -39,7 +39,6 @@ lib/ZOOM/IRSpy/Test/Search/Title.pm
 lib/ZOOM/IRSpy/Utils.pm
 lib/ZOOM/IRSpy/Web.pm
 lib/ZOOM/IRSpy/WebService.pod
-lib/ZOOM/Pod.pm
 t/ZOOM-IRSpy.t
 web/conf/README
 web/conf/apache1.3/newshawarma-proxy.conf

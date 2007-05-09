@@ -16,6 +16,7 @@ lib/CVS
 lib/ZOOM/CVS
 lib/ZOOM/IRSpy/CVS
 lib/ZOOM/IRSpy/x.pl
+lib/ZOOM/Pod.pm
 lib/ZOOM/XML
 t/CVS
 web/conf/htpasswd
