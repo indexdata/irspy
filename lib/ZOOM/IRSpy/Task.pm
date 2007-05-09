@@ -1,4 +1,4 @@
-# $Id: Task.pm,v 1.5 2007-05-09 11:19:20 mike Exp $
+# $Id: Task.pm,v 1.6 2007-05-09 11:30:53 mike Exp $
 
 package ZOOM::IRSpy::Task;
 
@@ -87,11 +87,12 @@ sub set_options {
 	$value = "" if !defined $value;
 	$this->conn()->log("irspy_debug", "$this setting option '$key' -> ",
 			   defined $value ? "'$value'" : "undefined");
+	my $old = $this->conn()->option($key, $value);
 	if ($persistent) {
 	    print "deleting '*$key'<br/>\n";
 	    delete $this->{options}->{"*$key"}
 	} else {
-	    $this->{options}->{$key} = $this->conn()->option($key, $value);
+	    $this->{options}->{$key} = $old;
 	}
     }
 }
