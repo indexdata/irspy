@@ -1,8 +1,9 @@
-%# $Id: check.mc,v 1.17 2007-04-18 15:32:43 mike Exp $
+%# $Id: check.mc,v 1.18 2007-05-09 10:45:14 mike Exp $
 <%args>
 @id
 $test => "Quick"
 $really => 0
+$YAZ_LOG => "irspy,irspy_test"
 </%args>
 <%perl>
 my $allTargets = (@id == 1 && $id[0] eq "");
@@ -24,6 +25,7 @@ if ($allTargets && !$really) {
 print "<h2>Testing ...</h2>\n";
 print "     <ul>\n", join("", map { "      <li>$_</li>\n" } @id), "</ul>\n"
     if !$allTargets;
+print "<p>Logging: <tt>", join("/", split /,/, $YAZ_LOG), "</tt></p>\n";
 $m->flush_buffer();
 
 # Turning on autoflush with $m->autoflush() doesn't seem to work if
@@ -33,7 +35,7 @@ $m->flush_buffer();
 
 my $spy = new ZOOM::IRSpy::Web("localhost:8018/IR-Explain---1",
 			       admin => "fruitbat");
-$spy->log_init_level("irspy,irspy_test");
+$spy->log_init_level($YAZ_LOG);
 $spy->targets(@id) if !$allTargets;
 $spy->initialise($test);
 my $res = $spy->check();
