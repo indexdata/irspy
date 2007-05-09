@@ -1,4 +1,4 @@
-# $Id: Fetch.pm,v 1.28 2007-05-01 16:31:08 mike Exp $
+# $Id: Fetch.pm,v 1.29 2007-05-09 12:05:04 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -101,7 +101,8 @@ sub record {
     my $ok = 0;
     if (!$record || $record->error()) {
 	$conn->log("irspy_test", "retrieval of $syn record failed: ",
-		   defined $record ? $record->exception() : "???");
+		   defined $record ? $record->exception() :
+				     $conn->exception());
     } else {
 	$ok = 1;
 	my $text = $record->render();
