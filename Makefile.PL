@@ -1,4 +1,4 @@
-# $Id: Makefile.PL,v 1.13 2007-03-07 22:15:39 mike Exp $
+# $Id: Makefile.PL,v 1.14 2007-05-09 12:04:36 mike Exp $
 
 use 5.008;
 use strict;
@@ -25,7 +25,7 @@ WriteMakefile(
     NAME              => 'ZOOM::IRSpy',
     VERSION_FROM      => 'lib/ZOOM/IRSpy.pm', # finds $VERSION
     PREREQ_PM         => {
-	"Net::Z3950::ZOOM" => 1.18,
+	"Net::Z3950::ZOOM" => 1.19,
 	"XML::LibXML::XPathContext" => 0.07, # For Web UI
         "XML::LibXML" => 1.58,
         "XML::LibXSLT" => 1.57,
