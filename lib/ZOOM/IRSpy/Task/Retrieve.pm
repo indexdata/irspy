@@ -1,4 +1,4 @@
-# $Id: Retrieve.pm,v 1.4 2007-03-07 18:00:15 mike Exp $
+# $Id: Retrieve.pm,v 1.5 2007-05-09 11:02:41 mike Exp $
 
 package ZOOM::IRSpy::Task::Retrieve;
 
@@ -31,6 +31,9 @@ sub new {
     my $this = $class->SUPER::new(@_);
     $this->{rs} = $rs;
     $this->{index0} = $index0;
+    # Save initial record-syntax for render()'s benefit
+    $this->{rs} = $this->{options}->{preferredRecordSyntax};
+
     return $this;
 }
 
@@ -55,7 +58,7 @@ sub run {
 
 sub render {
     my $this = shift();
-    my $syntax = $this->{options}->{preferredRecordSyntax};
+    my $syntax = $this->{rs};
     $syntax = defined $syntax ? "'$syntax'" : "undef";
     return ref($this) . "(" . $this->{index0} . ", $syntax)";
 }
