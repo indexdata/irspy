@@ -1,7 +1,7 @@
 Changes
 MANIFEST
 MANIFEST.SKIP
-META.yml                                 Module meta-data (added by MakeMaker)
+META.yml
 Makefile.PL
 README
 bin/Makefile
@@ -11,7 +11,7 @@ bin/test-net-z3950-zoom.pl
 bin/test-pod.pl
 bin/test-zoom-c.c
 bin/test-zoom.pl
-bin/xslt_process.pl
+bin/irspy_xsltproc.pl
 lib/ZOOM/IRSpy.pm
 lib/ZOOM/IRSpy/Connection.pm
 lib/ZOOM/IRSpy/Maintenance.pod
@@ -41,17 +41,15 @@ lib/ZOOM/IRSpy/Utils.pm
 lib/ZOOM/IRSpy/Web.pm
 lib/ZOOM/IRSpy/WebService.pod
 lib/ZOOM/Pod.pm
-t/Net-Z3950-IRSpy.t
+t/ZOOM-IRSpy.t
 web/conf/README
 web/conf/apache1.3/test.conf
 web/conf/apache1.3/xeno.conf
-web/htdocs/add.html
-web/htdocs/all.html
+web/htdocs/admin/all.html
 web/htdocs/beach.jpeg
-web/htdocs/check.html
+web/htdocs/admin/check.html
 web/htdocs/chrome/layout.mc
-web/htdocs/delete.html
-web/htdocs/details/add.mc
+web/htdocs/admin/delete.html
 web/htdocs/details/check.mc
 web/htdocs/details/delete.mc
 web/htdocs/details/doc.mc
@@ -63,7 +61,7 @@ web/htdocs/details/full.mc
 web/htdocs/details/home.mc
 web/htdocs/details/stats.mc
 web/htdocs/doc.html
-web/htdocs/edit.html
+web/htdocs/admin/edit.html
 web/htdocs/favicon.ico
 web/htdocs/find.html
 web/htdocs/full.html
