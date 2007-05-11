@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.31 2007-05-03 12:41:58 mike Exp $
+# $Id: Utils.pm,v 1.32 2007-05-11 13:54:42 mike Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -85,7 +85,7 @@ sub xml_encode {
 sub cql_quote {
     my($term) = @_;
 
-    $term =~ s/([""\\])/\\$1/g;
+    $term =~ s/([""\\*?])/\\$1/g;
     $term = qq["$term"] if $term =~ /[\s""\/]/;
     return $term;
 }
