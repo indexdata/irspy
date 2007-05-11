@@ -1,13 +1,11 @@
-%# $Id: full.mc,v 1.27 2007-04-27 14:04:40 mike Exp $
+%# $Id: full.mc,v 1.28 2007-05-11 13:32:57 mike Exp $
 <%args>
 $id
 </%args>
 <%perl>
 my $conn = new ZOOM::Connection("localhost:8018/IR-Explain---1");
 $conn->option(elementSetName => "zeerex");
-my $qid = $id;
-$qid =~ s/"/\\"/g;
-my $query = qq[rec.id="$qid"];
+my $query = cql_target($id);
 my $rs = $conn->search(new ZOOM::Query::CQL($query));
 my $n = $rs->size();
 if ($n == 0) {
