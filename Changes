@@ -1,19 +1,27 @@
-$Id: Changes,v 1.13 2006-11-15 17:43:10 mike Exp $
+$Id: Changes,v 1.14 2007-05-11 08:29:56 mike Exp $
 
 Revision history for Perl extension ZOOM::IRSpy.
 
 TODO
-	DONE Fix display of non-ASCII characters in, for example, the
+	### When adding a new database, check for pre-existence, using
+	    IP address/hostname canonicalisation.
+	### Ability to add target by uploading a ZeeRex record.
+	### Mark targets that persistently don't respond.
+	### Email administrative contact on failure.
+
+0.02  [IN PROGRESS]
+	- Renamed from Net::Z3950::IRSpy to ZOOM::IRSpy
+	- Fix display of non-ASCII characters in, for example, the
 	    list of targets beginning with "R".
-	DONE Change targets() API to accept a Perl list rather than a
+	- Change targets() API to accept a Perl list rather than a
 	    space-separated string.
-	DONE Change check.html parameters to cleanly accept multiple
+	- Change check.html parameters to cleanly accept multiple
 	    target IDs even if they contain spaces.
-	DONE Proper URL-encoding of all link parameters.
-	DONE Proper HTML-quoting of all output.
-	DONE Capture YAZ logging output for web display.
-	DONE Add Dublin Core record format to Zebra configuration.
-	DONE Much better "Add a target" form, including:
+	- Proper URL-encoding of all link parameters.
+	- Proper HTML-quoting of all output.
+	- Capture YAZ logging output for web display.
+	- Add Dublin Core record format to Zebra configuration.
+	- Much better "Add a target" form, including:
 		- Name
 		- URL to hosting organisation
 		- Email to technical contact
@@ -21,21 +29,14 @@ TODO
 		- Type of library (Academic, Public, Corporate,
 		    Special, National, Education or Other)
 		- Country.
-	DONE "Add another database to this target" button.
-	### When adding a new database, check for pre-existence, using
-	    IP address/hostname canonicalisation.
-	### Ability to add target by uploading a ZeeRex record.
-	### Form for editing details of an existing target.
-	### Maybe require authentication for database-changing
-	    operations such as target testing, adding a new target and
-	    editing and existing one.
-	### Mark targets that persistently don't respond.
-	### Email administrative contact on failure.
-	### Add statistics page like that one at
+	- "Add another database to this target" button.
+	- Form for editing details of an existing target.
+	- Require authentication for database-changing operations
+		such as target testing, adding a new target and
+		editing and existing one.
+	- Add statistics page like that one at
 		http://targettest.indexdata.com/stat.php
-
-0.02  [IN PROGRESS]
-	- Renamed from Net::Z3950::IRSpy to ZOOM::IRSpy
+	- Many, many more enhancements.
 
 0.01  Wed Apr  5 15:53:47 2006
 	- original version; created by h2xs 1.23 with options
