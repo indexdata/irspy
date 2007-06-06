@@ -1,0 +1,241 @@
+From mike  Tue Jun  5 22:12:54 2007
+X-VM-v5-Data: ([nil nil nil nil nil nil nil nil nil]
+	["4761" "Tuesday" "5" "June" "2007" "22:40:22" "+0200" "Marc Cromme" "marc@indexdata.dk" nil "185" "Re: [Zebralist] zebra 2.0 with domxml" "^From:" nil nil "6" nil nil nil nil nil nil nil nil nil]
+	nil)
+Return-path: <zebralist-bounces@lists.indexdata.dk>
+Envelope-to: mike@indexdata.com
+Delivery-date: Tue, 05 Jun 2007 22:40:58 +0200
+Received: from bagel.indexdata.dk [213.150.43.11]
+	by localhost.localdomain with POP3 (fetchmail-6.3.6)
+	for <mike@localhost> (single-drop); Tue, 05 Jun 2007 22:12:54 +0100 (BST)
+Received: from kebab.indexdata.dk ([83.133.64.60])
+	by bagel.indexdata.dk with esmtp (Exim 4.50)
+	id 1Hvfpq-0002lj-28; Tue, 05 Jun 2007 22:40:58 +0200
+Received: from localhost ([127.0.0.1] helo=kebab.indexdata.dk)
+	by kebab.indexdata.dk with esmtp (Exim 4.50)
+	id 1HvfpK-00054B-4B; Tue, 05 Jun 2007 22:40:26 +0200
+Received: from user.indexdata.dk ([213.150.43.10] helo=bagel.indexdata.dk)
+	by kebab.indexdata.dk with esmtp (Exim 4.50) id 1HvfpH-000546-J0
+	for zebralist@lists.indexdata.dk; Tue, 05 Jun 2007 22:40:23 +0200
+Received: from port528.ds1-brh.adsl.cybercity.dk ([212.242.239.223]
+	helo=[10.0.0.4]) by bagel.indexdata.dk with esmtp (Exim 4.50)
+	id 1HvfpH-0002k6-Bk
+	for zebralist@lists.indexdata.dk; Tue, 05 Jun 2007 22:40:23 +0200
+Message-ID: <4665CA36.3030801@indexdata.dk>
+User-Agent: Icedove 1.5.0.10 (X11/20070329)
+MIME-Version: 1.0
+References: <!~!UENERkVCMDkAAQACAAAAAAAAAAAAAAAAABgAAAAAAAAA2HmijEJdOU2qq3LhU7BNwcKAAAAQAAAALF1wotpcqkuY7R7UELHO9QEAAAAA@coremain.com>
+In-Reply-To: <!~!UENERkVCMDkAAQACAAAAAAAAAAAAAAAAABgAAAAAAAAA2HmijEJdOU2qq3LhU7BNwcKAAAAQAAAALF1wotpcqkuY7R7UELHO9QEAAAAA@coremain.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
+X-SA-Do-Not-Run: Yes
+X-BeenThere: zebralist@lists.indexdata.dk
+X-Mailman-Version: 2.1.5
+Precedence: list
+Reply-To: Zebra Information Server <zebralist@lists.indexdata.dk>
+List-Id: Zebra Information Server <zebralist.lists.indexdata.dk>
+List-Unsubscribe: <http://lists.indexdata.dk/cgi-bin/mailman/listinfo/zebralist>, 
+	<mailto:zebralist-request@lists.indexdata.dk?subject=unsubscribe>
+List-Archive: <http://lists.indexdata.dk/pipermail/zebralist>
+List-Post: <mailto:zebralist@lists.indexdata.dk>
+List-Help: <mailto:zebralist-request@lists.indexdata.dk?subject=help>
+List-Subscribe: <http://lists.indexdata.dk/cgi-bin/mailman/listinfo/zebralist>, 
+	<mailto:zebralist-request@lists.indexdata.dk?subject=subscribe>
+Errors-To: zebralist-bounces@lists.indexdata.dk
+X-SA-Exim-Connect-IP: 83.133.64.60
+X-SA-Exim-Rcpt-To: mike@indexdata.com, quinn@indexdata.com
+X-SA-Exim-Mail-From: zebralist-bounces@lists.indexdata.dk
+X-SA-Exim-Scanned: No (on bagel.indexdata.dk); SAEximRunCond expanded to false
+X-UIDL: &9W"!USe"![`-!!='`"!
+From: Marc Cromme <marc@indexdata.dk>
+Sender: zebralist-bounces@lists.indexdata.dk
+To: Zebra Information Server <zebralist@lists.indexdata.dk>
+Subject: Re: [Zebralist] zebra 2.0 with domxml
+Date: Tue, 05 Jun 2007 22:40:22 +0200
+
+Miguel A. Calvo wrote:
+> Hi,
+> The question is, how can i enable or disable attributes bib-1 to the DomXML
+> format? 
+
+Ahh.
+In case that we want to support the usual bib-1 Z39.50 numeric access 
+points, it is a good idea to choose string index names defined in the 
+default configuration file tab/bib1.att, see the section called “The 
+Attribute Set (.att) Files”
+
+First you make sure that the index names defined in your DOM XML filter 
+indexing stylesheet do match the names defined in tab/bib1.att
+
+For example,
+  <z:index name="title:w title:p">
+
+matches
+
+att 4               Title
+
+(case does not matter!)
+
+
+Then you load bib1.attr in your zebra.cfg like this:
+
+attset: bib1.att
+#attset: explain.att
+
+
+and voíla! you can search
+
+@attr 1=4 fish
+
+> And, Where can I specify the data type of results (zebra::index or
+> zebra::meta::sysno , etc )
+> 
+
+The result record syntaxes XML and SUTRS
+support schemas/element sets zebra::index and zebra::meta::sysno
+right out of the box, see
+http://www.indexdata.com/zebra/doc/special-retrieval.tkl
+
+The later, i.e zebra::index requires internal storage of record data, 
+i.e the directive
+
+# store records and record keys internally
+storeData: 1
+storeKeys: 1
+
+in zebra.cfg.
+
+
+
+Otherwise, the DOM XML filter can only serve XML syntax records, those 
+are constructed in arbitrarily schemes using XSLT stylesheets, like 
+conversion from MODS to DC, of MODS to MARCXML. Binary formats as USMARC 
+are not supported for the DOM XML filter. See
+http://www.indexdata.com/zebra/doc/record-model-domxml-pipeline.tkl#record-model-domxml-pipeline-retrieve
+
+An overview of the different pipelines is found at
+http://www.indexdata.com/zebra/doc/record-model-domxml.tkl#record-model-domxml-filter
+
+This is a tad complex, but needed for many running use cases. It pays 
+off to dig into the documentation sections.
+
+Please do not hesitate to suggest updates to the documentaiton, in case 
+you find anything unclear ..
+
+
+Your's Marc Cromme, Index Data
+
+
+> thanks
+> 
+> 
+>  
+> 
+> Miguel A. Calvo Lázaro
+> 
+> Técnico de Software Factory
+> 
+> miguel.calvo@coremain.com
+> 
+> http://www.coremain.com
+> 
+> 
+> -----Mensaje original-----
+> De: zebralist-bounces@lists.indexdata.dk
+> [mailto:zebralist-bounces@lists.indexdata.dk] En nombre de Marc Cromme
+> Enviado el: martes, 05 de junio de 2007 14:52
+> Para: Zebra Information Server
+> Asunto: Re: [Zebralist] zebra 2.0 with domxml
+> 
+> Miguel A. Calvo wrote:
+>> Hi,
+>>  I am investigating, and it interests to me to install zebra 2.0 by 
+>> means of model DOMXML. I have a series of questions. I have understood 
+>> all the operation of the configuration file zebra.cfg The problem 
+>> comes later. I follow the passages of indexing and formats of exit, 
+>> but to qualify tag that can be consulted, do I need the files 
+>> configuration with extension abs, tag,…? or , is it formed everything 
+>> from the files xslt?
+>>  
+> 
+> I am not sure I do understand your question correctly.
+> The DOMXML file does not require nor use any of the GRS-1 .abs files at all.
+> 
+> What only counts is the format of the XML the indexer sees, it's described
+> in section "Canonical Indexing Format"
+> http://www.indexdata.com/zebra/doc/record-model-domxml-pipeline.tkl#record-m
+> odel-domxml-canonical-index
+> 
+> All the XSLT transformations are only defined to transform your XML files to
+> the canonical indexing format.
+> 
+> The nice thing is, you can play with this using any command line tool,
+> adjust your XSLT stylesheets until they work, and then register them using
+> the pipeline configurations described in
+> http://www.indexdata.com/zebra/doc/record-model-domxml-pipeline.tkl
+> 
+> See also
+> http://www.indexdata.com/zebra/doc/record-model-domxml-conf.tkl#record-model
+> -domxml-debug
+> 
+> Your's Marc Cromme, Index Data
+> 
+> 
+>> Thanks
+>>  
+>>  
+>>
+>> **
+>>
+>> **
+>>
+>> *Miguel A. Calvo Lázaro*
+>>
+>> Técnico de Software Factory
+>>
+>> *miguel.calvo@coremain.com <mailto:miguel.calvo@coremain.com>*
+>>
+>> http://www.coremain.com <http://www.coremain.com/>
+>>
+>>  
+>>
+>>
+>> ----------------------------------------------------------------------
+>> --
+>>
+>> _______________________________________________
+>> Zebralist mailing list
+>> Zebralist@lists.indexdata.dk
+>> http://lists.indexdata.dk/cgi-bin/mailman/listinfo/zebralist
+> 
+> 
+
+
+-- 
+
+Marc Cromme
+M.Sc and Ph.D in Mathematical Modelling and Computation
+Senior Developer, Project Manager
+
+Index Data Aps
+Købmagergade 43, 2
+1150 Copenhagen K.
+Denmark
+
+tel: +45 3341 0100
+fax: +45 3341 0101
+
+http://www.indexdata.com
+
+INDEX DATA Means Business
+for Open Source and Open Standards
+
+
+
+
+
+_______________________________________________
+Zebralist mailing list
+Zebralist@lists.indexdata.dk
+http://lists.indexdata.dk/cgi-bin/mailman/listinfo/zebralist
+
