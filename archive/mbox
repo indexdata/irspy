@@ -909,3 +909,146 @@ On the positive side, it makes IRSpy look good in comparison :-)
 )_v__/\  "It became necessary to destroy the village in order to save it"
 	 -- Attributed to an anonymous senior US military officer.
 
+From mike  Wed Jun 27 11:29:19 2007
+X-VM-v5-Data: ([nil nil nil nil t nil nil nil nil]
+	["1070" "Wednesday" "27" "June" "2007" "12:12:28" "+0200" "Per M. Hansen" "perhans@indexdata.dk" "<4682380C.6040602@indexdata.dk>" "30" "Re: [Fwd: Re: IRSpy testing in Helsinki]" "^From:" nil nil "6" nil nil nil nil nil nil nil nil nil]
+	nil)
+Return-path: <perhans@indexdata.dk>
+Envelope-to: mike@indexdata.com
+Delivery-date: Wed, 27 Jun 2007 12:13:16 +0200
+Received: from bagel.indexdata.dk [213.150.43.11]
+	by localhost.localdomain with POP3 (fetchmail-6.3.6)
+	for <mike@localhost> (single-drop); Wed, 27 Jun 2007 11:29:19 +0100 (BST)
+Received: from user.indexdata.dk ([213.150.43.10] helo=[10.0.1.61])
+	by bagel.indexdata.dk with esmtp (Exim 4.50)
+	id 1I3UWS-0006OX-JY; Wed, 27 Jun 2007 12:13:16 +0200
+Message-ID: <4682380C.6040602@indexdata.dk>
+Organization: Index Data ApS
+User-Agent: Thunderbird 1.5.0.12 (Windows/20070509)
+MIME-Version: 1.0
+References: <46822480.3070006@indexdata.dk> <18050.13587.950805.441019@localhost.localdomain>
+In-Reply-To: <18050.13587.950805.441019@localhost.localdomain>
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Do-Not-Run: Yes
+X-SA-Exim-Connect-IP: 213.150.43.10
+X-SA-Exim-Rcpt-To: mike@indexdata.com, quinn@indexdata.com, adam@indexdata.dk
+X-SA-Exim-Mail-From: perhans@indexdata.dk
+X-SA-Exim-Scanned: No (on bagel.indexdata.dk); SAEximRunCond expanded to false
+X-UIDL: h0@"!<i2!!b#U"!ReL!!
+From: "Per M. Hansen" <perhans@indexdata.dk>
+To: Mike Taylor <mike@indexdata.com>
+CC: Sebastian Hammer <quinn@indexdata.com>, 
+ Adam Dickmeiss <adam@indexdata.dk>
+Subject: Re: [Fwd: Re: IRSpy testing in Helsinki]
+Date: Wed, 27 Jun 2007 12:12:28 +0200
+
+
+
+Mike Taylor skrev:
+> Per M. Hansen writes:
+>  > There seams to be a lot of open bugs on IRSpy.
+>
+> Yes, though that is largely illusory due to all the wishlisty bits.
+>   
+Ok, but there are some bugs in there like this one 
+http://bugzilla.indexdata.dk/show_bug.cgi?id=1036.
+>  > What bugs are there that the Finns can say that is linked to the
+>  > deliverable of IRSpy?
+>
+> Isn't that for them to say?  I don't think we should draw attention to
+> specific bugs: just send the invoice and see whether they say "first
+> you need to fix bug X"?
+>   
+Well that is one way of handling it, I guess, but I think that we should 
+make a formal deliverable. Can we make some kind of package for them 
+that we can send?
+
+/Per
+>  _/|_	 ___________________________________________________________________
+> /o ) \/  Mike Taylor    <mike@indexdata.com>    http://www.miketaylor.org.uk
+> )_v__/\  "So where is the innovation?  The innovation is the talking
+> 	 paper clip in Microsoft Office.  Is that real innovation?" --
+> 	 Mitchell Kertzman, Chairman and CEO, Sybase.
+>
+>
+>   
+
+From mike@miketaylor.org.uk  Wed Jun 27 12:16:27 2007
+X-VM-v5-Data: ([nil nil nil nil nil nil nil t nil]
+	["1917" "Wednesday" "27" "June" "2007" "12:16:26" "+0100" "Mike Taylor" "mike@indexdata.com" nil "52" "Re: [Fwd: Re: IRSpy testing in Helsinki]" "^From:" nil nil "6" nil nil nil nil nil nil nil nil nil]
+	nil)
+Return-Path: <mike@miketaylor.org.uk>
+X-Original-To: mike
+Delivered-To: mike@miketaylor.org.uk
+Received: by localhost.localdomain (Postfix, from userid 1000)
+	id 269BF4D6441A; Wed, 27 Jun 2007 12:16:27 +0100 (BST)
+MIME-Version: 1.0
+Message-ID: <18050.18186.896331.810825@localhost.localdomain>
+In-Reply-To: <4682380C.6040602@indexdata.dk>
+References: <46822480.3070006@indexdata.dk>
+	<18050.13587.950805.441019@localhost.localdomain>
+	<4682380C.6040602@indexdata.dk>
+X-Mailer: VM 7.19 under Emacs 21.4.1
+X-StripMime: Non-text section removed by stripmime
+Content-Type: text/plain; charset=us-ascii
+From: Mike Taylor <mike@indexdata.com>
+To: "Per M. Hansen" <perhans@indexdata.dk>
+Cc: Sebastian Hammer <quinn@indexdata.com>,
+    Adam Dickmeiss <adam@indexdata.dk>
+Subject: Re: [Fwd: Re: IRSpy testing in Helsinki]
+Date: Wed, 27 Jun 2007 12:16:26 +0100
+
+Per M. Hansen writes:
+ > >  > There seams to be a lot of open bugs on IRSpy.
+ > >
+ > > Yes, though that is largely illusory due to all the wishlisty bits.
+ >
+ > Ok, but there are some bugs in there like this one 
+ > http://bugzilla.indexdata.dk/show_bug.cgi?id=1036.
+
+Ah, well, that one is to do with character sets.  You can't possibly
+expect that to be fixed!
+
+Just joking, ha ha.  No, the problem with this one is that the
+database name, hence the ID, has a space in it:
+	Z39.50:bissen.odont.au.dk:21/Odontologisk Bibliotek
+
+That is in fact provoking the same problem as non-ASCII characters in
+an ID do, which is that when you submit such an ID as recordIdOpaque
+in and Extended Services request, it is interpreted differently from
+when it's submitted as part of a record that XS extracts the ID from
+itself.  It still seems wrong to me that Zebra does this, but it's
+possible to work around.
+
+In fact, I just have: I fixed this in CVS and on the live site.
+
+ > >  > What bugs are there that the Finns can say that is linked to
+ > >  > the deliverable of IRSpy?
+ > >
+ > > Isn't that for them to say?  I don't think we should draw attention to
+ > > specific bugs: just send the invoice and see whether they say "first
+ > > you need to fix bug X"?
+ >
+ > Well that is one way of handling it, I guess, but I think that we
+ > should make a formal deliverable. Can we make some kind of package
+ > for them that we can send?
+
+Sure thing.  Here it is, including the edit-record-with-funny-ID fix
+described above.
+
+ _/|_	 ___________________________________________________________________
+/o ) \/  Mike Taylor    <mike@indexdata.com>    http://www.miketaylor.org.uk
+)_v__/\  "A Linux system requires rebooting about as often as a Windoze
+	 system requires re-installing" -- David Joffe.
+
+
+
+--- StripMime Report -- processed MIME parts ---
+multipart/mixed
+  text/plain (text body -- kept)
+  application/octet-stream
+---
+
+
+
