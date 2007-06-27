@@ -1,4 +1,4 @@
-%# $Id: layout.mc,v 1.33 2007-05-03 14:13:44 mike Exp $
+%# $Id: layout.mc,v 1.34 2007-06-27 11:50:49 mike Exp $
 <%args>
 $debug => undef
 $title
@@ -30,16 +30,16 @@ use ZOOM::IRSpy::Utils qw(utf8param isodate xml_encode cql_target cql_quote
     <td>
      <table width="100%">
       <tr>
-    <td align="left">
-     <br/>
-     <h1><a class="logo" href="/">IRSpy</a></h1>
-    </td>
-    <td align="right">
-     <br/>
-     <h1 class="title"><% xml_encode($title) %></h1>
-    </td>
-      </table>
-     </tr>
+       <td align="left">
+	<br/>
+	<h1><a class="logo" href="/">IRSpy</a></h1>
+       </td>
+       <td align="right">
+	<br/>
+	<h1 class="title"><% xml_encode($title) %></h1>
+       </td>
+      </tr>
+     </table>
     </td>
    </tr>
   </table>
