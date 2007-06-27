@@ -1,15 +1,8 @@
-$Id: Changes,v 1.14 2007-05-11 08:29:56 mike Exp $
+$Id: Changes,v 1.15 2007-06-27 10:39:26 mike Exp $
 
 Revision history for Perl extension ZOOM::IRSpy.
 
-TODO
-	### When adding a new database, check for pre-existence, using
-	    IP address/hostname canonicalisation.
-	### Ability to add target by uploading a ZeeRex record.
-	### Mark targets that persistently don't respond.
-	### Email administrative contact on failure.
-
-0.02  [IN PROGRESS]
+0.02  Wed Jun 27 11:38:55 BST 2007
 	- Renamed from Net::Z3950::IRSpy to ZOOM::IRSpy
 	- Fix display of non-ASCII characters in, for example, the
 	    list of targets beginning with "R".
