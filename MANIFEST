@@ -124,4 +124,5 @@ zebra/zeerex.xml
 zebra/zeerex2dc.xsl
 zebra/zeerex2id.xsl
 zebra/zeerex2index.xsl
+zebra/zeerex2noauth.xsl
 zebra/zeerex2zeerex.xsl
