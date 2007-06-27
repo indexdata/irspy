@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.84 2007-04-30 11:28:37 mike Exp $
+# $Id: IRSpy.pm,v 1.85 2007-06-27 11:09:03 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -272,14 +272,7 @@ sub _really_rewrite_record {
     my $id = irspy_record2identifier($xc);
     if (defined $oldid && $id ne $oldid) {
 	warn "IDs differ (old='$oldid' new='$id')";
-	# Delete old record;
-	### Should use same mechanism as delete.mc
-	my $p = $conn->package();
-	$p->option(action => "recordDelete");
-	$p->option(recordIdOpaque => $oldid);
-	$p->option(record => "<dummy/>"); # Work around Zebra bug
-	$p->send("update");
-	$p->destroy();
+	_delete_record($conn, $oldid);
     }
 
     $p = $conn->package();
@@ -291,6 +284,41 @@ sub _really_rewrite_record {
 	$xml =~ s/>/&gt;/g;
 	print "Updated $conn with xml=<br/>\n<pre>$xml</pre>\n";
     }
+}
+
+
+sub _delete_record {
+    my($conn, $id) = @_;
+
+    # We can't delete records using recordIdOpaque, since character
+    # sets are handled differently here in extended services from how
+    # they are used in the Alvis filter's record-parsing, and so
+    # non-ASCII characters come out differently in the two contexts.
+    # Instead, we must send a record whose contents indicate the ID of
+    # that which we wish to delete.  There are two ways, both
+    # unsatisfactory: we could either fetch the actual record them
+    # resubmit it in the deletion request (which wastes a search and a
+    # fetch) or we could build a record by hand from the parsed-out
+    # components (which is error-prone and which I am not 100% certain
+    # will work since the other contents of the record will be
+    # different).  The former evil seems to be the lesser.
+
+    warn "$conn deleting record '$id'";
+
+    my $rs = $conn->search(new ZOOM::Query::CQL(cql_target($id)));
+    die "no such ID '$id'" if $rs->size() == 0;
+    my $rec = $rs->record(0);
+    my $xml = $rec->render();
+
+    my $p = $conn->package();
+    $p->option(action => "recordDelete");
+    $p->option(record => $xml);
+    $p->send("update");
+    $p->destroy();
+
+    $p = $conn->package();
+    $p->send("commit");
+    $p->destroy();
 }
 
 
