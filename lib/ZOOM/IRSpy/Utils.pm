@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.33 2007-06-27 10:44:57 mike Exp $
+# $Id: Utils.pm,v 1.34 2007-06-27 11:08:08 mike Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -254,8 +254,7 @@ sub modify_xml_document {
 		    my $child = $node->firstChild();
 		    if (ref $child && ref $child eq "XML::LibXML::Text") {
 			$old = $child->getData();
-			print STDERR "child='$child', old=", _renderchars($old), "\n"
-			    if $key eq "title";
+			#print STDERR "child='$child', old=", _renderchars($old), "\n" if $key eq "title";
 		    }
 		}
 		next if $value eq $old;
@@ -264,7 +263,7 @@ sub modify_xml_document {
 		my $child = new XML::LibXML::Text($value);
 		$node->appendChild($child);
 		push @changes, $ref;
-		print STDERR "Elem $key ($xpath): ", _renderchars($old), " -> '", _renderchars($value), "\n";
+		#print STDERR "Elem $key ($xpath): ", _renderchars($old), " -> '", _renderchars($value), "\n";
 	    } else {
 		warn "unexpected node type $node";
 	    }
