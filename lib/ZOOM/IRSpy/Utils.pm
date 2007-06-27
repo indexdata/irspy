@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.32 2007-05-11 13:54:42 mike Exp $
+# $Id: Utils.pm,v 1.33 2007-06-27 10:44:57 mike Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -35,6 +35,7 @@ sub utf8param {
     die "utf8param() called with value '$value'" if defined $value;
 
     my $raw = $r->param($key);
+    return undef if !defined $raw;
     my $cooked = decode_utf8($raw);
     warn "converted '$raw' to '", $cooked, "'\n" if $cooked ne $raw;
     return $cooked;
