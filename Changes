@@ -1,8 +1,8 @@
-$Id: Changes,v 1.15 2007-06-27 10:39:26 mike Exp $
+$Id: Changes,v 1.16 2007-06-27 11:10:20 mike Exp $
 
 Revision history for Perl extension ZOOM::IRSpy.
 
-0.02  Wed Jun 27 11:38:55 BST 2007
+0.02  Wed Jun 27 12:09:49 BST 2007
 	- Renamed from Net::Z3950::IRSpy to ZOOM::IRSpy
 	- Fix display of non-ASCII characters in, for example, the
 	    list of targets beginning with "R".
@@ -29,6 +29,8 @@ Revision history for Perl extension ZOOM::IRSpy.
 		editing and existing one.
 	- Add statistics page like that one at
 		http://targettest.indexdata.com/stat.php
+	- Record deletion and ID change works correctly even when the
+	  ID contains spaces or non-ASCII characters.
 	- Many, many more enhancements.
 
 0.01  Wed Apr  5 15:53:47 2006
