@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-    $Id: irspy2zeerex.xsl,v 1.20 2007-04-02 10:11:17 sondberg Exp $
+    $Id: irspy2zeerex.xsl,v 1.21 2007-06-28 14:01:56 sondberg Exp $
 
     This stylesheet is used by IRSpy to map the internal mixed Zeerex/IRSpy
     record format into the Zeerex record which we store.
@@ -175,9 +175,9 @@
     <xsl:param name="what" select="'unspecified'"/>
     <xsl:param name="i" select="count(*/irspy:probe[@ok='1'])"/>
     <xsl:variable name="date"
-        select="*/irspy:probe[@ok='1' and position() = $i]"/>
+        select="*/irspy:probe[@ok='1'][$i]"/>
     <xsl:variable name="latest"
-        select="$nodes[irspy:strcmp(text(), $date) > 0]"/>
+        select="$nodes[irspy:strcmp(text(), $date) >= 0]"/>
 
     <xsl:choose>
       <xsl:when test="$latest">
