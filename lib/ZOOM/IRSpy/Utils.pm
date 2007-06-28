@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.34 2007-06-27 11:08:08 mike Exp $
+# $Id: Utils.pm,v 1.35 2007-06-28 13:59:31 sondberg Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -399,7 +399,7 @@ sub inheritance_tree {
 # This function is made available in xslt using the register_function call
 sub xslt_strcmp {
     my ($arg1, $arg2) = @_;
-    return ($arg1->to_literal()) cmp ($arg2->to_literal());
+    return "$arg1" cmp "$arg2";
 }
 
 
