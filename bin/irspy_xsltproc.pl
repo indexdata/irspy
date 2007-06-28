@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: irspy_xsltproc.pl,v 1.3 2007-02-02 12:44:43 sondberg Exp $
+# $Id: irspy_xsltproc.pl,v 1.4 2007-06-28 13:57:53 sondberg Exp $
 # ------------------------------------------------------------------
 # This script is only for debugging purposes - it takes a raw IRspy
 # xml output document as argument and executes the irspy2zeerex.xsl
@@ -25,4 +25,4 @@ my $source_file = shift || die("$0: Please specify xml instance file");
 my $source_doc = $spy->{libxml}->parse_file($source_file);
 my $results = $spy->{irspy_to_zeerex_style}->transform($source_doc);
 
-print $results->toString();
+print $results->toString(1);
