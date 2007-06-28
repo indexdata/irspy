@@ -1,4 +1,4 @@
-%# $Id: full.mc,v 1.28 2007-05-11 13:32:57 mike Exp $
+%# $Id: full.mc,v 1.29 2007-06-28 12:00:31 mike Exp $
 <%args>
 $id
 </%args>
@@ -57,21 +57,26 @@ if ($n == 0) {
 <%perl>
     foreach my $ref (@fields) {
 	my($caption, $xpath, @args) = @$ref;
-	my $data;
+	my($data, $linkURL);
 	if (ref $xpath && ref($xpath) eq "CODE") {
-	    $data = &$xpath(@args);
+	    ($data, $linkURL) = &$xpath($id, @args);
 	} else {
 	    $data = $xc->find($xpath);
 	}
 	if ($data) {
+	    print "      <tr>\n";
+	    $caption =~ s/\/(.*)//;
+	    my $help = $1;
+	    my($linkstart, $linkend) = ("", "");
+	    if (defined $linkURL) {
+		$linkstart = '<a href="' . xml_encode($linkURL) . '">';
+		$linkend = "</a>";
+	    }
 </%perl>
-      <tr>
-% $caption =~ s/\/(.*)//;
-% my $help = $1;
        <th><% xml_encode($caption) %><%
 	!defined $help ? "" : $m->comp("/help/link.mc", help =>"info/$help")
 	%></th>
-       <td><% xml_encode($data) %></td>
+       <td><% $linkstart . xml_encode($data) . $linkend %></td>
       </tr>
 %	}
 %   }
@@ -81,15 +86,15 @@ if ($n == 0) {
 	join("&",
 	     "target=" . uri_escape_utf8(irspy_identifier2target($id)),
 	     "name=" . uri_escape_utf8($title),
-	     "attr=" . join(" ", list_ap($xc, "bib-1")),
-	     "formats=" . calc_recsyn($xc, " ")))
+	     "attr=" . join(" ", _list_ap($xc, "bib-1")),
+	     "formats=" . calc_recsyn($id, $xc, " ")))
 	%>">Search this target.</a>
      </p>
 % }
 <%perl>
 
 sub calc_reliability {
-    my($xc) = @_;
+    my($id, $xc) = @_;
 
     my @allpings = $xc->findnodes("i:status/i:probe");
     my $nall = @allpings;
@@ -100,7 +105,7 @@ sub calc_reliability {
 }
 
 sub calc_init_options {
-    my($xc) = @_;
+    my($id, $xc) = @_;
 
     my @ops;
     my @nodes = $xc->findnodes('e:configInfo/e:supports/@type');
@@ -115,9 +120,9 @@ sub calc_init_options {
 }
 
 sub calc_ap {
-    my($xc, $set) = @_;
+    my($id, $xc, $set) = @_;
 
-    my @aps = list_ap($xc, $set);
+    my @aps = _list_ap($xc, $set);
     my $n = @aps;
     return "[none]" if $n == 0;
 
@@ -144,10 +149,11 @@ sub calc_ap {
 	$res .= "-$last" if $last > $first;
     }
 
-    return "$n access points: $res";
+    return ("$n access points: $res",
+	    "/ap.html?id=$id&set=$set");
 }
 
-sub list_ap {
+sub _list_ap {
     my($xc, $set) = @_;
 
     my $expr = 'e:indexInfo/e:index[@search = "true"]/e:map/e:attr[
@@ -157,7 +163,7 @@ sub list_ap {
 }
 
 sub calc_boolean {
-    my($xc) = @_;
+    my($id, $xc) = @_;
 
     ### Note that we are currently interrogating an IRSpy extension.
     #	The standard ZeeRex record should be extended with a
@@ -169,14 +175,14 @@ sub calc_boolean {
 }
 
 sub calc_nrs {
-    my($xc) = @_;
+    my($id, $xc) = @_;
 
     my @nodes = $xc->findnodes('i:status/i:named_resultset[@ok = "1"]');
     return @nodes ? "Yes" : "No";
 }
 
 sub calc_recsyn {
-    my($xc, $sep) = @_;
+    my($id, $xc, $sep) = @_;
     $sep = ", " if !defined $sep;
 
     my @nodes = $xc->findnodes('e:recordInfo/e:recordSyntax');
@@ -186,7 +192,7 @@ sub calc_recsyn {
 }
 
 sub calc_explain {
-    my($xc) = @_;
+    my($id, $xc) = @_;
 
     my @nodes = $xc->findnodes('i:status/i:explain[@ok = "1"]');
     my $res = join(", ", map { $_->findvalue('@category') } @nodes);
