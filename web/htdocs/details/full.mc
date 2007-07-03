@@ -1,4 +1,4 @@
-%# $Id: full.mc,v 1.29 2007-06-28 12:00:31 mike Exp $
+%# $Id: full.mc,v 1.30 2007-07-03 13:10:50 mike Exp $
 <%args>
 $id
 </%args>
@@ -82,9 +82,11 @@ if ($n == 0) {
 %   }
      </table>
      <p>
+% my $target = irspy_identifier2target($id);
+% $target =~ s/^tcp://; # Apparently ZAP can't handle the leading "tcp:"
       <a href="<% xml_encode("http://targettest.indexdata.com/targettest/search/index.zap?" .
 	join("&",
-	     "target=" . uri_escape_utf8(irspy_identifier2target($id)),
+	     "target=" . uri_escape_utf8($target),
 	     "name=" . uri_escape_utf8($title),
 	     "attr=" . join(" ", _list_ap($xc, "bib-1")),
 	     "formats=" . calc_recsyn($id, $xc, " ")))
