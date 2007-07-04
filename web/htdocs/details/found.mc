@@ -1,4 +1,4 @@
-%# $Id: found.mc,v 1.30 2007-05-03 14:15:56 mike Exp $
+%# $Id: found.mc,v 1.31 2007-07-04 20:54:11 mike Exp $
 <%once>
 sub print_navlink {
     my($params, $cond, $caption, $skip) = @_;
@@ -21,8 +21,9 @@ sub navlink {
 
 # Identical to the same-named function in full.mc
 # So maybe this should go into IRSpy::Utils.pm?
+# Name changed (append 2) to prevent inadvertent clashes in Mason namespace
 #
-sub calc_reliability {
+sub calc_reliability2 {
     my($xc) = @_;
 
     my @allpings = $xc->findnodes("i:status/i:probe");
@@ -128,7 +129,7 @@ print_navlink(\%params, $last < $n, "Next", $skip+$count);
 <%perl>
 my $xc = irspy_xpath_context($rs->record($i-1));
 my $title = $xc->find("e:databaseInfo/e:title") || "[UNTITLED]";
-my $reliability = calc_reliability($xc);
+my $reliability = calc_reliability2($xc);
 my $host = $xc->find("e:serverInfo/e:host");
 my $port = $xc->find("e:serverInfo/e:port");
 my $db = $xc->find("e:serverInfo/e:database");
