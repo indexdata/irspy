@@ -1052,3 +1052,258 @@ multipart/mixed
 
 
 
+From mike  Thu Jul  5 09:59:05 2007
+X-VM-v5-Data: ([nil nil nil nil nil nil nil nil nil]
+	["3436" "Thursday" "5" "July" "2007" "09:10:32" "+0300" "Juha Hakala" "juha.hakala@helsinki.fi" nil "78" "IRSpy acceptance" "^X-Spam-Status:" nil nil "7" nil nil nil nil nil nil nil nil nil]
+	nil)
+Return-path: <juha.hakala@helsinki.fi>
+Envelope-to: mike@indexdata.com
+Delivery-date: Thu, 05 Jul 2007 10:30:52 +0200
+Received: from bagel.indexdata.dk [213.150.43.11]
+	by localhost.localdomain with POP3 (fetchmail-6.3.6)
+	for <mike@localhost> (single-drop); Thu, 05 Jul 2007 09:59:05 +0100 (BST)
+Received: from sender-03.it.helsinki.fi ([128.214.205.141])
+	by bagel.indexdata.dk with esmtp (Exim 4.50)
+	id 1I6Mjh-00057h-G1; Thu, 05 Jul 2007 10:30:52 +0200
+Received: from orm6.lib.helsinki.fi (orm6.lib.helsinki.fi [128.214.91.244])
+	by sender-03.it.helsinki.fi (8.13.1/8.13.1) with ESMTP id l656AWAZ001069
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+	Thu, 5 Jul 2007 09:10:32 +0300
+Received: from [128.214.91.248] (oktas-2.lib.helsinki.fi [128.214.91.248])
+	(authenticated bits=0)
+	by orm6.lib.helsinki.fi (8.12.11.20060308/8.12.11) with ESMTP id l656AV9H020283
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 5 Jul 2007 09:10:31 +0300
+Message-ID: <468C8B58.4020800@helsinki.fi>
+User-Agent: Thunderbird 2.0.0.0 (Windows/20070326)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 128.214.205.141
+X-SA-Exim-Rcpt-To: dorman@indexdata.com, mike@indexdata.com, quinn@indexdata.com, sondberg@indexdata.com
+X-SA-Exim-Mail-From: juha.hakala@helsinki.fi
+X-Spam-Checker-Version: SpamAssassin 3.0.3 (2005-04-27) on bagel.indexdata.dk
+X-Spam-Level: 
+X-SA-Exim-Version: 4.2 (built Thu, 03 Mar 2005 10:44:12 +0100)
+X-SA-Exim-Scanned: Yes (on bagel.indexdata.dk)
+X-UIDL: Wa%"!eMo!!!38!!+Tm!!
+X-Spam-Status: No, score=-2.5 required=4.0 tests=AWL,BAYES_00 autolearn=ham 
+	version=3.0.3
+From: Juha Hakala <juha.hakala@helsinki.fi>
+To: "Per M. Hansen" <perhans@indexdata.dk>, Mike Taylor <mike@indexdata.com>,
+        sondberg@indexdata.com, Sebastian Hammer <quinn@indexdata.com>,
+        Ere Maijala <ere.maijala@helsinki.fi>,
+        Kristiina Hormia <kristiina.hormia@helsinki.fi>,
+        Annu Jauhiainen <annu.jauhiainen@helsinki.fi>,
+        Pertti Rekala <pertti.rekala@helsinki.fi>,
+        =?ISO-8859-1?Q?Tuula_Haapam?=
+ =?ISO-8859-1?Q?=E4ki?= <tuula.haapamaki@helsinki.fi>,
+        Kai Ekholm <kai.ekholm@helsinki.fi>,
+        Adam Dickmeiss <adam@indexdata.dk>,
+        Eeva Murtomaa <eeva.murtomaa@helsinki.fi>,
+        David Dorman <dorman@indexdata.com>
+Subject: IRSpy acceptance
+Date: Thu, 05 Jul 2007 09:10:32 +0300
+
+Hello all,
+
+The National Library of Finland accepts the IRSpy application, following 
+the successful beta testing of the software in the library.
+
+Our billing address is
+
+Helsingin yliopisto
+Kansalliskirjasto / Kirjastoverkkopalvelut
+PL 7138
+01051 LASKUT
+
+Please mention responsibility area code (in Finnish, vastuualuekoodi) 
+98123.
+
+I-D is most welcome to announce availability of this application to the 
+general public. Please mention in the announcement that the development 
+effort was a cooperative project between I-D and the national library of 
+Finland. Since I will start vacation next Monday I will not be able to 
+review the text unless it is sent tomorrow.
+
+IRSpy is the first implementation of the NISO draft standard 
+Z39.92-200X. As such it makes it possible to complete the 
+standardization process. My intention as the chair of the NISO working 
+group developing the standard is to publish the second draft of it in 
+August. As far as I know, development of IRSpy did not reveal any 
+problems in the present draft, so the second one can be published 
+unaltered.
+
+We will discuss with Ex Libris Group and WebClarity Software Inc. about 
+incorporation of IRSpy into, respectively, MetaLib and BookWhere. The 
+national library has no intention to host IRSpy ourselves in the short 
+run, and we will never try to run a global site, mainly due to 
+considerable systems expert time that would require. Moreover, the 
+present IRSpy database which is apparently inherited from your previous 
+ZSpy software) is out of date - many databases no longer are available 
+in the same address where they were located a few years back - and would 
+require a thorough manual revision.
+
+A decentralized network of national/regional IRSpy installations, each 
+concentrating on its geographical area, is the only truly feasible model 
+for hosting the tool (this does not rule out the possibility of 
+harvesting the Z39.92 data into a physical union catalogue). One issue 
+we will most likely discuss in the Autumn here in the national library 
+is whether maintenance of a national database of Information retrieval 
+service descriptions using Z39.92 (and IRSpy) will fit within the 
+national bibliographic responsibilities of the national library. As far 
+as I am concerned, it is more important to describe how for instance the 
+national bibliography database can be used for search and retrieval (and 
+to share this data with other libraries) than catalogue manually some 
+obscure grey Web literature. Google can do the latter more efficiently 
+than we, but Google can not and will not be able to deal efficiently 
+with (a large number of) databases. Due to Z39.92 and IRSpy the national 
+libraries will have an option to discuss how to deal with databases 
+within the national bibliographic context. Without a standard to steer 
+creation and exchange of IR service descriptions and an efficient tool 
+for creating those descriptions trying to extend national bibliographic 
+activities to "deep Web" would not have been possible. With the web 
+archives were are already dealing with the uppermost level of the Web, 
+and with Z39.92 and IRSpy we have a chance to gain access to the rest of 
+it.
+
+Best regards,
+
+Juha Hakala
+
+--
+
+ Juha Hakala
+ Director, Information Technology
+
+ The National Library of Finland 
+ P.O.Box 15 (Unioninkatu 36, room 503), FIN-00014 Helsinki University
+ Email juha.hakala@helsinki.fi, tel +358 50 382 7678
+ 
+
+
+
+
+From mike@miketaylor.org.uk  Thu Jul  5 10:04:22 2007
+X-VM-v5-Data: ([nil nil nil nil nil nil nil nil nil]
+	["4504" "Thursday" "5" "July" "2007" "10:04:22" "+0100" "Mike Taylor" "mike@indexdata.com" nil "103" "[Juha Hakala: IRSpy acceptance]" "^From:" nil nil "7" nil nil nil nil nil nil nil nil nil]
+	nil)
+Return-Path: <mike@miketaylor.org.uk>
+X-Original-To: mike
+Delivered-To: mike@miketaylor.org.uk
+Received: by localhost.localdomain (Postfix, from userid 1000)
+	id 850864D6420C; Thu,  5 Jul 2007 10:04:22 +0100 (BST)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Message-ID: <18060.46102.456630.110731@localhost.localdomain>
+X-Mailer: VM 7.19 under Emacs 21.4.1
+From: Mike Taylor <mike@indexdata.com>
+To: perhans@indexdata.dk
+Subject: [Juha Hakala: IRSpy acceptance]
+Date: Thu, 5 Jul 2007 10:04:22 +0100
+
+Excellent news!
+
+You get that invoice out; I will split my time between DBC's Keystone
+Resolver Admin UI work and the Australian Z39.50-to-SRU gateway
+(unless you'd prefer to me concentrate on one of them to the exclusion
+of the other?)
+
+------- start of forwarded message -------
+From: Juha Hakala <juha.hakala@helsinki.fi>
+To: "Per M. Hansen" <perhans@indexdata.dk>, Mike Taylor <mike@indexdata.com>,
+        sondberg@indexdata.com, Sebastian Hammer <quinn@indexdata.com>,
+        Ere Maijala <ere.maijala@helsinki.fi>,
+        Kristiina Hormia <kristiina.hormia@helsinki.fi>,
+        Annu Jauhiainen <annu.jauhiainen@helsinki.fi>,
+        Pertti Rekala <pertti.rekala@helsinki.fi>,
+        =?ISO-8859-1?Q?Tuula_Haapam?=
+ =?ISO-8859-1?Q?=E4ki?= <tuula.haapamaki@helsinki.fi>,
+        Kai Ekholm <kai.ekholm@helsinki.fi>,
+        Adam Dickmeiss <adam@indexdata.dk>,
+        Eeva Murtomaa <eeva.murtomaa@helsinki.fi>,
+        David Dorman <dorman@indexdata.com>
+Subject: IRSpy acceptance
+Date: Thu, 05 Jul 2007 09:10:32 +0300
+
+Hello all,
+
+The National Library of Finland accepts the IRSpy application, following 
+the successful beta testing of the software in the library.
+
+Our billing address is
+
+Helsingin yliopisto
+Kansalliskirjasto / Kirjastoverkkopalvelut
+PL 7138
+01051 LASKUT
+
+Please mention responsibility area code (in Finnish, vastuualuekoodi) 
+98123.
+
+I-D is most welcome to announce availability of this application to the 
+general public. Please mention in the announcement that the development 
+effort was a cooperative project between I-D and the national library of 
+Finland. Since I will start vacation next Monday I will not be able to 
+review the text unless it is sent tomorrow.
+
+IRSpy is the first implementation of the NISO draft standard 
+Z39.92-200X. As such it makes it possible to complete the 
+standardization process. My intention as the chair of the NISO working 
+group developing the standard is to publish the second draft of it in 
+August. As far as I know, development of IRSpy did not reveal any 
+problems in the present draft, so the second one can be published 
+unaltered.
+
+We will discuss with Ex Libris Group and WebClarity Software Inc. about 
+incorporation of IRSpy into, respectively, MetaLib and BookWhere. The 
+national library has no intention to host IRSpy ourselves in the short 
+run, and we will never try to run a global site, mainly due to 
+considerable systems expert time that would require. Moreover, the 
+present IRSpy database which is apparently inherited from your previous 
+ZSpy software) is out of date - many databases no longer are available 
+in the same address where they were located a few years back - and would 
+require a thorough manual revision.
+
+A decentralized network of national/regional IRSpy installations, each 
+concentrating on its geographical area, is the only truly feasible model 
+for hosting the tool (this does not rule out the possibility of 
+harvesting the Z39.92 data into a physical union catalogue). One issue 
+we will most likely discuss in the Autumn here in the national library 
+is whether maintenance of a national database of Information retrieval 
+service descriptions using Z39.92 (and IRSpy) will fit within the 
+national bibliographic responsibilities of the national library. As far 
+as I am concerned, it is more important to describe how for instance the 
+national bibliography database can be used for search and retrieval (and 
+to share this data with other libraries) than catalogue manually some 
+obscure grey Web literature. Google can do the latter more efficiently 
+than we, but Google can not and will not be able to deal efficiently 
+with (a large number of) databases. Due to Z39.92 and IRSpy the national 
+libraries will have an option to discuss how to deal with databases 
+within the national bibliographic context. Without a standard to steer 
+creation and exchange of IR service descriptions and an efficient tool 
+for creating those descriptions trying to extend national bibliographic 
+activities to "deep Web" would not have been possible. With the web 
+archives were are already dealing with the uppermost level of the Web, 
+and with Z39.92 and IRSpy we have a chance to gain access to the rest of 
+it.
+
+Best regards,
+
+Juha Hakala
+
+--
+
+ Juha Hakala
+ Director, Information Technology
+
+ The National Library of Finland 
+ P.O.Box 15 (Unioninkatu 36, room 503), FIN-00014 Helsinki University
+ Email juha.hakala@helsinki.fi, tel +358 50 382 7678
+ 
+
+
+
+------- end of forwarded message -------
+
