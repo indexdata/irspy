@@ -1307,3 +1307,132 @@ Juha Hakala
 
 ------- end of forwarded message -------
 
+From mike@miketaylor.org.uk  Thu Jul  5 12:19:58 2007
+X-VM-v5-Data: ([nil nil nil nil nil nil nil nil nil]
+	["4172" "Thursday" "5" "July" "2007" "12:19:58" "+0100" "Mike Taylor" "mike@indexdata.com" nil "94" "IRSpy acceptance" "^From:" nil nil "7" nil nil nil nil nil nil nil nil nil]
+	nil)
+Return-Path: <mike@miketaylor.org.uk>
+X-Original-To: mike
+Delivered-To: mike@miketaylor.org.uk
+Received: by localhost.localdomain (Postfix, from userid 1000)
+	id DF6BD4D6420C; Thu,  5 Jul 2007 12:19:58 +0100 (BST)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Message-ID: <18060.54238.847561.812058@localhost.localdomain>
+In-Reply-To: <468C8B58.4020800@helsinki.fi>
+References: <468C8B58.4020800@helsinki.fi>
+X-Mailer: VM 7.19 under Emacs 21.4.1
+From: Mike Taylor <mike@indexdata.com>
+To: Juha Hakala <juha.hakala@helsinki.fi>
+Cc: "Per M. Hansen" <perhans@indexdata.dk>,
+    sondberg@indexdata.com,
+    Sebastian Hammer <quinn@indexdata.com>,
+    Ere Maijala <ere.maijala@helsinki.fi>,
+    Kristiina Hormia <kristiina.hormia@helsinki.fi>,
+    Annu Jauhiainen <annu.jauhiainen@helsinki.fi>,
+    Pertti Rekala <pertti.rekala@helsinki.fi>,
+    =?ISO-8859-1?Q?Tuula_Haapam?=
+ =?ISO-8859-1?Q?=E4ki?= <tuula.haapamaki@helsinki.fi>,
+    Kai Ekholm <kai.ekholm@helsinki.fi>,
+    Adam Dickmeiss <adam@indexdata.dk>,
+    Eeva Murtomaa <eeva.murtomaa@helsinki.fi>,
+    David Dorman <dorman@indexdata.com>
+Subject: IRSpy acceptance
+Date: Thu, 5 Jul 2007 12:19:58 +0100
+
+Juha Hakala writes:
+ > Hello all,
+ > 
+ > The National Library of Finland accepts the IRSpy application,
+ > following the successful beta testing of the software in the
+ > library.
+
+Thanks, Juha, that's great news.
+
+ > Our billing address is
+ > 
+ > Helsingin yliopisto
+ > Kansalliskirjasto / Kirjastoverkkopalvelut
+ > PL 7138
+ > 01051 LASKUT
+ > 
+ > Please mention responsibility area code (in Finnish,
+ > vastuualuekoodi) 98123.
+
+Per will deal with this.
+
+ > I-D is most welcome to announce availability of this application to
+ > the general public. Please mention in the announcement that the
+ > development effort was a cooperative project between I-D and the
+ > national library of Finland. Since I will start vacation next
+ > Monday I will not be able to review the text unless it is sent
+ > tomorrow.
+
+Thanks, we'll make an announcement.
+
+ > IRSpy is the first implementation of the NISO draft standard
+ > Z39.92-200X. As such it makes it possible to complete the
+ > standardization process. My intention as the chair of the NISO
+ > working group developing the standard is to publish the second
+ > draft of it in August. As far as I know, development of IRSpy did
+ > not reveal any problems in the present draft, so the second one can
+ > be published unaltered.
+
+Ah, that's very good news.  The SRU people, at the their recent
+meeting, didn't know the status of Z39.92, and were worried that it
+might be dead.  See the notes at:
+    http://www.loc.gov:8081/standards/sru/june2007meeting-report.html#zeerex
+It might be good to get an announcement out to counter that
+perception.
+
+ > We will discuss with Ex Libris Group and WebClarity Software
+ > Inc. about incorporation of IRSpy into, respectively, MetaLib and
+ > BookWhere.
+
+Exciting!
+
+ > The national library has no intention to host IRSpy ourselves in
+ > the short run, and we will never try to run a global site, mainly
+ > due to considerable systems expert time that would require.
+ > Moreover, the present IRSpy database which is apparently inherited
+ > from your previous ZSpy software) is out of date - many databases
+ > no longer are available in the same address where they were located
+ > a few years back - and would require a thorough manual revision.
+ > 
+ > A decentralized network of national/regional IRSpy installations,
+ > each concentrating on its geographical area, is the only truly
+ > feasible model for hosting the tool (this does not rule out the
+ > possibility of harvesting the Z39.92 data into a physical union
+ > catalogue).
+
+Well, whatever you can get funding for :-)
+
+ > One issue we will most likely discuss in the Autumn here in the
+ > national library is whether maintenance of a national database of
+ > Information retrieval service descriptions using Z39.92 (and IRSpy)
+ > will fit within the national bibliographic responsibilities of the
+ > national library. As far as I am concerned, it is more important to
+ > describe how for instance the national bibliography database can be
+ > used for search and retrieval (and to share this data with other
+ > libraries) than catalogue manually some obscure grey Web
+ > literature. Google can do the latter more efficiently than we, but
+ > Google can not and will not be able to deal efficiently with (a
+ > large number of) databases. Due to Z39.92 and IRSpy the national
+ > libraries will have an option to discuss how to deal with databases
+ > within the national bibliographic context. Without a standard to
+ > steer creation and exchange of IR service descriptions and an
+ > efficient tool for creating those descriptions trying to extend
+ > national bibliographic activities to "deep Web" would not have been
+ > possible. With the web archives were are already dealing with the
+ > uppermost level of the Web, and with Z39.92 and IRSpy we have a
+ > chance to gain access to the rest of it.
+
+Agreed.
+
+ _/|_	 ___________________________________________________________________
+/o ) \/  Mike Taylor    <mike@indexdata.com>    http://www.miketaylor.org.uk
+)_v__/\  "I can't figure out the relationship between Nancy, the stuffed
+	 owl in the garage, and the plates" -- Matt Wedel, in a context
+	 that made some kind of sense at the time.
+
