@@ -51,8 +51,11 @@ web/htdocs/admin/check.html
 web/htdocs/admin/delete.html
 web/htdocs/admin/edit.html
 web/htdocs/admin/index.html
+web/htdocs/admin/upload.html
+web/htdocs/ap.html
 web/htdocs/beach.jpeg
 web/htdocs/chrome/layout.mc
+web/htdocs/details/ap.mc
 web/htdocs/details/check.mc
 web/htdocs/details/country-list.mc
 web/htdocs/details/delete.mc
@@ -66,6 +69,7 @@ web/htdocs/details/home.mc
 web/htdocs/details/libtype-list.mc
 web/htdocs/details/software.mc
 web/htdocs/details/stats.mc
+web/htdocs/details/upload.mc
 web/htdocs/doc.html
 web/htdocs/favicon.ico
 web/htdocs/find.html
