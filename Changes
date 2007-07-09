@@ -1,8 +1,8 @@
-$Id: Changes,v 1.17 2007-07-09 09:41:28 mike Exp $
+$Id: Changes,v 1.18 2007-07-09 09:42:10 mike Exp $
 
 Revision history for Perl extension ZOOM::IRSpy.
 
-1.00  Mon Jul  9 10:40:38 BST 2007
+1.00  Mon Jul  9 10:42:06 BST 2007
 	- First public release.
 	- Many, many changes since 0.02.
 
