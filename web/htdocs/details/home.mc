@@ -1,4 +1,4 @@
-%# $Id: home.mc,v 1.9 2007-04-18 12:05:45 mike Exp $
+%# $Id: home.mc,v 1.10 2007-07-13 16:07:45 mike Exp $
      <div class="essay">
      <h2>The Z39.50 Target Directory</h2>
      <p>
@@ -21,7 +21,8 @@
       is not represented in our directory, please add it or send us
       email with the details. Also, if you should happen to find an
       error in our data or have additional information, please don't
-      hesitate to contact us so that we can make the target
+      hesitate to <a href="mailto:irspy@indexdata.com">contact us</a>
+      so that we can make the target
       information as accurate and comprehensive as possible.
      </p>
      <p>

@@ -1,4 +1,4 @@
-%# $Id: layout.mc,v 1.35 2007-06-28 13:36:46 mike Exp $
+%# $Id: layout.mc,v 1.36 2007-07-13 16:07:52 mike Exp $
 <%args>
 $debug => undef
 $title
@@ -154,7 +154,11 @@ my $id = utf8param($r, "id");
    <small>
     Powered by <a style="text-decoration: none"
 	href="http://indexdata.com/"
-	>Index&nbsp;Data</a>
+	>Index&nbsp;Data</a>.
+    <br/>
+    Report errors and omissions to <a style="text-decoration: none"
+	href="mailto:irspy@indexdata.com"
+	            >irspy@indexdata.com</a>
    </small>
   </div>
  </body>
