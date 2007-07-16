@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.86 2007-07-09 09:41:44 mike Exp $
+# $Id: IRSpy.pm,v 1.87 2007-07-16 11:54:17 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -21,7 +21,7 @@ use ZOOM::IRSpy::Utils qw(cql_target render_record
 			  irspy_record2identifier);
 
 our @ISA = qw();
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 our $irspy_to_zeerex_xsl = dirname(__FILE__) . '/../../xsl/irspy2zeerex.xsl';
 
 
