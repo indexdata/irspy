@@ -1,4 +1,4 @@
-%# $Id: edit.mc,v 1.34 2007-05-03 12:54:18 mike Exp $
+%# $Id: edit.mc,v 1.35 2007-07-16 11:56:14 mike Exp $
 <%args>
 $op
 $id => undef ### should be extracted using utf8param()
@@ -346,7 +346,14 @@ if ($update && @changedFields) {
   Changed <% $nchanges %> field<% $nchanges == 1 ? "" : "s" %>:
   <% join(", ", map { xml_encode($_->[2]) } @changedFields) %>.
  </p>
+% return if $op eq "new";
 % }
+ <p>
+  Although anyone is allowed to add a new target, please note that
+  <b>you will not be able to edit the newly added target unless you
+  have administrator privileges</b>.  So please be sure that the
+  details are correct before submitting them.
+ </p>
  <form method="get" action="">
   <table class="fullrecord" border="1" cellspacing="0" cellpadding="5" width="100%">
 <%perl>
