@@ -1,4 +1,4 @@
-%# $Id: found.mc,v 1.31 2007-07-04 20:54:11 mike Exp $
+%# $Id: found.mc,v 1.32 2007-07-16 14:55:21 mike Exp $
 <%once>
 sub print_navlink {
     my($params, $cond, $caption, $skip) = @_;
@@ -116,7 +116,7 @@ print_navlink(\%params, $last < $n, "Next", $skip+$count);
       <tr class="thleft">
        <th>#</th>
        <th>Title</th>
-       <th>Reliability <& /help/link.mc, help => "info/reliability" &>
+       <th>Host Connection Reliability <& /help/link.mc, help => "info/reliability" &>
        </th>
        <th>Host</th>
        <th>Port</th>
