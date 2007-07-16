@@ -1,4 +1,4 @@
-%# $Id: layout.mc,v 1.36 2007-07-13 16:07:52 mike Exp $
+%# $Id: layout.mc,v 1.37 2007-07-16 11:55:57 mike Exp $
 <%args>
 $debug => undef
 $title
@@ -65,8 +65,8 @@ use ZOOM::IRSpy::Utils qw(utf8param isodate xml_encode cql_target cql_quote
       <a href="/"><b>Home</b></a><br/>
       <a href="/admin/all.html">Test&nbsp;all&nbsp;targets</a><br/>
       <a href="/find.html">Find a target</a><br/>
-      <a href="/admin/edit.html?op=new">Add a target</a><br/>
-      <a href="/admin/upload.html">Upload a target</a><br/>
+      <a href="/add.html">Add a target</a><br/>
+      <a href="/upload.html">Upload a target</a><br/>
       <a href="/stats.html">Statistics</a><br/>
      </p>
      <p>
