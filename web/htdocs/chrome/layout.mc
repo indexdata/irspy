@@ -1,4 +1,4 @@
-%# $Id: layout.mc,v 1.37 2007-07-16 11:55:57 mike Exp $
+%# $Id: layout.mc,v 1.38 2007-07-17 13:07:57 mike Exp $
 <%args>
 $debug => undef
 $title
@@ -15,6 +15,7 @@ use ZOOM::IRSpy::Utils qw(utf8param isodate xml_encode cql_target cql_quote
 			  bib1_access_point);
 </%once>
 % $r->content_type("text/html; charset=utf-8");
+% my $text = $m->scomp($component, %ARGS);
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html 
      PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -144,7 +145,7 @@ my $id = utf8param($r, "id");
     </td>
     <td class="spacer">&nbsp;</td>
     <td valign="top">
-<& $component, %ARGS &>
+% print $text;
     </td>
    </tr>
   </table>
