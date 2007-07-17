@@ -1,4 +1,4 @@
-%# $Id: edit.mc,v 1.35 2007-07-16 11:56:14 mike Exp $
+%# $Id: edit.mc,v 1.36 2007-07-17 13:04:45 mike Exp $
 <%args>
 $op
 $id => undef ### should be extracted using utf8param()
@@ -40,6 +40,15 @@ my $protocol = utf8param($r, "protocol");
 my $host = utf8param($r, "host");
 my $port = utf8param($r, "port");
 my $dbname = utf8param($r, "dbname");
+
+if ((!defined $port || $port eq "") &&
+    (defined $protocol && $protocol ne "")) {
+    # Port-guessing based on defaults for each protocol
+    $port = $protocol eq "Z39.50" ? 210 : 80;
+    warn "guessed port $port";
+    $r->param(port => $port);
+}
+
 my $newid;
 if (defined $protocol && $protocol ne "" &&
     defined $host && $host ne "" &&
