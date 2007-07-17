@@ -1,4 +1,4 @@
-$Id: Changes,v 1.19 2007-07-16 11:53:58 mike Exp $
+$Id: Changes,v 1.20 2007-07-17 13:08:41 mike Exp $
 
 Revision history for Perl extension ZOOM::IRSpy.
 
@@ -8,6 +8,8 @@ Revision history for Perl extension ZOOM::IRSpy.
 	  to edit the newly added records, since there is no simple
 	  way to know that the person editing a record is the same
 	  person who first added it.
+	- When adding new records via the Web UI, the port number is
+	  guessed from the protocol if not explicitly stated.
 
 1.00  Mon Jul  9 10:42:06 BST 2007
 	- First public release.
