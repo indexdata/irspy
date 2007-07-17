@@ -1,8 +1,16 @@
-%# $Id: upload.mc,v 1.1 2007-06-28 13:37:11 mike Exp $
+%# $Id: upload.mc,v 1.2 2007-07-17 14:31:54 mike Exp $
 <%args>
 $filename => undef
 </%args>
 % if (!defined $filename) {
+   <p>
+    Please note that this form expects a
+    <a href="http://explain.z3950.org/"
+	>ZeeRex record</a>
+    only, not an entire
+    <a href="http://www.loc.gov/standards/sru/explain/"
+	>SRU explainResponse</a>.
+   <p>
    <form method="post" action=""
 	    enctype="multipart/form-data">
     <p>
