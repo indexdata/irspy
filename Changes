@@ -1,4 +1,4 @@
-$Id: Changes,v 1.20 2007-07-17 13:08:41 mike Exp $
+$Id: Changes,v 1.21 2007-07-17 14:29:56 mike Exp $
 
 Revision history for Perl extension ZOOM::IRSpy.
 
@@ -10,6 +10,8 @@ Revision history for Perl extension ZOOM::IRSpy.
 	  person who first added it.
 	- When adding new records via the Web UI, the port number is
 	  guessed from the protocol if not explicitly stated.
+	- Note that Web UI's ZeeRex upload expects just the ZeeRex
+	  record, not an entire SRU explainResponse.
 
 1.00  Mon Jul  9 10:42:06 BST 2007
 	- First public release.
