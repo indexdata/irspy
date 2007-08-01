@@ -1,4 +1,4 @@
-# $Id: Named.pm,v 1.5 2007-03-15 11:38:53 mike Exp $
+# $Id: Named.pm,v 1.6 2007-08-01 15:11:20 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -86,7 +86,7 @@ sub completed_search_b {
             $error = 'hitcount';
         }
 
-        if ($record ne $test_args->{'record_a'}) {
+        if (!defined $record || $record ne $test_args->{'record_a'}) {
             $conn->log('irspy_test', 'Named result set not supported: ',
                                      'Mis-matching records');
             $error = 'record';
