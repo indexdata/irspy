@@ -1,4 +1,4 @@
-# $Id: Record.pm,v 1.26 2007-08-02 11:27:32 mike Exp $
+# $Id: Record.pm,v 1.27 2007-08-02 11:28:38 mike Exp $
 
 package ZOOM::IRSpy::Record;
 ### I don't think there's any reason for this to be separate from
@@ -147,7 +147,6 @@ sub _half_decent_appendWellBalancedChunk {
 
     if (1) {
 	$frag =~ s,>, xmlns:irspy="$ZOOM::IRSpy::Utils::IRSPY_NS">,;
-	warn "calling appendWellBalancedChunk($node)";
 	$node->appendWellBalancedChunk($frag);
 	return;
     }
