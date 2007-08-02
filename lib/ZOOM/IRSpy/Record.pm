@@ -1,4 +1,4 @@
-# $Id: Record.pm,v 1.25 2007-05-04 12:09:24 mike Exp $
+# $Id: Record.pm,v 1.26 2007-08-02 11:27:32 mike Exp $
 
 package ZOOM::IRSpy::Record;
 ### I don't think there's any reason for this to be separate from
@@ -82,7 +82,8 @@ sub append_entry {
 	# fully general version would work its way through each
 	# component of the XPath, but for now we just treat it as a
 	# single chunk to go inside the top-level node.
-	$this->_half_decent_appendWellBalancedChunk($xc, "<$xpath></$xpath>");
+	$this->_half_decent_appendWellBalancedChunk($xc->getContextNode(),
+						    "<$xpath></$xpath>");
 	@nodes = $xc->findnodes($xpath);
 	die("still no matches for '$xpath' after creating: can't append")
 	    if @nodes == 0;
@@ -146,6 +147,7 @@ sub _half_decent_appendWellBalancedChunk {
 
     if (1) {
 	$frag =~ s,>, xmlns:irspy="$ZOOM::IRSpy::Utils::IRSPY_NS">,;
+	warn "calling appendWellBalancedChunk($node)";
 	$node->appendWellBalancedChunk($frag);
 	return;
     }
