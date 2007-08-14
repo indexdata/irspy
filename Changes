@@ -1,6 +1,10 @@
-$Id: Changes,v 1.21 2007-07-17 14:29:56 mike Exp $
+$Id: Changes,v 1.22 2007-08-14 10:17:55 mike Exp $
 
 Revision history for Perl extension ZOOM::IRSpy.
+
+1.02  [IN PROGRESS]
+	- Enhance setrlimit program so that it can set maximum
+	  address-space size as well as number of file descriptors.
 
 1.01  Mon Jul 16 12:51:19 BST 2007
 	- Web UI pages to add or upload a new target are now publicly
