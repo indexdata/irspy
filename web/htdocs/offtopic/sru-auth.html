@@ -1,0 +1,29 @@
+%# $Id: sru-auth.html,v 1.1 2007-08-21 09:48:41 mike Exp $
+<%doc>
+	In order to test the authentication feature of Simple2ZOOM, we
+	need an authenticator script, accessible via HTTP.  The
+	simplest way to provide that is as a simple bit of HTML::Mason
+	running under the conveniently available IRSpy distribution.
+	Since this is only for testing, a hardwired user register is
+	good enough.
+</%doc>
+<%args>
+$user => undef
+$pass => undef
+</%args>
+<%once>
+our %register = (
+    mike => "fish",
+    simon => "frog 123",
+    admin => "Tom&jErry",
+);
+</%once>
+<%perl>
+if (defined $user && defined $pass && $register{$user} eq $pass) {
+    print "OK\n";
+    return;
+} else {
+    $m->clear_buffer;
+    $m->abort(401); # "Authorization Required"
+}
+</%perl>
