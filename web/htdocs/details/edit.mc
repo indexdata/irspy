@@ -1,4 +1,4 @@
-%# $Id: edit.mc,v 1.36 2007-07-17 13:04:45 mike Exp $
+%# $Id: edit.mc,v 1.37 2007-08-23 14:29:18 mike Exp $
 <%args>
 $op
 $id => undef ### should be extracted using utf8param()
@@ -67,6 +67,14 @@ if (!defined $id) {
 	# Tried to create new record but data is insufficient
 	print qq[<p class="error">
 		Please specify protocol, host, port and database name.</p>\n];
+	undef $update;
+    } elsif ($host !~ /^\w+\.[\w.]*\w$/i) {
+	print qq[<p class="error">
+		This host name is not valid.</p>\n];
+	undef $update;
+    } elsif ($port !~ /^\d*$/i) {
+	print qq[<p class="error">
+		This port number is not valid.</p>\n];
 	undef $update;
     } else {
 	# Creating new record, all necessary data is present.  Check
