@@ -1,10 +1,16 @@
-$Id: Changes,v 1.22 2007-08-14 10:17:55 mike Exp $
+$Id: Changes,v 1.23 2007-09-18 16:58:01 mike Exp $
 
 Revision history for Perl extension ZOOM::IRSpy.
 
 1.02  [IN PROGRESS]
 	- Enhance setrlimit program so that it can set maximum
 	  address-space size as well as number of file descriptors.
+	- Add new restrict_modulo() method to restrict tests to those
+	  targets whose ID hashes to a number satisfying
+		hashval mod n == i
+	- Add new command-line options -m <n>,<i> to invoke
+	  restrict_modulo().  This enables us to set up cron jobs to
+	  test one seventh of the targets each night.
 
 1.01  Mon Jul 16 12:51:19 BST 2007
 	- Web UI pages to add or upload a new target are now publicly
