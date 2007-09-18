@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: irspy.pl,v 1.28 2007-05-09 11:07:03 mike Exp $
+# $Id: irspy.pl,v 1.29 2007-09-18 16:58:18 mike Exp $
 #
 # Run like this:
 #	YAZ_LOG=irspy,irspy_test IRSPY_SAVE_XML=1 perl -I../lib irspy.pl -t Quick localhost:8018/IR-Explain---1 Z39.50:amicus.oszk.hu:1616/ANY
@@ -34,7 +34,7 @@ $SIG{__DIE__} = sub {
 };
 
 my %opts;
-if (!getopts('wt:af:n:', \%opts) || @ARGV < 1) {
+if (!getopts('wt:af:n:m:', \%opts) || @ARGV < 1) {
     print STDERR "\
 Usage $0: [options] <IRSpy-database> [<target> ...]
 	-w		Use ZOOM::IRSpy::Web subclass
@@ -42,6 +42,7 @@ Usage $0: [options] <IRSpy-database> [<target> ...]
 	-a		Test all targets (slow!)
 	-f <query>	Test targets found by the specified query
 	-n <number>	Number of connection to keep in active set
+	-m <n>,<i>	Only test targets whose hash mod <n> is <i>
 ";
     exit 1;
 }
@@ -57,7 +58,16 @@ if (@targets) {
     $spy->find_targets($opts{f});
 } elsif (!$opts{a}) {
     print STDERR "$0: specify -a, -f <query> or list of targets\n";
-    exit 1;
+    exit 2;
+}
+
+if (defined $opts{m}) {
+    my($n, $i) = ($opts{m} =~ /^(\d+),(\d+)$/);
+    if (!defined $n) {
+	print STDERR "$0: argument to -m must be of the form <n>,<i>\n";
+	exit 3;
+    }
+    $spy->restrict_modulo($n, $i);
 }
 
 $spy->initialise($opts{t});
