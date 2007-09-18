@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.87 2007-07-16 11:54:17 mike Exp $
+# $Id: IRSpy.pm,v 1.88 2007-09-18 16:57:37 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -87,6 +87,8 @@ sub new {
     my $this = bless {
 	conn => $conn,
 	query => "cql.allRecords=1", # unless overridden
+	modn => undef,		# Filled in by restrict_modulo()
+	modi => undef,		# Filled in by restrict_modulo()
 	targets => undef,	# Filled in later if targets() is
 				# called; used only to keep state from
 				# targets() until initialise() is
@@ -96,6 +98,7 @@ sub new {
         libxml => $libxml,
         irspy_to_zeerex_style => $irspy_to_zeerex_style,
 	test => undef,		# Filled in by initialise()
+	timeout => undef,	# Filled in by initialise()
 	tests => undef,		# Tree of tests to be executed
 	activeSetSize => defined $activeSetSize ? $activeSetSize : 10,
     }, $class;
@@ -163,6 +166,15 @@ sub _parse_target_string {
 }
 
 
+sub restrict_modulo {
+    my $this = shift();
+    my($n, $i) = @_;
+
+    $this->{modn} = $n;
+    $this->{modi} = $i;
+}
+
+
 # Records must be fetched for all records satisfying $this->{query} If
 # $this->{targets} is already set (i.e. a specific list of targets to
 # check was specified by a call to targets()), then new, empty records
@@ -179,7 +191,7 @@ sub initialise {
     $this->{tree}->resolve();
     #$this->{tree}->print(0);
 
-    my $timeout = "ZOOM::IRSpy::Test::$tname"->timeout();
+    $this->{timeout} = "ZOOM::IRSpy::Test::$tname"->timeout();
 
     my @targets;
     my $targets = $this->{targets};
@@ -200,16 +212,49 @@ sub initialise {
     my $n = $this->{activeSetSize};
     $n = @targets if $n == 0 || $n > @targets;
 
-    my @connections;
-    foreach my $i (1..$n) {
-	push @connections, create ZOOM::IRSpy::Connection($this,
-							  shift @targets,
-							  async => 1,
-							  timeout => $timeout);
+    $this->{queue} = \@targets;
+    $this->{connections} = [];
+    while (@{ $this->{connections} } < $n) {
+	my $conn = $this->_next_connection();
+	last if !defined $conn;
+	push @{ $this->{connections} }, $conn;
+    }
+}
+
+
+sub _next_connection {
+    my $this = shift();
+
+    my $target;
+    my $n = $this->{modn};
+    my $i = $this->{modi};
+    if (!defined $n) {
+	$target = shift @{ $this->{queue} };
+    } else {
+	while (1) {
+	    $target = shift @{ $this->{queue} };
+	    return undef if !defined $target;
+	    my $h = _hash($target);
+	    my $hmodn = $h % $n;
+	    last if $hmodn == $i;
+	    $this->log("irspy", "'$target' hash $h % $n = $hmodn != $i");
+	}
     }
 
-    $this->{connections} = \@connections;
-    $this->{queue} = \@targets;
+    return create ZOOM::IRSpy::Connection($this, $target, async => 1,
+					  timeout => $this->{timeout});
+}
+
+
+sub _hash {
+    my($target) = @_;
+
+    my $n = 0;
+    foreach my $s (split //, $target) {
+	$n += ord($s);
+    }
+
+    return $n;
 }
 
 
@@ -354,7 +399,7 @@ sub check {
     my $this = shift();
 
     my $topname = $this->{tree}->name();
-    my $timeout = "ZOOM::IRSpy::Test::$topname"->timeout();
+    my $timeout = $this->{timeout};
     $this->log("irspy", "beginnning with test '$topname' (timeout $timeout)");
 
     my $nskipped = 0;
@@ -386,15 +431,13 @@ sub check {
 			$conn->log("irspy", "has no more tests: removing");
 			$this->_rewrite_record($conn);
 			$conn->option(rewrote_record => 1);
-			if (@{ $this->{queue} } == 0) {
-			    # Do not destroy: we need this for later sanity checks
+			my $newconn = $this->_next_connection();
+			if (!defined $newconn) {
+			    # Do not destroy: needed for later sanity checks
 			    splice @conn, $i0, 1;
 			} else {
 			    $conn->destroy();
-			    $conn[$i0] = create
-				ZOOM::IRSpy::Connection($this,
-					shift @{ $this->{queue} }, async => 1,
-							timeout => $timeout);
+			    $conn[$i0] = $newconn;
 			    $conn[$i0]->option(current_test_address => "");
 			    $conn[$i0]->log("irspy", "entering active pool - ",
 					    scalar(@{ $this->{queue} }),
