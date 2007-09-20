@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.35 2007-06-28 13:59:31 sondberg Exp $
+# $Id: Utils.pm,v 1.36 2007-09-20 10:12:19 mike Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -204,6 +204,9 @@ sub irspy_identifier2target {
 
 sub _irspy_identifier2target {
     my($id) = @_;
+
+    confess "_irspy_identifier2target(): id is undefined"
+	if !defined $id;
 
     my($protocol, $target) = ($id =~ /(.*?):(.*)/);
     if (uc($protocol) eq "Z39.50") {
