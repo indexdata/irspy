@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.88 2007-09-18 16:57:37 mike Exp $
+# $Id: IRSpy.pm,v 1.89 2007-09-20 10:14:37 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -230,6 +230,7 @@ sub _next_connection {
     my $i = $this->{modi};
     if (!defined $n) {
 	$target = shift @{ $this->{queue} };
+	return undef if !defined $target;
     } else {
 	while (1) {
 	    $target = shift @{ $this->{queue} };
@@ -241,6 +242,7 @@ sub _next_connection {
 	}
     }
 
+    die "oops -- target is undefined" if !defined $target;
     return create ZOOM::IRSpy::Connection($this, $target, async => 1,
 					  timeout => $this->{timeout});
 }
