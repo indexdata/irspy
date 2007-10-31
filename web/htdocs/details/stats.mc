@@ -1,4 +1,4 @@
-%# $Id: stats.mc,v 1.7 2007-10-31 16:42:26 mike Exp $
+%# $Id: stats.mc,v 1.8 2007-10-31 16:45:20 mike Exp $
 <%doc>
 Here are the headings in the Z-Spy version:
 	The ten most commonly supported Bib-1 Use attributes
@@ -88,7 +88,7 @@ foreach my $i (1..$n) {
 </%perl>
       <tr>
        <td><% $i %></td>
-       <td><% xml_encode($key, "HUH?") %></td>
+       <td><% xml_encode(substr($key, 0, 54), "HUH?") %></td>
 % if (defined $col3) {
        <td><% xml_encode(&$col3($key), "HUH2?") %></td>
 % }
