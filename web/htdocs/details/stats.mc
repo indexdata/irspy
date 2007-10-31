@@ -1,4 +1,4 @@
-%# $Id: stats.mc,v 1.6 2007-01-24 09:28:02 mike Exp $
+%# $Id: stats.mc,v 1.7 2007-10-31 16:42:26 mike Exp $
 <%doc>
 Here are the headings in the Z-Spy version:
 	The ten most commonly supported Bib-1 Use attributes
@@ -55,6 +55,9 @@ if (!defined $stats || $reload) {
 <& table, stats => $stats, data => "domains",
 	title => "Top Domains",
 	headings => [ "Top Domain"] &>
+<& table, stats => $stats, data => "implementation",
+	title => "Implementation",
+	headings => [ "Name" ] &>
 %#
 %#
 <%def table>
