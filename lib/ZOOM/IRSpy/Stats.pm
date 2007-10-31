@@ -1,4 +1,4 @@
-# $Id: Stats.pm,v 1.6 2007-01-24 09:28:02 mike Exp $
+# $Id: Stats.pm,v 1.7 2007-10-31 16:42:13 mike Exp $
 
 package ZOOM::IRSpy::Stats;
 
@@ -137,7 +137,13 @@ sub _gather_stats {
 	$this->{domains}->{$host}++;
 
 	# Implementation
-	### Requires XSLT fix
+	foreach my $node ($xc->findnodes('i:status/i:serverImplementationName/@value')) {
+	    $this->{implementation}->{$node->findvalue(".")}++;
+	    last; # This is because many of the records are still
+	          # polluted with multiple implementationName elements
+	          # from back then XSLT stylesheet that generated
+	          # ZeeRex records was wrong.
+	}
     }
 }
 
@@ -194,6 +200,14 @@ sub print {
 
     print "\nTOP-LEVEL DOMAINS\n";
     $hr = $this->{domains};
+    foreach my $key (sort { $hr->{$b} <=> $hr->{$a} 
+			    || $a cmp $b } keys %$hr) {
+	print sprintf("%-26s%5d (%d%%)\n",
+		      $key, $hr->{$key}, 100*$hr->{$key}/$this->{n});
+    }
+
+    print "\nIMPLEMENTATIONS\n";
+    $hr = $this->{implementation};
     foreach my $key (sort { $hr->{$b} <=> $hr->{$a} 
 			    || $a cmp $b } keys %$hr) {
 	print sprintf("%-26s%5d (%d%%)\n",
