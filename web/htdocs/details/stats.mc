@@ -1,4 +1,4 @@
-%# $Id: stats.mc,v 1.8 2007-10-31 16:45:20 mike Exp $
+%# $Id: stats.mc,v 1.9 2007-11-02 12:49:28 mike Exp $
 <%doc>
 Here are the headings in the Z-Spy version:
 	The ten most commonly supported Bib-1 Use attributes
@@ -57,7 +57,7 @@ if (!defined $stats || $reload) {
 	headings => [ "Top Domain"] &>
 <& table, stats => $stats, data => "implementation",
 	title => "Implementation",
-	headings => [ "Name" ] &>
+	headings => [ "Name" ], maxrows => 20 &>
 %#
 %#
 <%def table>
@@ -65,6 +65,7 @@ if (!defined $stats || $reload) {
 $stats
 $data
 $title
+$maxrows => 10
 @headings
 $col3 => undef
 </%args>
@@ -82,7 +83,7 @@ $col3 => undef
 my $hr;
 $hr = $stats->{$data};
 my @sorted = sort { $hr->{$b} <=> $hr->{$a} || $a <=> $b } keys %$hr;
-my $n = @sorted; $n = 10 if @sorted > 10;
+my $n = @sorted; $n = $maxrows if @sorted > 10;
 foreach my $i (1..$n) {
     my $key = $sorted[$i-1];
 </%perl>
