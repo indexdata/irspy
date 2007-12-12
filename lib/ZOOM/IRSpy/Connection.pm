@@ -1,4 +1,4 @@
-# $Id: Connection.pm,v 1.16 2007-05-01 16:30:17 mike Exp $
+# $Id: Connection.pm,v 1.17 2007-12-12 10:45:07 mike Exp $
 
 package ZOOM::IRSpy::Connection;
 
@@ -50,6 +50,10 @@ sub create {
     my $rs = $irspy->{conn}->search(new ZOOM::Query::CQL($query));
     my $n = $rs->size();
     $this->log("irspy", "query '$query' found $n records");
+    ### More than 1 hit is always an error and indicates duplicate
+    #   records in the database; no hits is fine for a new target
+    #   being probed for the first time, but not if the connection is
+    #   being created as part of an "all known targets" scan.
     my $zeerex;
     $zeerex = render_record($rs, 0, "zeerex") if $n > 0;
     $this->{record} = new ZOOM::IRSpy::Record($this, $target, $zeerex);
