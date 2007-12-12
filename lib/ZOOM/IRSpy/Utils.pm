@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.36 2007-09-20 10:12:19 mike Exp $
+# $Id: Utils.pm,v 1.37 2007-12-12 11:02:37 mike Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -217,7 +217,7 @@ sub _irspy_identifier2target {
 	return "sru=srw,http:$target";
     }
 
-    warn "unrecognised protocol '$protocol' in ID $id";
+    warn "_irspy_identifier2target($id): unrecognised protocol '$protocol'";
     return $target;
 }
 
