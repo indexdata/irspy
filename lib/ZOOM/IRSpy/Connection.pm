@@ -1,4 +1,4 @@
-# $Id: Connection.pm,v 1.17 2007-12-12 10:45:07 mike Exp $
+# $Id: Connection.pm,v 1.18 2007-12-12 10:47:21 mike Exp $
 
 package ZOOM::IRSpy::Connection;
 
@@ -49,7 +49,7 @@ sub create {
     my $query = cql_target($id);
     my $rs = $irspy->{conn}->search(new ZOOM::Query::CQL($query));
     my $n = $rs->size();
-    $this->log("irspy", "query '$query' found $n records");
+    $this->log("irspy", "query '$query' found $n record", $n==1 ? "" : "s");
     ### More than 1 hit is always an error and indicates duplicate
     #   records in the database; no hits is fine for a new target
     #   being probed for the first time, but not if the connection is
