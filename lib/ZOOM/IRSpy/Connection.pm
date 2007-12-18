@@ -1,4 +1,4 @@
-# $Id: Connection.pm,v 1.18 2007-12-12 10:47:21 mike Exp $
+# $Id: Connection.pm,v 1.19 2007-12-18 11:59:42 mike Exp $
 
 package ZOOM::IRSpy::Connection;
 
@@ -47,7 +47,12 @@ sub create {
     $this->{tasks} = [];
 
     my $query = cql_target($id);
-    my $rs = $irspy->{conn}->search(new ZOOM::Query::CQL($query));
+    my $rs;
+    eval {
+	$rs = $irspy->{conn}->search(new ZOOM::Query::CQL($query));
+    }; if ($@) {
+	die "registry search for record '$id' had error: '$@'";
+    }
     my $n = $rs->size();
     $this->log("irspy", "query '$query' found $n record", $n==1 ? "" : "s");
     ### More than 1 hit is always an error and indicates duplicate
