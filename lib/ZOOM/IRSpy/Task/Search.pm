@@ -1,4 +1,4 @@
-# $Id: Search.pm,v 1.15 2007-05-01 16:30:42 mike Exp $
+# $Id: Search.pm,v 1.16 2007-12-18 11:59:42 mike Exp $
 
 package ZOOM::IRSpy::Task::Search;
 
@@ -66,7 +66,12 @@ sub run {
     #	APPLICATION'S RESPONSIBILITY to ensure that the callback
     #	invoked on success OR FAILURE makes arrangements for the set
     #	to be destroyed.
-    $this->{rs} = $conn->search($query);
+    eval {
+	$this->{rs} = $conn->search($query);
+    }; if ($@) {
+	die "remote search '$query' had error: '$@'";
+    }
+
     warn "no ZOOM-C level events queued by $this"
 	if $conn->is_idle();
 
