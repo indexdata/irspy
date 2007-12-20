@@ -1,4 +1,4 @@
-# $Id: Connection.pm,v 1.20 2007-12-20 12:31:09 mike Exp $
+# $Id: Connection.pm,v 1.21 2007-12-20 12:35:01 mike Exp $
 
 package ZOOM::IRSpy::Connection;
 
@@ -54,7 +54,7 @@ sub create {
 	# This should be a "can't happen", but junk entries such as
 	#	//lucasportal.info/blogs/payday-usa">'</a>night:G<a href="http://lucasportal.info/blogs/payday-usa">'</a>night/Illepeliz
 	# (yes, really) yield BIB-1 diagnostic 108 "Malformed query"
-	warn "registry search for record '$id' had error: '$@'";
+	warn "registry search for record '$id' had error: '$@' -- skipping";
 	return undef;
     }
     my $n = $rs->size();
