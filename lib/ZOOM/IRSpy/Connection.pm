@@ -1,4 +1,4 @@
-# $Id: Connection.pm,v 1.19 2007-12-18 11:59:42 mike Exp $
+# $Id: Connection.pm,v 1.20 2007-12-20 12:31:09 mike Exp $
 
 package ZOOM::IRSpy::Connection;
 
@@ -51,7 +51,11 @@ sub create {
     eval {
 	$rs = $irspy->{conn}->search(new ZOOM::Query::CQL($query));
     }; if ($@) {
-	die "registry search for record '$id' had error: '$@'";
+	# This should be a "can't happen", but junk entries such as
+	#	//lucasportal.info/blogs/payday-usa">'</a>night:G<a href="http://lucasportal.info/blogs/payday-usa">'</a>night/Illepeliz
+	# (yes, really) yield BIB-1 diagnostic 108 "Malformed query"
+	warn "registry search for record '$id' had error: '$@'";
+	return undef;
     }
     my $n = $rs->size();
     $this->log("irspy", "query '$query' found $n record", $n==1 ? "" : "s");
