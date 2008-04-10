@@ -1,4 +1,4 @@
-/* $Id: setrlimit.c,v 1.3 2007-08-14 10:17:11 mike Exp $ */
+/* $Id: setrlimit.c,v 1.4 2008-04-10 08:13:29 mike Exp $ */
 
 /*
  * A simple wrapper program for the setrlimit(2) system call, which
@@ -99,13 +99,13 @@ int main(int argc, char **argv) {
 		new.rlim_max = n;
 	    if (verbose) {
 		if (new.rlim_cur != old.rlim_cur)
-		    printf("%s: changing soft %s from %ld to %ld\n",
-			   argv[0], types[i].name,
-			   (long) old.rlim_cur, (long) new.rlim_cur);
+		    fprintf(stderr, "%s: changing soft %s from %ld to %ld\n",
+			    argv[0], types[i].name,
+			    (long) old.rlim_cur, (long) new.rlim_cur);
 		if (new.rlim_max != old.rlim_max)
-		    printf("%s: changing hard %s from %ld to %ld\n",
-			   argv[0], types[i].name,
-			   (long) old.rlim_max, (long) new.rlim_max);
+		    fprintf(stderr, "%s: changing hard %s from %ld to %ld\n",
+			    argv[0], types[i].name,
+			    (long) old.rlim_max, (long) new.rlim_max);
 	    }
 	    if (setrlimit(types[i].value, &new) < 0) {
 		fprintf(stderr, "%s: setrlimit(%s=%ld): %s\n",
@@ -130,8 +130,8 @@ int main(int argc, char **argv) {
     }
 
     if (verbose)
-	printf("%s: user='%s', optind=%d, new argc=%d, argv[0]='%s'\n",
-	       argv[0], user, optind, argc-optind, argv[optind]);
+	fprintf(stderr, "%s: user='%s', optind=%d, new argc=%d, argv[0]='%s'\n",
+		argv[0], user, optind, argc-optind, argv[optind]);
 
     execvp(argv[optind], argv+optind);
     fprintf(stderr, "%s: execvp('%s'): %s\n",
