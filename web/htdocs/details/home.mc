@@ -1,4 +1,4 @@
-%# $Id: home.mc,v 1.10 2007-07-13 16:07:45 mike Exp $
+%# $Id: home.mc,v 1.11 2008-07-03 08:14:21 mike Exp $
      <div class="essay">
      <h2>The Z39.50 Target Directory</h2>
      <p>
@@ -7,7 +7,7 @@
 	>ANSI/NISO Z39.50 (ISO 23950)</a>
       and
       <a href="http://www.loc.gov/sru"
-	>the SRU/SRW</a>.
+	>SRU/SRW</a>
       targets known to us. The tables show the name, address, port,
       reliability info, search attributes and other data useful
       for achieving interoperability.
