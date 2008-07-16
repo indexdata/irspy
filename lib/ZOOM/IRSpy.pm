@@ -1,4 +1,4 @@
-# $Id: IRSpy.pm,v 1.89 2007-09-20 10:14:37 mike Exp $
+# $Id: IRSpy.pm,v 1.90 2008-07-16 11:42:13 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -238,7 +238,7 @@ sub _next_connection {
 	    my $h = _hash($target);
 	    my $hmodn = $h % $n;
 	    last if $hmodn == $i;
-	    $this->log("irspy", "'$target' hash $h % $n = $hmodn != $i");
+	    #$this->log("irspy", "'$target' hash $h % $n = $hmodn != $i");
 	}
     }
 
