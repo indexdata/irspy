@@ -1,4 +1,4 @@
-# $Id: Ping.pm,v 1.27 2007-05-09 11:19:36 mike Exp $
+# $Id: Ping.pm,v 1.28 2008-07-16 11:51:09 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -89,7 +89,7 @@ sub connected {
 sub not_connected {
     my($conn, $__UNUSED_task, $__UNUSED_udata, $exception) = @_;
 
-    $conn->log("irspy_test", "not connected: $exception");
+    $conn->log("irspy", "not connected: $exception");
     $conn->record()->store_result("probe",
 				  ok => 0,
 				  errcode => $exception->code(),
