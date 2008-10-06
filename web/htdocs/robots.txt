@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /full.html
+Disallow: /all.html
+Disallow: /add.html
+Disallow: /upload.html
+Disallow: /admin/
+
