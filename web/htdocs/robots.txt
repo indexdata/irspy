@@ -3,5 +3,6 @@ Disallow: /full.html
 Disallow: /all.html
 Disallow: /add.html
 Disallow: /upload.html
+Disallow: /raw.html
 Disallow: /admin/
 
