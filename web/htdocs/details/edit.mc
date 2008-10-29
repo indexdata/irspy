@@ -1,4 +1,4 @@
-%# $Id: edit.mc,v 1.38 2008-10-08 14:50:54 mike Exp $
+%# $Id: edit.mc,v 1.39 2008-10-29 11:04:44 mike Exp $
 <%args>
 $op
 $id => undef ### should be extracted using utf8param()
@@ -72,12 +72,12 @@ if (!defined $id) {
 	print qq[<p class="error">
 		This host name is not valid.</p>\n];
 	undef $update;
-	sleep 5;
+	sleep 25;
     } elsif ($port !~ /^\d*$/i) {
 	print qq[<p class="error">
 		This port number is not valid.</p>\n];
 	undef $update;
-	sleep 5;
+	sleep 25;
     } else {
 	# Creating new record, all necessary data is present.  Check
 	# that the new record is not a duplicate of an existing one.
