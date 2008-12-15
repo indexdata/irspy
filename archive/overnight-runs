@@ -109,3 +109,7 @@ Date: Sat, 13 Dec 2008 01:02:38 +0100
 2116 tests were skipped
 External
 
+Date: Sun, 14 Dec 2008 01:02:07 +0100
+01:34:14-14/12 [irspy] tcp:pepa.uk.zcu.cz:9909/ZUP01 rewriting XML record
+ZOOM error 10007 "Timeout" from diag-set 'ZOOM'
+
