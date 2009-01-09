@@ -222,3 +222,67 @@ Date: Wed, 07 Jan 2009 01:03:08 +0100
 01:52:19-07/01 [irspy] performing end-of-run sanity-checks
 2267 tests were skipped
 
+Date: Thu, 08 Jan 2009 01:48:09 +0100
+01:30:42-08/01 [irspy] starting up with database 'localhost:8018/IR-Explain---1'
+01:34:31-08/01 [irspy] adding test 'Main'
+01:36:36-08/01 [irspy] adding test 'Ping'
+01:38:43-08/01 [irspy] adding test 'Search::Main'
+01:38:53-08/01 [irspy] adding test 'Search::Bib1'
+01:38:56-08/01 [irspy] adding test 'Search::Dan1'
+01:39:00-08/01 [irspy] adding test 'Search::Boolean'
+01:39:03-08/01 [irspy] adding test 'Search::Explain'
+01:39:14-08/01 [irspy] adding test 'Search::CQL'
+01:39:23-08/01 [irspy] adding test 'Record::Main'
+01:39:27-08/01 [irspy] adding test 'Record::Fetch'
+01:39:33-08/01 [irspy] adding test 'ResultSet::Main'
+01:39:38-08/01 [irspy] adding test 'ResultSet::Named'
+ZOOM error 10007 "Timeout" from diag-set 'ZOOM'
+
+Date: Fri, 09 Jan 2009 01:03:35 +0100
+_irspy_identifier2target(210:210:210/bÃ¸ger og tidsskrifter): unrecognised protocol '210' at ../lib/ZOOM/IRSpy/Utils.pm line 220.
+01:40:48-09/01 [irspy] 210:210/bÃ¸ger og tidsskrifter query 'rec.id="210:210:210/bÃ¸ger og tidsskrifter"' found 0 records
+01:40:48-09/01 [irspy] 210:210/bÃ¸ger og tidsskrifter entering active pool - 208 targets remain in queue
+01:40:48-09/01 [irspy] 210:210/bÃ¸ger og tidsskrifter not connected: ZOOM error 10000 "Connect failed" (addinfo: "210:210/bÃ¸ger og tidsskrifter") from diag-set 'ZOOM'
+01:40:48-09/01 [irspy] 210:210/bÃ¸ger og tidsskrifter has no more tests: removing
+01:40:48-09/01 [irspy] 210:210/bÃ¸ger og tidsskrifter rewriting XML record
+01:40:49-09/01 [irspy] 210:210/bÃ¸ger og tidsskrifter rewrote XML record
+_irspy_identifier2target(#file_links[C:\akk\full\1234.txt,1,S]:#file_links[C:\akk\full\1234.txt,1,S]/FabevyBleaddy): unrecognised protocol '#file_links[C' at ../lib/ZOOM/IRSpy/Utils.pm line 220.
+01:40:49-09/01 [irspy] \akk\full\1234.txt,1,S]:#file_links[C:\akk\full\1234.txt,1,S]/FabevyBleaddy query 'rec.id="#file_links[C:\\akk\\full\\1234.txt,1,S]:#file_links[C:\\akk\\full\\1234.txt,1,S]/FabevyBleaddy"' found 0 records
+01:40:49-09/01 [irspy] \akk\full\1234.txt,1,S]:#file_links[C:\akk\full\1234.txt,1,S]/FabevyBleaddy entering active pool - 203 targets remain in queue
+01:40:50-09/01 [irspy] S]:#file_links[C:\akk\full\1234.txt,1,S¹ not connected: ZOOM error 10000 "Connect failed" (addinfo: "S]:#file_links[C:\akk\full\1234.txt,1,S¹") from diag-set 'ZOOM'
+died while trying to appendWellBalancedChunk(), probably due to bad XML:
+<irspy:probe ok="0" errmsg="Connect failed" diagset="ZOOM" errcode="10000" addinfo="S]:#file_links[C:\akk\full\1234.txt,1,S¹" xmlns:irspy="http://indexdata.com/irspy/1.0">2009-01-09T01:40:50</irspy:probe>
+Entity: line 1: parser error : Input is not proper UTF-8, indicate encoding !
+Bytes: 0xB9 0x22 0x20 0x78
+ diagset="ZOOM" errcode="10000" addinfo="S]:#file_links[C:\akk\full\1234.txt,1,S
+                                                                               ^
+ at irspy.pl line 33
+	main::__ANON__('Entity: line 1: parser error : Input is not proper UTF-8, ind...') called at /usr/lib/perl5/XML/LibXML.pm line 592
+	eval {...} called at /usr/lib/perl5/XML/LibXML.pm line 592
+	XML::LibXML::parse_xml_chunk('XML::LibXML=HASH(0x1fdc0824)', '<irspy:probe ok="0" errmsg="Connect failed" diagset="ZOOM" er...') called at /usr/lib/perl5/XML/LibXML.pm line 1209
+	XML::LibXML::Element::appendWellBalancedChunk('XML::LibXML::Element=SCALAR(0x1fdc0848)', '<irspy:probe ok="0" errmsg="Connect failed" diagset="ZOOM" er...') called at ../lib/ZOOM/IRSpy/Record.pm line 151
+	eval {...} called at ../lib/ZOOM/IRSpy/Record.pm line 150
+	ZOOM::IRSpy::Record::_half_decent_appendWellBalancedChunk('ZOOM::IRSpy::Record=HASH(0x1fdc0338)', 'XML::LibXML::Element=SCALAR(0x1fdc0848)', '<irspy:probe ok="0" errmsg="Connect failed" diagset="ZOOM" er...') called at ../lib/ZOOM/IRSpy/Record.pm line 96
+	ZOOM::IRSpy::Record::append_entry('ZOOM::IRSpy::Record=HASH(0x1fdc0338)', 'irspy:status', '<irspy:probe ok="0" errmsg="Connect failed" diagset="ZOOM" er...') called at ../lib/ZOOM/IRSpy/Record.pm line 115
+	ZOOM::IRSpy::Record::store_result('ZOOM::IRSpy::Record=HASH(0x1fdc0338)', 'probe', 'ok', 0, 'errcode', 10000, 'errmsg', 'Connect failed', 'addinfo', ...) called at ../lib/ZOOM/IRSpy/Test/Ping.pm line 93
+	ZOOM::IRSpy::Test::Ping::not_connected('ZOOM::IRSpy::Connection=HASH(0x8980868)', 'ZOOM::IRSpy::Task::Connect=HASH(0x1fdc0b00)', 'undef', '') called at ../lib/ZOOM/IRSpy.pm line 511
+	ZOOM::IRSpy::check('ZOOM::IRSpy=HASH(0x84fbb8c)') called at irspy.pl line 74 at /usr/lib/perl5/XML/LibXML.pm line 1209
+ at irspy.pl line 33
+	main::__ANON__('Entity: line 1: parser error : Input is not proper UTF-8, ind...') called at /usr/share/perl/5.8/Carp.pm line 102
+	Carp::croak('Entity: line 1: parser error : Input is not proper UTF-8, ind...') called at /usr/lib/perl5/XML/LibXML.pm line 601
+	XML::LibXML::parse_xml_chunk('XML::LibXML=HASH(0x1fdc0824)', '<irspy:probe ok="0" errmsg="Connect failed" diagset="ZOOM" er...') called at /usr/lib/perl5/XML/LibXML.pm line 1209
+	XML::LibXML::Element::appendWellBalancedChunk('XML::LibXML::Element=SCALAR(0x1fdc0848)', '<irspy:probe ok="0" errmsg="Connect failed" diagset="ZOOM" er...') called at ../lib/ZOOM/IRSpy/Record.pm line 151
+	eval {...} called at ../lib/ZOOM/IRSpy/Record.pm line 150
+	ZOOM::IRSpy::Record::_half_decent_appendWellBalancedChunk('ZOOM::IRSpy::Record=HASH(0x1fdc0338)', 'XML::LibXML::Element=SCALAR(0x1fdc0848)', '<irspy:probe ok="0" errmsg="Connect failed" diagset="ZOOM" er...') called at ../lib/ZOOM/IRSpy/Record.pm line 96
+	ZOOM::IRSpy::Record::append_entry('ZOOM::IRSpy::Record=HASH(0x1fdc0338)', 'irspy:status', '<irspy:probe ok="0" errmsg="Connect failed" diagset="ZOOM" er...') called at ../lib/ZOOM/IRSpy/Record.pm line 115
+	ZOOM::IRSpy::Record::store_result('ZOOM::IRSpy::Record=HASH(0x1fdc0338)', 'probe', 'ok', 0, 'errcode', 10000, 'errmsg', 'Connect failed', 'addinfo', ...) called at ../lib/ZOOM/IRSpy/Test/Ping.pm line 93
+	ZOOM::IRSpy::Test::Ping::not_connected('ZOOM::IRSpy::Connection=HASH(0x8980868)', 'ZOOM::IRSpy::Task::Connect=HASH(0x1fdc0b00)', 'undef', 'Entity: line 1: parser error : Input is not proper UTF-8, ind...') called at ../lib/ZOOM/IRSpy.pm line 511
+	ZOOM::IRSpy::check('ZOOM::IRSpy=HASH(0x84fbb8c)') called at irspy.pl line 74
+ at irspy.pl line 33
+	main::__ANON__('Entity: line 1: parser error : Input is not proper UTF-8, ind...') called at ../lib/ZOOM/IRSpy/Record.pm line 154
+	ZOOM::IRSpy::Record::_half_decent_appendWellBalancedChunk('ZOOM::IRSpy::Record=HASH(0x1fdc0338)', 'XML::LibXML::Element=SCALAR(0x1fdc0848)', '<irspy:probe ok="0" errmsg="Connect failed" diagset="ZOOM" er...') called at ../lib/ZOOM/IRSpy/Record.pm line 96
+	ZOOM::IRSpy::Record::append_entry('ZOOM::IRSpy::Record=HASH(0x1fdc0338)', 'irspy:status', '<irspy:probe ok="0" errmsg="Connect failed" diagset="ZOOM" er...') called at ../lib/ZOOM/IRSpy/Record.pm line 115
+	ZOOM::IRSpy::Record::store_result('ZOOM::IRSpy::Record=HASH(0x1fdc0338)', 'probe', 'ok', 0, 'errcode', 10000, 'errmsg', 'Connect failed', 'addinfo', ...) called at ../lib/ZOOM/IRSpy/Test/Ping.pm line 93
+	ZOOM::IRSpy::Test::Ping::not_connected('ZOOM::IRSpy::Connection=HASH(0x8980868)', 'ZOOM::IRSpy::Task::Connect=HASH(0x1fdc0b00)', 'undef', 'Entity: line 1: parser error : Input is not proper UTF-8, ind...') called at ../lib/ZOOM/IRSpy.pm line 511
+	ZOOM::IRSpy::check('ZOOM::IRSpy=HASH(0x84fbb8c)') called at irspy.pl line 74
+
