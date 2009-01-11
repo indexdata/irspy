@@ -286,3 +286,6 @@ Bytes: 0xB9 0x22 0x20 0x78
 	ZOOM::IRSpy::Test::Ping::not_connected('ZOOM::IRSpy::Connection=HASH(0x8980868)', 'ZOOM::IRSpy::Task::Connect=HASH(0x1fdc0b00)', 'undef', 'Entity: line 1: parser error : Input is not proper UTF-8, ind...') called at ../lib/ZOOM/IRSpy.pm line 511
 	ZOOM::IRSpy::check('ZOOM::IRSpy=HASH(0x84fbb8c)') called at irspy.pl line 74
 
+Date: Sat, 10 Jan 2009 01:20:35 +0100
+01:47:09-10/01 [irspy] tcp:208.178.237.40:7190/voyager rewriting XML record
+ZOOM error 10007 "Timeout" from diag-set 'ZOOM'
