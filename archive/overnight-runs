@@ -316,3 +316,235 @@ Date: Fri, 16 Jan 2009 01:03:50 +0100
 2110 tests were skipped
 External
 
+Date: Sat, 17 Jan 2009 01:02:55 +0100
+01:23:49-17/01 [irspy] tcp:voyager.its.csiro.au:7090/voyager rewriting XML record
+runtime error: file ../lib/ZOOM/../../xsl/irspy2zeerex.xsl line 174 element param
+xsltApplyXSLTTemplate: A potential infinite template recursion was detected.
+You can adjust xsltMaxDepth (--maxdepth) in order to raise the maximum number of nested template calls and variables/params (currently set to 250).
+Templates:
+#0 name insert-latest-nodes 
+#1 name insert-latest-nodes 
+#2 name insert-latest-nodes 
+#3 name insert-latest-nodes 
+#4 name insert-latest-nodes 
+#5 name insert-latest-nodes 
+#6 name insert-latest-nodes 
+#7 name insert-latest-nodes 
+#8 name insert-latest-nodes 
+#9 name insert-latest-nodes 
+#10 name insert-latest-nodes 
+#11 name insert-latest-nodes 
+#12 name insert-latest-nodes 
+#13 name insert-latest-nodes 
+#14 name insert-latest-nodes 
+Variables:
+#0
+var latest 
+#1
+var date 
+#2
+i 
+nodes 
+what 
+#3
+what 
+#4
+nodes 
+what 
+#5
+var latest 
+#6
+var date 
+#7
+i 
+nodes 
+what 
+#8
+what 
+#9
+nodes 
+what 
+#10
+var latest 
+#11
+var date 
+#12
+i 
+nodes 
+what 
+#13
+what 
+#14
+nodes 
+what 
+runtime error: file ../lib/ZOOM/../../xsl/irspy2zeerex.xsl line 174 element param
+xsltApplyXSLTTemplate: A potential infinite template recursion was detected.
+You can adjust xsltMaxDepth (--maxdepth) in order to raise the maximum number of nested template calls and variables/params (currently set to 250).
+Templates:
+#0 name insert-latest-nodes 
+#1 name insert-latest-nodes 
+#2 name insert-latest-nodes 
+#3 name insert-latest-nodes 
+#4 name insert-latest-nodes 
+#5 name insert-latest-nodes 
+#6 name insert-latest-nodes 
+#7 name insert-latest-nodes 
+#8 name insert-latest-nodes 
+#9 name insert-latest-nodes 
+#10 name insert-latest-nodes 
+#11 name insert-latest-nodes 
+#12 name insert-latest-nodes 
+#13 name insert-latest-nodes 
+#14 name insert-latest-nodes 
+Variables:
+#0
+var latest 
+#1
+var date 
+#2
+i 
+nodes 
+what 
+#3
+what 
+#4
+nodes 
+what 
+#5
+var latest 
+#6
+var date 
+#7
+i 
+nodes 
+what 
+#8
+what 
+#9
+nodes 
+what 
+#10
+var latest 
+#11
+var date 
+#12
+i 
+nodes 
+what 
+#13
+what 
+#14
+nodes 
+what 
+Error applying stylesheet: (get error out of libxslt) at /usr/lib/perl5/XML/LibXSLT.pm line 410.
+ at irspy.pl line 33
+	main::__ANON__('Error applying stylesheet: (get error out of libxslt) at /usr...') called at /usr/lib/perl5/XML/LibXSLT.pm line 410
+	eval {...} called at /usr/lib/perl5/XML/LibXSLT.pm line 410
+	XML::LibXSLT::StylesheetWrapper::transform('XML::LibXSLT::StylesheetWrapper=HASH(0x84fbafc)', 'XML::LibXML::Document=SCALAR(0x174abc18)') called at ../lib/ZOOM/IRSpy.pm line 276
+	ZOOM::IRSpy::_irspy_to_zeerex('ZOOM::IRSpy=HASH(0x84fbb8c)', 'ZOOM::IRSpy::Connection=HASH(0x156edf2c)', 'undef') called at ../lib/ZOOM/IRSpy.pm line 294
+	ZOOM::IRSpy::_rewrite_record('ZOOM::IRSpy=HASH(0x84fbb8c)', 'ZOOM::IRSpy::Connection=HASH(0x156edf2c)') called at ../lib/ZOOM/IRSpy.pm line 434
+	ZOOM::IRSpy::check('ZOOM::IRSpy=HASH(0x84fbb8c)') called at irspy.pl line 74
+ at ../lib/ZOOM/IRSpy.pm line 276
+ at irspy.pl line 33
+	main::__ANON__('Error applying stylesheet: (get error out of libxslt) at /usr...') called at /usr/share/perl/5.8/Carp.pm line 102
+	Carp::croak('Error applying stylesheet: (get error out of libxslt) at /usr...') called at /usr/lib/perl5/XML/LibXSLT.pm line 414
+	XML::LibXSLT::StylesheetWrapper::transform('XML::LibXSLT::StylesheetWrapper=HASH(0x84fbafc)', 'XML::LibXML::Document=SCALAR(0x174abc18)') called at ../lib/ZOOM/IRSpy.pm line 276
+	ZOOM::IRSpy::_irspy_to_zeerex('ZOOM::IRSpy=HASH(0x84fbb8c)', 'ZOOM::IRSpy::Connection=HASH(0x156edf2c)', 'undef') called at ../lib/ZOOM/IRSpy.pm line 294
+	ZOOM::IRSpy::_rewrite_record('ZOOM::IRSpy=HASH(0x84fbb8c)', 'ZOOM::IRSpy::Connection=HASH(0x156edf2c)') called at ../lib/ZOOM/IRSpy.pm line 434
+	ZOOM::IRSpy::check('ZOOM::IRSpy=HASH(0x84fbb8c)') called at irspy.pl line 74
+  Object is a Node Set :
+Set contains 0 nodes:
+  Object is a Node Set :
+Set contains 1 nodes:
+  1    ELEMENT irspy:probe
+      ATTRIBUTE ok
+        TEXT
+          content=1
+  Object is a number : 1
+  Object is a Node Set :
+Set contains 0 nodes:
+  Object is a string : boolean
+  Object is a string : boolean
+  Object is a Node Set :
+Set contains 0 nodes:
+  Object is a string : boolean
+  Object is a Node Set :
+Set contains 0 nodes:
+  Object is a Node Set :
+Set contains 1 nodes:
+  1    ELEMENT irspy:probe
+      ATTRIBUTE ok
+        TEXT
+          content=1
+  Object is a number : 2
+  Object is a Node Set :
+Set contains 0 nodes:
+  Object is a string : boolean
+  Object is a string : boolean
+  Object is a Node Set :
+Set contains 0 nodes:
+  Object is a string : boolean
+  Object is a Node Set :
+Set contains 0 nodes:
+  Object is a Node Set :
+Set contains 1 nodes:
+  1    ELEMENT irspy:probe
+      ATTRIBUTE ok
+        TEXT
+          content=1
+  Object is a number : 3
+  Object is a Node Set :
+Set contains 0 nodes:
+  Object is a string : boolean
+  Object is a string : boolean
+  Object is a Node Set :
+Set contains 0 nodes:
+  Object is a string : boolean
+  Object is a Node Set :
+Set contains 0 nodes:
+  Object is a Node Set :
+Set contains 1 nodes:
+  1    ELEMENT irspy:probe
+      ATTRIBUTE ok
+        TEXT
+          content=1
+  Object is a number : 1
+  Object is a Node Set :
+Set contains 0 nodes:
+  Object is a string : explain
+  Object is a string : explain
+  Object is a Node Set :
+Set contains 0 nodes:
+  Object is a string : explain
+  Object is a Node Set :
+Set contains 0 nodes:
+  Object is a Node Set :
+Set contains 1 nodes:
+  1    ELEMENT irspy:probe
+      ATTRIBUTE ok
+        TEXT
+          content=1
+  Object is a number : 2
+  Object is a Node Set :
+Set contains 0 nodes:
+  Object is a string : explain
+  Object is a string : explain
+  Object is a Node Set :
+Set contains 0 nodes:
+  Object is a string : explain
+  Object is a Node Set :
+Set contains 0 nodes:
+  Object is a Node Set :
+Set contains 1 nodes:
+  1    ELEMENT irspy:probe
+      ATTRIBUTE ok
+        TEXT
+          content=1
+  Object is a number : 3
+  Object is a Node Set :
+Set contains 0 nodes:
+  Object is a string : explain
+  Object is a string : explain
+  Object is a Node Set :
+Set contains 0 nodes:
+  Object is a string : explain
