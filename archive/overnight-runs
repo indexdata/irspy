@@ -432,3 +432,8 @@ Date: Mon, 09 Feb 2009 01:01:30 +0100
 2369 tests were skipped
 External
 
+Date: Tue, 10 Feb 2009 01:01:13 +0100
+01:11:03-10/02 [irspy] tcp:voyager.its.csiro.au:7090/Voyager rewriting XML record
+runtime error: file ../lib/ZOOM/../../xsl/irspy2zeerex.xsl line 174 element param
+xsltApplyXSLTTemplate: A potential infinite template recursion was detected.
+
