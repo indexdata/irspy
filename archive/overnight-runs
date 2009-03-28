@@ -649,3 +649,8 @@ Date: Fri, 27 Mar 2009 01:01:04 +0100
 2134 tests were skipped
 External
 
+Date: Sat, 28 Mar 2009 01:01:02 +0100
+01:14:40-28/03 [irspy] tcp:gil.gatech.edu:7090/voyager rewriting XML record
+runtime error: file ../lib/ZOOM/../../xsl/irspy2zeerex.xsl line 174 element param
+xsltApplyXSLTTemplate: A potential infinite template recursion was detected.
+
