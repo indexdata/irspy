@@ -665,3 +665,8 @@ Date: Mon, 30 Mar 2009 01:01:06 +0200
 External
 External
 
+Date: Tue, 31 Mar 2009 01:01:21 +0200
+01:08:28-31/03 [irspy] tcp:gil.gatech.edu:7090/Voyager rewriting XML record
+runtime error: file ../lib/ZOOM/../../xsl/irspy2zeerex.xsl line 174 element param
+xsltApplyXSLTTemplate: A potential infinite template recursion was detected.
+
