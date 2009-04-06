@@ -690,3 +690,8 @@ Date: Sat, 04 Apr 2009 01:00:46 +0200
 runtime error: file ../lib/ZOOM/../../xsl/irspy2zeerex.xsl line 174 element param
 xsltApplyXSLTTemplate: A potential infinite template recursion was detected.
 
+Date: Sun, 05 Apr 2009 01:00:34 +0200
+01:07:50-05/04 [irspy] tcp:gil.uga.edu:7090/Voyager rewriting XML record
+runtime error: file ../lib/ZOOM/../../xsl/irspy2zeerex.xsl line 174 element param
+xsltApplyXSLTTemplate: A potential infinite template recursion was detected.
+
