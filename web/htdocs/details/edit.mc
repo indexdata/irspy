@@ -1,4 +1,4 @@
-%# $Id: edit.mc,v 1.39 2008-10-29 11:04:44 mike Exp $
+%# $Id: edit.mc,v 1.40 2009-04-15 18:16:46 wosch Exp $
 <%args>
 $op
 $id => undef ### should be extracted using utf8param()
@@ -46,7 +46,7 @@ if ((!defined $port || $port eq "") &&
     # Port-guessing based on defaults for each protocol
     $port = $protocol eq "Z39.50" ? 210 : 80;
     warn "guessed port $port";
-    $r->param(port => $port);
+    &utf8param($r, port => $port);
 }
 
 my $newid;
@@ -340,7 +340,7 @@ my @fields =
 # Update record with submitted data
 my %fieldsByKey = map { ( $_->[0], $_) } @fields;
 my %data;
-foreach my $key ($r->param()) {
+foreach my $key (&utf8param($r)) {
     next if grep { $key eq $_ } qw(op id update);
     $data{$key} = utf8param($r, $key);
 }

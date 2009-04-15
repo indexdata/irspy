@@ -1,4 +1,4 @@
-# $Id: Utils.pm,v 1.37 2007-12-12 11:02:37 mike Exp $
+# $Id: Utils.pm,v 1.38 2009-04-15 18:16:45 wosch Exp $
 
 package ZOOM::IRSpy::Utils;
 
@@ -28,9 +28,60 @@ use Encode qw(is_utf8);
 
 our $IRSPY_NS = 'http://indexdata.com/irspy/1.0';
 
+# Under Apache 2/mod_perl 2, the ubiquitous $r is no longer and
+# Apache::Request object, nor even an Apache2::Request, but an
+# Apache2::RequestReq ... which, astonishingly, doesn't have the
+# param() method.  So if we're given one of these things, we need to
+# make an Apache::Request out of, which at least isn't too hard.
+# However *sigh* this may not be a cheap operation, so we keep a cache
+# of already-made Request objects.
+#
+my %_apache2request;
+my %_paramsbyrequest;           # Used for Apache2 only
+sub utf8param {
+    my($r, $key, $value) = @_;
+
+    if ($r->isa('Apache2::RequestRec')) {
+        # Running under Apache2
+        if (defined $_apache2request{$r}) {
+            #warn "using existing Apache2::RequestReq for '$r'";
+            $r = $_apache2request{$r};
+        } else {
+            require Apache2::Request;
+            #warn "making new Apache2::RequestReq for '$r'";
+            $r = $_apache2request{$r} = new Apache2::Request($r);
+        }
+    }
+
+    if (!defined $key) {
+        return map { decode_utf8($_) } $r->param();
+    }
+
+    my $raw = undef;
+    $raw = $_paramsbyrequest{$r}->{$key} if $r->isa('Apache2::Request');
+    $raw = $r->param($key) if !defined $raw;
+
+    if (defined $value) {
+        # Argh!  Simply writing through to the underlying method
+        # param() won't work in Apache2, where param() is readonly.
+        # So we have to keep a hash of additional values, which we
+        # consult (above) before the actual parameters.  Ouch ouch.
+        if ($r->isa('Apache2::Request')) {
+            $_paramsbyrequest{$r}->{$key} = encode_utf8($value);
+        } else {
+            $r->param($key, encode_utf8($value));
+        }
+    }
+
+    return undef if !defined $raw;
+    my $cooked = decode_utf8($raw);
+    warn "converted '$raw' to '", $cooked, "'\n" if $cooked ne $raw;
+    return $cooked;
+}
+
 
 # Utility functions follow, exported for use of web UI
-sub utf8param {
+sub utf8param_apache1 {
     my($r, $key, $value) = @_;
     die "utf8param() called with value '$value'" if defined $value;
 
