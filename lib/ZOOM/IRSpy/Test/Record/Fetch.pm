@@ -1,4 +1,4 @@
-# $Id: Fetch.pm,v 1.29 2007-05-09 12:05:04 mike Exp $
+# $Id: Fetch.pm,v 1.30 2009-04-15 13:57:38 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -17,6 +17,7 @@ my @queries = (
 	       "\@attr 1=4 mineral",
 	       "\@attr 1=4 computer",
 	       "\@attr 1=44 mineral", # Smithsonian doesn't support AP 4!
+	       "\@attr 1=1016 mineral", # Connector Framework only does 1016
 	       ### We can add more queries here
 	       );
 
