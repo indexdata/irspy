@@ -1,4 +1,4 @@
-%# $Id: found.mc,v 1.32 2007-07-16 14:55:21 mike Exp $
+%# $Id: found.mc,v 1.33 2009-04-15 18:16:46 wosch Exp $
 <%once>
 sub print_navlink {
     my($params, $cond, $caption, $skip) = @_;
@@ -39,7 +39,7 @@ sub calc_reliability2 {
 our $conn = undef;
 </%once>
 <%perl>
-my %params = map { ( $_, utf8param($r, $_)) } grep { $r->param($_) } $r->param();
+my %params = map { ( $_, utf8param($r, $_)) } grep { &utf8param($r, $_) } &utf8param($r);
 my $query;
 if ($params{_query}) {
     $query = $params{_query};

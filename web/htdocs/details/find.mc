@@ -1,5 +1,5 @@
-%# $Id: find.mc,v 1.11 2007-03-29 17:14:47 mike Exp $
-% if ($r->param("_search")) {
+%# $Id: find.mc,v 1.12 2009-04-15 18:16:46 wosch Exp $
+% if (&utf8param($r,"_search")) {
 %     $m->comp("found.mc");
 % } else {
      <p>
