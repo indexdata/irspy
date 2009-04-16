@@ -1,4 +1,4 @@
-%# $Id: upload.mc,v 1.2 2007-07-17 14:31:54 mike Exp $
+%# $Id: upload.mc,v 1.3 2009-04-16 18:09:44 wosch Exp $
 <%args>
 $filename => undef
 </%args>
@@ -23,7 +23,23 @@ $filename => undef
 % return;
 % }
 <%perl>
-my $fin = $r->upload()->fh();
+
+my $fin;
+
+# Apache2.0 
+if ($r->isa('Apache2::RequestRec')) {
+    require Apache2::Request;
+    require Apache2::Upload;
+    my $req = new Apache2::Request($r);
+    my $upload = $req->upload('filename');
+    $fin = $upload->fh();
+} 
+
+# Apache 1.3
+else {
+    $fin = $r->upload()->fh();
+}
+
 if (!defined $fin) {
     $m->comp("/details/error.mc", msg => "Upload cancelled");
     return;
