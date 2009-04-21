@@ -765,3 +765,13 @@ Date: Sun, 19 Apr 2009 01:01:04 +0200
 runtime error: file ../lib/ZOOM/../../xsl/irspy2zeerex.xsl line 174 element param
 xsltApplyXSLTTemplate: A potential infinite template recursion was detected.
 
+Date: Mon, 20 Apr 2009 01:01:10 +0200
+01:29:49-20/04 [irspy] tcp:129.108.99.98:210/Nugget rewriting XML record
+runtime error: file ../lib/ZOOM/../../xsl/irspy2zeerex.xsl line 174 element param
+xsltApplyXSLTTemplate: A potential infinite template recursion was detected.
+
+Date: Tue, 21 Apr 2009 01:00:23 +0200
+01:06:04-21/04 [irspy] tcp:gil.gatech.edu:7090/Voyager rewriting XML record
+runtime error: file ../lib/ZOOM/../../xsl/irspy2zeerex.xsl line 174 element param
+xsltApplyXSLTTemplate: A potential infinite template recursion was detected.
+
