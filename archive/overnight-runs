@@ -929,3 +929,8 @@ Date: Fri, 22 May 2009 01:01:07 +0200
 01:37:00-22/05 [irspy] performing end-of-run sanity-checks
 2146 tests were skipped
 
+Date: Sat, 23 May 2009 01:00:18 +0200
+01:09:39-23/05 [irspy] tcp:library.lbc.edu:7090/voyager rewriting XML record
+runtime error: file ../lib/ZOOM/../../xsl/irspy2zeerex.xsl line 174 element param
+xsltApplyXSLTTemplate: A potential infinite template recursion was detected.
+
