@@ -925,3 +925,7 @@ Date: Thu, 21 May 2009 01:00:53 +0200
 runtime error: file ../lib/ZOOM/../../xsl/irspy2zeerex.xsl line 174 element param
 xsltApplyXSLTTemplate: A potential infinite template recursion was detected.
 
+Date: Fri, 22 May 2009 01:01:07 +0200
+01:37:00-22/05 [irspy] performing end-of-run sanity-checks
+2146 tests were skipped
+
