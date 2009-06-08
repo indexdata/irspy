@@ -999,3 +999,17 @@ Date: Fri, 05 Jun 2009 01:00:11 +0200
 2127 tests were skipped
 External
 
+Date: Sat, 06 Jun 2009 01:00:47 +0200
+01:10:55-06/06 [irspy] tcp:library.lbc.edu:7090/voyager rewriting XML record
+runtime error: file ../lib/ZOOM/../../xsl/irspy2zeerex.xsl line 174 element param
+xsltApplyXSLTTemplate: A potential infinite template recursion was detected.
+
+01:02:34-07/06 [irspy] tcp:128.171.19.17:7290/Voyager rewriting XML record
+runtime error: file ../lib/ZOOM/../../xsl/irspy2zeerex.xsl line 174 element param
+xsltApplyXSLTTemplate: A potential infinite template recursion was detected.
+
+Date: Mon, 08 Jun 2009 01:00:12 +0200
+01:21:18-08/06 [irspy] tcp:129.108.99.98:210/Nugget rewriting XML record
+runtime error: file ../lib/ZOOM/../../xsl/irspy2zeerex.xsl line 174 element param
+xsltApplyXSLTTemplate: A potential infinite template recursion was detected.
+
