@@ -1,0 +1,13 @@
+It seems wrong that in IRSpy we have a database of 6000 Z39.50
+targets, but no easy way to make them available to MasterKey
+applications.  Since Jason built the IRSpy toroid, which exposes
+IRSpy's ZeeRex database in Torus format, it seems that have had the
+pieces we need to present those 6000 databases to MasterKey
+administrators; but in reality there are several significant barriers
+to using the toroid output.
+
+data quality
+data richness -- more tests needed
+irspy overnight test fixed
+mkadmin handling many targets
+
