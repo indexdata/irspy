@@ -1,4 +1,3 @@
-$Id: README,v 1.6 2007-04-18 15:22:48 mike Exp $
 
 ZOOM::IRSpy
 ===========
@@ -56,7 +55,7 @@ those specified in Makefile.PL:
 
 COPYRIGHT AND LICENCE
 
-Copyright (C) 2006 by Index Data ApS.
+Copyright (C) 2006-2010 by Index Data ApS.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.7 or,
