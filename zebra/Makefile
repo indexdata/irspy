@@ -34,5 +34,5 @@ distclean: clean
 	rm -rf ${IRSPY_ARCHIVE}
 
 help:
-	@echo "make [ test | newdb | clean | distclean ]"
+	@echo "make [ dump | test | newdb | clean | distclean ]"
 
