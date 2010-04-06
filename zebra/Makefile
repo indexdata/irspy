@@ -2,6 +2,8 @@
 IRSPY_ARCHIVE=		records-2007-05-01
 IRSPY_ARCHIVE_EXT=	.tar.gz
 
+DATE:=	$(shell date '+%Y-%m-%d')
+
 all: help
 
 
@@ -18,6 +20,13 @@ newdb:
 	zebraidx-2.0 update ${IRSPY_ARCHIVE}
 	zebraidx-2.0 commit
 
+dump:
+	rm -rf records-${DATE}.old
+	-test -e records-${DATE} && mv records-${DATE} records-${DATE}.old
+	mkdir records-${DATE}
+	cd records-${DATE} && ../../bin/irspy-dump.pl irspy.indexdata.com:8018/IR-Explain---1
+	tar cfz records-${DATE} records-${DATE}
+	
 clean:
 	rm -f terse.properties
 
