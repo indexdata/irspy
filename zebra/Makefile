@@ -2,6 +2,7 @@
 IRSPY_ARCHIVE=		records-2010-04-06
 IRSPY_ARCHIVE_EXT=	.tar.gz
 DUMP_DIR=		irspy-dump
+ZEBRA_DIR=		db
 
 DATE:=	$(shell date '+%Y-%m-%d')
 
@@ -32,7 +33,7 @@ clean:
 	rm -f terse.properties
 
 distclean: clean
-	rm -rf ${IRSPY_ARCHIVE}
+	rm -rf ${IRSPY_ARCHIVE} ${ZEBRA_DIR}
 
 help:
 	@echo "make [ dump | test | newdb | clean | distclean ]"
