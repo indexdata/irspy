@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 
 # Invoke as:
 #	$ mkdir records-2010-04-06
