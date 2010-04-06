@@ -35,6 +35,9 @@ you may need one of the following packages for development:
 sudo apt-get install \
 	make perl-doc
 
+and may enable mod_apreq
+
+sudo a2enmod apreq
 
 
 To install this module type the following:
