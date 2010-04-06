@@ -1,5 +1,12 @@
 #!/usr/bin/perl -w
 
+# Invoke as:
+#	$ mkdir records-2010-04-06
+#	$ cd records-2010-04-06
+#	$ irspy-dump.pl irspy.indexdata.com:8018/IR-Explain---1
+#	$ cd ..
+#	$ tar cfz records-2010-04-06.tar.gz records-2010-04-06
+
 use strict;
 use warnings;
 use ZOOM;
