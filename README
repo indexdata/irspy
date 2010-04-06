@@ -51,7 +51,7 @@ DEPENDENCIES
 This module requires these other modules and libraries, in addition to
 those specified in Makefile.PL:
 
-  Zebra, release 1.4.0 or later: see http://indexdata.com/zebra/
+  Zebra, release 2.0 or later: see http://www.indexdata.com/zebra/
 
 COPYRIGHT AND LICENCE
 
