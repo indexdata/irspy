@@ -1,6 +1,7 @@
 
-IRSPY_ARCHIVE=		records-2007-05-01
+IRSPY_ARCHIVE=		records-2010-04-06
 IRSPY_ARCHIVE_EXT=	.tar.gz
+DUMP_DIR=		irspy-dump
 
 DATE:=	$(shell date '+%Y-%m-%d')
 
@@ -14,7 +15,7 @@ terse.properties: pqf.properties
 	sed -n 's/#.*//; s/[ 	]*//; s/[ 	][ 	]*/ /g; /./p' $? > $@
 
 newdb:
-	tar xzf ${IRSPY_ARCHIVE}
+	tar xzf ${DUMP_DIR}/${IRSPY_ARCHIVE}${IRSPY_ARCHIVE_EXT}
 	zebraidx-2.0 init
 	zebraidx-2.0 update zeerex.xml
 	zebraidx-2.0 update ${IRSPY_ARCHIVE}
