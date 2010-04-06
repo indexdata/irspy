@@ -17,7 +17,7 @@ terse.properties: pqf.properties
 
 newdb:
 	tar xzf ${DUMP_DIR}/${IRSPY_ARCHIVE}${IRSPY_ARCHIVE_EXT}
-	mkdir -p ${ZEBRA_DIR}/lock
+	mkdir -p ${ZEBRA_DIR}/lock ${ZEBRA_DIR}/register ${ZEBRA_DIR}/shadow ${ZEBRA_DIR}/tmp
 	zebraidx-2.0 init
 	zebraidx-2.0 update zeerex.xml
 	zebraidx-2.0 update ${IRSPY_ARCHIVE}
