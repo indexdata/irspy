@@ -9,6 +9,34 @@ protocols.  It is a successor to the ZSpy program.
 
 INSTALLATION
 
+for debian/ubuntu:
+-------------------
+
+DEBIAN DEPENDENCIES
+
+If you have a Debian-based operating system, you can get what you need
+by installing the following packages from the operating system's
+package store, using apt-get:
+
+sudo apt-get install \
+	libnet-z3950-zoom-perl \
+	libxml-libxml-common-perl \
+	liburi-perl \
+	libxml-libxml-perl \
+	libapache2-mod-perl2 \
+	libhtml-mason-perl \
+	libapache2-request-perl \
+	libapache2-mod-apreq2 \
+	libxml-libxslt-perl \
+	idzebra-2.0 \
+
+you may need one of the following packages for development:
+
+sudo apt-get install \
+	make perl-doc
+
+
+
 To install this module type the following:
 
    perl Makefile.PL
