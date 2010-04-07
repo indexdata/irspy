@@ -260,7 +260,7 @@ sub _irspy_identifier2target {
 	if !defined $id;
 
     my($protocol, $target) = ($id =~ /(.*?):(.*)/);
-    if (uc($protocol) eq "Z39.50") {
+    if (uc($protocol) eq "Z39.50" || uc($protocol) eq "TCP") {
 	return "tcp:$target";
     } elsif (uc($protocol) eq "SRU") {
 	return "sru=get,http:$target";
