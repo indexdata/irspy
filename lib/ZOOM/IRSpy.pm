@@ -23,6 +23,7 @@ use ZOOM::IRSpy::Utils qw(cql_target render_record
 our @ISA = qw();
 our $VERSION = '1.01';
 our $irspy_to_zeerex_xsl = dirname(__FILE__) . '/../../xsl/irspy2zeerex.xsl';
+our $xslt_max_depth = 250;
 
 
 # Enumeration for callback functions to return
@@ -78,7 +79,7 @@ sub new {
     my $xslt = new XML::LibXSLT;
 
     # raise the maximum number of nested template calls and variables/params (default 250)
-    $xslt->max_depth(250);
+    $xslt->max_depth($xslt_max_depth);
 
     $xslt->register_function($ZOOM::IRSpy::Utils::IRSPY_NS, 'strcmp',
                              \&ZOOM::IRSpy::Utils::xslt_strcmp);
