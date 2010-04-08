@@ -32,9 +32,10 @@ $SIG{__DIE__} = sub {
 };
 
 my %opts;
-if (!getopts('wt:af:n:m:M:', \%opts) || @ARGV < 1) {
+if (!getopts('dwt:af:n:m:M:', \%opts) || @ARGV < 1) {
     print STDERR "\
 Usage $0: [options] <IRSpy-database> [<target> ...]
+	-d		debug
 	-w		Use ZOOM::IRSpy::Web subclass
 	-t <test>	Run the specified <test> [default: all tests]
 	-a		Test all targets (slow!)
@@ -52,7 +53,11 @@ $class .= "::Web" if $opts{w};
 
 if ($opts{M} && $opts{M} > 0) {
     no warnings;
-    $class::xslt_max_depth = $opts{M}
+    $ZOOM::IRSpy::xslt_max_depth = $opts{M};
+}
+if ($opts{d}) { 
+    no warnings;
+    $ZOOM::IRSpy::debug = $opts{d};
 }
 
 my $spy = $class->new($dbname, "admin", "fruitbat", $opts{n});
