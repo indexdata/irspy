@@ -32,7 +32,7 @@ $SIG{__DIE__} = sub {
 };
 
 my %opts;
-if (!getopts('wt:af:n:m:', \%opts) || @ARGV < 1) {
+if (!getopts('wt:af:n:m:M:', \%opts) || @ARGV < 1) {
     print STDERR "\
 Usage $0: [options] <IRSpy-database> [<target> ...]
 	-w		Use ZOOM::IRSpy::Web subclass
@@ -41,6 +41,7 @@ Usage $0: [options] <IRSpy-database> [<target> ...]
 	-f <query>	Test targets found by the specified query
 	-n <number>	Number of connection to keep in active set
 	-m <n>,<i>	Only test targets whose hash mod <n> is <i>
+	-M max_depth 	maximum number of nested template calls and variables/params
 ";
     exit 1;
 }
@@ -48,6 +49,11 @@ Usage $0: [options] <IRSpy-database> [<target> ...]
 my($dbname, @targets) = @ARGV;
 my $class = "ZOOM::IRSpy";
 $class .= "::Web" if $opts{w};
+
+if ($opts{M} && $opts{M} > 0) {
+    no warnings;
+    $class::xslt_max_depth = $opts{M}
+}
 
 my $spy = $class->new($dbname, "admin", "fruitbat", $opts{n});
 if (@targets) {
