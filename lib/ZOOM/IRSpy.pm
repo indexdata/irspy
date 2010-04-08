@@ -77,6 +77,9 @@ sub new {
 
     my $xslt = new XML::LibXSLT;
 
+    # raise the maximum number of nested template calls and variables/params (default 250)
+    $xslt->max_depth(250);
+
     $xslt->register_function($ZOOM::IRSpy::Utils::IRSPY_NS, 'strcmp',
                              \&ZOOM::IRSpy::Utils::xslt_strcmp);
 
