@@ -25,6 +25,8 @@ isa_ok( $spy, 'ZOOM::IRSpy' );
 # test for failure if template not exists
 eval {
     $ZOOM::IRSpy::irspy_to_zeerex_xsl = '/nonexist';
+    $ZOOM::IRSpy::debug = 1;
+    $ZOOM::IRSpy::xslt_max_depth = 100;
     $spy = new ZOOM::IRSpy( $dbname, "admin", "fruitbat" );
 };
 
