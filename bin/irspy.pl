@@ -1,7 +1,5 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 
-# $Id: irspy.pl,v 1.29 2007-09-18 16:58:18 mike Exp $
-#
 # Run like this:
 #	YAZ_LOG=irspy,irspy_test IRSPY_SAVE_XML=1 perl -I../lib irspy.pl -t Quick localhost:8018/IR-Explain---1 Z39.50:amicus.oszk.hu:1616/ANY
 #	YAZ_LOG=irspy,irspy_test sudo ./setrlimit -n 3000 -u mike -- perl -I../lib irspy.pl -t Main -a localhost:8018/IR-Explain---1
@@ -18,15 +16,15 @@
 # I have no idea why this directory is not in Ubuntu's default Perl
 # path, but we need it because just occasionally overload.pm:88
 # requires Scalar::Util, which is in this directory.
+#use lib '/usr/share/perl/5.8.7';
 
-use lib '/usr/share/perl/5.8.7';
 use Scalar::Util;
-
-use strict;
-use warnings;
 use Getopt::Std;
 use ZOOM::IRSpy::Web;
 use Carp;
+
+use strict;
+use warnings;
 
 $SIG{__DIE__} = sub {
     my($msg) = @_;
