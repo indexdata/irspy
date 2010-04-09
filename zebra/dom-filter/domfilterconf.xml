@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dom xmlns="http://indexdata.com/zebra-2.0">
+  <input>
+    <xmlreader level="0"/>
+  </input>
+  <extract>
+    <xslt stylesheet="zeerex2index.xsl"/>
+  </extract>
+  <retrieve name="zeerex">
+  </retrieve>
+  <retrieve name="zeerexNoAuth">
+    <xslt stylesheet="zeerex2noauth.xsl"/>
+  </retrieve>
+  <retrieve name="id">
+    <xslt stylesheet="zeerex2id.xsl"/>
+  </retrieve>
+  <retrieve name="dc">
+    <xslt stylesheet="zeerex2dc.xsl"/>
+  </retrieve>
+</dom>
