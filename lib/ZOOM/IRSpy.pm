@@ -309,7 +309,7 @@ sub _rewrite_irspy_record {
 my $_reliabilityField = {
     reliability => [ reliability => 0,
 		      "Calculated reliability of server",
-		      "e:metaInfo/i:reliability" ],
+		      "e:serverInfo/e:reliability" ],
 };
 
 sub _rewrite_zeerex_record {
