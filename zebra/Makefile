@@ -3,6 +3,8 @@ IRSPY_ARCHIVE=		records-2010-04-06
 IRSPY_ARCHIVE_EXT=	.tar.gz
 DUMP_DIR=		irspy-dump
 ZEBRA_DIR=		db
+ZEBRAIDX=		zebraidx-2.0 
+ZEBRAIDX_TEST=		zebraidx-2.0 -c zebra-test.cfg
 
 # debugging
 ZEBRA_TEST_DIR=		db-test
@@ -21,18 +23,18 @@ terse.properties: pqf.properties
 newdb:
 	tar xzf ${DUMP_DIR}/${IRSPY_ARCHIVE}${IRSPY_ARCHIVE_EXT}
 	mkdir -p ${ZEBRA_DIR}/lock ${ZEBRA_DIR}/register ${ZEBRA_DIR}/shadow ${ZEBRA_DIR}/tmp
-	zebraidx-2.0 init
-	zebraidx-2.0 update zeerex.xml
-	zebraidx-2.0 update ${IRSPY_ARCHIVE}
-	zebraidx-2.0 commit
+	${ZEBRAIDX} init
+	${ZEBRAIDX} update zeerex.xml
+	${ZEBRAIDX} update ${IRSPY_ARCHIVE}
+	${ZEBRAIDX} commit
 
 newdb-test:
 	tar xzf ${DUMP_DIR}/${IRSPY_ARCHIVE}${IRSPY_ARCHIVE_EXT}
 	mkdir -p ${ZEBRA_TEST_DIR}/lock ${ZEBRA_TEST_DIR}/register ${ZEBRA_TEST_DIR}/shadow ${ZEBRA_TEST_DIR}/tmp
-	zebraidx-2.0 -c zebra-test.cfg init
-	zebraidx-2.0 -c zebra-test.cfg update zeerex-test.xml
-	zebraidx-2.0 -c zebra-test.cfg update ${IRSPY_ARCHIVE}
-	zebraidx-2.0 -c zebra-test.cfg commit
+	${ZEBRAIDX_TEST} init
+	${ZEBRAIDX_TEST} update zeerex-test.xml
+	${ZEBRAIDX_TEST} update ${IRSPY_ARCHIVE}
+	${ZEBRAIDX_TEST} commit
 
 dump:
 	rm -rf records-${DATE}.old
