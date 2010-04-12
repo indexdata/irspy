@@ -100,7 +100,15 @@ The database can be interrogated with SRU URLs such as:
 
 To create the database:
 
+$ make newdb
+
+or:
+
 tar xzf records-2007-04-18.tar.gz
 zebraidx-2.0 init
 zebraidx-2.0 update zeerex.xml
+zebraidx-2.0 update record-2010-04-06
 zebraidx-2.0 commit
+
+zebrasrv-2.0 -f yazserver.xml
+
