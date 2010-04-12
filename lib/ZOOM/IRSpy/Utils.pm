@@ -19,7 +19,8 @@ our @EXPORT_OK = qw(utf8param
 		    modify_xml_document
 		    bib1_access_point
 		    render_record
-		    calc_reliability);
+		    calc_reliability_string
+		    calc_reliability_stats);
 
 use XML::LibXML;
 use XML::LibXML::XPathContext;
@@ -273,6 +274,11 @@ sub _irspy_identifier2target {
     return $target;
 }
 
+
+# Modifies the XML document for which $xc is an XPath context by
+# inserting or replacing the values specified in the hash %$data.  The
+# keys are fieldnames, which are looked up in the register
+# $fieldsByKey to determine, among other things, what their XPath is.
 
 sub modify_xml_document {
     my($xc, $fieldsByKey, $data) = @_;
@@ -771,15 +777,25 @@ sub render_record {
 }
 
 
-sub calc_reliability {
+sub calc_reliability_string {
+    my($xc) = @_;
+
+    my($nok, $nall, $percent) = calc_reliability_stats($xc);
+    return "[untested]" if $nall == 0;
+    return "$nok/$nall = " . $percent . "%";
+}
+
+
+sub calc_reliability_stats {
     my($xc) = @_;
 
     my @allpings = $xc->findnodes("i:status/i:probe");
     my $nall = @allpings;
-    return "[untested]" if $nall == 0;
+    return (0, 0, 0) if $nall == 0;
     my @okpings = $xc->findnodes('i:status/i:probe[@ok = "1"]');
     my $nok = @okpings;
-    return "$nok/$nall = " . int(100*$nok/$nall) . "%";
+    my $percent = int(100*$nok/$nall);
+    return ($nok, $nall, $percent);
 }
 
 
