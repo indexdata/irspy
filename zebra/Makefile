@@ -29,10 +29,10 @@ newdb:
 newdb-test:
 	tar xzf ${DUMP_DIR}/${IRSPY_ARCHIVE}${IRSPY_ARCHIVE_EXT}
 	mkdir -p ${ZEBRA_TEST_DIR}/lock ${ZEBRA_TEST_DIR}/register ${ZEBRA_TEST_DIR}/shadow ${ZEBRA_TEST_DIR}/tmp
-	zebraidx-2.0 init
-	zebraidx-2.0 update zeerex-test.xml
-	zebraidx-2.0 update ${IRSPY_ARCHIVE}
-	zebraidx-2.0 commit
+	zebraidx-2.0 -c zebra-test.cfg init
+	zebraidx-2.0 -c zebra-test.cfg update zeerex-test.xml
+	zebraidx-2.0 -c zebra-test.cfg update ${IRSPY_ARCHIVE}
+	zebraidx-2.0 -c zebra-test.cfg commit
 
 dump:
 	rm -rf records-${DATE}.old
