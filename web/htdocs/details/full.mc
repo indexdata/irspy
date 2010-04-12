@@ -41,7 +41,7 @@ if ($n == 0) {
 		  [ "Implementation ID" => "i:status/i:implementationId" ],
 		  [ "Implementation Name" => "i:status/i:implementationName" ],
 		  [ "Implementation Version" => "i:status/i:implementationVersion" ],
-		  [ "Reliability/reliability" => \&calc_reliability, $xc ],
+		  [ "Reliability/reliability" => \&calc_reliability_wrapper, $xc ],
 		  [ "Services" => \&calc_init_options, $xc ],
 		  [ "Bib-1 Use attributes" => \&calc_ap, $xc, "bib-1" ],
 		  [ "Dan-1 Use attributes" => \&calc_ap, $xc, "dan-1" ],
@@ -95,15 +95,9 @@ if ($n == 0) {
 % }
 <%perl>
 
-sub calc_reliability {
+sub calc_reliability_wrapper {
     my($id, $xc) = @_;
-
-    my @allpings = $xc->findnodes("i:status/i:probe");
-    my $nall = @allpings;
-    return "[untested]" if $nall == 0;
-    my @okpings = $xc->findnodes('i:status/i:probe[@ok = "1"]');
-    my $nok = @okpings;
-    return "$nok/$nall = " . int(100*$nok/$nall) . "%";
+    return calc_reliability($xc);
 }
 
 sub calc_init_options {
