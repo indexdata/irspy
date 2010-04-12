@@ -72,6 +72,7 @@ if (!defined $conn) {
   OPEN:
     $conn = new ZOOM::Connection("localhost:8018/IR-Explain---1");
     $conn->option(elementSetName => "zeerex");
+    $conn->option(count => 20);
 }
 
 my $rs;
@@ -125,6 +126,7 @@ print_navlink(\%params, $last < $n, "Next", $skip+$count);
        <th></th>
       </tr>
 % my @ids;
+% $rs->records($first-1, $last-$first+1); ## Force pre-cache
 % foreach my $i ($first .. $last) {
 <%perl>
 my $xc = irspy_xpath_context($rs->record($i-1));
