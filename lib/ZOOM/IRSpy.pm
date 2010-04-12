@@ -18,7 +18,8 @@ use ZOOM::IRSpy::Connection;
 use ZOOM::IRSpy::Stats;
 use ZOOM::IRSpy::Utils qw(cql_target render_record
 			  irspy_xpath_context irspy_make_identifier
-			  irspy_record2identifier);
+			  irspy_record2identifier calc_reliability_stats
+			  modify_xml_document);
 
 our @ISA = qw();
 our $VERSION = '1.01';
@@ -305,8 +306,19 @@ sub _rewrite_irspy_record {
 }
 
 
+my $_reliabilityField = {
+    reliability => [ reliability => 0,
+		      "Calculated reliability of server",
+		      "e:metaInfo/i:reliability" ],
+};
+
 sub _rewrite_zeerex_record {
     my($conn, $rec, $oldid) = @_;
+
+    # Add reliability score
+    my $xc = irspy_xpath_context($rec);
+    my($nok, $nall, $percent) = calc_reliability_stats($xc);
+    modify_xml_document($xc, $_reliabilityField, { reliability => $percent });
 
     my $p = $conn->package();
     $p->option(action => "specialUpdate");
@@ -317,7 +329,6 @@ sub _rewrite_zeerex_record {
 
     # This is the expression in the ID-making stylesheet
     # ../../zebra/zeerex2id.xsl
-    my $xc = irspy_xpath_context($rec);
     my $id = irspy_record2identifier($xc);
     if (defined $oldid && $id ne $oldid) {
 	warn "IDs differ (old='$oldid' new='$id')";
