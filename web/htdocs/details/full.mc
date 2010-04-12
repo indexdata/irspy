@@ -97,7 +97,7 @@ if ($n == 0) {
 
 sub calc_reliability_wrapper {
     my($id, $xc) = @_;
-    return calc_reliability($xc);
+    return calc_reliability_string($xc);
 }
 
 sub calc_init_options {
