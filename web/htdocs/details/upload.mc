@@ -51,7 +51,7 @@ my $id = irspy_record2identifier($xc);
 my $conn = new ZOOM::Connection("localhost:8018/IR-Explain---1", 0,
 				user => "admin", password => "fruitbat",
 				elementSetName => "zeerex");
-ZOOM::IRSpy::_really_rewrite_record($conn, $xc->getContextNode());
+ZOOM::IRSpy::_rewrite_zeerex_record($conn, $xc->getContextNode());
 </%perl>
      <p>
       Upload OK.
