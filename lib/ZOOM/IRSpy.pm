@@ -300,12 +300,12 @@ sub _rewrite_irspy_record {
     # connection as idle.  So re-establish it if necessary.
     $this->{conn}->connect($conn->option("host"));
 
-    _really_rewrite_record($this->{conn}, $rec);
+    _rewrite_zeerex_record($this->{conn}, $rec);
     $conn->log("irspy", "rewrote XML record");
 }
 
 
-sub _really_rewrite_record {
+sub _rewrite_zeerex_record {
     my($conn, $rec, $oldid) = @_;
 
     my $p = $conn->package();
