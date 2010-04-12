@@ -19,22 +19,6 @@ sub navlink {
     return $url;
 }
 
-# Identical to the same-named function in full.mc
-# So maybe this should go into IRSpy::Utils.pm?
-# Name changed (append 2) to prevent inadvertent clashes in Mason namespace
-#
-sub calc_reliability2 {
-    my($xc) = @_;
-
-    my @allpings = $xc->findnodes("i:status/i:probe");
-    my $nall = @allpings;
-    return "[untested]" if $nall == 0;
-    my @okpings = $xc->findnodes('i:status/i:probe[@ok = "1"]');
-    my $nok = @okpings;
-    return "$nok/$nall = " . int(100*$nok/$nall) . "%";
-}
-
-
 # Just make this once; forge the connection on first use
 our $conn = undef;
 </%once>
@@ -131,7 +115,7 @@ print_navlink(\%params, $last < $n, "Next", $skip+$count);
 <%perl>
 my $xc = irspy_xpath_context($rs->record($i-1));
 my $title = $xc->find("e:databaseInfo/e:title") || "[UNTITLED]";
-my $reliability = calc_reliability2($xc);
+my $reliability = calc_reliability($xc);
 my $host = $xc->find("e:serverInfo/e:host");
 my $port = $xc->find("e:serverInfo/e:port");
 my $db = $xc->find("e:serverInfo/e:database");

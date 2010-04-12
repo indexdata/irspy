@@ -18,7 +18,8 @@ our @EXPORT_OK = qw(utf8param
 		    irspy_identifier2target
 		    modify_xml_document
 		    bib1_access_point
-		    render_record);
+		    render_record
+		    calc_reliability);
 
 use XML::LibXML;
 use XML::LibXML::XPathContext;
@@ -767,6 +768,18 @@ sub render_record {
     $rs->option(elementSetName => $old);
 
     return $rec->render();
+}
+
+
+sub calc_reliability {
+    my($xc) = @_;
+
+    my @allpings = $xc->findnodes("i:status/i:probe");
+    my $nall = @allpings;
+    return "[untested]" if $nall == 0;
+    my @okpings = $xc->findnodes('i:status/i:probe[@ok = "1"]');
+    my $nok = @okpings;
+    return "$nok/$nall = " . int(100*$nok/$nall) . "%";
 }
 
 
