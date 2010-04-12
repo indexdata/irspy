@@ -115,7 +115,7 @@ print_navlink(\%params, $last < $n, "Next", $skip+$count);
 <%perl>
 my $xc = irspy_xpath_context($rs->record($i-1));
 my $title = $xc->find("e:databaseInfo/e:title") || "[UNTITLED]";
-my $reliability = calc_reliability($xc);
+my $reliability = calc_reliability_string($xc);
 my $host = $xc->find("e:serverInfo/e:host");
 my $port = $xc->find("e:serverInfo/e:port");
 my $db = $xc->find("e:serverInfo/e:database");

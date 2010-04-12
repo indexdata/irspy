@@ -12,7 +12,7 @@ use ZOOM::IRSpy::Utils qw(utf8param isodate xml_encode cql_target cql_quote
                           irspy_xpath_context irspy_make_identifier
 			  irspy_record2identifier
 			  irspy_identifier2target modify_xml_document
-			  bib1_access_point calc_reliability);
+			  bib1_access_point calc_reliability_string);
 </%once>
 % $r->content_type("text/html; charset=utf-8");
 % my $text = $m->scomp($component, %ARGS);
