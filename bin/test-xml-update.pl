@@ -10,7 +10,7 @@ use warnings;
 use Getopt::Std;
 use ZOOM;
 use ZOOM::IRSpy::Utils qw(irspy_xpath_context modify_xml_document);
-use ZOOM::IRSpy;		# For _really_rewrite_record()
+use ZOOM::IRSpy;		# For _rewrite_zeerex_record()
 
 # This array copied from ../web/htdocs/details/edit.mc
 my @fields =
@@ -80,7 +80,7 @@ print("Document modified with $nchanges change", $nchanges == 1 ? "" : "s",
       ": ", join(", ", map { $_->[2] } @changedFields), "\n");
 
 if ($opts{w}) {
-    ZOOM::IRSpy::_really_rewrite_record($conn, $xc->getContextNode(), $id);
+    ZOOM::IRSpy::_rewrite_zeerex_record($conn, $xc->getContextNode(), $id);
     print "Rewrote record '$id'\n";
 }
 
