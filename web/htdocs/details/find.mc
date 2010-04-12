@@ -54,6 +54,10 @@
         <th>Database Name</th>
 	<td><input type="text" name="net.path" size="20"/></td>
        </tr>
+       <tr>
+        <th>Reliability at least</th>
+	<td><input type="text" name="zeerex.reliabilityAtLeast" size="20"/></td>
+       </tr>
 <%doc>
        <tr><td colspan="2">&nbsp;</td></tr>
        <tr>
