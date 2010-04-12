@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: yazserver.xml,v 1.4 2007-01-24 09:28:03 mike Exp $ -->
+<yazgfs>
+ <listen id="tcp8019">tcp:@:8019</listen>
+ <server id="alvis" listenref="tcp8019">
+  <directory>./</directory>
+  <config>zebra.cfg</config>
+  <cql2rpn>pqf.properties</cql2rpn>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="zeerex.xml">
+   <xi:fallback>
+    <explain xmlns="http://explain.z3950.org/dtd/2.0/">
+     <serverInfo>
+      <host>localhost</host>
+      <port>8019</port>
+      <database>IR-Explain---2</database>
+     </serverInfo>
+    </explain>
+   </xi:fallback>
+  </xi:include>
+ </server>
+</yazgfs>
