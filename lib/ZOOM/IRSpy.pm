@@ -288,7 +288,7 @@ sub _irspy_to_zeerex {
 }
 
 
-sub _rewrite_record {
+sub _rewrite_irspy_record {
     my $this = shift();
     my($conn) = @_;
 
@@ -433,7 +433,7 @@ sub check {
 		    }
 		    if (!defined $nextaddr) {
 			$conn->log("irspy", "has no more tests: removing");
-			$this->_rewrite_record($conn);
+			$this->_rewrite_irspy_record($conn);
 			$conn->option(rewrote_record => 1);
 			my $newconn = $this->_next_connection();
 			if (!defined $newconn) {
