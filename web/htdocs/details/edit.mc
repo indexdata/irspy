@@ -352,7 +352,7 @@ if ($update && @changedFields) {
 					     "e:metaInfo/e:dateModified" ] },
 				{ dateModified => isodate(time()) });
     die "Didn't set dateModified!" if !@x;
-    ZOOM::IRSpy::_really_rewrite_record($conn, $xc->getContextNode(),
+    ZOOM::IRSpy::_rewrite_zeerex_record($conn, $xc->getContextNode(),
 					$op eq "edit" ? $id : undef);
 }
 
