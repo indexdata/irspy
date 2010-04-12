@@ -262,7 +262,9 @@ sub _hash {
 
 sub _irspy_to_zeerex {
     my $this = shift();
-    my($conn, $save_xml) = @_;
+    my($conn) = @_;
+
+    my $save_xml = $ENV{IRSPY_SAVE_XML};
     my $irspy_doc = $conn->record()->{zeerex}->ownerDocument;
 
     if ($save_xml) {
@@ -291,7 +293,7 @@ sub _rewrite_record {
     my($conn) = @_;
 
     $conn->log("irspy", "rewriting XML record");
-    my $rec = $this->_irspy_to_zeerex($conn, $ENV{IRSPY_SAVE_XML});
+    my $rec = $this->_irspy_to_zeerex($conn);
 
     # Since IRSpy can run for a long time between writes back to the
     # database, it's quite possible for the server to have closed the
