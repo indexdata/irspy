@@ -40,8 +40,8 @@ dump:
 	rm -rf records-${DATE}.old
 	-test -e records-${DATE} && mv records-${DATE} records-${DATE}.old
 	mkdir records-${DATE}
-	cd records-${DATE} && ../../bin/irspy-dump.pl irspy.indexdata.com:8018/IR-Explain---1
-	tar cfz records-${DATE} records-${DATE}
+	cd records-${DATE} && ../../bin/irspy-dump.pl localhost:8018/IR-Explain---1
+	tar cf - records-${DATE} | gzip > records-${DATE}.tgz
 	
 clean:
 	rm -f terse.properties
