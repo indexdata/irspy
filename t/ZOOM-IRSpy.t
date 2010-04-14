@@ -17,7 +17,7 @@ my $irspy_to_zeerex_xsl = 'xsl/irspy2zeerex.xsl';
 $ZOOM::IRSpy::irspy_to_zeerex_xsl = $irspy_to_zeerex_xsl
   if $irspy_to_zeerex_xsl;
 
-my $dbname = 'localhost:8018/IR-Explain---1';
+my $dbname =  ZOOM::IRSpy::connect_to_registry();
 my $spy = new ZOOM::IRSpy( $dbname, "admin", "fruitbat" );
 
 isa_ok( $spy, 'ZOOM::IRSpy' );
