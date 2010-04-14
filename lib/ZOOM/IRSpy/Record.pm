@@ -8,6 +8,7 @@ use 5.008;
 use strict;
 use warnings;
 
+use Scalar::Util;
 use XML::LibXML;
 use XML::LibXML::XPathContext;
 use ZOOM::IRSpy::Utils qw(xml_encode isodate irspy_xpath_context);
@@ -36,12 +37,17 @@ sub new {
 
     ### Parser should be in the IRSpy object
     my $parser = new XML::LibXML();
-    return bless {
+    my $this = bless {
 	irspy => $irspy,
 	target => $target,
 	parser => $parser,
 	zeerex => $parser->parse_string($zeerex)->documentElement(),
     }, $class;
+
+    #Scalar::Util::weaken($this->{irspy});
+    #Scalar::Util::weaken($this->{parser});
+
+    return $this;
 }
 
 

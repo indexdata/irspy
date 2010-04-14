@@ -22,8 +22,10 @@ use ZOOM::IRSpy::Utils qw(cql_target render_record
 			  modify_xml_document);
 
 our @ISA = qw();
-our $VERSION = '1.01';
+our $VERSION = '1.02';
 our $irspy_to_zeerex_xsl = dirname(__FILE__) . '/../../xsl/irspy2zeerex.xsl';
+our $debug = 0;
+our $xslt_max_depth = 250;
 
 
 # Enumeration for callback functions to return
@@ -69,6 +71,7 @@ sub new {
     my $class = shift();
     my($dbname, $user, $password, $activeSetSize) = @_;
 
+
     my @options;
     push @options, (user => $user, password => $password)
 	if defined $user;
@@ -78,10 +81,15 @@ sub new {
 
     my $xslt = new XML::LibXSLT;
 
+    # raise the maximum number of nested template calls and variables/params (default 250)
+    warn "raise the maximum number of nested template calls: $xslt_max_depth\n" if $debug;
+    $xslt->max_depth($xslt_max_depth);
+
     $xslt->register_function($ZOOM::IRSpy::Utils::IRSPY_NS, 'strcmp',
                              \&ZOOM::IRSpy::Utils::xslt_strcmp);
 
     my $libxml = new XML::LibXML;
+    warn "use irspy_to_zeerex_xsl xslt sheet: $irspy_to_zeerex_xsl\n" if $debug;
     my $xsl_doc = $libxml->parse_file($irspy_to_zeerex_xsl);
     my $irspy_to_zeerex_style = $xslt->parse_stylesheet($xsl_doc);
 

@@ -1,6 +1,5 @@
 #! /bin/sh
 
-# $Id: init-script,v 1.8 2009-04-15 18:16:46 wosch Exp $
 #
 # This is a startup/shutdown script for IRSpy's Zebra server, suitable
 # for use in a SysV-style init directory such as /etc/init.d (on
@@ -19,10 +18,10 @@ logfile=/var/log/irspy-zebra
 pidfile=/var/run/irspy-zebra.pid
 
 case "`hostname`" in
-    xeno|rafa|test) IRSPYDIR=/usr/local/src/cvs/irspy/;;
+    nigiri | xeno | rafa | test) IRSPYDIR=/usr/local/src/git/irspy/;;
     shawarma|kafta) IRSPYDIR=/home/mike/cvs/irspy/;;
-    us2| us2.*) 
-	IRSPYDIR=/home/wosch/indexdata/irspy/
+    your-development-machine ) 
+	IRSPYDIR=/home/foobar/indexdata/irspy/
 	logfile=$IRSPYDIR/irspy-zebra
 	pidfile=$IRSPYDIR/irspy-zebra.pid
 	;;
@@ -60,3 +59,4 @@ case "$1" in
 	echo "Usage: $0 start|stop|restart" >&2
         ;;
 esac
+

@@ -1,4 +1,3 @@
-$Id: README,v 1.6 2007-04-18 15:22:48 mike Exp $
 
 ZOOM::IRSpy
 ===========
@@ -8,6 +7,37 @@ analyses and monitors IR servers implementing the Z39.50 and SRU/W
 protocols.  It is a successor to the ZSpy program.
 
 INSTALLATION
+
+for debian/ubuntu:
+-------------------
+
+DEBIAN DEPENDENCIES
+
+If you have a Debian-based operating system, you can get what you need
+by installing the following packages from the operating system's
+package store, using apt-get:
+
+sudo apt-get install \
+	libnet-z3950-zoom-perl \
+	libxml-libxml-common-perl \
+	liburi-perl \
+	libxml-libxml-perl \
+	libapache2-mod-perl2 \
+	libhtml-mason-perl \
+	libapache2-request-perl \
+	libapache2-mod-apreq2 \
+	libxml-libxslt-perl \
+	idzebra-2.0 \
+
+you may need one of the following packages for development:
+
+sudo apt-get install \
+	make perl-doc libxml2-utils tidy
+
+and may enable mod_apreq
+
+sudo a2enmod apreq
+
 
 To install this module type the following:
 
@@ -21,11 +51,11 @@ DEPENDENCIES
 This module requires these other modules and libraries, in addition to
 those specified in Makefile.PL:
 
-  Zebra, release 1.4.0 or later: see http://indexdata.com/zebra/
+  Zebra, release 2.0 or later: see http://www.indexdata.com/zebra/
 
 COPYRIGHT AND LICENCE
 
-Copyright (C) 2006 by Index Data ApS.
+Copyright (C) 2006-2010 by Index Data ApS.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.7 or,
