@@ -27,7 +27,8 @@ my $from_cache = 1;
 my $stats = $m->cache->get($key);
 if (!defined $stats || $reload) {
     $from_cache = 0;
-    $stats = new ZOOM::IRSpy::Stats("localhost:8018/IR-Explain---1", $query);
+    my $db = ZOOM::IRSpy::connect_to_registry();
+    $stats = new ZOOM::IRSpy::Stats($db, $query);
     $m->cache->set($key, $stats, "1 day");
 }
 </%perl>

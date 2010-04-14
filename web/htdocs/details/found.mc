@@ -54,7 +54,8 @@ if ($sort) {
 my $tried_to_open = 0;
 if (!defined $conn) {
   OPEN:
-    $conn = new ZOOM::Connection("localhost:8018/IR-Explain---1");
+    my $db = ZOOM::IRSpy::connect_to_registry();
+    $conn = new ZOOM::Connection($db);
     $conn->option(elementSetName => "zeerex");
     $conn->option(count => 20);
 }

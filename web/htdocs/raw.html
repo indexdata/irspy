@@ -7,7 +7,8 @@ use ZOOM;
 use ZOOM::IRSpy::Utils qw(cql_target);
 </%once>
 <%perl>
-my $conn = new ZOOM::Connection("localhost:8018/IR-Explain---1");
+my $db = ZOOM::IRSpy::connect_to_registry();
+my $conn = new ZOOM::Connection($db);
 $conn->option(elementSetName => "zeerexNoAuth");
 my $rs = $conn->search(new ZOOM::Query::CQL(cql_target($id)));
 my $n = $rs->size();

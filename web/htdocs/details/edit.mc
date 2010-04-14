@@ -32,7 +32,8 @@ duplicate ID.
 die "op = new but id defined" if $op eq "new" && defined $id;
 die "op != new but id undefined" if $op ne "new" && !defined $id;
 
-my $conn = new ZOOM::Connection("localhost:8018/IR-Explain---1", 0,
+my $db = ZOOM::IRSpy::connect_to_registry();
+my $conn = new ZOOM::Connection($db, 0,
 				user => "admin", password => "fruitbat",
 				elementSetName => "zeerex");
 

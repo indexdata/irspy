@@ -15,7 +15,8 @@ $really => 0
      </p>
 % } else {
 <%perl>
-    my $conn = new ZOOM::Connection("localhost:8018/IR-Explain---1", 0,
+    my $db = ZOOM::IRSpy::connect_to_registry();
+    my $conn = new ZOOM::Connection($db, 0,
 				    user => "admin", password => "fruitbat",
 				    elementSetName => "zeerex");
     ZOOM::IRSpy::_delete_record($conn, $id);
