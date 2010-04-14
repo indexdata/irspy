@@ -14,7 +14,7 @@
 
 # zebrasrv-2.0 may be in /usr/local/bin, hence this slight security hole
 PATH=/bin:/usr/bin:/usr/local/bin/
-logfile=/var/log/irspy-zebra
+logfile=/var/log/irspy-zebra.log
 pidfile=/var/run/irspy-zebra.pid
 
 case "`hostname`" in
