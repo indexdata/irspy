@@ -5,6 +5,8 @@ package ZOOM::IRSpy::Stats;
 use 5.008;
 use strict;
 use warnings;
+
+use Scalar::Util;
 use ZOOM::IRSpy::Utils qw(irspy_xpath_context);
 
 =head1 NAME
