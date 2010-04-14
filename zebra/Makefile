@@ -42,7 +42,7 @@ dump:
 	mkdir records-${DATE}
 	cd records-${DATE} && ../../bin/irspy-dump.pl localhost:8018/IR-Explain---1
 	cd records-${DATE} && ( for i in *.xml; do tidy -xml -i -m -w 140 $$i; done ) > /dev/null 2>&1 
-	tar cf - records-${DATE} | gzip > records-${DATE}.tgz
+	tar cf - records-${DATE} | gzip > records-${DATE}.tar.gz
 	
 clean:
 	rm -f terse.properties
