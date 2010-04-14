@@ -41,11 +41,6 @@ lib/ZOOM/IRSpy/Web.pm
 lib/ZOOM/IRSpy/WebService.pod
 t/ZOOM-IRSpy.t
 web/conf/README
-web/conf/apache1.3/newshawarma-proxy.conf
-web/conf/apache1.3/newshawarma.conf
-web/conf/apache1.3/rafa.conf
-web/conf/apache1.3/test.conf
-web/conf/apache1.3/xeno.conf
 web/htdocs/admin/all.html
 web/htdocs/admin/check.html
 web/htdocs/admin/delete.html
