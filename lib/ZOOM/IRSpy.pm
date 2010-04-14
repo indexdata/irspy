@@ -116,6 +116,16 @@ sub new {
     return $this;
 }
 
+# wrapper to read the IRSpy database name from environment variable / apache config
+sub connect_to_registry {
+    my %args = @_;
+
+    # XXX: we could also handle her: user, password, elementSetName
+
+    my $database = $ENV{IRSpyDbName} || "localhost:8018/IR-Explain---1";
+
+    return $database;
+}
 
 sub log {
     my $this = shift();
