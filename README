@@ -32,7 +32,7 @@ sudo apt-get install \
 you may need one of the following packages for development:
 
 sudo apt-get install \
-	make perl-doc libxml2-utils
+	make perl-doc libxml2-utils tidy
 
 and may enable mod_apreq
 
