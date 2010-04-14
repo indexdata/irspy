@@ -6,6 +6,8 @@ use 5.008;
 use strict;
 use warnings;
 
+use Scalar::Util;
+
 =head1 NAME
 
 ZOOM::IRSpy::Task - base class for tasks in IRSpy
@@ -34,7 +36,7 @@ sub new {
     my $class = shift();
     my($conn, $udata, $options, %cb) = @_;
 
-    return bless {
+    my $this = bless {
 	irspy => $conn->{irspy},
 	conn => $conn,
 	udata => $udata,
@@ -42,6 +44,11 @@ sub new {
 	cb => \%cb,
 	timeRegistered => time(),
     }, $class;
+
+    #Scalar::Util::weaken($this->{irspy});
+    #Scalar::Util::weaken($this->{udata});
+
+    return $this;
 }
 
 
