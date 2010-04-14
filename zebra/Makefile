@@ -41,7 +41,7 @@ dump:
 	-test -e records-${DATE} && mv records-${DATE} records-${DATE}.old
 	mkdir records-${DATE}
 	cd records-${DATE} && ../../bin/irspy-dump.pl localhost:8018/IR-Explain---1
-	cd records-${DATE} && ( for i in *.xml; do tidy -xml -i -w 140 $$i; done ) > /dev/null 2>&1 
+	cd records-${DATE} && ( for i in *.xml; do tidy -xml -i -m -w 140 $$i; done ) > /dev/null 2>&1 
 	tar cf - records-${DATE} | gzip > records-${DATE}.tgz
 	
 clean:
