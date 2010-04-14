@@ -48,7 +48,7 @@ clean:
 	rm -f terse.properties
 
 distclean: clean
-	rm -rf ${IRSPY_ARCHIVE} ${ZEBRA_DIR} ${ZEBRA_DIR}
+	rm -rf ${IRSPY_ARCHIVE} ${ZEBRA_DIR} ${ZEBRA_DIR} ${ZEBRA_TEST_DIR}
 
 help:
 	@echo "make [ dump | test | newdb | newdb-test | clean | distclean ]"
