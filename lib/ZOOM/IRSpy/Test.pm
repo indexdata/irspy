@@ -6,6 +6,8 @@ use 5.008;
 use strict;
 use warnings;
 
+use Scalar::Util;
+
 =head1 NAME
 
 ZOOM::IRSpy::Test - base class for tests in IRSpy

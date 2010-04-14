@@ -6,6 +6,8 @@ use 5.008;
 use strict;
 use warnings;
 
+use Scalar::Util;
+
 use Exporter 'import';
 our @EXPORT_OK = qw(utf8param
 		    isodate
