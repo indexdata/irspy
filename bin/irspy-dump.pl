@@ -33,7 +33,7 @@ foreach my $i (1..$n) {
     print " $i/$n (", int($i*100/$n), "%)\n" if $i % $step == 0;
     my $rec = $rs->record($i-1);
     my $xml = $rec->render();
-    open F, ">$i.xml";
+    open F, ">$i.xml" or die "open $i.xml: $!\n";
     print F $xml;
     close F;
 }
