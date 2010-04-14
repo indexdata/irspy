@@ -48,7 +48,8 @@ if (!defined $fin) {
 my $xml = join("", <$fin>);
 my $xc = irspy_xpath_context($xml);
 my $id = irspy_record2identifier($xc);
-my $conn = new ZOOM::Connection("localhost:8018/IR-Explain---1", 0,
+my $db = ZOOM::IRSpy::connect_to_registry();
+my $conn = new ZOOM::Connection($db, 0,
 				user => "admin", password => "fruitbat",
 				elementSetName => "zeerex");
 ZOOM::IRSpy::_rewrite_zeerex_record($conn, $xc->getContextNode());
