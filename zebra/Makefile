@@ -36,7 +36,7 @@ newdb-test:
 	${ZEBRAIDX_TEST} update ${IRSPY_ARCHIVE}
 	${ZEBRAIDX_TEST} commit
 
-# note: the test database use localhost:8019/IR-Explain---2
+# note: the test database use localhost:8019/IR-Explain---1
 dump:
 	rm -rf records-${DATE}.old
 	-test -e records-${DATE} && mv records-${DATE} records-${DATE}.old

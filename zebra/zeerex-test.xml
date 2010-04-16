@@ -5,7 +5,7 @@
  <serverInfo protocol="SRW/SRU/Z39.50" version="1.1" method="GET/POST">
   <host>localhost</host>
   <port>8019</port>
-  <database>IR-Explain---2</database>
+  <database>IR-Explain---1</database>
  </serverInfo>
 
  <databaseInfo>
