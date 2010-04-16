@@ -18,7 +18,7 @@ logfile=/var/log/irspy-test-zebra.log
 pidfile=/var/run/irspy-test-zebra.pid
 
 case "`hostname`" in
-    nigiri | xeno | rafa | test) IRSPYDIR=/usr/local/src/git/irspy-test/;;
+    nigiri | donut | xeno | rafa | test) IRSPYDIR=/usr/local/src/git/irspy-test/;;
     shawarma|kafta) IRSPYDIR=/home/mike/cvs/irspy/;;
     your-development-machine ) 
 	IRSPYDIR=/home/foobar/indexdata/irspy/
