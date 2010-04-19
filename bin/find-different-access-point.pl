@@ -1,6 +1,5 @@
 #!/usr/bin/perl -w
 
-# $Id: find-different-access-point.pl,v 1.1 2006-10-17 15:25:51 mike Exp $
 #
 # Run like this:
 #	find-different-access-point.pl fish bagel:210/gils bagel:210/marc

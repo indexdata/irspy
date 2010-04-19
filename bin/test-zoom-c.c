@@ -1,6 +1,4 @@
 /*
- * $Id: test-zoom-c.c,v 1.2 2006-07-20 12:01:43 mike Exp $
- *
  * Run the same way as "test-pod.pl".  This is supposed to be an
  * exactly equivalent program but written using the ZOOM-C imperative
  * API for asynchronous events directly rather than through the

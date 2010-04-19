@@ -1,5 +1,3 @@
-/* $Id: setrlimit.c,v 1.4 2008-04-10 08:13:29 mike Exp $ */
-
 /*
  * A simple wrapper program for the setrlimit(2) system call, which
  * can be used to run a subprocess under a different regime -- much

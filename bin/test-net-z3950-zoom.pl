@@ -1,6 +1,4 @@
 #!/usr/bin/perl -w
-
-# $Id: test-net-z3950-zoom.pl,v 1.2 2006-07-19 16:28:59 mike Exp $
 #
 # Run the same way as "test-pod.pl".  This is supposed to be an
 # exactly equivalent program but written using the Net::Z3950::ZOOM
