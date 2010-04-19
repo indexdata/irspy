@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 #
 # Run the same way as "test-pod.pl".  This is supposed to be an
 # exactly equivalent program but written using the Net::Z3950::ZOOM

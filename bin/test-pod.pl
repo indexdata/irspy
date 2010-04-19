@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 #
 # Run like this:
 #	YAZ_LOG=pod perl -I ../lib test-pod.pl "bagel.indexdata.com/gils" "bagel.indexdata.com/marc"

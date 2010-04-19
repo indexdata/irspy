@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 
 #
 #	perl -I ../lib irspy-stats.pl localhost:8018/IR-Explain---1 "net.host=*indexdata*"

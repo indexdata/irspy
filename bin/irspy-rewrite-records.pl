@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 
 # perl -I ../lib irspy-rewrite-records.pl localhost:8018/IR-Explain---1
 
