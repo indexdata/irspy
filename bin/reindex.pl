@@ -1,7 +1,5 @@
 #!/usr/bin/perl -w
 
-# $Id: reindex.pl,v 1.3 2007-03-07 11:35:38 mike Exp $
-
 use strict;
 use warnings;
 use ZOOM;

@@ -1,6 +1,4 @@
 #!/usr/bin/perl -w
-
-# $Id: test-xml-update.pl,v 1.9 2007-03-19 18:50:22 mike Exp $
 #
 # Run like this:
 #	perl -I ../lib ./test-xml-update.pl bagel.indexdata.dk:210/gils title "Test Database" author "Adam" description "This is a nice database"

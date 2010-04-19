@@ -1,4 +1,3 @@
-# $Id: Makefile,v 1.3 2007-03-02 12:02:16 mike Exp $
 
 LIBS = -lyaz -lxml2 -lssl	# Ubuntu Linux 6.06
 
