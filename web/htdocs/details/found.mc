@@ -125,19 +125,19 @@ push @ids, $id;
 </%perl>
       <tr style="background: <% ($i % 2) ? '#ffffc0' : 'white' %>">
        <td><% $i %></td>
-       <td><a href="<% xml_encode("/full.html?id=" . uri_escape($id))
+       <td><a href="<% xml_encode("/full.html?id=" . uri_escape_utf8($id))
 		%>"><% xml_encode($title) %></a></td>
        <td><% xml_encode($reliability, "", { nbsp => 1 }) %></td>
        <td><% xml_encode($host, "") %></td>
        <td><% xml_encode($port, "") %></td>
        <td><% xml_encode($db, "") %></td>
        <td>
-	<a href="<% xml_encode("/admin/check.html?id=" . uri_escape($id))
+	<a href="<% xml_encode("/admin/check.html?id=" . uri_escape_utf8($id))
 		%>" title="Test this target">Test</a
 	>&nbsp;<a href="<% xml_encode("/admin/edit.html?op=edit&id=" .
-		uri_escape($id))
+		uri_escape_utf8($id))
 		%>" title="Edit this target's record">Edit</a
-	>&nbsp;<a href="<% xml_encode("/raw.html?id=" . uri_escape($id))
+	>&nbsp;<a href="<% xml_encode("/raw.html?id=" . uri_escape_utf8($id))
 		%>" title="Raw XML record">XML</a>
        </td>
       </tr>
@@ -149,11 +149,11 @@ print_navlink(\%params, $last < $n, "Next", $skip+$count);
 </%perl>
      <p>
       <a href="<% "/admin/check.html?" .
-	xml_encode(join("&", map { "id=" . uri_escape($_) } @ids))
+	xml_encode(join("&", map { "id=" . uri_escape_utf8($_) } @ids))
 	%>">[Test all targets on this list]</a>
      </p>
      <p>
-      <a href="<% "/stats.html?query=" . xml_encode(uri_escape($query))
+      <a href="<% "/stats.html?query=" . xml_encode(uri_escape_utf8($query))
 	%>">[Statistics for targets on this list]</a>
      </p>
 % }

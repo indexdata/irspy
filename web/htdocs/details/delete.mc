@@ -10,8 +10,8 @@ $really => 0
       <% xml_encode($id) %>?
      </p>
      <p>
-      <a href="?really=1&amp;id=<% xml_encode(uri_escape($id)) %>">Yes</a><br/>
-      <a href="/full.html?id=<% xml_encode(uri_escape($id)) %>">No</a><br/>
+      <a href="?really=1&amp;id=<% xml_encode(uri_escape_utf8($id)) %>">Yes</a><br/>
+      <a href="/full.html?id=<% xml_encode(uri_escape_utf8($id)) %>">No</a><br/>
      </p>
 % } else {
 <%perl>

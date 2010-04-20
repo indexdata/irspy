@@ -103,20 +103,20 @@ my $id = utf8param($r, "id");
      <div class="panel2">
       <b>This Target</b>
       <br/>
-      <a href="<% xml_encode("/full.html?id=" . uri_escape($id)) %>">Show details</a>
+      <a href="<% xml_encode("/full.html?id=" . uri_escape_utf8($id)) %>">Show details</a>
       <br/>
-      <a href="<% xml_encode("/admin/edit.html?op=edit&id=" . uri_escape($id)) %>">Edit details</a>
+      <a href="<% xml_encode("/admin/edit.html?op=edit&id=" . uri_escape_utf8($id)) %>">Edit details</a>
       <br/>
-      <a href="<% xml_encode("/admin/edit.html?op=copy&id=" . uri_escape($id)) %>">Copy target</a>
+      <a href="<% xml_encode("/admin/edit.html?op=copy&id=" . uri_escape_utf8($id)) %>">Copy target</a>
       <br/>
-      <a href="<% xml_encode("/admin/delete.html?id=" . uri_escape($id)) %>">Delete target</a>
+      <a href="<% xml_encode("/admin/delete.html?id=" . uri_escape_utf8($id)) %>">Delete target</a>
       <p>
-       <a href="<% xml_encode("/admin/check.html?id=" . uri_escape($id)) . "&amp;test=Quick" %>">Quick Test</a>
+       <a href="<% xml_encode("/admin/check.html?id=" . uri_escape_utf8($id)) . "&amp;test=Quick" %>">Quick Test</a>
        <br/>
-       <a href="<% xml_encode("/admin/check.html?id=" . uri_escape($id)) . "&amp;test=Main" %>">Full Test</a>
+       <a href="<% xml_encode("/admin/check.html?id=" . uri_escape_utf8($id)) . "&amp;test=Main" %>">Full Test</a>
       </p>
       <p>
-       <a href="<% xml_encode("/raw.html?id=" . uri_escape($id)) %>">XML</a>
+       <a href="<% xml_encode("/raw.html?id=" . uri_escape_utf8($id)) %>">XML</a>
       </p>
 <%doc><!-- Maybe this would be too heavyweight -->
       <br/>
