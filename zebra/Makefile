@@ -1,5 +1,5 @@
 
-IRSPY_ARCHIVE=		records-2010-04-14
+IRSPY_ARCHIVE=		records-2010-04-20
 IRSPY_ARCHIVE_EXT=	.tar.gz
 DUMP_DIR=		irspy-dump
 ZEBRA_DIR=		db
