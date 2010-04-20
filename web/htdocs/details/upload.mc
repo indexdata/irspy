@@ -59,6 +59,6 @@ ZOOM::IRSpy::_rewrite_zeerex_record($conn, $xc->getContextNode());
      </p>
      <p>
       Proceed to
-      <a href="<% xml_encode("/full.html?id=" . uri_escape($id))
+      <a href="<% xml_encode("/full.html?id=" . uri_escape_utf8($id))
 	%>">the new record</a>.
      </p>
