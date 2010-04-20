@@ -84,7 +84,7 @@ if (!defined $id) {
 	# that the new record is not a duplicate of an existing one.
 	my $rs = $conn->search(new ZOOM::Query::CQL(cql_target($newid)));
 	if ($rs->size() > 0) {
-	    my $qnewid = xml_encode(uri_escape($newid));
+	    my $qnewid = xml_encode(uri_escape_utf8($newid));
 	    print qq[<p class="error">
 		There is already
 		<a href='?op=edit&amp;id=$newid'>a record</a>
