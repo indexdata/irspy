@@ -7,7 +7,7 @@ $component
 use URI::Escape qw(uri_escape uri_escape_utf8);
 use ZOOM;
 use ZOOM::IRSpy::Web;
-use ZOOM::IRSpy::Utils qw(utf8param isodate xml_encode cql_target cql_quote
+use ZOOM::IRSpy::Utils qw(utf8param trimField isodate xml_encode cql_target cql_quote
                           irspy_xpath_context irspy_make_identifier
 			  irspy_record2identifier
 			  irspy_identifier2target modify_xml_document
