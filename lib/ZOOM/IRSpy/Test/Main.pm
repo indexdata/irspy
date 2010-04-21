@@ -1,4 +1,3 @@
-# $Id: Main.pm,v 1.14 2007-04-18 15:24:55 mike Exp $
 
 package ZOOM::IRSpy::Test::Main;
 

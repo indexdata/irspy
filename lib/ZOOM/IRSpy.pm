@@ -1,4 +1,3 @@
-# $Id: IRSpy.pm,v 1.90 2008-07-16 11:42:13 mike Exp $
 
 package ZOOM::IRSpy;
 

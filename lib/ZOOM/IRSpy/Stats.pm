@@ -1,4 +1,3 @@
-# $Id: Stats.pm,v 1.7 2007-10-31 16:42:13 mike Exp $
 
 package ZOOM::IRSpy::Stats;
 

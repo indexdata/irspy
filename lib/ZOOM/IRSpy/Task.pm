@@ -1,4 +1,3 @@
-# $Id: Task.pm,v 1.7 2007-08-01 15:11:03 mike Exp $
 
 package ZOOM::IRSpy::Task;
 

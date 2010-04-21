@@ -1,4 +1,3 @@
-# $Id: Named.pm,v 1.6 2007-08-01 15:11:20 mike Exp $
 
 # See the "Main" test package for documentation
 

@@ -1,4 +1,3 @@
-# $Id: Node.pm,v 1.6 2007-02-28 17:34:54 mike Exp $
 
 package ZOOM::IRSpy::Node;
 

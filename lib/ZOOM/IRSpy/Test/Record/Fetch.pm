@@ -1,4 +1,3 @@
-# $Id: Fetch.pm,v 1.31 2009-04-21 13:42:58 mike Exp $
 
 # See the "Main" test package for documentation
 

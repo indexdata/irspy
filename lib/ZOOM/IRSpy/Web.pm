@@ -1,4 +1,3 @@
-# $Id: Web.pm,v 1.5 2007-05-08 16:20:04 mike Exp $
 
 package ZOOM::IRSpy::Web;
 

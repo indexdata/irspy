@@ -1,4 +1,3 @@
-# $Id: Explain.pm,v 1.7 2007-03-15 11:41:24 mike Exp $
 
 # See the "Main" test package for documentation
 

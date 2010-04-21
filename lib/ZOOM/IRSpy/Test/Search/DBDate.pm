@@ -1,4 +1,3 @@
-# $Id: DBDate.pm,v 1.4 2007-02-23 15:03:44 mike Exp $
 
 # This plugin tests searching on BIB-1 access-point 1011 (Date/time
 # added to db), the significance of which is that this search
