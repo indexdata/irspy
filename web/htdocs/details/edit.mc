@@ -342,7 +342,7 @@ my %fieldsByKey = map { ( $_->[0], $_) } @fields;
 my %data;
 foreach my $key (&utf8param($r)) {
     next if grep { $key eq $_ } qw(op id update);
-    $data{$key} = utf8param($r, $key);
+    $data{$key} = trimField( utf8param($r, $key) );
 }
 my @changedFields = modify_xml_document($xc, \%fieldsByKey, \%data);
 if ($update && @changedFields) {
