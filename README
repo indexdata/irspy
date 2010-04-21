@@ -34,9 +34,10 @@ you may need one of the following packages for development:
 sudo apt-get install \
 	make perl-doc libxml2-utils tidy yaz libyaz4-dev 
 
-and may enable mod_apreq
+and may enable mod_apreq: sudo a2enmod apreq
 
-sudo a2enmod apreq
+Note: mod_perl works only safe without threads. Please use the non-threaded 
+debian package: sudo apt-get install apache2-mpm-prefork
 
 
 To install this module type the following:
