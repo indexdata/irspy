@@ -1,5 +1,3 @@
-# $Id: Makefile,v 1.1 2006-12-05 12:26:37 mike Exp $
-
 PNG = ../htdocs/help-20px.png ../htdocs/help-16px.png
 
 all: $(PNG)
