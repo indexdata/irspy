@@ -32,7 +32,7 @@ sudo apt-get install \
 you may need one of the following packages for development:
 
 sudo apt-get install \
-	make perl-doc libxml2-utils tidy
+	make perl-doc libxml2-utils tidy yaz libyaz4-dev 
 
 and may enable mod_apreq
 
