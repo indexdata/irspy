@@ -1,4 +1,3 @@
-# $Id: Simple.pm,v 1.2 2006-07-21 11:29:17 mike Exp $
 
 package ZOOM::XML::Simple;
 

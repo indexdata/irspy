@@ -1,4 +1,3 @@
-# $Id: Boolean.pm,v 1.5 2007-03-15 11:40:39 mike Exp $
 
 # See the "Main" test package for documentation
 

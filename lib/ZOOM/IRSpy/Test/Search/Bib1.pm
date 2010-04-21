@@ -1,4 +1,3 @@
-# $Id: Bib1.pm,v 1.18 2007-03-15 11:40:27 mike Exp $
 
 # See the "Main" test package for documentation
 

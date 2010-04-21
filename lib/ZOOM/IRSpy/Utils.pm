@@ -1,4 +1,3 @@
-# $Id: Utils.pm,v 1.38 2009-04-15 18:16:45 wosch Exp $
 
 package ZOOM::IRSpy::Utils;
 

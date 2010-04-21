@@ -1,4 +1,3 @@
-# $Id: CQL.pm,v 1.1 2007-05-01 15:32:16 mike Exp $
 
 # See the "Main" test package for documentation
 

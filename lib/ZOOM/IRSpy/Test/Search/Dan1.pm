@@ -1,4 +1,3 @@
-# $Id: Dan1.pm,v 1.7 2007-03-15 11:40:52 mike Exp $
 
 # See the "Main" test package for documentation
 

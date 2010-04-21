@@ -1,4 +1,3 @@
-# $Id: Record.pm,v 1.28 2007-12-12 08:49:58 mike Exp $
 
 package ZOOM::IRSpy::Record;
 ### I don't think there's any reason for this to be separate from

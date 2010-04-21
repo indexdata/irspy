@@ -1,4 +1,3 @@
-# $Id: Pod.pm,v 1.22 2006-10-06 11:33:07 mike Exp $
 
 package ZOOM::Pod;
 
