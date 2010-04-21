@@ -1,8 +1,11 @@
 User-agent: *
-Disallow: /full.html
-Disallow: /all.html
-Disallow: /add.html
-Disallow: /upload.html
-Disallow: /raw.html
 Disallow: /admin/
+Disallow: /add.html
+Disallow: /all.html
+Disallow: /doc.html
+Disallow: /find.html
+Disallow: /full.html
+Disallow: /raw.html
+Disallow: /stats.html
+Disallow: /upload.html
 
