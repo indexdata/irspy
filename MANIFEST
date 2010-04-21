@@ -46,7 +46,7 @@ web/htdocs/admin/check.html
 web/htdocs/admin/delete.html
 web/htdocs/admin/edit.html
 web/htdocs/admin/index.html
-web/htdocs/admin/upload.html
+web/htdocs/upload.html
 web/htdocs/ap.html
 web/htdocs/beach.jpeg
 web/htdocs/chrome/layout.mc
