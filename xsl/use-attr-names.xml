@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    $Id: use-attr-names.xml,v 1.2 2006-10-27 12:50:06 sondberg Exp $
-
     Maps numeric use attributes to human readable names - credits to Per
 -->
 <mapping>
