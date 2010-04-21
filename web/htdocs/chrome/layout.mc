@@ -1,4 +1,3 @@
-%# $Id: layout.mc,v 1.38 2007-07-17 13:07:57 mike Exp $
 <%args>
 $debug => undef
 $title

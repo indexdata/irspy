@@ -1,4 +1,3 @@
-%# $Id: edit.mc,v 1.40 2009-04-15 18:16:46 wosch Exp $
 <%args>
 $op
 $id => undef ### should be extracted using utf8param()

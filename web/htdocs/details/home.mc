@@ -1,4 +1,3 @@
-%# $Id: home.mc,v 1.11 2008-07-03 08:14:21 mike Exp $
      <div class="essay">
      <h2>The Z39.50 Target Directory</h2>
      <p>
