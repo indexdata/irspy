@@ -7,7 +7,7 @@ README
 bin/Makefile
 bin/irspy-stats.pl
 bin/irspy.pl
-bin/irspy_xsltproc.pl
+bin/irspy-xsltproc.pl
 bin/reindex.pl
 bin/setrlimit.c
 lib/ZOOM/IRSpy.pm
