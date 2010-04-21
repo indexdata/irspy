@@ -104,6 +104,15 @@ sub isodate {
 		   $year+1900, $mon+1, $mday, $hour, $min, $sec);
 }
 
+# strips whitespaces and start and ends of fields
+sub trimFields {
+    my $field  = shift;
+
+    $field =~ s/^\s+//;
+    $field =~ s/\s+$//;
+
+    return $field;
+}
 
 # I can't -- just can't, can't, can't -- believe that this function
 # isn't provided by one of the core XML modules.  But the evidence all
