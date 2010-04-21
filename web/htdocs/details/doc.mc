@@ -1,4 +1,3 @@
-%# $Id: doc.mc,v 1.4 2007-05-03 14:13:19 mike Exp $
 <%once>
 use Pod::Html;
 use IO::Dir;

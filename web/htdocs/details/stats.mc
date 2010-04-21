@@ -1,4 +1,3 @@
-%# $Id: stats.mc,v 1.9 2007-11-02 12:49:28 mike Exp $
 <%doc>
 Here are the headings in the Z-Spy version:
 	The ten most commonly supported Bib-1 Use attributes

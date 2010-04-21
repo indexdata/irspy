@@ -1,4 +1,3 @@
-%# $Id: link.mc,v 1.9 2007-06-25 10:38:35 mike Exp $
 <%args>
 $help
 </%args>

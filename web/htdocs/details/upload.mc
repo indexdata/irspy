@@ -1,4 +1,3 @@
-%# $Id: upload.mc,v 1.3 2009-04-16 18:09:44 wosch Exp $
 <%args>
 $filename => undef
 </%args>

@@ -1,4 +1,3 @@
-%# $Id: ap.mc,v 1.1 2007-06-28 12:19:37 mike Exp $
 <%args>
 $id
 $set
