@@ -104,8 +104,8 @@ sub isodate {
 		   $year+1900, $mon+1, $mday, $hour, $min, $sec);
 }
 
-# strips whitespaces and start and ends of fields
-sub trimFields {
+# strips whitespaces and start and ends of a field
+sub trimField {
     my $field  = shift;
 
     $field =~ s/^\s+//;
