@@ -9,6 +9,7 @@ use Scalar::Util;
 
 use Exporter 'import';
 our @EXPORT_OK = qw(utf8param
+		    trimField
 		    isodate
 		    xml_encode 
 		    cql_quote
