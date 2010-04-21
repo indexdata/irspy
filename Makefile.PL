@@ -1,4 +1,3 @@
-# $Id: Makefile.PL,v 1.14 2007-05-09 12:04:36 mike Exp $
 
 use 5.008;
 use strict;
