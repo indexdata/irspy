@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id: filterconf.xml,v 1.4 2007-05-11 08:30:23 mike Exp $ -->
 <schemaInfo>
  <schema name="index" stylesheet="zeerex2index.xsl"
 	 identifier="http://indexdata.dk/zebra/xslt/1"/>

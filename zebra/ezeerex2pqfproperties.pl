@@ -1,6 +1,5 @@
 #! /usr/bin/perl -w
 
-# $Id: ezeerex2pqfproperties.pl,v 1.7 2006-06-20 11:24:22 mike Exp $
 #
 # Run like this:
 #	./ezeerex2pqfproperties.pl zeerex.xml
