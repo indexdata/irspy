@@ -9,6 +9,12 @@ use ZOOM::IRSpy::Utils qw(render_record);
 
 my($dbname) = @ARGV;
 die "$0 no database name specified" if !defined $dbname;
+
+my $irspy_to_zeerex_xsl = $ARGV[1] || '../xsl/irspy2zeerex.xsl';
+
+$ZOOM::IRSpy::irspy_to_zeerex_xsl = $irspy_to_zeerex_xsl
+  if $irspy_to_zeerex_xsl;
+
 my $spy = new ZOOM::IRSpy($dbname, "admin", "fruitbat");
 my $rs = $spy->{conn}->search(new ZOOM::Query::CQL("cql.allRecords=1"));
 print STDERR "rewriting ", $rs->size(), " target records";
