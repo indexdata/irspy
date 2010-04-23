@@ -5,6 +5,7 @@ DUMP_DIR=		irspy-dump
 ZEBRA_DIR=		db
 ZEBRAIDX=		zebraidx-2.0 
 ZEBRAIDX_TEST=		zebraidx-2.0 -c zebra-test.cfg
+IRSPY_DATABASE=		localhost:8018/IR-Explain---1
 
 # debugging
 ZEBRA_TEST_DIR=		db-test
@@ -41,7 +42,7 @@ dump:
 	rm -rf records-${DATE}.old
 	-test -e records-${DATE} && mv records-${DATE} records-${DATE}.old
 	mkdir records-${DATE}
-	cd records-${DATE} && ../../bin/irspy-dump.pl localhost:8018/IR-Explain---1
+	cd records-${DATE} && ../../bin/irspy-dump.pl ${IRSPY_DATABASE}
 	cd records-${DATE} && ( for i in *.xml; do tidy -xml -i -m -w 140 $$i; done ) > /dev/null 2>&1 
 	tar cf - records-${DATE} | gzip > records-${DATE}.tar.gz
 	
