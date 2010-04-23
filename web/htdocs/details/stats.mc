@@ -83,7 +83,7 @@ $col3 => undef
 my $hr;
 $hr = $stats->{$data};
 my @sorted = sort { $hr->{$b} <=> $hr->{$a} || $a <=> $b } keys %$hr;
-my $n = @sorted; $n = $maxrows if @sorted > 10;
+my $n = @sorted; $n = $maxrows if @sorted > 10 && $n > $maxrows;
 foreach my $i (1..$n) {
     my $key = $sorted[$i-1];
 </%perl>
