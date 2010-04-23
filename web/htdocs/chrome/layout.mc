@@ -65,7 +65,7 @@ use ZOOM::IRSpy::Utils qw(utf8param trimField isodate xml_encode cql_target cql_
       <a href="/"><b>Home</b></a><br/>
       <a href="/admin/all.html">Test&nbsp;all&nbsp;targets</a><br/>
       <a href="/find.html">Find a target</a><br/>
-      <a href="/add.html">Add a target</a><br/>
+      <a href="/add_target.html">Add a target</a><br/>
       <a href="/upload.html">Upload a target</a><br/>
       <a href="/stats.html">Statistics</a><br/>
      </p>
