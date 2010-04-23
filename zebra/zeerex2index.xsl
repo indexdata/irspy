@@ -114,7 +114,7 @@
    </xsl:for-each>
 
    <!-- recordInfo -->
-   <z:index name="zeerex:recordSyntax" type="0">
+   <z:index name="zeerex:recordSyntax" type="w">
     <xsl:value-of select="e:recordInfo/e:recordSyntax/@name"/>
     <!-- ### But @identifier is an OID for Z39.50 -->
    </z:index>
