@@ -40,12 +40,12 @@ if (!defined $stats || $reload) {
      <p>Recalculating stats</p>
 % }
 <& table, stats => $stats, data => "bib1AccessPoints",
-	title => "The ten most commonly supported Bib-1 Use attributes",
-	headings => [ "Attribute", "Name"],
+	title => "The twenty most commonly supported Bib-1 Use attributes",
+	headings => [ "Attribute", "Name"], maxrows => 20, 
 	col3 => sub { bib1_access_point(@_) } &>
 <& table, stats => $stats, data => "recordSyntaxes",
 	title => "Record syntax support by database",
-	headings => [ "Record Syntax"] &>
+	headings => [ "Record Syntax"], maxrows => 30 &>
 <& table, stats => $stats, data => "explain",
 	title => "Explain Support",
 	headings => [ "Explain Category"] &>
