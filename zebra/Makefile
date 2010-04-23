@@ -5,7 +5,7 @@ DUMP_DIR=		irspy-dump
 ZEBRA_DIR=		db
 ZEBRAIDX=		zebraidx-2.0 
 ZEBRAIDX_TEST=		zebraidx-2.0 -c zebra-test.cfg
-IRSPY_DATABASE=		localhost:8018/IR-Explain---1
+IRSPY_DATABASE=		$${IRSpyDbName-"localhost:8018/IR-Explain---1"}
 
 # debugging
 ZEBRA_TEST_DIR=		db-test
