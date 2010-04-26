@@ -57,16 +57,12 @@ sub completed_search {
 	my $qindex = $udata->{queryindex}+1;
 	my $q = $queries[$qindex];
 	return ZOOM::IRSpy::Status::TEST_SKIPPED
-	    if !defined $q;
+	    if !defined $q || $conn->record->zoom_error->{TIMEOUT} >= $max_timeout_errors;
 
-	if ($conn->record->zoom_error->{TIMEOUT} >= $max_timeout_errors) {
-	    $conn->log("irspy_test", "Got $max_timeout_errors timeouts, give up...");
-        } else {
-	    $conn->log("irspy_test", "Trying another search ...");
-	    $conn->irspy_search_pqf($queries[$qindex], { queryindex => $qindex }, {},
+	$conn->log("irspy_test", "Trying another search ...");
+	$conn->irspy_search_pqf($queries[$qindex], { queryindex => $qindex }, {},
 				ZOOM::Event::ZEND, \&completed_search,
 				exception => \&completed_search);
-	}
 	return ZOOM::IRSpy::Status::TASK_DONE;
     }
 
