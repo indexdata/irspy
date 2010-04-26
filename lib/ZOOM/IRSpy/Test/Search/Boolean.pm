@@ -52,6 +52,7 @@ sub error {
     $conn->log("irspy_test", "search using boolean operator ", $operator,
                              " had error: ", $exception);
     update($conn, $operator, 0);
+    zoom_error_timeout_update($conn, $exception);
     return ZOOM::IRSpy::Status::TASK_DONE;
 }
 

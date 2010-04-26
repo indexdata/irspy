@@ -50,6 +50,7 @@ sub error {
     my $rec = $conn->record();
     $rec->append_entry("irspy:status", "<irspy:search_dbdate ok='0'>" .
 		       isodate(time()) . "</irspy:search_dbdate>");
+    zoom_error_timeout_update($conn, $exception);
     return ZOOM::IRSpy::Status::TEST_BAD;
 }
 
