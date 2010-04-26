@@ -7,6 +7,9 @@ use warnings;
 
 use Scalar::Util;
 
+use Exporter 'import';
+our @EXPORT = qw(zoom_error_timeout_update zoom_error_timeout_check); 
+
 =head1 NAME
 
 ZOOM::IRSpy::Test - base class for tests in IRSpy
@@ -21,6 +24,7 @@ I<## To follow>
 
 =cut
 
+
 sub subtests { () }
 
 sub timeout { undef }
@@ -32,6 +36,29 @@ sub start {
     die "can't start the base-class test";
 }
 
+
+our $max_timeout_errors = $ZOOM::IRSpy::max_timeout_errors;
+
+sub zoom_error_timeout_update {
+    my ($conn, $exception) = @_;
+
+    if ($exception =~ /Timeout/i) {
+        $conn->record->zoom_error->{TIMEOUT}++;
+        $conn->log("irspy_test", "Increase timeout error counter to: " .
+                $conn->record->zoom_error->{TIMEOUT});
+    }
+}
+
+sub zoom_error_timeout_check {
+    my $conn = shift;
+
+    if ($conn->record->zoom_error->{TIMEOUT} >= $max_timeout_errors) {
+        $conn->log("irspy_test", "Got $max_timeout_errors or more timeouts, give up...");
+        return  1;
+    }
+
+    return 0;
+}
 
 =head1 SEE ALSO
 

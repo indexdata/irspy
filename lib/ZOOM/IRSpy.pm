@@ -448,6 +448,7 @@ sub check {
 	    my $conn = $copy_conn[$i0];
 	    #print "connection $i0 of $nconn/", scalar(@conn), " is $conn\n";
 	    next if !defined $conn;
+
 	    if (!$conn->current_task()) {
 		if (!$conn->next_task()) {
 		    # Out of tasks: we need a new test
@@ -460,11 +461,13 @@ sub check {
 			$conn->log("irspy_test",
 				   "checking for next test after '$address'");
 			$nextaddr = $this->_next_test($address);
-			if ($nextaddr && $conn->record->zoom_error->{TIMEOUT} >= $max_timeout_errors) {
-			    $conn->log("irspy", "Got to many timeouts, stop testing: " . $conn->record->zoom_error->{TIMEOUT});
-			    $nextaddr = "";
-                        }
 		    }
+
+                    if (ZOOM::IRSpy::Test::zoom_error_timeout_check($conn)) {
+		        $conn->log("irspy", "Got to many timeouts, stop testing");
+		        undef $nextaddr;
+                    }
+
 		    if (!defined $nextaddr) {
 			$conn->log("irspy", "has no more tests: removing");
 			$this->_rewrite_irspy_record($conn);
@@ -506,6 +509,13 @@ sub check {
 
 		my $task = $conn->next_task();
 		die "no next task queued for $conn" if !defined $task;
+
+	        # do not run the next task if we got too many timeouts
+                if (ZOOM::IRSpy::Test::zoom_error_timeout_check($conn)) {
+                    $conn->log("irspy_task", "Got to many timeouts for this target, do not start a new task");
+                    next;
+                }
+
 		$conn->log("irspy_task", "preparing task $task");
 		$conn->next_task(0);
 		$conn->current_task($task);

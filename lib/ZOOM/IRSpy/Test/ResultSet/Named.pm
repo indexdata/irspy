@@ -103,6 +103,7 @@ sub error {
     my($conn, $task, $test_args, $exception) = @_;
 
     $conn->log("irspy_test", "Named resultset check failed:", $exception);
+    zoom_error_timeout_update($conn, $exception);
     return ZOOM::IRSpy::Status::TASK_DONE;
 }
 

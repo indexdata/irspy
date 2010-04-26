@@ -53,6 +53,7 @@ sub error {
     $task->{rs}->destroy();
     $conn->log("irspy_test", "Explain category lookup failed: ", $exception);
     update($conn, $category, 0);
+    zoom_error_timeout_update($conn, $exception);
 
     return ZOOM::IRSpy::Status::TEST_BAD
 	if ($exception->code() == 109 || # Database unavailable
