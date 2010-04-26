@@ -435,8 +435,6 @@ sub check {
     my $timeout = $this->{timeout};
     $this->log("irspy", "beginnning with test '$topname' (timeout $timeout)");
 
-    $timeout = 2;
-
     my $nskipped = 0;
     my @conn = @{ $this->{connections} };
 
@@ -446,11 +444,8 @@ sub check {
 	my @copy_conn = @conn;	# avoid alias problems after splice()
 	my $nconn = scalar(@copy_conn);
 
-
 	foreach my $i0 (0 .. $#copy_conn) {
 	    my $conn = $copy_conn[$i0];
-		#warn Dumper($conn);
-
 	    #print "connection $i0 of $nconn/", scalar(@conn), " is $conn\n";
 	    next if !defined $conn;
 	    if (!$conn->current_task()) {
