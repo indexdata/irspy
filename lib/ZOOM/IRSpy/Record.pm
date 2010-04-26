@@ -41,6 +41,7 @@ sub new {
 	target => $target,
 	parser => $parser,
 	zeerex => $parser->parse_string($zeerex)->documentElement(),
+	zoom_error => { TIMEOUT => 0 },
     }, $class;
 
     #Scalar::Util::weaken($this->{irspy});
@@ -49,6 +50,7 @@ sub new {
     return $this;
 }
 
+sub zoom_error { return shift->{'zoom_error'} }
 
 sub _empty_zeerex_record {
     my($target) = @_;
