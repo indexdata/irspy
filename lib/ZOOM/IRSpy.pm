@@ -25,6 +25,7 @@ our $VERSION = '1.02';
 our $irspy_to_zeerex_xsl = dirname(__FILE__) . '/../../xsl/irspy2zeerex.xsl';
 our $debug = 0;
 our $xslt_max_depth = 250;
+our $max_timeout_errors = 3;
 
 
 # Enumeration for callback functions to return
@@ -434,6 +435,8 @@ sub check {
     my $timeout = $this->{timeout};
     $this->log("irspy", "beginnning with test '$topname' (timeout $timeout)");
 
+    $timeout = 2;
+
     my $nskipped = 0;
     my @conn = @{ $this->{connections} };
 
@@ -442,8 +445,12 @@ sub check {
     while (1) {
 	my @copy_conn = @conn;	# avoid alias problems after splice()
 	my $nconn = scalar(@copy_conn);
+
+
 	foreach my $i0 (0 .. $#copy_conn) {
 	    my $conn = $copy_conn[$i0];
+		#warn Dumper($conn);
+
 	    #print "connection $i0 of $nconn/", scalar(@conn), " is $conn\n";
 	    next if !defined $conn;
 	    if (!$conn->current_task()) {
@@ -458,6 +465,10 @@ sub check {
 			$conn->log("irspy_test",
 				   "checking for next test after '$address'");
 			$nextaddr = $this->_next_test($address);
+			if ($nextaddr && $conn->record->zoom_error->{TIMEOUT} >= $max_timeout_errors) {
+			    $conn->log("irspy", "Got to many timeouts, stop testing: " . $conn->record->zoom_error->{TIMEOUT});
+			    $nextaddr = "";
+                        }
 		    }
 		    if (!defined $nextaddr) {
 			$conn->log("irspy", "has no more tests: removing");
