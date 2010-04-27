@@ -76,7 +76,7 @@ sub completed_search {
                    'librismarc',
                    'mab',
                    'normarc',
-#                   'opac',
+                   'opac',
                    'picamarc',
                    'rusmarc',
                    'summary',
