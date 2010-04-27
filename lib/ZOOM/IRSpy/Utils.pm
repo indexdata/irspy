@@ -10,6 +10,7 @@ use Scalar::Util;
 use Exporter 'import';
 our @EXPORT_OK = qw(utf8param
 		    trimField
+		    utf8paramTrim
 		    isodate
 		    xml_encode 
 		    cql_quote
@@ -83,7 +84,6 @@ sub utf8param {
     return $cooked;
 }
 
-
 # Utility functions follow, exported for use of web UI
 sub utf8param_apache1 {
     my($r, $key, $value) = @_;
@@ -113,6 +113,17 @@ sub trimField {
     $field =~ s/\s+$//;
 
     return $field;
+}
+
+# utf8param() with trim
+sub utf8paramTrim {
+    my $result = utf8param(@_);
+
+    if (defined $result) {
+	$result = trimField($result);	
+    }
+
+    return $result;
 }
 
 # I can't -- just can't, can't, can't -- believe that this function
