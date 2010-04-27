@@ -36,10 +36,11 @@ my $conn = new ZOOM::Connection($db, 0,
 				user => "admin", password => "fruitbat",
 				elementSetName => "zeerex");
 
-my $protocol = utf8param($r, "protocol");
-my $host = utf8param($r, "host");
-my $port = utf8param($r, "port");
-my $dbname = utf8param($r, "dbname");
+my $protocol = utf8paramTrim($r, "protocol");
+my $host = utf8paramTrim($r, "host");
+my $port = utf8paramTrim($r, "port");
+my $dbname = utf8paramTrim($r, "dbname");
+my $title = utf8paramTrim($r, "title");
 
 if ((!defined $port || $port eq "") &&
     (defined $protocol && $protocol ne "")) {
@@ -53,6 +54,7 @@ my $newid;
 if (defined $protocol && $protocol ne "" &&
     defined $host && $host ne "" &&
     defined $port && $port ne "" &&
+    defined $title && $title ne "" &&
     defined $dbname && $dbname ne "") {
     $newid = irspy_make_identifier($protocol, $host, $port, $dbname);
 }
@@ -66,7 +68,7 @@ if (!defined $id) {
     } elsif (!defined $newid) {
 	# Tried to create new record but data is insufficient
 	print qq[<p class="error">
-		Please specify protocol, host, port and database name.</p>\n];
+		Please specify title, protocol, host, port and database name.</p>\n];
 	undef $update;
     } elsif ($host !~ /^\w+\.[\w.]*\w$/i) {
 	print qq[<p class="error">
