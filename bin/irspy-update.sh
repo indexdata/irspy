@@ -9,6 +9,8 @@ home=/usr/local/src/git
 cd $home/irspy/bin || exit 2
 logdir=../tmp
 lockfile=../tmp/irspy-update.lock
+#test=Quick
+test=Main
 
 if [ -f $lockfile ]; then
     pid=`cat $lockfile`
@@ -19,10 +21,11 @@ if [ -f $lockfile ]; then
 fi
 echo $$ > $lockfile || exit 2
 
+weekday=`date '+%w'`
 for i in 0 1 2 3 4 5 6
 do
-   logfile=$logdir/irspy-mod-$i.log.`date '+%w'`
-   YAZ_LOG=irspy,irspy_test nice -10 time perl -I../lib irspy.pl -n 50 -d -M 3500 -a -t Main -m 7,$i localhost:8018/IR-Explain---1 > $logfile 2>&1
+   logfile=$logdir/irspy-mod-$i.log.$weekday
+   YAZ_LOG=irspy,irspy_test,irspy_task nice -10 time perl -I../lib irspy.pl -n 50 -d -M 3500 -a -t $test -m 7,$i localhost:8018/IR-Explain---1 > $logfile 2>&1
    gzip -f $logfile
 done
 
