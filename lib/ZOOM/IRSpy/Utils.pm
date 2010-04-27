@@ -352,7 +352,7 @@ sub modify_xml_document {
 	    }
 
 	} else {
-	    next if !$value; # No need to create a new empty node
+	    next if !defined $value; # No need to create a new empty node
 	    my($ppath, $selector) = $xpath =~ /(.*)\/(.*)/;
 	    dom_add_node($xc, $ppath, $selector, $value, @addAfter);
 	    #print "New $key ($xpath) = '$value'<br/>\n";
