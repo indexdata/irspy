@@ -816,7 +816,7 @@ sub calc_reliability_stats {
     return (0, 0, 0) if $nall == 0;
     my @okpings = $xc->findnodes('i:status/i:probe[@ok = "1"]');
     my $nok = @okpings;
-    my $percent = int(100*$nok/$nall);
+    my $percent = int(100*$nok/$nall + 0.5);
     return ($nok, $nall, $percent);
 }
 
