@@ -1,11 +1,13 @@
 #!/usr/bin/perl
-
+#
 # perl -I ../lib irspy-rewrite-records.pl localhost:8018/IR-Explain---1
+
+use lib '../lib';
+use ZOOM::IRSpy;
+use ZOOM::IRSpy::Utils qw(render_record);
 
 use strict;
 use warnings;
-use ZOOM::IRSpy;
-use ZOOM::IRSpy::Utils qw(render_record);
 
 my($dbname) = @ARGV;
 die "$0 no database name specified" if !defined $dbname;
