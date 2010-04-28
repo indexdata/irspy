@@ -828,7 +828,7 @@ sub validate_record {
     my $rec = shift;
     my %args = @_;
 
-    my %required = map { $_ => 1 } qw/port host database/;
+    my %required = map { $_ => 1 } qw/port host database protocol/;
     my %optional = map { $_ => 1 } qw/country type hosturl contact language/;
     my %tests = ( %required, %args );
 
@@ -841,18 +841,27 @@ sub validate_record {
 
     my $id = irspy_make_identifier($protocol, $host, $port, $dbname);
 
+    if ($protocol =~ /\s+$/ || $dbname =~ /\s+$/) {
+	warn "xxx: $protocol:$host:$port:$dbname: whitespaces\n";
+    } 
+
     my @errors = $id;
 
+    if ($tests{'protocol'}) {
+	push(@errors, 'protocol number is not valid') if $protocol !~ /^(z39\.50|sru|srw|tcp)$/;
+    }
+
     if ($tests{'port'}) {
-	push(@errors, 'This port number is not valid') if $port !~ /^\d+$/;
+	push(@errors, 'port number is not valid') if $port !~ /^\d+$/;
     }
 
     if ($tests{'host'}) {
-	push(@errors, 'This host name is not valid') if $host !~ /^[0-9a-z]+[0-9a-z\.\-]*\.[0-9a-z]+$/i;
+	push(@errors, 'host name is not valid') if $host !~ /^[0-9a-z]+[0-9a-z\.\-]*\.[0-9a-z]+$/i;
     }
 
     if ($tests{'database'}) {
-	push(@errors, 'This database name is not valid') if $dbname !~ /^[\w_\-\.]+$/i;
+	push(@errors, 'database name is not valid') if $dbname =~ m,/,i;
+	push(@errors, 'database has trailing spaces') if $dbname ne trimField($dbname);
     }
 
     if ($tests{'hosturl'}) {
