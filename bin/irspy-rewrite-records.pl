@@ -6,7 +6,7 @@ use lib '../lib';
 use Data::Dumper;
 use Getopt::Long;
 use ZOOM::IRSpy;
-use ZOOM::IRSpy::Utils qw(render_record);
+use ZOOM::IRSpy::Utils qw(render_record validate_record);
 
 use strict;
 use warnings;
@@ -48,6 +48,15 @@ print STDERR "rewriting ", $rs->size(), " target records" if $debug;
 foreach my $i ( 1 .. $rs->size() ) {
     my $xml = render_record( $rs, $i - 1, "zeerex" );
     my $rec = $spy->{libxml}->parse_string($xml)->documentElement();
+
+    if ( $debug >= 2 ) {
+        my ( $ok, $errors ) = validate_record($rec);
+        if ( !$ok ) {
+            my @e  = @$errors;
+            my $id = shift @e;
+            print "Id: $id => ", join( " / ", @e ), "\n";
+        }
+    }
     ZOOM::IRSpy::_rewrite_zeerex_record( $spy->{conn}, $rec );
     print STDERR "." if $debug;
 }
