@@ -43,7 +43,7 @@ $ZOOM::IRSpy::irspy_to_zeerex_xsl = $irspy_to_zeerex_xsl
 
 my $spy = new ZOOM::IRSpy( $dbname, "admin", "fruitbat" );
 my $rs = $spy->{conn}->search( new ZOOM::Query::CQL($cql_query) );
-print STDERR "rewriting ", $rs->size(), " target records" if $debug;
+print STDERR "rewriting ", $rs->size(), " target records\n" if $debug;
 
 foreach my $i ( 1 .. $rs->size() ) {
     my $xml = render_record( $rs, $i - 1, "zeerex" );
@@ -58,7 +58,7 @@ foreach my $i ( 1 .. $rs->size() ) {
         }
     }
     ZOOM::IRSpy::_rewrite_zeerex_record( $spy->{conn}, $rec );
-    print STDERR "." if $debug;
+    print STDERR "." if $debug == 1;
 }
-print STDERR "\nDone\n" if $debug;
+print STDERR "Done\n" if $debug;
 
