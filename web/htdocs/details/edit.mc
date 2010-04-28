@@ -337,6 +337,8 @@ my @fields =
        qw(e:title e:description) ],
      [ subjects     => 2, "Subjects", "e:databaseInfo/e:subjects",
        qw(e:title e:description) ],
+     [ disabled     => [ qw(0 1) ],
+       "Target Test Disabled", "i:status/i:disabled" ],
      );
 
 # Update record with submitted data

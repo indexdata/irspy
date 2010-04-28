@@ -22,6 +22,7 @@ our @EXPORT_OK = qw(utf8param
 		    modify_xml_document
 		    bib1_access_point
 		    render_record
+		    validate_record
 		    calc_reliability_string
 		    calc_reliability_stats);
 
@@ -352,7 +353,7 @@ sub modify_xml_document {
 	    }
 
 	} else {
-	    next if !$value; # No need to create a new empty node
+	    next if !defined $value; # No need to create a new empty node
 	    my($ppath, $selector) = $xpath =~ /(.*)\/(.*)/;
 	    dom_add_node($xc, $ppath, $selector, $value, @addAfter);
 	    #print "New $key ($xpath) = '$value'<br/>\n";
@@ -816,9 +817,59 @@ sub calc_reliability_stats {
     return (0, 0, 0) if $nall == 0;
     my @okpings = $xc->findnodes('i:status/i:probe[@ok = "1"]');
     my $nok = @okpings;
-    my $percent = int(100*$nok/$nall);
+    my $percent = int(100*$nok/$nall + 0.5);
     return ($nok, $nall, $percent);
 }
 
+#
+# validate_record( record, ( "port" => 1, "database" => 1, "country" => 0, ... ))
+#
+sub validate_record {
+    my $rec = shift;
+    my %args = @_;
+
+    my %required = map { $_ => 1 } qw/port host database protocol/;
+    my %optional = map { $_ => 1 } qw/country type hosturl contact language/;
+    my %tests = ( %required, %args );
+
+    my $xc = irspy_xpath_context($rec);
+
+    my $protocol = $xc->findnodes("e:serverInfo/\@protocol") || "";
+    my $port = $xc->findnodes("e:serverInfo/e:port") || "";
+    my $host = $xc->findnodes("e:serverInfo/e:host") || "";
+    my $dbname = $xc->findnodes("e:serverInfo/e:database") || "";
+
+    my $id = irspy_make_identifier($protocol, $host, $port, $dbname);
+
+    if ($protocol =~ /\s+$/ || $dbname =~ /\s+$/) {
+	warn "xxx: $protocol:$host:$port:$dbname: whitespaces\n";
+    } 
+
+    my @errors = $id;
+
+    if ($tests{'protocol'}) {
+	push(@errors, 'protocol number is not valid') if $protocol !~ /^(z39\.50|sru|srw|tcp)$/i;
+    }
+
+    if ($tests{'port'}) {
+	push(@errors, 'port number is not valid') if $port !~ /^\d+$/;
+    }
+
+    if ($tests{'host'}) {
+	push(@errors, 'host name is not valid') if $host !~ /^[0-9a-z]+[0-9a-z\.\-]*\.[0-9a-z]+$/i;
+    }
+
+    if ($tests{'database'}) {
+	push(@errors, 'database name is not valid') if $dbname =~ m,/,i;
+	push(@errors, 'database has trailing spaces') if $dbname =~ /^\s+|\s+$/;
+    }
+
+    if ($tests{'hosturl'}) {
+        my $hosturl = $xc->findnodes("i:status/i:hostURL") || "";
+	push(@errors, 'This hosturl name is not valid') if $hosturl !~ /^\w+$/i;
+    }
+
+    return ( !$#errors, \@errors );
+}
 
 1;
