@@ -848,7 +848,7 @@ sub validate_record {
     my @errors = $id;
 
     if ($tests{'protocol'}) {
-	push(@errors, 'protocol number is not valid') if $protocol !~ /^(z39\.50|sru|srw|tcp)$/;
+	push(@errors, 'protocol number is not valid') if $protocol !~ /^(z39\.50|sru|srw|tcp)$/i;
     }
 
     if ($tests{'port'}) {
@@ -861,7 +861,7 @@ sub validate_record {
 
     if ($tests{'database'}) {
 	push(@errors, 'database name is not valid') if $dbname =~ m,/,i;
-	push(@errors, 'database has trailing spaces') if $dbname ne trimField($dbname);
+	push(@errors, 'database has trailing spaces') if $dbname =~ /^\s+|\s+$/;
     }
 
     if ($tests{'hosturl'}) {
