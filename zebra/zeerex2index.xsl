@@ -150,6 +150,9 @@
    <z:index name="zeerex:country" type="0">
     <xsl:value-of select="i:status/i:country"/>
    </z:index>
+   <z:index name="zeerex:disabled" type="0">
+    <xsl:value-of select="i:status/i:disabled"/>
+   </z:index>
 
   </z:record>
  </xsl:template>
