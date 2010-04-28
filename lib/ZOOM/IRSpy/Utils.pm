@@ -22,6 +22,7 @@ our @EXPORT_OK = qw(utf8param
 		    modify_xml_document
 		    bib1_access_point
 		    render_record
+		    validate_record
 		    calc_reliability_string
 		    calc_reliability_stats);
 
@@ -820,5 +821,46 @@ sub calc_reliability_stats {
     return ($nok, $nall, $percent);
 }
 
+#
+# validate_record( record, ( "port" => 1, "database" => 1, "country" => 0, ... ))
+#
+sub validate_record {
+    my $rec = shift;
+    my %args = @_;
+
+    my %required = map { $_ => 1 } qw/port host database/;
+    my %optional = map { $_ => 1 } qw/country type hosturl contact language/;
+    my %tests = ( %required, %args );
+
+    my $xc = irspy_xpath_context($rec);
+
+    my $protocol = $xc->findnodes("e:serverInfo/\@protocol") || "";
+    my $port = $xc->findnodes("e:serverInfo/e:port") || "";
+    my $host = $xc->findnodes("e:serverInfo/e:host") || "";
+    my $dbname = $xc->findnodes("e:serverInfo/e:database") || "";
+
+    my $id = irspy_make_identifier($protocol, $host, $port, $dbname);
+
+    my @errors = $id;
+
+    if ($tests{'port'}) {
+	push(@errors, 'This port number is not valid') if $port !~ /^\d+$/;
+    }
+
+    if ($tests{'host'}) {
+	push(@errors, 'This host name is not valid') if $host !~ /^[0-9a-z]+[0-9a-z\.\-]*\.[0-9a-z]+$/i;
+    }
+
+    if ($tests{'database'}) {
+	push(@errors, 'This database name is not valid') if $dbname !~ /^[\w_\-\.]+$/i;
+    }
+
+    if ($tests{'hosturl'}) {
+        my $hosturl = $xc->findnodes("i:status/i:hostURL") || "";
+	push(@errors, 'This hosturl name is not valid') if $hosturl !~ /^\w+$/i;
+    }
+
+    return ( !$#errors, \@errors );
+}
 
 1;
