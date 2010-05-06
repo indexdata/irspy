@@ -1,4 +1,3 @@
-# $Id: DBDate.pm,v 1.4 2007-02-23 15:03:44 mike Exp $
 
 # This plugin tests searching on BIB-1 access-point 1011 (Date/time
 # added to db), the significance of which is that this search
@@ -51,6 +50,7 @@ sub error {
     my $rec = $conn->record();
     $rec->append_entry("irspy:status", "<irspy:search_dbdate ok='0'>" .
 		       isodate(time()) . "</irspy:search_dbdate>");
+    zoom_error_timeout_update($conn, $exception);
     return ZOOM::IRSpy::Status::TEST_BAD;
 }
 

@@ -1,4 +1,3 @@
-# $Id: IRSpy.pm,v 1.90 2008-07-16 11:42:13 mike Exp $
 
 package ZOOM::IRSpy;
 
@@ -26,6 +25,7 @@ our $VERSION = '1.02';
 our $irspy_to_zeerex_xsl = dirname(__FILE__) . '/../../xsl/irspy2zeerex.xsl';
 our $debug = 0;
 our $xslt_max_depth = 250;
+our $max_timeout_errors = 3;
 
 
 # Enumeration for callback functions to return
@@ -443,10 +443,12 @@ sub check {
     while (1) {
 	my @copy_conn = @conn;	# avoid alias problems after splice()
 	my $nconn = scalar(@copy_conn);
+
 	foreach my $i0 (0 .. $#copy_conn) {
 	    my $conn = $copy_conn[$i0];
 	    #print "connection $i0 of $nconn/", scalar(@conn), " is $conn\n";
 	    next if !defined $conn;
+
 	    if (!$conn->current_task()) {
 		if (!$conn->next_task()) {
 		    # Out of tasks: we need a new test
@@ -460,6 +462,12 @@ sub check {
 				   "checking for next test after '$address'");
 			$nextaddr = $this->_next_test($address);
 		    }
+
+                    if (ZOOM::IRSpy::Test::zoom_error_timeout_check($conn)) {
+		        $conn->log("irspy", "Got to many timeouts, stop testing");
+		        undef $nextaddr;
+                    }
+
 		    if (!defined $nextaddr) {
 			$conn->log("irspy", "has no more tests: removing");
 			$this->_rewrite_irspy_record($conn);
@@ -501,6 +509,13 @@ sub check {
 
 		my $task = $conn->next_task();
 		die "no next task queued for $conn" if !defined $task;
+
+	        # do not run the next task if we got too many timeouts
+                if (ZOOM::IRSpy::Test::zoom_error_timeout_check($conn)) {
+                    $conn->log("irspy_task", "Got to many timeouts for this target, do not start a new task");
+                    next;
+                }
+
 		$conn->log("irspy_task", "preparing task $task");
 		$conn->next_task(0);
 		$conn->current_task($task);

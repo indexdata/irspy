@@ -1,4 +1,3 @@
-# $Id: Stats.pm,v 1.7 2007-10-31 16:42:13 mike Exp $
 
 package ZOOM::IRSpy::Stats;
 
@@ -114,7 +113,7 @@ sub _gather_stats {
 
 	# Record syntax support by database
 	foreach my $node ($xc->findnodes('e:recordInfo/e:recordSyntax/@name')) {
-	    $this->{recordSyntaxes}->{$node->findvalue(".")}++;
+	    $this->{recordSyntaxes}->{lc($node->findvalue("."))}++;
 	}
 
 	# Explain support
@@ -136,7 +135,7 @@ sub _gather_stats {
 	# Top Domains
 	my $host = $xc->findvalue('e:serverInfo/e:host');
 	$host =~ s/.*\.//;
-	$this->{domains}->{$host}++;
+	$this->{domains}->{lc($host)}++;
 
 	# Implementation
 	foreach my $node ($xc->findnodes('i:status/i:serverImplementationName/@value')) {

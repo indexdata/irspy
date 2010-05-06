@@ -1,4 +1,3 @@
-# $Id: Title.pm,v 1.10 2007-02-23 15:03:44 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -45,6 +44,7 @@ sub error {
     my $rec = $conn->record();
     $rec->append_entry("irspy:status", "<irspy:search_title ok='0'>" .
 		       isodate(time()) . "</irspy:search_title>");
+    zoom_error_timeout_update($conn, $exception);
     return ZOOM::IRSpy::Status::TEST_BAD;
 }
 

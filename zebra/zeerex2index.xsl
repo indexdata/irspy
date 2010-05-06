@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id: zeerex2index.xsl,v 1.15 2009-04-16 15:28:26 mike Exp $ -->
 <!-- See the ZeeRex profile at http://srw.cheshire3.org/profiles/ZeeRex/ -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:z="http://indexdata.dk/zebra/xslt/1"
@@ -115,7 +114,7 @@
    </xsl:for-each>
 
    <!-- recordInfo -->
-   <z:index name="zeerex:recordSyntax" type="0">
+   <z:index name="zeerex:recordSyntax" type="w">
     <xsl:value-of select="e:recordInfo/e:recordSyntax/@name"/>
     <!-- ### But @identifier is an OID for Z39.50 -->
    </z:index>
@@ -150,6 +149,9 @@
    </z:index>
    <z:index name="zeerex:country" type="0">
     <xsl:value-of select="i:status/i:country"/>
+   </z:index>
+   <z:index name="zeerex:disabled" type="0">
+    <xsl:value-of select="i:status/i:disabled"/>
    </z:index>
 
   </z:record>

@@ -1,4 +1,3 @@
-$Id: separate-apache,v 1.1 2007-03-22 12:25:36 mike Exp $
 
 /etc/apache-irspy -- Apache configuration
 /var/log/apache-irspy -- Apache logs

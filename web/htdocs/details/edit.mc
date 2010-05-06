@@ -1,4 +1,3 @@
-%# $Id: edit.mc,v 1.40 2009-04-15 18:16:46 wosch Exp $
 <%args>
 $op
 $id => undef ### should be extracted using utf8param()
@@ -37,10 +36,11 @@ my $conn = new ZOOM::Connection($db, 0,
 				user => "admin", password => "fruitbat",
 				elementSetName => "zeerex");
 
-my $protocol = utf8param($r, "protocol");
-my $host = utf8param($r, "host");
-my $port = utf8param($r, "port");
-my $dbname = utf8param($r, "dbname");
+my $protocol = utf8paramTrim($r, "protocol");
+my $host = utf8paramTrim($r, "host");
+my $port = utf8paramTrim($r, "port");
+my $dbname = utf8paramTrim($r, "dbname");
+my $title = utf8paramTrim($r, "title");
 
 if ((!defined $port || $port eq "") &&
     (defined $protocol && $protocol ne "")) {
@@ -54,6 +54,7 @@ my $newid;
 if (defined $protocol && $protocol ne "" &&
     defined $host && $host ne "" &&
     defined $port && $port ne "" &&
+    defined $title && $title ne "" &&
     defined $dbname && $dbname ne "") {
     $newid = irspy_make_identifier($protocol, $host, $port, $dbname);
 }
@@ -67,7 +68,7 @@ if (!defined $id) {
     } elsif (!defined $newid) {
 	# Tried to create new record but data is insufficient
 	print qq[<p class="error">
-		Please specify protocol, host, port and database name.</p>\n];
+		Please specify title, protocol, host, port and database name.</p>\n];
 	undef $update;
     } elsif ($host !~ /^\w+\.[\w.]*\w$/i) {
 	print qq[<p class="error">
@@ -336,6 +337,8 @@ my @fields =
        qw(e:title e:description) ],
      [ subjects     => 2, "Subjects", "e:databaseInfo/e:subjects",
        qw(e:title e:description) ],
+     [ disabled     => [ qw(0 1) ],
+       "Target Test Disabled", "i:status/i:disabled" ],
      );
 
 # Update record with submitted data
@@ -343,7 +346,7 @@ my %fieldsByKey = map { ( $_->[0], $_) } @fields;
 my %data;
 foreach my $key (&utf8param($r)) {
     next if grep { $key eq $_ } qw(op id update);
-    $data{$key} = utf8param($r, $key);
+    $data{$key} = trimField( utf8param($r, $key) );
 }
 my @changedFields = modify_xml_document($xc, \%fieldsByKey, \%data);
 if ($update && @changedFields) {

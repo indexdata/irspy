@@ -1,4 +1,3 @@
-# $Id: Quick.pm,v 1.4 2007-04-18 15:25:07 mike Exp $
 
 package ZOOM::IRSpy::Test::Quick;
 

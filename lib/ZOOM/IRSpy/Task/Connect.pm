@@ -1,4 +1,3 @@
-# $Id: Connect.pm,v 1.6 2006-11-02 16:11:44 mike Exp $
 
 # See ZOOM/IRSpy/Task/Search.pm for documentation
 

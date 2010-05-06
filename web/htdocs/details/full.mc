@@ -1,4 +1,3 @@
-%# $Id: full.mc,v 1.30 2007-07-03 13:10:50 mike Exp $
 <%args>
 $id
 </%args>

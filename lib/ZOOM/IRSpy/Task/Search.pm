@@ -1,4 +1,3 @@
-# $Id: Search.pm,v 1.16 2007-12-18 11:59:42 mike Exp $
 
 package ZOOM::IRSpy::Task::Search;
 

@@ -1,4 +1,3 @@
-%# $Id: delete.mc,v 1.7 2007-06-27 11:09:32 mike Exp $
 <%args>
 $id
 $really => 0

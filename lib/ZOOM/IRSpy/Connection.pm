@@ -1,4 +1,3 @@
-# $Id: Connection.pm,v 1.21 2007-12-20 12:35:01 mike Exp $
 
 package ZOOM::IRSpy::Connection;
 

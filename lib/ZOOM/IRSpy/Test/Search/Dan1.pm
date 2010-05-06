@@ -1,4 +1,3 @@
-# $Id: Dan1.pm,v 1.7 2007-03-15 11:40:52 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -49,6 +48,7 @@ sub error {
     $conn->log("irspy_test", "search on access-point $attr had error: ",
 	       $exception);
     update($conn, $attr, 0);
+    zoom_error_timeout_update($conn, $exception);
 
     ### How about TEST_BAD if $exception->code() == 121?
     return ZOOM::IRSpy::Status::TASK_DONE;

@@ -1,4 +1,3 @@
-# $Id: Retrieve.pm,v 1.6 2007-05-09 11:05:30 mike Exp $
 
 package ZOOM::IRSpy::Task::Retrieve;
 

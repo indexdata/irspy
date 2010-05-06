@@ -1,4 +1,3 @@
-# $Id: Ping.pm,v 1.28 2008-07-16 11:51:09 mike Exp $
 
 # See the "Main" test package for documentation
 

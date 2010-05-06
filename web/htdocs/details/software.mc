@@ -1,4 +1,3 @@
-%# $Id: software.mc,v 1.3 2007-04-18 12:13:01 mike Exp $
      <div class="essay">
      <p>
       Index Data uses
