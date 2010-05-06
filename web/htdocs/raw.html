@@ -4,7 +4,7 @@ $id
 <%once>
 use ZOOM;
 use ZOOM::IRSpy;
-use ZOOM::IRSpy::Utils qw(cql_target);
+use ZOOM::IRSpy::Utils qw(cql_target xml_encode);
 </%once>
 <%perl>
 my $db = ZOOM::IRSpy::connect_to_registry();
