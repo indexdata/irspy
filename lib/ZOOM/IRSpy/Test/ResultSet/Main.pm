@@ -1,4 +1,3 @@
-# $Id: Main.pm,v 1.1 2006-11-02 11:46:40 sondberg Exp $
 
 package ZOOM::IRSpy::Test::ResultSet::Main;
 

@@ -1,4 +1,3 @@
-%# $Id: layout.mc,v 1.38 2007-07-17 13:07:57 mike Exp $
 <%args>
 $debug => undef
 $title
@@ -8,7 +7,7 @@ $component
 use URI::Escape qw(uri_escape uri_escape_utf8);
 use ZOOM;
 use ZOOM::IRSpy::Web;
-use ZOOM::IRSpy::Utils qw(utf8param isodate xml_encode cql_target cql_quote
+use ZOOM::IRSpy::Utils qw(utf8param trimField utf8paramTrim isodate xml_encode cql_target cql_quote
                           irspy_xpath_context irspy_make_identifier
 			  irspy_record2identifier
 			  irspy_identifier2target modify_xml_document
@@ -64,9 +63,9 @@ use ZOOM::IRSpy::Utils qw(utf8param isodate xml_encode cql_target cql_quote
     <td valign="top" class="panel1">
      <p>
       <a href="/"><b>Home</b></a><br/>
-      <a href="/admin/all.html">Test&nbsp;all&nbsp;targets</a><br/>
+      <!-- <a href="/admin/all.html">Test&nbsp;all&nbsp;targets</a><br/> -->
       <a href="/find.html">Find a target</a><br/>
-      <a href="/add.html">Add a target</a><br/>
+      <a href="/add_target.html">Add a target</a><br/>
       <a href="/upload.html">Upload a target</a><br/>
       <a href="/stats.html">Statistics</a><br/>
      </p>

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id: zeerex2id.xsl,v 1.2 2007-04-27 14:04:40 mike Exp $ -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:e="http://explain.z3950.org/dtd/2.0/"
                 version="1.0">

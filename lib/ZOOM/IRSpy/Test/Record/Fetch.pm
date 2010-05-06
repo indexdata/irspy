@@ -1,4 +1,3 @@
-# $Id: Fetch.pm,v 1.31 2009-04-21 13:42:58 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -11,6 +10,7 @@ use warnings;
 use ZOOM::IRSpy::Test;
 our @ISA = qw(ZOOM::IRSpy::Test);
 
+our $max_timeout_errors = $ZOOM::IRSpy::max_timeout_errors;
 
 # These queries 
 my @queries = (
@@ -42,12 +42,22 @@ sub completed_search {
     $conn->log("irspy_test", "Fetch test search (", $task->render_query(), ") ",
 	       ref $event && $event->isa("ZOOM::Exception") ?
 	       "failed: $event" : "found $n records (event=$event)");
+
+    # remember how often a target record hit a timeout
+    if (ref $event && $event->isa("ZOOM::Exception")) {
+	if ($event =~ /Timeout/i) {
+	    $conn->record->zoom_error->{TIMEOUT}++;
+            $conn->log("irspy_test", "Increase timeout error counter to: " . 
+		$conn->record->zoom_error->{TIMEOUT});
+        }
+    }
+
     if ($n == 0) {
 	$task->{rs}->destroy();
 	my $qindex = $udata->{queryindex}+1;
 	my $q = $queries[$qindex];
 	return ZOOM::IRSpy::Status::TEST_SKIPPED
-	    if !defined $q;
+	    if !defined $q || $conn->record->zoom_error->{TIMEOUT} >= $max_timeout_errors;
 
 	$conn->log("irspy_test", "Trying another search ...");
 	$conn->irspy_search_pqf($queries[$qindex], { queryindex => $qindex }, {},
@@ -66,7 +76,7 @@ sub completed_search {
                    'librismarc',
                    'mab',
                    'normarc',
-#                   'opac',
+                   'opac',
                    'picamarc',
                    'rusmarc',
                    'summary',

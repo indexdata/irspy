@@ -1,6 +1,5 @@
 #!/usr/bin/perl -w
 
-# $Id: x.pl,v 1.1 2007-02-28 16:52:34 mike Exp $
 
 ### This should be massaged into a test-suite script in ../../../t
 

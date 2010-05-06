@@ -1,4 +1,3 @@
-%# $Id: found.mc,v 1.33 2009-04-15 18:16:46 wosch Exp $
 <%once>
 sub print_navlink {
     my($params, $cond, $caption, $skip) = @_;

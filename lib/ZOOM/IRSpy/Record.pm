@@ -1,4 +1,3 @@
-# $Id: Record.pm,v 1.28 2007-12-12 08:49:58 mike Exp $
 
 package ZOOM::IRSpy::Record;
 ### I don't think there's any reason for this to be separate from
@@ -42,6 +41,7 @@ sub new {
 	target => $target,
 	parser => $parser,
 	zeerex => $parser->parse_string($zeerex)->documentElement(),
+	zoom_error => { TIMEOUT => 0 },
     }, $class;
 
     #Scalar::Util::weaken($this->{irspy});
@@ -50,6 +50,7 @@ sub new {
     return $this;
 }
 
+sub zoom_error { return shift->{'zoom_error'} }
 
 sub _empty_zeerex_record {
     my($target) = @_;

@@ -1,4 +1,3 @@
-%# $Id: check.mc,v 1.18 2007-05-09 10:45:14 mike Exp $
 <%args>
 @id
 $test => "Quick"

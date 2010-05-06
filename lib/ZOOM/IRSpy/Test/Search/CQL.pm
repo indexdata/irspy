@@ -1,4 +1,3 @@
-# $Id: CQL.pm,v 1.1 2007-05-01 15:32:16 mike Exp $
 
 # See the "Main" test package for documentation
 
@@ -53,6 +52,7 @@ sub error {
     $task->{rs}->destroy();
     $conn->log("irspy_test", "CQL search on '$index' had error: $exception");
     $conn->record()->store_result("search_cql", index => $index, ok => 0);
+    zoom_error_timeout_update($conn, $exception);
     return ZOOM::IRSpy::Status::TEST_BAD
 	if $exception->code() == 11; # Unsupported query type
 

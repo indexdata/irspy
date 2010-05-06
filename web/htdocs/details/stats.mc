@@ -1,4 +1,3 @@
-%# $Id: stats.mc,v 1.9 2007-11-02 12:49:28 mike Exp $
 <%doc>
 Here are the headings in the Z-Spy version:
 	The ten most commonly supported Bib-1 Use attributes
@@ -41,12 +40,12 @@ if (!defined $stats || $reload) {
      <p>Recalculating stats</p>
 % }
 <& table, stats => $stats, data => "bib1AccessPoints",
-	title => "The ten most commonly supported Bib-1 Use attributes",
-	headings => [ "Attribute", "Name"],
+	title => "The twenty most commonly supported Bib-1 Use attributes",
+	headings => [ "Attribute", "Name"], maxrows => 20, 
 	col3 => sub { bib1_access_point(@_) } &>
 <& table, stats => $stats, data => "recordSyntaxes",
 	title => "Record syntax support by database",
-	headings => [ "Record Syntax"] &>
+	headings => [ "Record Syntax"], maxrows => 30 &>
 <& table, stats => $stats, data => "explain",
 	title => "Explain Support",
 	headings => [ "Explain Category"] &>
@@ -84,7 +83,7 @@ $col3 => undef
 my $hr;
 $hr = $stats->{$data};
 my @sorted = sort { $hr->{$b} <=> $hr->{$a} || $a <=> $b } keys %$hr;
-my $n = @sorted; $n = $maxrows if @sorted > 10;
+my $n = @sorted; $n = $maxrows if @sorted > 10 && $n > $maxrows;
 foreach my $i (1..$n) {
     my $key = $sorted[$i-1];
 </%perl>
