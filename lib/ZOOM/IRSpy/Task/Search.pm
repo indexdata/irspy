@@ -48,7 +48,10 @@ sub run {
     my $qstr = $this->{qstr};
     $this->irspy()->log("irspy_task", $conn->option("host"),
 			" searching for '$qtype:$qstr'");
-    die "task $this has resultset?!" if defined $this->{rs};
+    if (defined $this->{rs}) {
+	$this->set_options();
+	die "task $this has resultset?!";
+    }
 
     my $query;
     if ($qtype eq "pqf") {
@@ -56,6 +59,7 @@ sub run {
     } elsif ($qtype eq "cql") {
 	$query = new ZOOM::Query::CQL($qstr);
     } else {
+	$this->set_options();
 	die "Huh?!";
     }
 
@@ -68,6 +72,7 @@ sub run {
     eval {
 	$this->{rs} = $conn->search($query);
     }; if ($@) {
+	$this->set_options();
 	die "remote search '$query' had error: '$@'";
     }
 
