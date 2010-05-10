@@ -12,7 +12,6 @@ our @ISA = qw(ZOOM::IRSpy::Test);
 
 our $max_timeout_errors = $ZOOM::IRSpy::max_timeout_errors;
 
-# These queries 
 my @queries = (
 	       "\@attr 1=4 mineral",
 	       "\@attr 1=4 computer",
@@ -26,9 +25,6 @@ sub start {
     my $class = shift();
     my($conn) = @_;
 
-    # Here I want to get a use attribute from the session, which we've
-    # managed to search for in the Search/Bib1 or Search/Dan1 tests.
-    # But how?  So far we search for title: 1=4
     $conn->irspy_search_pqf($queries[0], { queryindex => 0 }, {},
 			    ZOOM::Event::ZEND, \&completed_search,
 			    exception => \&completed_search);
