@@ -80,9 +80,9 @@ sub run {
 #
 # As a special case, options in the task's option-hash whose names
 # begin with an asterisk are taken to be persistent: they are set into
-# the Connection (with the leading hash removed) and deleted from the
-# task's option-hash so that they will NOT be reset the next time this
-# function is called.
+# the Connection (with the leading asterisk removed) and deleted from
+# the task's option-hash so that they will NOT be reset the next time
+# this function is called.
 #
 sub set_options {
     my $this = shift();
