@@ -181,6 +181,7 @@ sub cql_target {
     }
 
     return "rec.id=" . cql_quote($id);
+    #return "rec.id_raw=" . cql_quote($id);
 }
 
 
