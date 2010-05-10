@@ -42,6 +42,10 @@
     <xsl:value-of select="$id"/>
    </z:index>
 
+   <z:index name="rec:id_raw" type="0">
+    <xsl:value-of select="$id"/>
+   </z:index>
+
    <!-- serverInfo -->
    <z:index name="net:protocol" type="w">
     <xsl:value-of select="e:serverInfo/@protocol"/>
