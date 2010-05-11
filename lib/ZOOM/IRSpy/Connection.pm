@@ -148,6 +148,7 @@ sub irspy_search {
     my $this = shift();
     my($qtype, $qstr, $udata, $options, %cb) = @_;
 
+    { use Carp; confess "Odd-sized hash!" if @_ % 2; }
     #warn "calling $this->irspy_search(", join(", ", @_), ")\n";
     $this->add_task(new ZOOM::IRSpy::Task::Search
 		    ($qtype, $qstr, $this, $udata, $options, %cb));
