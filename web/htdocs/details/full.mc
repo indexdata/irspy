@@ -49,6 +49,7 @@ if ($n == 0) {
 		  [ "Named Result Sets" => \&calc_nrs, $xc ],
 		  [ "Record syntaxes" => \&calc_recsyn, $xc ],
 		  [ "Explain" => \&calc_explain, $xc ],
+		  [ "Multiple OPAC records" => \&calc_mor, $xc ],
 		  );
     my $title = $xc->find("e:databaseInfo/e:title");
 </%perl>
@@ -170,10 +171,13 @@ sub calc_boolean {
     return $res;
 }
 
-sub calc_nrs {
-    my($id, $xc) = @_;
+sub calc_nrs { _calc_boolean(@_, 'i:status/i:named_resultset[@ok = "1"]') }
+sub calc_mor { _calc_boolean(@_, 'i:status/i:multiple_opac[@ok = "1"]') }
 
-    my @nodes = $xc->findnodes('i:status/i:named_resultset[@ok = "1"]');
+sub _calc_boolean {
+    my($id, $xc, $xpath) = @_;
+
+    my @nodes = $xc->findnodes($xpath);
     return @nodes ? "Yes" : "No";
 }
 
