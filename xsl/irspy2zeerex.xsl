@@ -158,6 +158,11 @@
                     select="*/irspy:serverImplementationVersion"/>
         <xsl:with-param name="what" select="'serverImplementationVersion'"/>
       </xsl:call-template>
+
+      <xsl:call-template name="insert-latest-nodes">
+        <xsl:with-param name="nodes" select="*/irspy:multiple_opac"/>
+        <xsl:with-param name="what" select="'multiple_opac'"/>
+      </xsl:call-template>
     </irspy:status>
   </xsl:template>
 
