@@ -65,7 +65,7 @@ sub completed_search {
 	    if !defined $q || $conn->record->zoom_error->{TIMEOUT} >= $ZOOM::IRSpy::max_timeout_errors;
 
 	$conn->log("irspy_test", "Trying another search ...");
-	$conn->irspy_search_pqf($queries[$qindex], { queryindex => $qindex }, %options,
+	$conn->irspy_search_pqf($queries[$qindex], { queryindex => $qindex }, \%options,
 				ZOOM::Event::ZEND, \&completed_search,
 				exception => \&completed_search);
 	return ZOOM::IRSpy::Status::TASK_DONE;
