@@ -12,7 +12,7 @@ use ZOOM::IRSpy::Test;
 our @ISA = qw(ZOOM::IRSpy::Test);
 
 my @queries = (
-	       "\@attr 1=4 mineralazsdfdsf",
+	       "\@attr 1=4 mineral",
 	       "\@attr 1=4 computer",
 	       "\@attr 1=44 mineral", # Smithsonian doesn't support AP 4!
 	       "\@attr 1=1016 water", # Connector Framework only does 1016
