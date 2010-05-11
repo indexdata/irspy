@@ -12,6 +12,10 @@ Revision history for Perl extension ZOOM::IRSpy.
 	- Modify Zebra configuration to expect Z39.50 query terms to
 	  be encoded using UTF-8 (which is what the Web UI uses)
 	  rather than the default ISO-8859-1.  Fixes bug #3420.
+	- Add new test Record::OPAC which checks the ability to return
+	  multiple OPAC records in a piggy-backed Search Response.
+	  Test result is saved in the new element 
+	  irspy:status/irspy:multiple_opac ok="1"
 
 1.01  Mon Jul 16 12:51:19 BST 2007
 	- Web UI pages to add or upload a new target are now publicly
