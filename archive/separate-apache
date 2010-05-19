@@ -1,6 +1,0 @@
-
-/etc/apache-irspy -- Apache configuration
-/var/log/apache-irspy -- Apache logs
-/etc/logrotate.d/apache-irspy -- Log-rotation configuration
-/etc/init.d/apache-irspy -- System start/stop script
-/etc/rc2.d/S99irspy-zebra -- Automatic start and stop
