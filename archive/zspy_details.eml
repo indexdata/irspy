@@ -1,0 +1,63 @@
+Return-path: <perhans@indexdata.dk>
+Envelope-to: sondberg@indexdata.dk
+Delivery-date: Mon, 02 Oct 2006 10:03:06 +0200
+Received: from user.indexdata.dk ([213.150.43.10] helo=[10.0.1.61])
+	by bagel.indexdata.dk with esmtp (Exim 4.50)
+	id 1GUIlW-0000zk-12; Mon, 02 Oct 2006 10:03:06 +0200
+Message-ID: <4520C783.60307@indexdata.dk>
+Date: Mon, 02 Oct 2006 10:02:11 +0200
+From: "Per M. Hansen" <perhans@indexdata.dk>
+Organization: Index Data ApS
+User-Agent: Thunderbird 1.5.0.7 (Windows/20060909)
+MIME-Version: 1.0
+To: =?ISO-8859-1?Q?Anders_S=F8nderberg_Mortensen?=
+ <sondberg@indexdata.dk>, Mike Taylor <mike@indexdata.com>
+Subject: Tests in Z-SPy
+Content-Type: multipart/alternative;
+ boundary="------------080204090804050406090506"
+X-SA-Do-Not-Run: Yes
+X-SA-Exim-Connect-IP: 213.150.43.10
+X-SA-Exim-Rcpt-To: sondberg@indexdata.dk, mike@indexdata.com
+X-SA-Exim-Mail-From: perhans@indexdata.dk
+X-SA-Exim-Scanned: No (on bagel.indexdata.dk); SAEximRunCond expanded to false
+
+
+Guys,
+
+Anders has asked me to list the test that the Z-Spy performs.
+
+    * Test Bib-1 attributes from atrribute 1-1036
+    * Test the extended Bib-1 attributes 1037-1096
+    * Test the extended DubliCore attributes 1097-1111
+    * Test the GILS attributes 1112-1184
+    * Test the extended Bib-1 attributes 1085-1209
+    * Test the Dan-1 attributes 1-27
+    * Test what record foamats the target i capable of returning from
+      the list: DANMARC USMARC JPMARC UNIMARC CANMARC NORMARC UKMARC
+      PICAMARC IBERMARC INTERMARC LIBRISMARC GRS-1 SUTRS XML OPAC
+      SUMMARY MAB RUSMARC SWEMARC
+    * Test what parts of Explain the server supports from the list:
+      CategoryList TargetInfo DatabaseInfo SchemaInfo TagSetInfo
+      RecordSyntaxInfo AttributeSetInfo TermListInfo
+      ExtendedServicesInfo AttributeDetails TermListDetails
+      ElementSetDetails RetrivalRecordDetails SortDetails Processing
+      VariantSetInfo UnitSet
+    * Test support of bolean operators: and or not
+    * Test what services the target supports
+
+Apart from that Z-Spy has the following features:
+
+    * When a server closes the connection in the middel of a test, Z-Spy
+      can reconnect and continue the test where it crashed.
+    * When a test has failed n number of times, with the same error, an
+      email is send to the sys admin.
+    * Z-Spy can put a sleap in between the serches in order not to
+      stress the target too much
+    * To begin with a query with a common word is used, until a record
+      has been found so that the record format test can be performed.
+      When this record has been formed, the query is switched to
+      something more uncommon like "askdndd" in order to stress the
+      server as little as possible.
+
+--
+Per

@@ -1,0 +1,22 @@
+From mike@miketaylor.org.uk  Wed Jun 27 11:37:50 2007
+X-VM-v5-Data: ([nil nil nil nil nil nil nil nil nil]
+	["266" "Wednesday" "27" "June" "2007" "11:37:50" "+0100" "Mike Taylor" "mike@indexdata.com" nil "6" "IRSpy" "^From:" nil nil "6" nil nil nil nil nil nil nil nil nil]
+	nil)
+Return-Path: <mike@miketaylor.org.uk>
+X-Original-To: mike
+Delivered-To: mike@miketaylor.org.uk
+Received: by localhost.localdomain (Postfix, from userid 1000)
+	id 912E84D6441A; Wed, 27 Jun 2007 11:37:50 +0100 (BST)
+Message-Id: <20070627103750.912E84D6441A@localhost.localdomain>
+From: Mike Taylor <mike@indexdata.com>
+To: mike@miketaylor.org.uk
+Subject: IRSpy
+Date: Wed, 27 Jun 2007 11:37:50 +0100 (BST)
+
+TODO
+	### When adding a new database, check for pre-existence, using
+	    IP address/hostname canonicalisation.
+	### Ability to add target by uploading a ZeeRex record.
+	### Mark targets that persistently don't respond.
+	### Email administrative contact on failure.
+
