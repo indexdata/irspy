@@ -8,7 +8,7 @@ use warnings;
 use ZOOM::IRSpy::Test;
 our @ISA = qw(ZOOM::IRSpy::Test);
 
-sub subtests { qw(Ping Record::OPAC) }
+sub subtests { qw(Ping Search::Bath) }
 
 sub timeout { 20 }
 
