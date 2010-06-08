@@ -42,14 +42,15 @@ sub start_search {
 
     my $query = "\@attr 1=$use_attr \@attr 2=3 \@attr 3=3 \@attr 4=2 \@attr 5=100 \@attr 6=1 the";
     $conn->irspy_search_pqf($query, { qindex => $qindex }, {},
-			    ZOOM::Event::ZEND, \&found,
-			    "exception", \&error);
+			    ZOOM::Event::ZEND, \&search_complete,
+			    "exception", \&search_complete);
     return ZOOM::IRSpy::Status::TASK_DONE;
 }
 
 
-sub found {
+sub search_complete {
     my($conn, $task, $udata, $event) = @_;
+    my $ok = ref $event && $event->isa("ZOOM::Exception") ? 0 : 1;
 
     my $qindex = $udata->{qindex};
     my $ref = $bath_queries[$qindex];
@@ -57,27 +58,16 @@ sub found {
 
     my $n = $task->{rs}->size();
 
-    $conn->log("irspy_test",
-	       "bath search #$qindex ('$name') found $n record",
-	       $n==1 ? "" : "s");
+    $conn->log("irspy_test", "bath search #$qindex ('$name') ",
+	       $ok ? ("found $n record", $n==1 ? "" : "s") :
+	              "had error: $event");
+
     my $rec = $conn->record();
     $rec->append_entry("irspy:status",
-		       "<irspy:search_bath name='$name' ok='1'>" .
+		       "<irspy:search_bath name='$name' ok='$ok'>" .
 		       isodate(time()) . "</irspy:search_bath>");
 
     return start_search($conn, $qindex+1);
-}
-
-
-sub error {
-    my($conn, $task, $udata, $exception) = @_;
-
-    $conn->log("irspy_test", "bath search had error: $exception");
-    my $rec = $conn->record();
-    $rec->append_entry("irspy:status", "<irspy:search_bath ok='0'>" .
-		       isodate(time()) . "</irspy:search_bath>");
-    zoom_error_timeout_update($conn, $exception);
-    return ZOOM::IRSpy::Status::TASK_DONE;
 }
 
 
