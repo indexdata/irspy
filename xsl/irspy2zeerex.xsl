@@ -163,6 +163,11 @@
         <xsl:with-param name="nodes" select="*/irspy:multiple_opac"/>
         <xsl:with-param name="what" select="'multiple_opac'"/>
       </xsl:call-template>
+
+      <xsl:call-template name="insert-latest-nodes">
+        <xsl:with-param name="nodes" select="*/irspy:search_bath"/>
+        <xsl:with-param name="what" select="'search_bath'"/>
+      </xsl:call-template>
     </irspy:status>
   </xsl:template>
 
