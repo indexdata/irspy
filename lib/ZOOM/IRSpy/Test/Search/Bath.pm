@@ -1,7 +1,8 @@
 # This tests the main searches specified The Bath Profile, Release 2.0, 
 # 	http://www.collectionscanada.gc.ca/bath/tp-bath2-e.htm
 # Specifically section 5.A.0 ("Functional Area A: Level 0 Basic
-# Bibliographic Search and Retrieval") the its subsections.
+# Bibliographic Search and Retrieval") and its subsections:
+#	http://www.collectionscanada.gc.ca/bath/tp-bath2.7-e.htm#a
 
 package ZOOM::IRSpy::Test::Search::Bath;
 
