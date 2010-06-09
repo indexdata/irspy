@@ -15,7 +15,13 @@ Revision history for Perl extension ZOOM::IRSpy.
 	- Add new test Record::OPAC which checks the ability to return
 	  multiple OPAC records in a piggy-backed Search Response.
 	  Test result is saved in the new element 
-	  irspy:status/irspy:multiple_opac ok="1"
+	  <irspy:status/irspy:multiple_opac>
+	- Add new test Search::Bath which checks the ability to
+	  respond to Bath-profile searches.  Test result is saved in
+	  the new element <irspy:status/irspy:search_bath name="NAME">
+	  for NAME in "author", "title", "subject" and "any".
+	- The web UI displays this new information in full-record
+	  view.
 
 1.01  Mon Jul 16 12:51:19 BST 2007
 	- Web UI pages to add or upload a new target are now publicly
