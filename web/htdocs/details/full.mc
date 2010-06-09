@@ -45,6 +45,7 @@ if ($n == 0) {
 		  [ "Services" => \&calc_init_options, $xc ],
 		  [ "Bib-1 Use attributes" => \&calc_ap, $xc, "bib-1" ],
 		  [ "Dan-1 Use attributes" => \&calc_ap, $xc, "dan-1" ],
+		  [ "Bath Profile searches" => \&calc_bath, $xc ],
 		  [ "Operators" => \&calc_boolean, $xc ],
 		  [ "Named Result Sets" => \&calc_nrs, $xc ],
 		  [ "Record syntaxes" => \&calc_recsyn, $xc ],
@@ -157,6 +158,15 @@ sub _list_ap {
 	@set = "'.$set.'" and @type = "1"]';
     my @nodes = $xc->findnodes($expr);
     return sort { $a <=> $b } map { $_->findvalue(".") } @nodes;
+}
+
+sub calc_bath {
+    my($id, $xc) = @_;
+
+    my @nodes = $xc->findnodes('i:status/i:search_bath[@ok = "1"]');
+    my $res = join(", ", map { $_->findvalue('@name') } @nodes);
+    $res = "[none]" if $res eq "";
+    return $res;
 }
 
 sub calc_boolean {
