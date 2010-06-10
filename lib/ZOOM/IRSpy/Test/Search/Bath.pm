@@ -3,6 +3,23 @@
 # Specifically section 5.A.0 ("Functional Area A: Level 0 Basic
 # Bibliographic Search and Retrieval") and its subsections:
 #	http://www.collectionscanada.gc.ca/bath/tp-bath2.7-e.htm#a
+#
+# The Bath Level 0 searches have different access-points, but share:
+#	Relation (2)		3	equal
+#	Position (3)		3	any position in field
+#	Structure (4)		2	word
+#	Truncation (5)		100	do not truncate
+#	Completeness (6)	1	incomplete subfield
+# But Seb's bug report at:
+#	http://bugzilla.indexdata.dk/show_bug.cgi?id=3352#c0
+# wants use to use s=al t=r,l, where "s" is structure (4) and "al" is
+# AND-list, which apparently sends NO structure attribute; and "t" is
+# truncation (5) and "r,l" is right-and-left truncation (3).
+#
+# AND-listing (and selection of word or phrase-structure) is now
+# invoked in the Toroid, when the list of attributes is emitted; but
+# we can't test for 5=100 here, as the Bath Profile says to do, and
+# then use that as justification for emitting 5=3 in the Toroid.
 
 package ZOOM::IRSpy::Test::Search::Bath;
 
