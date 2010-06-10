@@ -72,7 +72,7 @@ sub search_complete {
 
     my $qindex = $udata->{qindex};
     my $ref = $bath_queries[$qindex];
-    my($name, $use_attr) = @$ref;
+    my($name) = @$ref;
 
     my $n = $task->{rs}->size();
 
