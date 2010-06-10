@@ -22,18 +22,19 @@ Revision history for Perl extension ZOOM::IRSpy.
 	  for NAME in "author", "title", "subject" and "any".
 	- The web UI displays this new information in full-record
 	  view.
-	- A target can be disabled for tests
-	- Improve input validation for new targets
-	- New or enhanced admin scripts for IRSpy maintaince
+	- A target can be disabled for tests ### how?
+	- Improve input validation for new targets.
+	- New or enhanced admin scripts for IRSpy maintenance ### which?
 	- Fix search for zeerex.reliability = 0, bug #3399
-	- Improve timeout handling of targets. Stop testing a target if we 
-	  got to many timeouts (>= 3). Otherwise we have to wait up to an hour
-	  to finish all tests for a broken target. A complete tests of all targets
-	  is now much faster and reliable.  
+	- Improve timeout handling of targets. Stop testing a target
+	  if we got to many timeouts (>= 3). Otherwise we have to wait
+	  up to an hour to finish all tests for a broken target.  A
+	  complete tests of all targets is now much faster and more
+	  reliable.
 	- Ignore case for record syntax field. This solves the problem that 
 	  you cannot search for record syntax "USmarc" if the server 
-	  response was in lowercase "usmarc"
-	- Run only one instance of the IRSpy script at a time 
+	  response was in lowercase "usmarc".
+	- Run only one instance of the IRSpy script at a time.
 
 1.01  Mon Jul 16 12:51:19 BST 2007
 	- Web UI pages to add or upload a new target are now publicly
