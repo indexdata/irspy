@@ -34,10 +34,11 @@ use ZOOM::IRSpy::Utils qw(isodate);
 
 
 my @bath_queries = (
-    [ author =>  1003 ],	# 5.A.0.1
-    [ title =>   4 ],	# 5.A.0.2
-    [ subject => 21 ],	# 5.A.0.3
-    [ any =>     1016 ],	# 5.A.0.4
+    # Name    =>  use, rel, pos, str, tru, com
+    [ author  => 1003,   3,   3,   2, 100,   1 ],	# 5.A.0.1
+    [ title   =>    4,   3,   3,   2, 100,   1 ],	# 5.A.0.2
+    [ subject =>   21,   3,   3,   2, 100,   1 ],	# 5.A.0.3
+    [ any     => 1016,   3,   3,   2, 100,   1 ],	# 5.A.0.4
     );
 
 
@@ -56,9 +57,9 @@ sub start_search {
 	if $qindex >= @bath_queries;
 
     my $ref = $bath_queries[$qindex];
-    my($name, $use_attr) = @$ref;
+    my($name, @attrs) = @$ref;
 
-    my $query = "\@attr 1=$use_attr \@attr 2=3 \@attr 3=3 \@attr 4=2 \@attr 5=100 \@attr 6=1 the";
+    my $query = join(" ", map { "\@attr $_=" . $attrs[$_-1] } (1..6)) . " the";
     $conn->irspy_search_pqf($query, { qindex => $qindex }, {},
 			    ZOOM::Event::ZEND, \&search_complete,
 			    "exception", \&search_complete);
