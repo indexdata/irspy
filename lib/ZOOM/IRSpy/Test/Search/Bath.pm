@@ -34,10 +34,10 @@ use ZOOM::IRSpy::Utils qw(isodate);
 
 
 my @bath_queries = (
-    [ author => 1003 ],	# 5.A.0.1
-    [ title => 4 ],	# 5.A.0.2
+    [ author =>  1003 ],	# 5.A.0.1
+    [ title =>   4 ],	# 5.A.0.2
     [ subject => 21 ],	# 5.A.0.3
-    [ any => 1016 ],	# 5.A.0.4
+    [ any =>     1016 ],	# 5.A.0.4
     );
 
 
