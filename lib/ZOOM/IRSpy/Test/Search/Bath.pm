@@ -3,6 +3,10 @@
 # Specifically section 5.A.0 ("Functional Area A: Level 0 Basic
 # Bibliographic Search and Retrieval") and its subsections:
 #	http://www.collectionscanada.gc.ca/bath/tp-bath2.7-e.htm#a
+# And section 5.A.1 ("Functional Area A: Level 1 Bibliographic Search
+# and Retrieval") and subsections 14 (Standard Identifier Search) and
+# 15 (Date of Publication Search):
+#	http://www.collectionscanada.gc.ca/bath/tp-bath2.10-e.htm#b
 #
 # The Bath Level 0 searches have different access-points, but share:
 #	Relation (2)		3	equal
