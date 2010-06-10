@@ -33,6 +33,7 @@ sub start {
     my $class = shift();
     my($conn) = @_;
 
+    #$conn->option(apdulog => 1);
     $conn->option(preferredRecordSyntax => "opac");
     $conn->irspy_search_pqf($queries[0], { queryindex => 0 }, \%options,
 			    ZOOM::Event::ZEND, \&completed_search,
@@ -75,7 +76,7 @@ sub completed_search {
     # that those records be included in the Search Response using
     # piggybacking.  Was it done?
     my $rec = $task->{rs}->record_immediate(2);
-    my $ok = defined $rec;
+    my $ok = defined $rec && $rec->error() == 0;
 
     $task->{rs}->destroy();
     $conn->record()->store_result('multiple_opac', 'ok' => $ok);
