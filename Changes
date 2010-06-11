@@ -22,9 +22,13 @@ Revision history for Perl extension ZOOM::IRSpy.
 	  for NAME in "author", "title", "subject" and "any".
 	- The web UI displays this new information in full-record
 	  view.
-	- A target can be disabled for tests ### how?
+	- A target can be disabled from participating in testing by
+	  setting the irspy:status/i:disabled xmlns element.  This can
+	  be set and unset from the Admin UI.  It's useful for
+	  omitting targets that make long test runs take too long.
 	- Improve input validation for new targets.
-	- New or enhanced admin scripts for IRSpy maintenance ### which?
+	- New and enhanced admin scripts (in ./bin) for IRSpy
+	  maintenance.
 	- Fix search for zeerex.reliability = 0, bug #3399
 	- Improve timeout handling of targets. Stop testing a target
 	  if we got to many timeouts (>= 3). Otherwise we have to wait
