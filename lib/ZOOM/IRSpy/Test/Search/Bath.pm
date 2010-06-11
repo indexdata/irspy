@@ -18,12 +18,19 @@
 #	http://bugzilla.indexdata.dk/show_bug.cgi?id=3352#c0
 # wants use to use s=al t=r,l, where "s" is structure (4) and "al" is
 # AND-list, which apparently sends NO structure attribute; and "t" is
-# truncation (5) and "r,l" is right-and-left truncation (3).
+# truncation (5) and "r,l" is right-and-left truncation.
 #
 # AND-listing (and selection of word or phrase-structure) is now
-# invoked in the Toroid, when the list of attributes is emitted; but
-# we can't test for 5=100 here, as the Bath Profile says to do, and
-# then use that as justification for emitting 5=3 in the Toroid.
+# invoked in the Toroid, when the list of attributes is emitted; we
+# test for we can't test for 5=100 here, as the Bath Profile says to
+# do, and rather optimistically use that as justification for emitting
+# t=l,r in the Toroid (which means that individual queries can request
+# either left- or right-truncation using "?".
+#
+# Finally, we also make a test for "X-isbn", an ISBN number search,
+# which is not actually in the Bath Profile.  This gives us something
+# to back down to when the more general Standard Identifier search
+# isn't supported.
 
 package ZOOM::IRSpy::Test::Search::Bath;
 
@@ -45,6 +52,7 @@ my @bath_queries = (
     [ any     => 1016,   3,   3,   2, 100,   1 ],	# 5.A.0.4
     [ ident   => 1007,   3,   1,   1, 100,   1 ],	# 5.A.1.14
     [ date    =>   31,   3,   1,   4, 100,   1 ],	# 5.A.1.15
+    [ "X-isbn"=>    7,   3,   1,   1, 100,   1 ],	# Not in Bath Profile
     );
 
 
