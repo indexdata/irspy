@@ -4,11 +4,15 @@
 #
 # run irspy with a smaller set of records in a loop to avoid out-of-memory
 #
+# for a fast update, run this:
+# 	$ env irspy_test=Quick ./irspy-update.sh
 
 home=/usr/local/src/git
 cd $home/irspy/bin || exit 2
 logdir=../log
 lockfile=$logdir/irspy-update.lock
+
+# run a full update by default, use Quick for a fast update
 : ${irspy_test=Main}
 
 mkdir -p $logdir || exit2
