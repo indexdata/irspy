@@ -12,6 +12,7 @@ home=/usr/local/src/git
 cd $home/irspy/bin || exit 2
 logdir=../log
 lockfile=$logdir/irspy-update.lock
+statusfile=$logdir/irspy-last-update.log
 
 # run a full update by default, use Quick for a fast update
 : ${irspy_test=Main}
@@ -38,4 +39,5 @@ do
 done
 
 rm -f $lockfile
+date > $statusfile
 
