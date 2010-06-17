@@ -7,9 +7,11 @@
 
 home=/usr/local/src/git
 cd $home/irspy/bin || exit 2
-logdir=../tmp
-lockfile=../tmp/irspy-update.lock
+logdir=../log
+lockfile=$logdir/irspy-update.lock
 : ${irspy_test=Main}
+
+mkdir -p $logdir || exit2
 
 if [ -f $lockfile ]; then
     pid=`cat $lockfile`
