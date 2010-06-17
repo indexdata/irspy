@@ -1,6 +1,7 @@
 #!/bin/sh
+# Copyright (c) 2010 Index Data, http://www.indexdata.com
 #
-# wrapper for irspy.pl
+# irspy-update.sh - wrapper for irspy.pl
 #
 # run irspy with a smaller set of records in a loop to avoid out-of-memory
 #
