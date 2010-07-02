@@ -39,6 +39,9 @@ Revision history for Perl extension ZOOM::IRSpy.
 	  you cannot search for record syntax "USmarc" if the server 
 	  response was in lowercase "usmarc".
 	- Run only one instance of the IRSpy script at a time.
+	- Use iconv character-set name "UTF-8" rather than "UTF8" as
+	  the latter is for some reason not supported by the iconv
+	  package in the Macports collection.
 
 1.01  Mon Jul 16 12:51:19 BST 2007
 	- Web UI pages to add or upload a new target are now publicly
