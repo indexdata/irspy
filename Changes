@@ -42,6 +42,9 @@ Revision history for Perl extension ZOOM::IRSpy.
 	- Use iconv character-set name "UTF-8" rather than "UTF8" as
 	  the latter is for some reason not supported by the iconv
 	  package in the Macports collection.
+	- _irspy_identifier2target() recognises and allows for
+	  comma-separated ZOOM-style options at the front of IRSpy
+	  identifiers.
 
 1.01  Mon Jul 16 12:51:19 BST 2007
 	- Web UI pages to add or upload a new target are now publicly
