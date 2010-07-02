@@ -285,13 +285,13 @@ sub _irspy_identifier2target {
     confess "_irspy_identifier2target(): id is undefined"
 	if !defined $id;
 
-    my($protocol, $target) = ($id =~ /(.*?):(.*)/);
+    my($prefix, $protocol, $target) = ($id =~ /([^:]*,)?(.*?):(.*)/);
     if (uc($protocol) eq "Z39.50" || uc($protocol) eq "TCP") {
-	return "tcp:$target";
+	return "${prefix}tcp:$target";
     } elsif (uc($protocol) eq "SRU") {
-	return "sru=get,http:$target";
+	return "${prefix}sru=get,http:$target";
     } elsif (uc($protocol) eq "SRW") {
-	return "sru=srw,http:$target";
+	return "${prefix}sru=srw,http:$target";
     }
 
     warn "_irspy_identifier2target($id): unrecognised protocol '$protocol'";
