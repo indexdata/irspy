@@ -13,7 +13,7 @@ our @ISA = qw(ZOOM::IRSpy::Test);
 use ZOOM::IRSpy::Utils qw(isodate);
 
 use Text::Iconv;
-my $conv = new Text::Iconv("LATIN1", "UTF8");
+my $conv = new Text::Iconv("LATIN1", "UTF-8");
 
 
 sub start {
