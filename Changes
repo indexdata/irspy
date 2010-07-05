@@ -45,6 +45,9 @@ Revision history for Perl extension ZOOM::IRSpy.
 	- _irspy_identifier2target() recognises and allows for
 	  comma-separated ZOOM-style options at the front of IRSpy
 	  identifiers.
+	- Fix bug #3534, which caused targets to be probed for
+	  record-syntax support using the wrong
+	  preferredRecordSyntax.
 
 1.01  Mon Jul 16 12:51:19 BST 2007
 	- Web UI pages to add or upload a new target are now publicly
