@@ -104,7 +104,7 @@ sub record {
     my $syn = $udata->{'syntax'};
     my $rs = $task->{rs};
 
-    my $record = _fetch_record($rs, 0, $syn);
+    my $record = _fetch_record($conn, $rs, 0, $syn);
     my $ok = 0;
     if (!$record || $record->error()) {
 	$conn->log("irspy_test", "retrieval of $syn record failed: ",
@@ -132,13 +132,28 @@ sub record {
 }
 
 
+# By the time this is called, the record has already been physically
+# fetched from the server in the correct syntax, and placed in the
+# result-set's cache.  But in order to actually get hold of it from
+# that cache, we need to set the record-syntax again, to the same
+# value, otherwise ZOOM will make a fresh request.
+#
+# ZOOM::IRSpy::Task::Retrieve sets options into the connection object
+# rather than the result-set object (because it's a subclass of
+# ZOOM::IRSpy::Task, which doesn't know about result-sets).  Therefore
+# it's important that this function also set into the connection:
+# otherwise any value subsequently set into the connection by
+# ZOOM::IRSpy::Task::Retrieve will be ignored by ZOOM-C operations, as
+# the value previously set into the result-set will override it.
+# (This was the very subtle cause of bug #3534).
+#
 sub _fetch_record {
-    my($rs, $index0, $syntax) = @_;
+    my($conn, $rs, $index0, $syntax) = @_;
 
-    my $oldSyntax = $rs->option(preferredRecordSyntax => $syntax);
+    my $oldSyntax = $conn->option(preferredRecordSyntax => $syntax);
     my $record = $rs->record(0);
     $oldSyntax = "" if !defined $oldSyntax;
-    $rs->option(preferredRecordSyntax => $oldSyntax);
+    $conn->option(preferredRecordSyntax => $oldSyntax);
 
     return $record;
 }
