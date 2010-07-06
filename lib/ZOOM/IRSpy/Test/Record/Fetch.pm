@@ -20,28 +20,37 @@ my @queries = (
 	       ### We can add more queries here
 	       );
 
+# Certain fetch attempts cause the connection to be lost (e.g. the
+# decoding of OPAC records fails for the National Library of
+# Education, Denmark (grundtvig.dpu.dk:2100/S), after which all
+# subsequent fetches fail -- see bug #3548.  To amerliorate the
+# consequences of this, we check the record syntaxes in order of
+# importance and likelihood of not causing the connection to be
+# dropped.  Of course, for well-behaved servers, this makes no
+# difference at all.
+
+#@syntax = qw(grs-1 sutrs usmarc xml); # simplify for debugging
 my @syntax = (
+	       'usmarc',
 	       'canmarc',
 	       'danmarc',
-	       'grs-1',
 	       'ibermarc',
 	       'intermarc',
 	       'jpmarc',
 	       'librismarc',
 	       'mab',
 	       'normarc',
-	       'opac',
 	       'picamarc',
 	       'rusmarc',
-	       'summary',
-	       'sutrs',
 	       'swemarc',
 	       'ukmarc',
 	       'unimarc',
-	       'usmarc',
-	       'xml'
+	       'sutrs',
+	       'grs-1',
+	       'xml',
+	       'summary',
+	       'opac',
 	    );
-#@syntax = qw(grs-1 sutrs usmarc xml); # simplify for debugging
 
 
 sub start {
