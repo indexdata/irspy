@@ -20,6 +20,29 @@ my @queries = (
 	       ### We can add more queries here
 	       );
 
+my @syntax = (
+	       'canmarc',
+	       'danmarc',
+	       'grs-1',
+	       'ibermarc',
+	       'intermarc',
+	       'jpmarc',
+	       'librismarc',
+	       'mab',
+	       'normarc',
+	       'opac',
+	       'picamarc',
+	       'rusmarc',
+	       'summary',
+	       'sutrs',
+	       'swemarc',
+	       'ukmarc',
+	       'unimarc',
+	       'usmarc',
+	       'xml'
+	    );
+#@syntax = qw(grs-1 sutrs usmarc xml); # simplify for debugging
+
 
 sub start {
     my $class = shift();
@@ -62,28 +85,6 @@ sub completed_search {
 	return ZOOM::IRSpy::Status::TASK_DONE;
     }
 
-    my @syntax = (
-                   'canmarc',
-                   'danmarc',
-                   'grs-1',
-                   'ibermarc',
-                   'intermarc',
-                   'jpmarc',
-                   'librismarc',
-                   'mab',
-                   'normarc',
-                   'opac',
-                   'picamarc',
-                   'rusmarc',
-                   'summary',
-                   'sutrs',
-                   'swemarc',
-                   'ukmarc',
-                   'unimarc',
-                   'usmarc',
-                   'xml'
-                );
-    #@syntax = qw(grs-1 sutrs usmarc xml); # simplify for debugging
     foreach my $i (0 ..$#syntax) {
 	my $syntax = $syntax[$i];
 	$conn->irspy_rs_record($task->{rs}, 0,
