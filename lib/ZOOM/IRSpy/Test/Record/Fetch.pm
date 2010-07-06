@@ -46,8 +46,8 @@ my @syntax = (
 	       'ukmarc',
 	       'unimarc',
 	       'sutrs',
-	       'grs-1',
 	       'xml',
+	       'grs-1',
 	       'summary',
 	       'opac',
 	    );
