@@ -286,6 +286,7 @@ sub _irspy_identifier2target {
 	if !defined $id;
 
     my($prefix, $protocol, $target) = ($id =~ /([^:]*,)?(.*?):(.*)/);
+    $prefix ||= "";
     if (uc($protocol) eq "Z39.50" || uc($protocol) eq "TCP") {
 	return "${prefix}tcp:$target";
     } elsif (uc($protocol) eq "SRU") {
