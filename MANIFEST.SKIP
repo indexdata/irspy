@@ -20,6 +20,9 @@ lib/ZOOM/IRSpy/x.pl
 lib/ZOOM/Pod.pm
 lib/ZOOM/XML
 t/CVS
+web/conf/apache2.0/cartney-dev.conf
+web/conf/apache2.0/irspy-test.conf
+web/conf/apache2.0/xeno-dev.conf
 web/conf/htpasswd
 web/data/cache/*
 web/data/obj/*
