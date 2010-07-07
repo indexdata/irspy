@@ -26,6 +26,7 @@ web/conf/apache2.0/xeno-dev.conf
 web/conf/htpasswd
 web/data/cache/*
 web/data/obj/*
+web/htdocs/offtopic/sru-auth.html
 web/logs/access.log
 web/logs/error.log
 zebra/.cvsignore
