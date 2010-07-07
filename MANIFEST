@@ -5,7 +5,10 @@ META.yml
 Makefile.PL
 README
 bin/Makefile
+bin/irspy-dump.pl
+bin/irspy-rewrite-records.pl
 bin/irspy-stats.pl
+bin/irspy-update.sh
 bin/irspy-xsltproc.pl
 bin/irspy.pl
 bin/reindex.pl
