@@ -1,6 +1,6 @@
 Revision history for Perl extension ZOOM::IRSpy.
 
-1.02  [IN PROGRESS]
+1.02  Wed Jul  7 16:06:12 BST 2010
 	- Enhance setrlimit program so that it can set maximum
 	  address-space size as well as number of file descriptors.
 	- Add new restrict_modulo() method to restrict tests to those
