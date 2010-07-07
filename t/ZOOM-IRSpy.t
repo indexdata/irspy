@@ -1,6 +1,6 @@
 # change 'tests => 1' to 'tests => last_test_to_print';
 
-use Test::More qw(no_plan);
+use Test::More tests => 3;
 
 BEGIN {
     use_ok('ZOOM::IRSpy');
