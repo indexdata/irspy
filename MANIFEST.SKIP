@@ -27,6 +27,7 @@ web/conf/htpasswd
 web/data/cache/*
 web/data/obj/*
 web/htdocs/offtopic/sru-auth.html
+web/htdocs/robots-test.txt
 web/logs/access.log
 web/logs/error.log
 zebra/.cvsignore
