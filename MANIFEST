@@ -6,8 +6,8 @@ Makefile.PL
 README
 bin/Makefile
 bin/irspy-stats.pl
-bin/irspy.pl
 bin/irspy-xsltproc.pl
+bin/irspy.pl
 bin/reindex.pl
 bin/setrlimit.c
 lib/ZOOM/IRSpy.pm
@@ -46,7 +46,6 @@ web/htdocs/admin/check.html
 web/htdocs/admin/delete.html
 web/htdocs/admin/edit.html
 web/htdocs/admin/index.html
-web/htdocs/upload.html
 web/htdocs/ap.html
 web/htdocs/beach.jpeg
 web/htdocs/chrome/layout.mc
@@ -100,6 +99,7 @@ web/htdocs/raw.html
 web/htdocs/software.html
 web/htdocs/stats.html
 web/htdocs/style.css
+web/htdocs/upload.html
 web/htdocs/valid-xhtml10.png
 web/htdocs/vcss.png
 web/images/Makefile
