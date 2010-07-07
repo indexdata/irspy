@@ -1,5 +1,5 @@
-.git
 .cvsignore
+.git
 CVS
 archive
 bin/.gdbinit
