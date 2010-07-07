@@ -29,8 +29,10 @@ lib/ZOOM/IRSpy/Test/Ping.pm
 lib/ZOOM/IRSpy/Test/Quick.pm
 lib/ZOOM/IRSpy/Test/Record/Fetch.pm
 lib/ZOOM/IRSpy/Test/Record/Main.pm
+lib/ZOOM/IRSpy/Test/Record/OPAC.pm
 lib/ZOOM/IRSpy/Test/ResultSet/Main.pm
 lib/ZOOM/IRSpy/Test/ResultSet/Named.pm
+lib/ZOOM/IRSpy/Test/Search/Bath.pm
 lib/ZOOM/IRSpy/Test/Search/Bib1.pm
 lib/ZOOM/IRSpy/Test/Search/Boolean.pm
 lib/ZOOM/IRSpy/Test/Search/CQL.pm
