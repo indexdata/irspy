@@ -43,6 +43,14 @@ zebra/db/shadow/.cvsignore
 zebra/db/shadow/CVS
 zebra/db/shadow/[a-z]*
 zebra/db/tmp/CVS
+zebra/dom-filter
+zebra/htpasswd.unencrypted
+zebra/init-script-test
+zebra/irspy-dump
 zebra/log
 zebra/records
 zebra/terse.properties
+zebra/yazserver-test.xml
+zebra/zebra-test.cfg
+zebra/zebra.log
+zebra/zeerex-test.xml
