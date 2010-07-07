@@ -47,6 +47,7 @@ lib/ZOOM/IRSpy/WebService.pod
 t/ZOOM-IRSpy.t
 web/conf/README
 web/conf/apache2.0/irspy.conf
+web/htdocs/add_target.html
 web/htdocs/admin/all.html
 web/htdocs/admin/check.html
 web/htdocs/admin/delete.html
@@ -83,6 +84,7 @@ web/htdocs/help/edit/contact.html
 web/htdocs/help/edit/country.html
 web/htdocs/help/edit/dbname.html
 web/htdocs/help/edit/description.html
+web/htdocs/help/edit/disabled.html
 web/htdocs/help/edit/extent.html
 web/htdocs/help/edit/history.html
 web/htdocs/help/edit/host.html
@@ -102,6 +104,7 @@ web/htdocs/help/info/reliability.html
 web/htdocs/help/link.mc
 web/htdocs/index.html
 web/htdocs/raw.html
+web/htdocs/robots.txt
 web/htdocs/software.html
 web/htdocs/stats.html
 web/htdocs/style.css
