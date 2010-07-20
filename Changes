@@ -3,6 +3,7 @@ Revision history for Perl extension ZOOM::IRSpy.
 1.03  [IN PROGRESS]
 	- Liberalise hostname validation regexp, so that hyphens are
 	  allowed in the name.
+	- Add Search::Bath to Search::Main test.
 
 1.02  Wed Jul  7 16:43:36 BST 2010
 	- Enhance setrlimit program so that it can set maximum
