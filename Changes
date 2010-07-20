@@ -1,5 +1,10 @@
 Revision history for Perl extension ZOOM::IRSpy.
 
+TO DO
+	- Assess reliability on the basis of the last two months only.
+	- Test for simple access-point-only searches when Bath-profile
+	  searches fail.
+
 1.03  [IN PROGRESS]
 	- Liberalise hostname validation regexp, so that hyphens are
 	  allowed in the name.
