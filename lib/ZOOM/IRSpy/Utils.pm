@@ -814,11 +814,17 @@ sub calc_reliability_string {
 sub calc_reliability_stats {
     my($xc) = @_;
 
+    my $now = isodate(time());
     my @allpings = $xc->findnodes("i:status/i:probe");
-    my $nall = @allpings;
-    return (0, 0, 0) if $nall == 0;
-    my @okpings = $xc->findnodes('i:status/i:probe[@ok = "1"]');
-    my $nok = @okpings;
+    return (0, 0, 0) if @allpings == 0;
+
+    my($nall, $nok) = (0, 0);
+    foreach my $node (@allpings) {
+	my $ok = $xc->findvalue('@ok', $node);
+	$nall++;
+	$nok += !!$ok;
+    }
+
     my $percent = int(100*$nok/$nall + 0.5);
     return ($nok, $nall, $percent);
 }
