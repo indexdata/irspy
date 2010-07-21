@@ -106,6 +106,7 @@
 	  <option value="net.host">Host</option>
 	  <option value="net.port/numeric">Port</option>
 	  <option value="net.path">Database</option>
+	  <option value="zeerex.reliability">Reliability</option>
 	 </select>
 	 <input type="checkbox" id="desc" name="_desc" value="1"/>
 	 <label for="desc">descending?</label>
