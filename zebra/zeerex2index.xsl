@@ -77,6 +77,9 @@
    <z:index name="zeerex:reliability" type="n">
     <xsl:value-of select="e:serverInfo/e:reliability"/>
    </z:index>
+   <z:index name="zeerex:reliability" type="s">
+    <xsl:value-of select="e:serverInfo/e:reliability"/>
+   </z:index>
    <z:index name="dc:date" type="d">
     <xsl:value-of select="e:serverInfo/e:database/@lastUpdate"/>
    </z:index>
