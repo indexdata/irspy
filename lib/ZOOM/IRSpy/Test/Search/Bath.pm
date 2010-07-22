@@ -53,6 +53,17 @@ my @bath_queries = (
     [ ident   => 1007,   3,   1,   1, 100,   1 ],	# 5.A.1.14
     [ date    =>   31,   3,   1,   4, 100,   1 ],	# 5.A.1.15
     [ "X-isbn"=>    7,   3,   1,   1, 100,   1 ],	# Not in Bath Profile
+
+    # Use attribute only -- fallbacks for when True Bath queries fail
+    [ "X-author1"    => 1 ],
+    [ "X-author1003" => 1003 ],
+    [ "X-author1004" => 1004 ],
+    [ "X-title"      => 4 ],
+    [ "X-subject"    => 21 ],
+    [ "X-any1016"    => 1016 ],
+    [ "X-any1017"    => 1035 ],
+    [ "X-any1035"    => 1035 ],
+    [ "X-isbn7"      => 7 ],
     );
 
 
@@ -73,7 +84,12 @@ sub start_search {
     my $ref = $bath_queries[$qindex];
     my($name, @attrs) = @$ref;
 
-    my $query = join(" ", map { "\@attr $_=" . $attrs[$_-1] } (1..6)) . " the";
+    my $query = "the";
+    foreach my $i (1 .. @$ref) {
+	$query = "\@attr $i=" . $ref->[$i] . " " . $query
+	    if defined $ref->[$i];
+    }
+
     $conn->irspy_search_pqf($query, { qindex => $qindex }, {},
 			    ZOOM::Event::ZEND, \&search_complete,
 			    "exception", \&search_complete);
