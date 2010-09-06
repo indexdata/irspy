@@ -2,6 +2,7 @@
 
 # Run like this:
 #	YAZ_LOG=irspy,irspy_test IRSPY_SAVE_XML=1 perl -I../lib irspy.pl -t Quick localhost:8018/IR-Explain---1 Z39.50:amicus.oszk.hu:1616/ANY
+#	YAZ_LOG=irspy,irspy_test IRSPY_SAVE_XML=1 perl -I../lib irspy.pl -t Quick -r dallas.rules localhost:8018/IR-Explain---1 Z39.50:catalog.dallaslibrary.org:210/PAC
 #	YAZ_LOG=irspy,irspy_test sudo ./setrlimit -n 3000 -u mike -- perl -I../lib irspy.pl -t Main -a localhost:8018/IR-Explain---1
 #	YAZ_LOG=irspy,irspy_test perl -I../lib irspy.pl -t Main -a -n 100 localhost:8018/IR-Explain---1
 #
@@ -32,7 +33,7 @@ $SIG{__DIE__} = sub {
 };
 
 my %opts;
-if (!getopts('dwt:af:n:m:M:', \%opts) || @ARGV < 1) {
+if (!getopts('dwt:af:n:m:r:M:', \%opts) || @ARGV < 1) {
     print STDERR "\
 Usage $0: [options] <IRSpy-database> [<target> ...]
 	-d		debug
@@ -42,6 +43,7 @@ Usage $0: [options] <IRSpy-database> [<target> ...]
 	-f <query>	Test targets found by the specified query
 	-n <number>	Number of connection to keep in active set
 	-m <n>,<i>	Only test targets whose hash mod <n> is <i>
+	-r <rulesFile>	Apply rules found in named file
 	-M max_depth 	maximum number of nested template calls and variables/params
 ";
     exit 1;
@@ -77,6 +79,10 @@ if (defined $opts{m}) {
 	exit 3;
     }
     $spy->restrict_modulo($n, $i);
+}
+
+if (defined $opts{r}) {
+    $spy->apply_rules($opts{r})
 }
 
 $spy->initialise($opts{t});
