@@ -7,6 +7,13 @@ Revision history for Perl extension ZOOM::IRSpy.
 	- Assess reliability on the basis of the last sixty days only.
 	- Test for simple access-point-only searches when Bath-profile
 	  searches fail.
+	- Introduce the notion of rules, which are applied under
+	  specified conditions resulting in specified actions.  As a
+	  motivating example, when working on a server with an
+	  implementation name (or ID or version) matching a specified
+	  regular expression, skip a named test: this is used to avoid
+	  having the test of catalog.dallaslibrary.org:210/PAC hang
+	  when we attempt to test its CQL capabilities.
 
 1.02  Wed Jul  7 16:43:36 BST 2010
 	- Enhance setrlimit program so that it can set maximum
