@@ -110,10 +110,31 @@ sub new {
 	timeout => undef,	# Filled in by initialise()
 	tests => undef,		# Tree of tests to be executed
 	activeSetSize => defined $activeSetSize ? $activeSetSize : 10,
+	rules => [],		# Can be filled by apply_rules()
+	vars => {},		# Will contain name, id, version, etc.
+				# May be written into by tests (mostly
+				# Ping, which gets the Init response)
+				# and read by tests for rules.
     }, $class;
     $this->log("irspy", "starting up with database '$dbname'");
 
     return $this;
+}
+
+# Read from and write to the set of vars
+sub var {
+    my $this = shift();
+    my($key, $newval) = @_;
+
+    if (defined $newval) {
+	$this->{vars}->{$key} = $newval;
+	#warn "$this: set '$key'='$newval'";
+    } else {
+	my $oldval = $this->{vars}->{$key};
+	$oldval = "" if !defined $oldval;
+	#warn "$this: got '$key'='$oldval'";
+	return $oldval;
+    }
 }
 
 # wrapper to read the IRSpy database name from environment variable / apache config
@@ -193,6 +214,26 @@ sub restrict_modulo {
     $this->{modi} = $i;
 }
 
+
+sub apply_rules {
+    my $this = shift();
+    my($fileName) = @_;
+
+    my $f = new IO::File("<$fileName")
+	or die "$0: can't open rules file '$fileName': $!";
+
+    while (my $line = <$f>) {
+	chomp $line;
+	$line =~ s/#.*//;
+	$line =~ s/\s+$//;
+	next if !$line;
+	my(@fields) = split /\s+/, $line;
+	my($name, $op, $val, $rule, @params) = @fields;
+	#warn "parsed name='$name', op='$op', val='$val', rule='$rule', params='@params'\n";
+	push @{ $this->{rules} }, [ @fields ];
+    }
+    $f->close();
+}
 
 # Records must be fetched for all records satisfying $this->{query} If
 # $this->{targets} is already set (i.e. a specific list of targets to
@@ -491,6 +532,11 @@ sub check {
 			or die "invalid nextaddr '$nextaddr'";
 		    $conn->option(current_test_address => $nextaddr);
 		    my $tname = $node->name();
+		    if ($this->should_skip_test($tname)) {
+			warn "skipping test '$tname' due to rule";
+			goto NEXT_TEST;
+		    }
+
 		    $conn->log("irspy_test",
 			       "starting test '$nextaddr' = $tname");
 		    my $tasks = $conn->tasks();
@@ -512,7 +558,7 @@ sub check {
 
 	        # do not run the next task if we got too many timeouts
                 if (ZOOM::IRSpy::Test::zoom_error_timeout_check($conn)) {
-                    $conn->log("irspy_task", "Got to many timeouts for this target, do not start a new task");
+                    $conn->log("irspy_task", "Got too many timeouts for this target, do not start a new task");
                     next;
                 }
 
@@ -680,6 +726,30 @@ sub check {
 }
 
 
+### This could of course call a much more general looping evaluator
+sub should_skip_test {
+    my $this = shift();
+    my($tname) = @_;
+
+    foreach my $rule (@{ $this->{rules} }) {
+	my($name, $op, $val, $rule, @params) = @$rule;
+	#warn "using name='$name', op='$op', val='$val', rule='$rule', params='@params'\n";
+	if ($op eq "~" &&
+	    $rule eq "skip" &&
+	    $params[0] eq $tname) {
+	    my $re = $val;
+	    $re =~ s/^\/(.*)\/$/$1/;
+	    if ($this->var($name) =~ $re) {
+		#warn "$name '", $this->var($name), "' matches /$re/ -- skipping '$tname'";
+		return 1;
+	    }
+	}
+    }
+
+    return 0;
+}
+
+
 # Exactly equivalent to ZOOM::event() except that it is tolerant to
 # undefined values in the array being passed in.
 #
@@ -750,7 +820,10 @@ sub _next_test {
     return undef if $address eq "";
 
     # Try next sibling child
-    my @components = split /:/, $address;
+    # The use of a regexp in split() is to avoid confusing Emacs's
+    # Perl mode; the third colon is to avoid looking like a POSIX
+    # named character class ... *sigh*
+    my @components = split /[:::]/, $address;
     my $last = pop @components;
     my $maybe = join(":", @components, $last+1);
     return $maybe if $this->{tree}->select($maybe);
@@ -761,6 +834,7 @@ sub _next_test {
 
 
 sub _last_sibling_test {
+    die "_last_sibling_test() called -- I thought that never happened?";
     my $this = shift();
     my($address) = @_;
 
@@ -781,10 +855,11 @@ sub _last_sibling_test {
 
 
 sub _next_sibling_test {
+    die "_next_sibling_test() called -- I thought that never happened?";
     my $this = shift();
     my($address) = @_;
 
-    my @components = split /:/, $address;
+    my @components = split /[:::]/, $address;
     my $last = pop @components;
     my $maybe = join(":", @components, $last+1);
     return $maybe if $this->{tree}->select($maybe);
