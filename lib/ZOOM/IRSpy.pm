@@ -533,7 +533,8 @@ sub check {
 		    $conn->option(current_test_address => $nextaddr);
 		    my $tname = $node->name();
 		    if ($this->should_skip_test($tname)) {
-			warn "skipping test '$tname' due to rule";
+			$conn->log("irspy_test",
+			    "skipping test '$nextaddr' = $tname due to rule");
 			goto NEXT_TEST;
 		    }
 
