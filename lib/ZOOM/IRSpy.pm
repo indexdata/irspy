@@ -535,6 +535,7 @@ sub check {
 		    if ($this->should_skip_test($tname)) {
 			$conn->log("irspy_test",
 			    "skipping test '$nextaddr' = $tname due to rule");
+			$nskipped += 1;
 			goto NEXT_TEST;
 		    }
 
