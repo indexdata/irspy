@@ -5,6 +5,8 @@ $really => 0
 $YAZ_LOG => "irspy,irspy_test"
 </%args>
 <%perl>
+my @rulesFiles = ("dallas.rules");
+
 my $allTargets = (@id == 1 && $id[0] eq "");
 if ($allTargets && !$really) {
 </%perl>
@@ -37,6 +39,10 @@ my $spy = new ZOOM::IRSpy::Web($db,
 			       admin => "fruitbat");
 $spy->log_init_level($YAZ_LOG);
 $spy->targets(@id) if !$allTargets;
+foreach my $rulesFile (@rulesFiles) {
+    $spy->apply_rules($ENV{DOCUMENT_ROOT} . "/../../etc/" . $rulesFile);
+    print "applied rules '$rulesFile'\n";
+}
 $spy->initialise($test);
 my $res = $spy->check();
 print "<p>\n";

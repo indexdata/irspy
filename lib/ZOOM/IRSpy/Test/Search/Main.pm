@@ -9,7 +9,7 @@ use ZOOM::IRSpy::Test;
 our @ISA = qw(ZOOM::IRSpy::Test);
 
 sub subtests { qw(Search::Bib1 Search::Dan1 Search::Boolean
-                  Search::Explain Search::CQL) }
+                  Search::Explain Search::CQL Search::Bath) }
 
 sub start {
     my $class = shift();

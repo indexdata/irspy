@@ -33,6 +33,7 @@ WriteMakefile(
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM  => 'lib/ZOOM/IRSpy.pm', # retrieve abstract from module
        AUTHOR         => 'Mike Taylor <mike@indexdata.com>') : ()),
+    EXE_FILES    => [ 'bin/irspy.pl', 'bin/irspy-dump.pl' ],
 );
 
 

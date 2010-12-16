@@ -1,5 +1,8 @@
 #!/usr/bin/perl
 
+# Run as:
+#	perl -I../lib reindex.pl user=admin,password=SWORDFISH,localhost:8018/IR-Explain---1
+
 use strict;
 use warnings;
 use ZOOM;

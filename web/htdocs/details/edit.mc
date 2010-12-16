@@ -68,9 +68,9 @@ if (!defined $id) {
     } elsif (!defined $newid) {
 	# Tried to create new record but data is insufficient
 	print qq[<p class="error">
-		Please specify title, protocol, host, port and database name.</p>\n];
+		Please specify name, protocol, host, port and database name.</p>\n];
 	undef $update;
-    } elsif ($host !~ /^\w+\.[\w.]*\w$/i) {
+    } elsif ($host !~ /^[\w-]+\.[\w.-]*\w$/i) {
 	print qq[<p class="error">
 		This host name is not valid.</p>\n];
 	undef $update;

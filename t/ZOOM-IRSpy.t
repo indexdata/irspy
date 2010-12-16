@@ -1,6 +1,6 @@
 # change 'tests => 1' to 'tests => last_test_to_print';
 
-use Test::More qw(no_plan);
+use Test::More tests => 3;
 
 BEGIN {
     use_ok('ZOOM::IRSpy');
@@ -25,7 +25,6 @@ isa_ok( $spy, 'ZOOM::IRSpy' );
 # test for failure if template not exists
 eval {
     $ZOOM::IRSpy::irspy_to_zeerex_xsl = '/nonexist';
-    $ZOOM::IRSpy::debug = 1;
     $ZOOM::IRSpy::xslt_max_depth = 100;
     $spy = new ZOOM::IRSpy( $dbname, "admin", "fruitbat" );
 };

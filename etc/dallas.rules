@@ -1,0 +1,29 @@
+# Format of IRSpy rules files:
+#
+# Hash characters (#) introduced comments, which are ignored
+# Trailing whitespace is ignored
+# Blank lines (i.e. including those consisting only of whitespace
+#	and/or comments) are ignored
+#
+# All other lines consist of four fields:
+#	<var> ~ /<regexp>/ <action>
+# If the value of <var> matches the regular expression <regexp>, then
+# the action is executed.
+#
+# <var> may take the values:
+#	id -- Impementation ID of server
+#	name -- Impementation name of server
+#	version -- Impementation version of server
+#
+# ~ is a literal tilde, indicating regular expression matching.  It is
+# required, although redundant, to allow for future expansion that
+# uses other operators such as >= for version numbers.
+#
+# /regexp/ is a Perl regular expression, which may optionally be
+# enclosed in forward slashes.
+#
+# <action> may be any of the following
+#	skip <test> -- do not attempt the named test
+#	### More to come
+
+name ~ /Polaris/   skip Search::CQL

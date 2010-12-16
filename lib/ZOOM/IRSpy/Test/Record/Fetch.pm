@@ -20,6 +20,38 @@ my @queries = (
 	       ### We can add more queries here
 	       );
 
+# Certain fetch attempts cause the connection to be lost (e.g. the
+# decoding of OPAC records fails for the National Library of
+# Education, Denmark (grundtvig.dpu.dk:2100/S), after which all
+# subsequent fetches fail -- see bug #3548.  To amerliorate the
+# consequences of this, we check the record syntaxes in order of
+# importance and likelihood of not causing the connection to be
+# dropped.  Of course, for well-behaved servers, this makes no
+# difference at all.
+
+#@syntax = qw(grs-1 sutrs usmarc xml); # simplify for debugging
+my @syntax = (
+	       'usmarc',
+	       'canmarc',
+	       'danmarc',
+	       'ibermarc',
+	       'intermarc',
+	       'jpmarc',
+	       'librismarc',
+	       'mab',
+	       'normarc',
+	       'picamarc',
+	       'rusmarc',
+	       'swemarc',
+	       'ukmarc',
+	       'unimarc',
+	       'sutrs',
+	       'xml',
+	       'grs-1',
+	       'summary',
+	       'opac',
+	    );
+
 
 sub start {
     my $class = shift();
@@ -62,28 +94,6 @@ sub completed_search {
 	return ZOOM::IRSpy::Status::TASK_DONE;
     }
 
-    my @syntax = (
-                   'canmarc',
-                   'danmarc',
-                   'grs-1',
-                   'ibermarc',
-                   'intermarc',
-                   'jpmarc',
-                   'librismarc',
-                   'mab',
-                   'normarc',
-                   'opac',
-                   'picamarc',
-                   'rusmarc',
-                   'summary',
-                   'sutrs',
-                   'swemarc',
-                   'ukmarc',
-                   'unimarc',
-                   'usmarc',
-                   'xml'
-                );
-    #@syntax = qw(grs-1 sutrs usmarc xml); # simplify for debugging
     foreach my $i (0 ..$#syntax) {
 	my $syntax = $syntax[$i];
 	$conn->irspy_rs_record($task->{rs}, 0,
@@ -104,7 +114,7 @@ sub record {
     my $syn = $udata->{'syntax'};
     my $rs = $task->{rs};
 
-    my $record = _fetch_record($rs, 0, $syn);
+    my $record = _fetch_record($conn, $rs, 0, $syn);
     my $ok = 0;
     if (!$record || $record->error()) {
 	$conn->log("irspy_test", "retrieval of $syn record failed: ",
@@ -132,13 +142,28 @@ sub record {
 }
 
 
+# By the time this is called, the record has already been physically
+# fetched from the server in the correct syntax, and placed in the
+# result-set's cache.  But in order to actually get hold of it from
+# that cache, we need to set the record-syntax again, to the same
+# value, otherwise ZOOM will make a fresh request.
+#
+# ZOOM::IRSpy::Task::Retrieve sets options into the connection object
+# rather than the result-set object (because it's a subclass of
+# ZOOM::IRSpy::Task, which doesn't know about result-sets).  Therefore
+# it's important that this function also set into the connection:
+# otherwise any value subsequently set into the connection by
+# ZOOM::IRSpy::Task::Retrieve will be ignored by ZOOM-C operations, as
+# the value previously set into the result-set will override it.
+# (This was the very subtle cause of bug #3534).
+#
 sub _fetch_record {
-    my($rs, $index0, $syntax) = @_;
+    my($conn, $rs, $index0, $syntax) = @_;
 
-    my $oldSyntax = $rs->option(preferredRecordSyntax => $syntax);
+    my $oldSyntax = $conn->option(preferredRecordSyntax => $syntax);
     my $record = $rs->record(0);
     $oldSyntax = "" if !defined $oldSyntax;
-    $rs->option(preferredRecordSyntax => $oldSyntax);
+    $conn->option(preferredRecordSyntax => $oldSyntax);
 
     return $record;
 }

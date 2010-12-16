@@ -286,6 +286,7 @@ sub _irspy_identifier2target {
 	if !defined $id;
 
     my($prefix, $protocol, $target) = ($id =~ /([^:]*,)?(.*?):(.*)/);
+    $prefix ||= "";
     if (uc($protocol) eq "Z39.50" || uc($protocol) eq "TCP") {
 	return "${prefix}tcp:$target";
     } elsif (uc($protocol) eq "SRU") {
@@ -813,11 +814,21 @@ sub calc_reliability_string {
 sub calc_reliability_stats {
     my($xc) = @_;
 
+    my $sixtyDaysAgo = time() - 60*24*60*60;
+    my $iso60DA = isodate($sixtyDaysAgo);
     my @allpings = $xc->findnodes("i:status/i:probe");
-    my $nall = @allpings;
+
+    my($nall, $nok) = (0, 0);
+    foreach my $node (@allpings) {
+	my $ok = $xc->findvalue('@ok', $node);
+	my $when = $node->to_literal();
+	#warn "$when cmp $iso60DA == ", ($when cmp $iso60DA), "\n";
+	next if $when lt $iso60DA;
+	$nall++;
+	$nok += !!$ok;
+    }
+
     return (0, 0, 0) if $nall == 0;
-    my @okpings = $xc->findnodes('i:status/i:probe[@ok = "1"]');
-    my $nok = @okpings;
     my $percent = int(100*$nok/$nall + 0.5);
     return ($nok, $nall, $percent);
 }

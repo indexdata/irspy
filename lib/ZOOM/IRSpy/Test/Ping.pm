@@ -52,9 +52,11 @@ sub connected {
 	    if $conn->option("init_opt_$opt");
     }
 
-    foreach my $opt (qw(serverImplementationId
-			serverImplementationName
-			serverImplementationVersion)) {
+    my %params = (serverImplementationId => "id",
+		  serverImplementationName => "name",
+		  serverImplementationVersion => "version",
+		 );
+    foreach my $opt (keys %params) {
 	my $val = $conn->option($opt);
 	next if !defined $val; # not defined for SRU, for example
 
@@ -79,6 +81,7 @@ sub connected {
 	    $val = $maybe;
 	}
 	$conn->record()->store_result($opt, value => $val);
+	$conn->irspy()->var($params{$opt}, $val);
     }
 
     return ZOOM::IRSpy::Status::TEST_GOOD;
