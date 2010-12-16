@@ -1,6 +1,6 @@
 #!/opt/local/bin/perl
 #
-# ./irspy-delete-broken-records.pl user=admin,password=fruitbat,localhost:8018/IR-Explain---1 'concat(count(irspy:status/irspy:probe[@ok=1]), "/", count(irspy:status/irspy:probe))' 'count(irspy:status/irspy:probe[@ok=1]) = 0 and count(irspy:status/irspy:probe) >= 10'
+# ./zoom-delete-records.pl user=admin,password=fruitbat,localhost:8018/IR-Explain---1 'concat(count(irspy:status/irspy:probe[@ok=1]), "/", count(irspy:status/irspy:probe))' 'count(irspy:status/irspy:probe[@ok=1]) = 0 and count(irspy:status/irspy:probe) >= 10'
 
 use lib '../lib';
 use XML::LibXML;
