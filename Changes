@@ -14,6 +14,11 @@ Revision history for Perl extension ZOOM::IRSpy.
 	  regular expression, skip a named test: this is used to avoid
 	  having the test of catalog.dallaslibrary.org:210/PAC hang
 	  when we attempt to test its CQL capabilities.
+	- The Web UI sets $ZOOM::IRSpy::xslt_max_depth to 3500, just
+	  like the overnight test-script.  This is a hideous hack to
+	  cope with the fact that XSLT can't iterate, and explodes if
+	  you ask it to recurse across a list of more than a half
+	  dozen elements.
 
 1.02  Wed Jul  7 16:43:36 BST 2010
 	- Enhance setrlimit program so that it can set maximum
