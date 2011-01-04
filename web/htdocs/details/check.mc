@@ -34,6 +34,7 @@ $m->flush_buffer();
 # on in the HTTP configuration, so we don't even try -- instead,
 # having ZOOM::IRSpy::Web::log() explicitly calling $m->flush_buffer()
 
+$ZOOM::IRSpy::xslt_max_depth = 3500; ### Hideous hack
 my $db = ZOOM::IRSpy::connect_to_registry();
 my $spy = new ZOOM::IRSpy::Web($db,
 			       admin => "fruitbat");
