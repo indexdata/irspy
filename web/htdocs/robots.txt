@@ -10,3 +10,6 @@ Disallow: /raw.html
 Disallow: /stats.html
 Disallow: /upload.html
 
+User-agent: rogerbot
+Disallow: /
+
