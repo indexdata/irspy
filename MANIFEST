@@ -9,10 +9,12 @@ bin/irspy-dump.pl
 bin/irspy-rewrite-records.pl
 bin/irspy-stats.pl
 bin/irspy-update.sh
+bin/irspy-xpath.pl
 bin/irspy-xsltproc.pl
 bin/irspy.pl
 bin/reindex.pl
 bin/setrlimit.c
+etc/dallas.rules
 lib/ZOOM/IRSpy.pm
 lib/ZOOM/IRSpy/Connection.pm
 lib/ZOOM/IRSpy/Maintenance.pod
