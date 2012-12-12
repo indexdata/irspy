@@ -22,6 +22,8 @@ Revision history for Perl extension ZOOM::IRSpy.
 	  dozen elements.
 	- New script bin/irspy-xpath.pl -- a simple wrapper for
 	  running an XPath with IRSpy-related namespaces established.
+	- Record::Fetch test registers a fail when the syntax actually
+	  retrieved does not match that requested. Fixes bug IR-324.
 
 1.02  Wed Jul  7 16:43:36 BST 2010
 	- Enhance setrlimit program so that it can set maximum
