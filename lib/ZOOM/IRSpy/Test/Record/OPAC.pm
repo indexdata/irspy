@@ -75,8 +75,16 @@ sub completed_search {
     # We have a result-set of three of more records, and we requested
     # that those records be included in the Search Response using
     # piggybacking.  Was it done?
+    my $ok = 0;
     my $rec = $task->{rs}->record_immediate(2);
-    my $ok = defined $rec && $rec->error() == 0;
+    if (defined $rec) {
+	my $syntax = $rec->get("syntax");
+	if (lc($syntax) ne "opac") {
+	    $conn->log("irspy_test", "requested OPAC record, but got $syntax");
+	} else {
+	    $ok = $rec->error() == 0;
+	}
+    }
 
     $task->{rs}->destroy();
     $conn->record()->store_result('multiple_opac', 'ok' => $ok);
