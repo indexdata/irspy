@@ -28,6 +28,8 @@ Revision history for Perl extension ZOOM::IRSpy.
 	  editing and storing results. Fixes bug IR-333.
 	- IDs used in URLs for full-record links are properly
 	  CQL-quoted. Fixes part of IR-303.
+	- Move aside the old, unused lib/ZOOM/Pod.pm. Will be removed
+	  from distribution entirely in a subsequent release.
 
 1.02  Wed Jul  7 16:43:36 BST 2010
 	- Enhance setrlimit program so that it can set maximum
