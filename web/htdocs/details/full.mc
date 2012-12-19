@@ -51,7 +51,7 @@ if ($n == 0) {
 		  [ "Record syntaxes" => \&calc_recsyn, $xc ],
 		  [ "Explain" => \&calc_explain, $xc ],
 		  [ "Multiple OPAC records" => \&calc_mor, $xc ],
-		  [ "Piggback searching" => \&calc_piggyback, $xc ],
+		  [ "Piggyback searching" => \&calc_piggyback, $xc ],
 		  );
     my $title = $xc->find("e:databaseInfo/e:title");
 </%perl>
@@ -184,7 +184,7 @@ sub calc_boolean {
 
 sub calc_nrs { _calc_boolean(@_, 'i:status/i:named_resultset[@ok = "1"]') }
 sub calc_mor { _calc_boolean(@_, 'i:status/i:multiple_opac[@ok = "1"]') }
-sub calc_piggyback { _calc_boolean(@_, 'i:status/i:piggback[@ok = "1"]') }
+sub calc_piggyback { _calc_boolean(@_, 'i:status/i:piggyback[@ok = "1"]') }
 
 sub _calc_boolean {
     my($id, $xc, $xpath) = @_;
