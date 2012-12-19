@@ -44,7 +44,10 @@ sub start {
 sub completed_search {
     my($conn, $task, $udata, $event) = @_;
 
-    if ($event->isa("ZOOM::Exception") && $event->code() == 1005) {
+    # $event can be a ZOOM::Event::* number or a ZOOM::Exception object
+    if (ref $event &&
+	$event->isa("ZOOM::Exception") &&
+	$event->code() == 1005) {
 	$conn->log("irspy_test", "Piggyback searching not supported");	
 	$conn->record()->store_result('piggyback', 'ok' => 0);
 	return ZOOM::IRSpy::Status::TEST_BAD;
