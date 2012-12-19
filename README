@@ -18,7 +18,7 @@ package store, using apt-get:
 
 sudo apt-get install \
 	libnet-z3950-zoom-perl \
-	libxml-libxml-common-perl \
+	libxml-libxml-perl \
 	liburi-perl \
 	libxml-libxml-perl \
 	libapache2-mod-perl2 \

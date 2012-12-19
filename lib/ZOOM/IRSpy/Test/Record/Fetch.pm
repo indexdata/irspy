@@ -121,13 +121,18 @@ sub record {
 		   defined $record ? $record->exception() :
 				     $conn->exception());
     } else {
-	$ok = 1;
-	my $text = $record->render();
-	$conn->log("irspy_test", "Successfully retrieved a $syn record");
-	if (0) {
-	    print STDERR "Hits: ", $rs->size(), "\n";
-	    print STDERR "Syntax: ", $syn, "\n";
-	    print STDERR $text;
+	my $actual = $record->get("syntax");
+	if (lc($actual) ne lc($syn)) {
+	    $conn->log("irspy_test", "requested $syn record, but got $actual");
+	} else {
+	    $ok = 1;
+	    my $text = $record->render();
+	    $conn->log("irspy_test", "Successfully retrieved a $syn record ($actual)");
+	    if (0) {
+		print STDERR "Hits: ", $rs->size(), "\n";
+		print STDERR "Syntax: ", $syn, "\n";
+		print STDERR $text;
+	    }
 	}
     }
 
