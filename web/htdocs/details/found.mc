@@ -124,7 +124,7 @@ push @ids, $id;
 </%perl>
       <tr style="background: <% ($i % 2) ? '#ffffc0' : 'white' %>">
        <td><% $i %></td>
-       <td><a href="<% xml_encode("/full.html?id==" . uri_escape_utf8(cql_quote($id)))
+       <td><a href="<% xml_encode("/full.html?id=" . uri_escape_utf8($id))
 		%>"><% xml_encode($title) %></a></td>
        <td><% xml_encode($reliability, "", { nbsp => 1 }) %></td>
        <td><% xml_encode($host, "") %></td>
