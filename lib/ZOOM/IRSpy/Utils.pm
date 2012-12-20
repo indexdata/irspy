@@ -163,7 +163,7 @@ sub cql_quote {
     my($term) = @_;
 
     $term =~ s/([""\\*?])/\\$1/g;
-    $term = qq["$term"] if $term =~ /[\s""\/]/;
+    $term = qq["$term"] if $term =~ /[\s""\/\\]/;
     return $term;
 }
 
@@ -180,8 +180,7 @@ sub cql_target {
 	$id = $protocol;
     }
 
-    return "rec.id=" . cql_quote($id);
-    #return "rec.id_raw=" . cql_quote($id);
+    return "rec.id==" . cql_quote($id);
 }
 
 
