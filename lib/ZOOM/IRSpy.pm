@@ -65,6 +65,7 @@ BEGIN {
     ZOOM::Log::mask_str("irspy_unhandled");
     ZOOM::Log::mask_str("irspy_test");
     ZOOM::Log::mask_str("irspy_task");
+    ZOOM::Log::mask_str("irspy_data");
 }
 
 sub new {
