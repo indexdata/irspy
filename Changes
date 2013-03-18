@@ -32,6 +32,7 @@ Revision history for Perl extension ZOOM::IRSpy.
 	  from distribution entirely in a subsequent release.
 	- Support new "irspy_data" log-level to register information
 	  written to target description record.
+	- need a nagios alert script to check irspy updates, IR-336
 
 1.02  Wed Jul  7 16:43:36 BST 2010
 	- Enhance setrlimit program so that it can set maximum
