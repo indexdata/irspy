@@ -644,7 +644,7 @@ sub check {
 		       length($node->next()->address()) >= length($address)) {
 		    $conn->log("irspy_test", "skipping from '",
 			       $node->address(), "' to '",
-			       $node->next()->address(), "'");
+			       $node->next()->address(), "' (", $node->next()->name(), ")");
 		    $node = $node->next();
 		    $skipcount++;
 		}
