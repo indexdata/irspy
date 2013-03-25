@@ -10,6 +10,7 @@ our @ISA = qw(ZOOM::IRSpy::Test);
 
 sub subtests { qw(Search::Bib1 Search::Dan1 Search::Boolean
                   Search::Explain Search::CQL Search::Bath) }
+# Why no Search::DBDate or Search::Title?
 
 sub start {
     my $class = shift();
