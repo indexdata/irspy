@@ -65,6 +65,7 @@ BEGIN {
     ZOOM::Log::mask_str("irspy_unhandled");
     ZOOM::Log::mask_str("irspy_test");
     ZOOM::Log::mask_str("irspy_task");
+    ZOOM::Log::mask_str("irspy_data");
 }
 
 sub new {
@@ -641,9 +642,9 @@ sub check {
 		my $skipcount = 0;
 		while (defined $node->next() &&
 		       length($node->next()->address()) >= length($address)) {
-		    $conn->log("irspy_debug", "skipping from '",
+		    $conn->log("irspy_test", "skipping from '",
 			       $node->address(), "' to '",
-			       $node->next()->address(), "'");
+			       $node->next()->address(), "' (", $node->next()->name(), ")");
 		    $node = $node->next();
 		    $skipcount++;
 		}

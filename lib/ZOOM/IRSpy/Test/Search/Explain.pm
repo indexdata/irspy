@@ -55,7 +55,7 @@ sub error {
     update($conn, $category, 0);
     zoom_error_timeout_update($conn, $exception);
 
-    return ZOOM::IRSpy::Status::TEST_BAD
+    return ZOOM::IRSpy::Status::TEST_GOOD
 	if ($exception->code() == 109 || # Database unavailable
 	    $exception->code() == 235); # Database does not exist
 

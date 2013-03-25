@@ -165,6 +165,11 @@
       </xsl:call-template>
 
       <xsl:call-template name="insert-latest-nodes">
+        <xsl:with-param name="nodes" select="*/irspy:piggyback"/>
+        <xsl:with-param name="what" select="'piggyback'"/>
+      </xsl:call-template>
+
+      <xsl:call-template name="insert-latest-nodes">
         <xsl:with-param name="nodes" select="*/irspy:search_bath"/>
         <xsl:with-param name="what" select="'search_bath'"/>
       </xsl:call-template>

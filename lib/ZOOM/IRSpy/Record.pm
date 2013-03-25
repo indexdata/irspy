@@ -117,9 +117,10 @@ sub store_result {
         $xml .= " $key=\"" . xml_encode($info{$key}) . "\"";
     }
 
-    $xml .= ">" . isodate(time()) . "</irspy:$type>\n";
+    $xml .= ">" . isodate(time()) . "</irspy:$type>";
 
-    $this->append_entry('irspy:status', $xml);
+    $this->{irspy}->log("irspy_data", $xml);
+    $this->append_entry('irspy:status', $xml . "\n");
 }
 
 

@@ -23,7 +23,7 @@ I<## To follow>
 
 =cut
 
-sub subtests { qw(Record::Fetch Record::OPAC) }
+sub subtests { qw(Record::Fetch Record::OPAC Record::PiggyBack) }
 
 sub start {
     my $class = shift();

@@ -13,6 +13,7 @@
 #	irspy_unhandled -- unhandled events (not very interesting)
 #	irspy_test -- adding, queueing and running tests
 #	irspy_task -- adding, queueing and running tasks
+#	irspy_data -- XML data written to registry
 
 # I have no idea why this directory is not in Ubuntu's default Perl
 # path, but we need it because just occasionally overload.pm:88

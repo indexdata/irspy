@@ -27,6 +27,15 @@ Revision history for Perl extension ZOOM::IRSpy.
 	- Record::OPAC test check that record returned in piggyback
 	  after OPAC-record request really is an OPAC record. Fixes
 	  bug IR-331.
+	- Add new test, Record::PiggyBack, with support for viewing,
+	  editing and storing results. Fixes bug IR-333.
+	- IDs used in URLs for full-record links are properly
+	  CQL-quoted. Fixes part of IR-303.
+	- Move aside the old, unused lib/ZOOM/Pod.pm. Will be removed
+	  from distribution entirely in a subsequent release.
+	- Support new "irspy_data" log-level to register information
+	  written to target description record.
+	- need a nagios alert script to check irspy updates, IR-336
 
 1.02  Wed Jul  7 16:43:36 BST 2010
 	- Enhance setrlimit program so that it can set maximum
