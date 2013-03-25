@@ -53,10 +53,11 @@ sub error {
     update($conn, $attr, 0);
     zoom_error_timeout_update($conn, $exception);
 
-    return ZOOM::IRSpy::Status::TEST_BAD
-	if ($exception->code() == 1 || # permanent system error
-	    $exception->code() == 235 || # Database does not exist
-	    $exception->code() == 109); # Database unavailable
+# Commented out because TEST_BAD causes sibling tests to be skipped.
+#    return ZOOM::IRSpy::Status::TEST_BAD
+#	if ($exception->code() == 1 || # permanent system error
+#	    $exception->code() == 235 || # Database does not exist
+#	    $exception->code() == 109); # Database unavailable
 
     return ZOOM::IRSpy::Status::TASK_DONE;
 }
