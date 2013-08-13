@@ -1,0 +1,43 @@
+# A very simple configuration to proxy the irspy
+
+<VirtualHost *:80>
+    ServerName irspy.indexdata.com 
+    ServerAlias irspy-dev.indexdata.com
+
+    # Remove the X-Forwarded-For header, as the proxy appends to it,
+    # and we need a clean ip address for the statistics
+    # RequestHeader unset X-Forwarded-For early
+    # Never mind
+
+    ProxyRequests off
+    <Proxy *>
+      Order allow,deny
+      Allow from all
+
+      # broken bots
+      Deny from 50.19.170.116
+      Deny from 107.22.
+      Deny from 212.192.34.113
+      # added 25-06-2013 --malc
+      Deny from 173.208.168.14
+    </Proxy>
+
+    ProxyPreserveHost On
+    ProxyPass         / http://berwick:80/
+    ProxyPassReverse  / http://berwick:80/
+
+    # These are the logs for the proxying operation
+    ErrorLog     /var/log/apache2/irspy-error.log
+    CustomLog    /var/log/apache2/irspy-access.log combined
+</VirtualHost>
+
+# Redirect legacy URLs
+<VirtualHost *:80>
+  ServerName targettest.indexdata.com
+
+  Redirect permanent / http://irspy.indexdata.com/
+
+  ErrorLog     /var/log/apache2/irspy-legacy-error.log
+  CustomLog    /var/log/apache2/irspy-legacy-access.log combined
+</VirtualHost>
+
