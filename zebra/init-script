@@ -41,7 +41,7 @@ case "$1" in
 	# Let log rotation take care of backups
 	#test -f $logfile && mv -f $logfile $logfile.old
 	( cd $IRSPYDIR/zebra
-	  zebrasrv-2.0 -f yazserver.xml < /dev/null >> $logfile 2>&1 &
+	  zebrasrv-2.0 -f $(pwd)/yazserver.xml < /dev/null >> $logfile 2>&1 &
 	  echo $! > $pidfile
 	)
 	;;
