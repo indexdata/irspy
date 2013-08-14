@@ -12,6 +12,7 @@ bin/irspy-update.sh
 bin/irspy-xpath.pl
 bin/irspy-xsltproc.pl
 bin/irspy.pl
+bin/irspy-nagios.pl
 bin/reindex.pl
 bin/setrlimit.c
 etc/dallas.rules
