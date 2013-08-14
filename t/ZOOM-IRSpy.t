@@ -8,7 +8,7 @@ BEGIN {
     }
 }
 
-use Test::More
+use Test::More;
 use lib './lib';
 use_ok('ZOOM::IRSpy');
 
