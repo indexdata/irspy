@@ -3,6 +3,7 @@
 use Test::More tests => 3;
 
 BEGIN {
+    use lib './lib';
     use_ok('ZOOM::IRSpy');
 }
 
