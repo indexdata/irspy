@@ -54,3 +54,5 @@ zebra/yazserver-test.xml
 zebra/zebra-test.cfg
 zebra/zebra.log
 zebra/zeerex-test.xml
+^Makefile$
+.*\.bak$
