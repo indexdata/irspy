@@ -15,6 +15,7 @@ bin/irspy.pl
 bin/reindex.pl
 bin/setrlimit.c
 etc/dallas.rules
+etc/irspy-px
 lib/ZOOM/IRSpy.pm
 lib/ZOOM/IRSpy/Connection.pm
 lib/ZOOM/IRSpy/Maintenance.pod
