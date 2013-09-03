@@ -61,11 +61,13 @@ stop-zebra:
 	sleep 0.5
 	-kill -9 `cat ${ZEBRA_PID_FILE}`
 
+check: newdb start-zebra dump stop-zebra distclean
+	
 distclean: clean
 	rm -rf ${IRSPY_ARCHIVE} ${ZEBRA_DIR} ${ZEBRA_DIR} ${ZEBRA_TEST_DIR} ${ZEBRA_LOGFILE}
 
 help:
-	@echo "make [ dump | test | newdb | newdb-test ]"
+	@echo "make [ newdb | newdb-test | dump | check ]"
 	@echo "     [ start-zebra | stop-zebra ]"
 	@echo "     [ clean | distclean ]"
 
