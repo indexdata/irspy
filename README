@@ -27,6 +27,7 @@ sudo apt-get install \
 	libapache2-mod-apreq2 \
 	libxml-libxslt-perl \
 	idzebra-2.0 \
+	time
 
 you may need one of the following packages for development:
 
