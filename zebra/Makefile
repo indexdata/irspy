@@ -6,6 +6,9 @@ ZEBRA_DIR=		db
 ZEBRAIDX=		zebraidx-2.0 
 ZEBRAIDX_TEST=		zebraidx-2.0 -c zebra-test.cfg
 IRSPY_DATABASE=		$${IRSpyDbName-"localhost:8018/IR-Explain---1"}
+ZEBRA_LOGFILE=		irspy-zebra.log
+ZEBRA_PID_FILE=		${ZEBRA_DIR}/lock/zebrasrv.pid
+
 
 # debugging
 ZEBRA_TEST_DIR=		db-test
@@ -43,15 +46,28 @@ dump:
 	-test -e records-${DATE} && mv records-${DATE} records-${DATE}.old
 	mkdir records-${DATE}
 	cd records-${DATE} && ../../bin/irspy-dump.pl ${IRSPY_DATABASE}
-	cd records-${DATE} && ( for i in *.xml; do tidy -xml -i -m -w 140 $$i; done ) > /dev/null 2>&1 
+	cd records-${DATE}; find . -name '*.xml' -print0 | \
+	   xargs -n1 -0 -P4 tidy -xml -i -m -w 140 > /dev/null 2>&1 
 	tar cf - records-${DATE} | gzip > records-${DATE}.tar.gz
 	
 clean:
 	rm -f terse.properties
 
+start-zebra:
+	zebrasrv-2.0 -f yazserver.xml > ${ZEBRA_LOGFILE} 2>&1 &
+
+stop-zebra:
+	kill `cat ${ZEBRA_PID_FILE}`
+	sleep 0.5
+	-kill -9 `cat ${ZEBRA_PID_FILE}`
+
+check: newdb start-zebra dump stop-zebra distclean
+	
 distclean: clean
-	rm -rf ${IRSPY_ARCHIVE} ${ZEBRA_DIR} ${ZEBRA_DIR} ${ZEBRA_TEST_DIR}
+	rm -rf ${IRSPY_ARCHIVE} ${ZEBRA_DIR} ${ZEBRA_DIR} ${ZEBRA_TEST_DIR} ${ZEBRA_LOGFILE}
 
 help:
-	@echo "make [ dump | test | newdb | newdb-test | clean | distclean ]"
+	@echo "make [ newdb | newdb-test | dump | check ]"
+	@echo "     [ start-zebra | stop-zebra ]"
+	@echo "     [ clean | distclean ]"
 
