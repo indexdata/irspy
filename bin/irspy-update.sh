@@ -8,7 +8,7 @@
 # for a fast update, run this:
 # 	$ env irspy_test=Quick ./irspy-update.sh
 
-home=/usr/local/src/git
+home=/home/indexdata
 cd $home/irspy/bin || exit 2
 logdir=../log
 lockfile=$logdir/irspy-update.lock
