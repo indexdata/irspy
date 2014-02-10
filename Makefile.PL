@@ -4,12 +4,11 @@ use strict;
 use warnings;
 use ExtUtils::MakeMaker;
 
-my $yazver = `yaz-config --version`;
+my $yazver = `yaz-client -V`;
 if (!$yazver) {
     die qq[
-ERROR: Unable to call script: yaz-config
-If you are using a YAZ installation from the Debian package "yaz", you
-will also need to install "libyaz-dev" in order to build this module.
+ERROR: Unable to call program: yaz-client
+Perhaps YAZ is not installed. Program yaz-client is part of package yaz.
 ];
 }
 
