@@ -53,7 +53,17 @@ dump:
 clean:
 	rm -f terse.properties
 
-start-zebra:
+check-running-zebrasrv:
+	@if zoomsh  -e "open localhost:8018"  "quit" >/dev/null; then \
+	   echo ""; \
+	   echo "There is already a running zebrasrv on localhost:8018"; \
+	   echo "You may need to run: killall zebrasrv-2.0"; \
+	   false; \
+	else \
+	   true; \
+	fi
+
+start-zebra: check-running-zebrasrv
 	zebrasrv-2.0 -f $$(pwd)/yazserver.xml > ${ZEBRA_LOGFILE} 2>&1 &
 
 stop-zebra:
