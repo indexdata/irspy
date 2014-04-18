@@ -54,7 +54,7 @@ clean:
 	rm -f terse.properties
 
 start-zebra:
-	zebrasrv-2.0 -f yazserver.xml > ${ZEBRA_LOGFILE} 2>&1 &
+	zebrasrv-2.0 -f $$(pwd)/yazserver.xml > ${ZEBRA_LOGFILE} 2>&1 &
 
 stop-zebra:
 	kill `cat ${ZEBRA_PID_FILE}`
