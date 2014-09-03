@@ -53,3 +53,9 @@ img { border: 0 }
 
 table.targets tr:hover { background-color:silver !important; }
 
+table.targets td, table.targets th {
+  border: 1px solid #DDD;
+  padding: 4px !important;
+}
+table.targets { border-spacing: 0px; }
+
