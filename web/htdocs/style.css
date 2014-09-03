@@ -50,3 +50,6 @@ img { border: 0 }
 
 .essay { margin: 1em 10em 1em 1em }
 .essay a { text-decoration: none }
+
+table.targets tr:hover { background-color:silver !important; }
+

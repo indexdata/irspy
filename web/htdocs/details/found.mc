@@ -97,7 +97,7 @@ print_navlink(\%params, $last < $n, "Next", $skip+$count);
 % }
      </p>
 % if ($n > 0 && $first <= $n) {
-     <table width="100%">
+     <table width="100%" class="targets">
       <tr class="thleft">
        <th>#</th>
        <th>Title</th>
