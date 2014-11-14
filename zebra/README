@@ -106,7 +106,7 @@ or:
 tar xzf records-2007-04-18.tar.gz
 zebraidx-2.0 init
 zebraidx-2.0 update zeerex.xml
-zebraidx-2.0 update records-2010-04-20
+zebraidx-2.0 update records-2013-08-13
 zebraidx-2.0 commit
 
 zebrasrv-2.0 -f yazserver.xml
