@@ -3,7 +3,7 @@ IRSPY_ARCHIVE=		records-2013-08-13
 IRSPY_ARCHIVE_EXT=	.tar.gz
 DUMP_DIR=		irspy-dump
 ZEBRA_DIR=		db
-ZEBRAIDX=		zebraidx-2.0 
+ZEBRAIDX=		zebraidx-2.0
 ZEBRAIDX_TEST=		zebraidx-2.0 -c zebra-test.cfg
 IRSPY_DATABASE=		$${IRSpyDbName-"localhost:8018/IR-Explain---1"}
 ZEBRA_LOGFILE=		irspy-zebra.log
@@ -47,9 +47,9 @@ dump:
 	mkdir records-${DATE}
 	cd records-${DATE} && ../../bin/irspy-dump.pl ${IRSPY_DATABASE}
 	cd records-${DATE}; find . -name '*.xml' -print0 | \
-	   xargs -n1 -0 -P4 tidy -xml -i -m -w 140 > /dev/null 2>&1 
+	   xargs -n1 -0 -P4 tidy -xml -i -m -w 140 > /dev/null 2>&1
 	tar cf - records-${DATE} | gzip > records-${DATE}.tar.gz
-	
+
 clean:
 	rm -f terse.properties
 
@@ -72,7 +72,7 @@ stop-zebra:
 	-kill -9 `cat ${ZEBRA_PID_FILE}`
 
 check: newdb start-zebra dump stop-zebra distclean
-	
+
 distclean: clean
 	rm -rf ${IRSPY_ARCHIVE} ${ZEBRA_DIR} ${ZEBRA_DIR} ${ZEBRA_TEST_DIR} ${ZEBRA_LOGFILE}
 
