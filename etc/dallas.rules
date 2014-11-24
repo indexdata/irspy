@@ -1,6 +1,6 @@
 # Format of IRSpy rules files:
 #
-# Hash characters (#) introduced comments, which are ignored
+# Hash characters (#) introduce comments, which are ignored
 # Trailing whitespace is ignored
 # Blank lines (i.e. including those consisting only of whitespace
 #	and/or comments) are ignored
