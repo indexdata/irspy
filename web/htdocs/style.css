@@ -62,3 +62,6 @@ table.targets td, table.targets th {
 }
 table.targets { border-spacing: 0px; }
 
+table.fullrecord, table.fullrecord th, table.fullrecord td { border: none }
+
+a { text-decoration: none }
