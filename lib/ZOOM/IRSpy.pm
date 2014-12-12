@@ -382,8 +382,10 @@ sub _rewrite_zeerex_record {
     my($nok, $nall, $percent) = calc_reliability_stats($xc);
     modify_xml_document($xc, $_specialFields, { reliability => $percent });
 
-    if (!defined $oldid) {
-	# New record: generate a UDB for it.
+    my $xpath = $_specialFields->{udb}->[3];
+    my $value = $xc->findvalue($xpath);
+    if (!defined $oldid && (!defined $value || $value eq '')) {
+	# New record with no explicit UDB: generate a UDB for it.
 	modify_xml_document($xc, $_specialFields, { udb => _next_udb() });
     }
 
