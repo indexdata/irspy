@@ -121,6 +121,7 @@ my @fields =
      [ port         => 0, "Port", "e:serverInfo/e:port" ],
      [ dbname       => 0, "Database Name", "e:serverInfo/e:database",
        qw(e:host e:port) ],
+     [ udb          => 0, "Access Name (Unique DB)", "e:databaseInfo/i:udb", qw(e:host e:port e:database) ],
      [ type         => $m->comp("libtype-list.mc"),
        "Type of Library", "i:status/i:libraryType" ],
      [ username     => 0, "Username (if needed)", "e:serverInfo/e:authentication/e:user",
