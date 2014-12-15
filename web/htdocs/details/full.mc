@@ -22,6 +22,7 @@ if ($n == 0) {
 		  [ Host => "e:serverInfo/e:host" ],
 		  [ Port => "e:serverInfo/e:port" ],
 		  [ "Database Name" => "e:serverInfo/e:database" ],
+		  [ "Access Name (Unique DB)" => "e:databaseInfo/i:udb" ],
 		  [ "Type of Library" => "i:status/i:libraryType" ],
 #		  [ "Username (if needed)" => "e:serverInfo/e:authentication/e:user" ],
 #		  [ "Password (if needed)" => "e:serverInfo/e:authentication/e:password" ],

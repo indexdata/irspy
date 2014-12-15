@@ -1,4 +1,3 @@
-
 package ZOOM::IRSpy;
 
 use 5.008;
@@ -366,10 +365,13 @@ sub _rewrite_irspy_record {
 }
 
 
-my $_reliabilityField = {
+my $_specialFields = {
     reliability => [ reliability => 0,
-		      "Calculated reliability of server",
-		      "e:serverInfo/e:reliability" ],
+		     "Calculated reliability of server",
+		     "e:serverInfo/e:reliability" ],
+    udb => [ udb => 0,
+	     "Access Name (Unique DB)",
+	     "e:databaseInfo/i:udb" ],
 };
 
 sub _rewrite_zeerex_record {
@@ -378,7 +380,14 @@ sub _rewrite_zeerex_record {
     # Add reliability score
     my $xc = irspy_xpath_context($rec);
     my($nok, $nall, $percent) = calc_reliability_stats($xc);
-    modify_xml_document($xc, $_reliabilityField, { reliability => $percent });
+    modify_xml_document($xc, $_specialFields, { reliability => $percent });
+
+    my $xpath = $_specialFields->{udb}->[3];
+    my $value = $xc->findvalue($xpath);
+    if (!defined $oldid && (!defined $value || $value eq '')) {
+	# New record with no explicit UDB: generate a UDB for it.
+	modify_xml_document($xc, $_specialFields, { udb => _next_udb() });
+    }
 
     my $p = $conn->package();
     $p->option(action => "specialUpdate");
@@ -404,6 +413,19 @@ sub _rewrite_zeerex_record {
 	$xml =~ s/>/&gt;/g;
 	print "Updated $conn with xml=<br/>\n<pre>$xml</pre>\n";
     }
+}
+
+
+sub _next_udb {
+    use IndexData::Utils::PersistentCounter;
+
+    my $file = $ENV{IRSPY_COUNTER_FILE}
+	or die "no IRSPY_COUNTER_FILE in environment";
+    my $counter = new IndexData::Utils::PersistentCounter($file)
+	or die "can't open counter file '$file': $!";
+    my $val = $counter->next()
+	or die "can't get counter value from '$file': $!";
+    return "irspy-$val";
 }
 
 

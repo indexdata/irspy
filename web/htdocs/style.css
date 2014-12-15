@@ -1,6 +1,7 @@
 body {
   color: black;
   background: white;
+  font-family: Gill Sans, "Gillius ADF", Gillius, GilliusADF, Sans-Serif;
 }
 
 h1,h2 { font-family: Verdana, "Sans Serif", Sans }
@@ -11,12 +12,14 @@ blockquote {
   padding: 0.5em;
 }
 
-.banner { background: url(/beach.jpeg) }
+.banner { background: url(/Lanikai_2009_wide.jpeg) }
 .logo { text-decoration: none; color: white; margin-left: 1em }
 .title { color: black; margin-right: 1em }
-.panel1 { background: #d4e7f3; padding: 0em 1em; }
+.panel1 { background: #d0e0f3; padding: 0em 1em; }
 .panel1 a { text-decoration: none }
 .panel3 { background: #ffcc66 }
+
+.panel1, .panel2 { border-radius: 1em; }
 
 /* Fixing the layout */
 .panel1 { width: 9em }
@@ -54,8 +57,11 @@ img { border: 0 }
 table.targets tr:hover { background-color:silver !important; }
 
 table.targets td, table.targets th {
-  border: 1px solid #DDD;
-  padding: 4px !important;
+  border: none;
+  padding: 6px !important;
 }
 table.targets { border-spacing: 0px; }
 
+table.fullrecord, table.fullrecord th, table.fullrecord td { border: none }
+
+a { text-decoration: none }
