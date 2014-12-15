@@ -45,7 +45,7 @@ dump:
 	-test -e records-${DATE} && mv records-${DATE} records-${DATE}.old
 	mkdir records-${DATE}
 	cd records-${DATE} && ../../bin/irspy-dump.pl ${IRSPY_DATABASE}
-	cd records-${DATE}; for i in *.xml; do tidy -xml -i -m -w 140 -quiet $$i; echo -n "$$i "; done
+	cd records-${DATE}; for i in *.xml; do echo -n "$$i "; tidy -xml -i -m -w 140 $$i 2>&1 | sed 1q; done
 	tar cf - records-${DATE} | gzip > records-${DATE}.tar.gz
 
 clean:
