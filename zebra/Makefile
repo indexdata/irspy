@@ -46,7 +46,7 @@ dump:
 	mkdir records-${DATE}
 	cd records-${DATE} && ../../bin/irspy-dump.pl ${IRSPY_DATABASE}
 	cd records-${DATE}; find . -name '*.xml' -print0 | \
-	   xargs -n1 -0 -P4 tidy -xml -i -m -w 140 > /dev/null 2>&1
+	   xargs -n1 -0 -P4 tidy -xml -i -m -w 140 -quiet
 	tar cf - records-${DATE} | gzip > records-${DATE}.tar.gz
 
 clean:
