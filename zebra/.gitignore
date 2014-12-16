@@ -10,3 +10,4 @@ terse.properties
 log
 db
 zebra.log
+db-test
