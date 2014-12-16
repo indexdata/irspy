@@ -17,6 +17,7 @@ my @queries = (
 	       "\@attr 1=4 computer",
 	       "\@attr 1=44 mineral", # Smithsonian doesn't support AP 4!
 	       "\@attr 1=1016 water", # Connector Framework only does 1016
+	       "\@attr 1=1016 \@attr 2=103 x", # Find all records
 	       ### We can add more queries here
 	       );
 
