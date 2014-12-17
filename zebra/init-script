@@ -1,4 +1,14 @@
 #! /bin/sh
+### BEGIN INIT INFO
+# Provides:          irspy-zebra
+# Required-Start:    $local_fs $remote_fs $network $named $time
+# Required-Stop:     $local_fs $remote_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Controls the irspy-zebra daemon
+# Description:       Controls the ID IRSpy Zebra server daemon
+#                    /usr/bin/zebrasrv-2.0 .
+### END INIT INFO
 
 #
 # This is a startup/shutdown script for IRSpy's Zebra server, suitable
