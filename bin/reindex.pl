@@ -36,14 +36,17 @@ foreach my $i (1..$n) {
     print " $i/$n (", int($i*100/$n), "%)\n" if $i % 50 == 0;
     my $rec = $rs->record($i-1);
     my $xml = $rec->render();
-    if ($xml !~ /<(e:)?databaseInfo.*?>/) {
-	# There is an undeletable phantom record: ignore it
-	next;
-    }
 
     if ($setUdb) {
-	my $udb = qq[<i:udb xmlns:i="http://indexdata.com/irspy/1.0">irspy-$i</i:udb>];
-	$xml =~ s/<(e:)?databaseInfo.*?>/$&$udb/;
+	my $udb;
+	if ($xml !~ /<(e:)?databaseInfo.*?>/) {
+	    $udb = qq[<i:udb xmlns:i="http://indexdata.com/irspy/1.0">irspy-a$i</i:udb>];
+	    $xml =~ s/\/serverInfo>/$&<databaseInfo>$udb<\/databaseInfo>/;
+	    print "x";
+	} else {
+	    $udb = qq[<i:udb xmlns:i="http://indexdata.com/irspy/1.0">irspy-$i</i:udb>];
+	    $xml =~ s/<(e:)?databaseInfo.*?>/$&$udb/;
+	}
     }
 
     update($conn, $xml);
