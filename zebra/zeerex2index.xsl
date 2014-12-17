@@ -160,6 +160,9 @@
    <z:index name="zeerex:disabled" type="0">
     <xsl:value-of select="i:status/i:disabled"/>
    </z:index>
+   <z:index name="zeerex:udb" type="0">
+    <xsl:value-of select="e:databaseInfo/i:udb"/>
+   </z:index>
 
   </z:record>
  </xsl:template>
