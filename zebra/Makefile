@@ -46,6 +46,7 @@ dump:
 	mkdir records-${DATE}
 	cd records-${DATE} && ../../bin/irspy-dump.pl ${IRSPY_DATABASE}
 	#cd records-${DATE}; for i in *.xml; do echo -n "$$i "; tidy -xml -i -m -w 140 $$i 2>&1 | sed 1q; done
+	find records-${DATE} -name '*.xml' -print0 | xargs -n16 -0 -P4 xmllint -format >/dev/null
 	tar cf - records-${DATE} | gzip > records-${DATE}.tar.gz
 
 clean:
