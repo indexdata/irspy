@@ -128,6 +128,8 @@ my @fields =
        qw() ],
      [ password     => 0, "Password (if needed)", "e:serverInfo/e:authentication/e:password",
        qw(e:user) ],
+     [ proxy        => 0, "Proxy (if needed)", "e:serverInfo/e:authentication/e:proxy",
+       qw(e:password) ],
      [ description  => 5, "Description", "e:databaseInfo/e:description",
        qw(e:title) ],
      [ author       => 0, "Author", "e:databaseInfo/e:author",
