@@ -77,7 +77,7 @@ sub new {
 	if defined $user;
 
     my $conn = new ZOOM::Connection($dbname, 0, @options)
-	or die "$0: can't connection to IRSpy database 'dbname'";
+	or die "$0: can't connect to IRSpy database 'dbname'";
 
     my $xslt = new XML::LibXSLT;
 
