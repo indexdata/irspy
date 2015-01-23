@@ -141,7 +141,7 @@ sub var {
 sub connect_to_registry {
     my %args = @_;
 
-    # XXX: we could also handle her: user, password, elementSetName
+    # XXX: we could also handle here: user, password, elementSetName
 
     my $database = $ENV{IRSpyDbName} || "localhost:8018/IR-Explain---1";
 
