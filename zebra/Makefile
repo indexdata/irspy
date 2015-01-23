@@ -1,4 +1,4 @@
-IRSPY_ARCHIVE=		records-2014-11-24
+IRSPY_ARCHIVE=		records-2014-12-15
 IRSPY_ARCHIVE_EXT=	.tar.gz
 DUMP_DIR=		irspy-dump
 ZEBRA_DIR=		db
