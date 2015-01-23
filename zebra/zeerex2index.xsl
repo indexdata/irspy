@@ -32,6 +32,8 @@
     <xsl:value-of select="e:databaseInfo/e:description"/>
     <xsl:text> </xsl:text>
     <xsl:value-of select="e:databaseInfo/e:author"/>
+    <xsl:text> </xsl:text>
+    <xsl:value-of select="e:databaseInfo/i:udb"/>
    </z:index>
 
    <z:index name="rec:authorityIndicator" type="0">
@@ -163,7 +165,6 @@
    <z:index name="zeerex:udb" type="0">
     <xsl:value-of select="e:databaseInfo/i:udb"/>
    </z:index>
-
   </z:record>
  </xsl:template>
 </xsl:stylesheet>
