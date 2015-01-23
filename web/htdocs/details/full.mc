@@ -26,6 +26,7 @@ if ($n == 0) {
 		  [ "Type of Library" => "i:status/i:libraryType" ],
 #		  [ "Username (if needed)" => "e:serverInfo/e:authentication/e:user" ],
 #		  [ "Password (if needed)" => "e:serverInfo/e:authentication/e:password" ],
+		  [ "Proxy (if needed)" => "e:serverInfo/e:authentication/e:proxy" ],
 		  [ "Server ID" => 'i:status/i:serverImplementationId/@value' ],
 		  [ "Server Name" => 'i:status/i:serverImplementationName/@value' ],
 		  [ "Server Version" => 'i:status/i:serverImplementationVersion/@value' ],
