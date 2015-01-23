@@ -24,8 +24,10 @@ sub start {
     my $xc = $conn->record()->xpath_context();
     my $user = $xc->find("e:serverInfo/e:authentication/e:user");
     my $password = $xc->find("e:serverInfo/e:authentication/e:password");
+    my $proxy = $xc->find("e:serverInfo/e:authentication/e:proxy");
     $options{"*user"} = $user if $user;
     $options{"*password"} = $password if $password;
+    $options{"*proxy"} = $proxy if $proxy;
 
     $conn->irspy_connect(undef, \%options,
 			 ZOOM::Event::ZEND, \&connected,
