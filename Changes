@@ -39,6 +39,8 @@ Revision history for Perl extension ZOOM::IRSpy.
 	- Better logging for skipped tests.
 	- No failure within the Search::Bib1 test causes following
 	  sibling tests to be skipped. Fixes bug IR-338.
+	- Some cosmetic improvements, e.g. better banner image and
+	  Cabin font.
 
 1.02  Wed Jul  7 16:43:36 BST 2010
 	- Enhance setrlimit program so that it can set maximum
