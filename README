@@ -17,6 +17,7 @@ by installing the following packages from the operating system's
 package store, using apt-get:
 
 sudo apt-get install \
+	libindexdata-utils-perl \
 	libnet-z3950-zoom-perl \
 	libxml-libxml-perl \
 	liburi-perl \
