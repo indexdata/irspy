@@ -43,27 +43,38 @@ sub start {
 
 sub completed_search {
     my($conn, $task, $udata, $event) = @_;
+    my $ok = 0;
 
     my $n = $task->{rs}->size();
-    $conn->log("irspy_test", "OPAC test search (", $task->render_query(), ") ",
-	       ref $event && $event->isa("ZOOM::Exception") ?
-	       "failed: $event" : "found $n records (event=$event)");
-
-    # remember how often a target record hit a timeout
-    if (ref $event && $event->isa("ZOOM::Exception")) {
+    if (!ref $event || !$event->isa("ZOOM::Exception")) {
+	$conn->log("irspy_test", "OPAC test search (", $task->render_query(), ") ",
+		   "found $n records (event=$event)");
+    } else {
+	$conn->log("irspy_test", "OPAC test search (", $task->render_query(), ") ",
+		   "failed: $event");
 	if ($event =~ /Timeout/i) {
+	    # Remember how often a target record hit a timeout
 	    $conn->record->zoom_error->{TIMEOUT}++;
             $conn->log("irspy_test", "Increase timeout error counter to: " . 
 		$conn->record->zoom_error->{TIMEOUT});
-        }
+        } else {
+	    # Any non-timeout error is a hard failure
+	    goto COMPLETE;
+	}
     }
 
     if ($n == 0) {
+	# Either no records found, or an actual error.
 	$task->{rs}->destroy();
+	if ($conn->record->zoom_error->{TIMEOUT} >= $ZOOM::IRSpy::max_timeout_errors) {
+	    return ZOOM::IRSpy::Status::TEST_SKIPPED
+	}
+
 	my $qindex = $udata->{queryindex}+1;
 	my $q = $queries[$qindex];
-	return ZOOM::IRSpy::Status::TEST_SKIPPED
-	    if !defined $q || $conn->record->zoom_error->{TIMEOUT} >= $ZOOM::IRSpy::max_timeout_errors;
+	if (!defined $q) {
+	    return ZOOM::IRSpy::Status::TEST_SKIPPED
+	}
 
 	$conn->log("irspy_test", "Trying another search ...");
 	$conn->irspy_search_pqf($queries[$qindex], { queryindex => $qindex }, \%options,
@@ -75,7 +86,6 @@ sub completed_search {
     # We have a result-set of three of more records, and we requested
     # that those records be included in the Search Response using
     # piggybacking.  Was it done?
-    my $ok = 0;
     my $rec = $task->{rs}->record_immediate(2);
     if (defined $rec) {
 	my $syntax = $rec->get("syntax");
@@ -87,6 +97,8 @@ sub completed_search {
     }
 
     $task->{rs}->destroy();
+
+  COMPLETE:
     $conn->record()->store_result('multiple_opac', 'ok' => $ok);
     return $ok ? ZOOM::IRSpy::Status::TEST_GOOD : ZOOM::IRSpy::Status::TEST_BAD;
 }
