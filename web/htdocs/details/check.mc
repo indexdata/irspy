@@ -49,6 +49,8 @@ my $res = $spy->check();
 print "<p>\n";
 if ($res == 0) {
     print "<b>All tests were attempted</b>\n";
+} elsif ($res == 1) {
+    print "<b>One test was skipped</b>\n";
 } else {
     print "<b>$res tests were skipped</b>\n";
 }
