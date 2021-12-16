@@ -11,7 +11,7 @@ my $rs = $conn->search(new ZOOM::Query::CQL($query));
 my $n = $rs->size();
 if ($n == 0) {
     return $m->comp("/details/error.mc",
-		    title => "Error", message => "No such ID '$id'");
+		    title => "Error", message => "No such ID '" . xml_encode($id) . "'");
 }
 
 my $xc = irspy_xpath_context($rs->record(0));

@@ -10,7 +10,7 @@ my $rs = $conn->search(new ZOOM::Query::CQL($query));
 my $n = $rs->size();
 if ($n == 0) {
     $m->comp("/details/error.mc",
-	     title => "Error", message => "No such ID '$id'");
+	     title => "Error", message => "No such ID '" . xml_encode($id) . "'");
 } else {
     my $xc = irspy_xpath_context($rs->record(0));
     my @fields = (
